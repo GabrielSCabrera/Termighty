@@ -1,10 +1,10 @@
 from . import utils as term
 from . import exceptions
 from . import config
-from ..lib.Char import Char
-from ..lib.Charray import Charray
-from ..lib.Terminal import Terminal
-from ..lib.Charray import display_logo, big_letter, big_word, load_Charray, delete_Charray
+from ..obj.Char import Char
+from ..obj.Charray import Charray
+from ..obj.Terminal import Terminal
+from ..obj.Charray import display_logo, big_letter, big_word, load_Charray, delete_Charray
 import time, os
 
 ticker = 0
