@@ -423,7 +423,7 @@ def display_logo(h, w):
     C = Charray(height = h, width = w)
 
     # Creating the logo array, which composed of the four layers
-    D = markdown_Charray(termite, t_color, b_color, style)
+    D = design_Charray(termite, t_color, b_color, style)
 
     # Extracting the column arrays, to animate their colors
     col_1 = vcat([D[1:4,1], D[5:-2,1]])                 # 1ˢᵗ on left
@@ -481,10 +481,10 @@ def display_logo(h, w):
                 C.display()                     # Displaying the new frame
             wait(0.1)
 
-def markdown_Charray(chars = None, t_colors = None, b_colors = None,
+def design_Charray(chars = None, t_colors = None, b_colors = None,
 styles = None):
     """
-        Reads three strings containing markdown code to generate an image.
+        Reads three strings containing pseudocode to generate an image.
         This is accomplished with three strings, each arranged in a grid
         with equal sized rows.  Each grid must be of the same size.
 
@@ -540,7 +540,7 @@ styles = None):
 
     # Testing that the arguments are None or of type <str>, and making sure that
     # at least one argument is not None.  Splits <str> args into separate lines.
-    func_name = "markdown_Charray()"
+    func_name = "design_Charray()"
     properties = [chars, t_colors, b_colors, styles]
     names = ["chars", "t_colors", "b_colors", "styles"]
     got_dims = True
@@ -873,7 +873,7 @@ def big_letter(s, t_color = "default", b_color = "default", style = "default"):
             raise ValueError(msg)
         else:
             s = s.lower()
-    return markdown_Charray(letters[s], t_color, b_color, style)
+    return design_Charray(letters[s], t_color, b_color, style)
 
 def big_word(s, t_color = "default", b_color = "default", style = "default"):
     """

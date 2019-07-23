@@ -1,4 +1,5 @@
 from ..utils.exceptions import *
+from ..utils.config import *
 from .Char import Char
 from .Charray import Charray
 
