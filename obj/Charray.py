@@ -344,12 +344,18 @@ def load_Charray(filename, directory = "./"):
             i += 1
     return C
 
-def display_logo(h, w):
+def display_logo(h = None, w = None):
     """
         Displays the animated termighty logo, and resizes terminal to (h,w)
     """
     # Resize the terminal to the logo size
     set_terminal_size(15, 63)
+
+    # Setting Default Values
+    if h is None:
+        h = term_h
+    if w is None:
+        w = term_w
 
     # Checking that "h" and "w" are of type <int>
     check_type_function(int, h, "display_logo(h,w)", "h")
