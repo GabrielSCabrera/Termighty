@@ -14,7 +14,7 @@ Termighty features:
 * Unit Tests - a robust set of tests allows users to modify Termighty more securely
 
 ## Installation
-Note: Termighty is designed for the Ubuntu 18.04 LTS Gnome-terminal
+*Note: Termighty is designed for the Ubuntu 18.04 LTS Gnome terminal*
 
 In the terminal, run `pip Termighty` to install it
 
