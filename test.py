@@ -1,1 +1,0 @@
-import Termighty as term
