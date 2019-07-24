@@ -29,9 +29,6 @@ If this is run in the terminal, the top row will be green, the middle red, and t
 ### Summary
 A single-character "pixel" that can have a custom text and/or background color.
 
-## Charray
-### Summary
-An array of Char objects, can modify individual array elements using indexing.  Row-major; indices take the form (row, column), or in other words (height, width).
 ### Methods
 
 `__init__(self, c = None, t_color = "default", b_color = "default", style = "default"`
@@ -44,45 +41,210 @@ An array of Char objects, can modify individual array elements using indexing.  
 > |`b_color`|     Key or alias in `back_colors`|
 > |`style`|       Key or alias in `styles`|
 
-`__str__(self)`
+---
 
-> For printing
+`__str__()`
 
-`__eq__(self, new)`
+> Allows `Char` objects to be printed to the terminal via `print()`
+
+---
+
+`__eq__(new)`
 
 > Checks if all the attributes in one `Char` matches those of another `Char` via the `==` operator.
 
-`set_text(self, c)`
+---
+
+`set_text(c)`
 
 > Replace the character string by passing a new single-character string to `c`
 
-`set_t_color(self, t_color)`
+---
+
+`set_t_color(t_color)`
 
 > Replace the text color by passing a new text color to `t_color`.  Color guide is in the appendix.
 
-`set_b_color(self, b_color)`
+---
+
+`set_b_color(b_color)`
 
 > Replace the background color by passing a new background color to `b_color`.  Color guide is in the appendix.
 
-`set_style(self, style)`
+---
+
+`set_style()`
 
 > Replace the text style by passing a new text style to `style`.  Style guide is in the appendix.
 
-`copy(self)`
+---
+
+`copy()`
 
 > Copies the current state of the `Char` object to a new `Char` object, to prevent issues with memory addresses.
 
-`compact(self)`
+---
+
+`compact()`
 
 > Returns three integers with the `Char` object's color and style data
 
-`overwrite(self, new)`
+---
+
+`overwrite(new)`
 
 > Re-initialize this object in-place with another `Char` object - just pass the replacement to `new`.
 
-`display(self)`
+---
+
+`display()`
 
 > Prints the character to the terminal
+
+---
+
+## Charray
+### Summary
+An array of Char objects, can modify individual array elements using indexing.  Row-major; indices take the form (row, column), or in other words (height, width).
+
+### Methods
+
+`__init__(height = None, width = None, t_color = "default", b_color = "default", style = "default", arr = None)`
+
+> Checks that all parameters are valid:
+>
+> |Parameter| Description|
+> |---|---|
+> |`c`|           A single character string|
+> |`t_color`|     Key or alias in `text_colors`|
+> |`b_color`|     Key or alias in `back_colors`|
+> |`style`|       Key or alias in `styles`|
+
+---
+
+`__getitem__(idx)`
+
+> Access `Charray` elements or sub-arrays by indexing – supports *integers* and *slices*.
+
+---
+
+`__setitem__(idx, new)`
+
+> Replace single or multiple elements of a `Charray` via indexing – supports *integers* and *slices*.
+
+---
+
+`__str__()`
+
+> Allows `Charray` objects to be printed to the terminal via `print()`
+
+---
+
+`__repr__()`
+
+> Returns an unambiguous representation of a `Char` object
+
+---
+
+`__iter__()`
+
+> Makes `Charray` objects into interables:
+>
+> Iterates through each element in this Charray, yielding a tuple
+> of coordinates followed by the value at that coordinate:
+
+  C = Charray(...)
+    for (height, width), value in C:
+      ...
+
+---
+
+`copy()`
+
+> Returns a copy of the current object.  Use this to avoid unintentionally overwriting other objects' data.
+
+---
+
+`save()`
+
+> Saves the array data to a file, which can be loaded using the `load_Charray(filename, directory = "./")` function.
+
+---
+Prints the `Charray`
+`display()`
+
+> elements to the terminal.
+
+---
+
+### Functions
+
+The functions below can be used to create and manage `Charray` objects.
+
+`delete_Charray(filename, directory = "./")`
+
+> Given a *filename* (and an optional *directory*) will attempt to delete the `.chc` and `.chs` files associated with the name.
+>
+> Returns a tuple `(bool, bool)`, which informs whether or not the files existed in the first place, for the `.chc` and `.chs` respectively.
+
+---
+
+`load_Charray(filename, directory = "./")`
+
+> Given a pair of files with extensions `.chc` and `.chs`, will load these files and return the `Charray` saved in these files.
+
+---
+
+`display_logo(h = None, w = None)`
+
+> Displays the animated termighty logo, and resizes the terminal to `(h,w)`; by default, these dimensions are $24 \times 80$ characters in size.
+
+---
+
+`design_Charray(chars = None, t_colors = None, b_colors = None, styles = None)`
+
+> Creates images from four rectangular shaped strings of equal size, for example:
+>
+> |`chars`|`t_colors`|`b_colors`|`styles`|
+> |---|---|---|---|
+> |"ab=<br>&nbsp;&f#<br>&nbsp;g^i"  |"ddd<br>&nbsp;bbb<br>&nbsp;ggg" |"www<br>&nbsp;www<br>&nbsp;www" |"uuu<br>&nbsp;bbb<br>&nbsp;nnn"  |
+>
+> Each of these strings represents a layer in the output image, which is composed of the characters in `chars`, with the text color given in `t_colors`, on a background whose colors are designated by `b_colors`.  `styles` changes the formatting of each character.
+>
+> The color and style guide is located in the Appendix.
+
+---
+
+`big_letter(s, t_color = "default", b_color = "default", style = "default")`
+
+> Given a single character `s` of `type<str>` and converts it to an ASCII-art character.  Accepts a letter or a digit, and has optional custom color/style parameters.
+
+---
+
+`big_word(s, t_color = "default", b_color = "default", style = "default")`
+
+> Given an `s` of `type<str>` and converts it to a series of ASCII-art characters using `big_letter(s)` and `hcat(l)`.  Accepts any combination of letters and numbers, and has optional custom color/style parameters.
+>
+> Note that the optional parameters must be *single characters*; use `design_Charray()` to design more intricate patterns.
+
+---
+
+`hcat(l)`
+
+> Takes a list of`Charray`objects `l` and concatenates them horizontally, returning a new `Charray`object.
+>
+> Attribute `Charray.h` must be equal in *every* element of `l`.
+
+---
+
+`vcat(l)`
+
+> Takes a list of`Charray`objects `l` and concatenates them vertically, returning a new `Charray`object.
+>
+> Attribute `Charray.w` must be equal in *every* element of `l`.
+
+---
+
 
 ## String
 ### Summary

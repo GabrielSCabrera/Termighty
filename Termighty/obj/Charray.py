@@ -237,8 +237,8 @@ class Charray:
 
     def copy(self):
         """
-            Returns a copy of the current object.  Use this to avoid issues
-            with pointers referring to the same memory location.
+            Returns a copy of the current object.  Use this to avoid
+            unintentionally overwriting other objects' data.
         """
         new_arr = []
         for i in range(self.h):
@@ -251,7 +251,7 @@ class Charray:
     def save(self):
         """
             Saves the array data to a file, which can be loaded using the
-            global function "Load()"
+            load_Charray(filename, directory = "./") function.
         """
         save_loc = "./data/char_arr/"
         idx = 0
@@ -317,7 +317,7 @@ def delete_Charray(filename, directory = "./"):
 def load_Charray(filename, directory = "./"):
     """
         Given a pair of files with extensions .chc and .chs, will load these
-        files and return the Char Array saved in these files.
+        files and return the Charray saved in these files.
     """
 
     # Loading color and style data from a .chs file
