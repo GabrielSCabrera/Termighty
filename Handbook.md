@@ -232,11 +232,7 @@ The functions below can be used to create and manage `Charray` objects.
 `hcat(l)`
 
 > Takes a list of`Charray`objects `l` and concatenates them horizontally, returning a new `Charray`object.
-<<<<<<< HEAD
->
-=======
 > 
->>>>>>> 94c7b4289b8b0bdfc3eae120a4ebaf4def0dbe14
 > Attribute `Charray.h` must be equal in *every* element of `l`.
 
 ---
@@ -244,11 +240,7 @@ The functions below can be used to create and manage `Charray` objects.
 `vcat(l)`
 
 > Takes a list of`Charray`objects `l` and concatenates them vertically, returning a new `Charray`object.
-<<<<<<< HEAD
->
-=======
 > 
->>>>>>> 94c7b4289b8b0bdfc3eae120a4ebaf4def0dbe14
 > Attribute `Charray.w` must be equal in *every* element of `l`.
 
 ---
