@@ -2,7 +2,7 @@ from distutils.core import setup
 setup(
   name = 'Termighty',
   packages = ['Termighty'],
-  version = '0.0.3',      # Start with a small number and increase it with every change you make
+  version = '0.0.4',      # Start with a small number and increase it with every change you make
   # license='GPLv3',
   description = 'A Python-based GUI development package for Ubuntu\'s Gnome terminal',
   author = 'Gabriel S. Cabrera',
