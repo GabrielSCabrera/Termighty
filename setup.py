@@ -7,7 +7,7 @@ setup(
   author = 'Gabriel S. Cabrera',
   author_email = 'gabric@uio.no',      # Type in your E-Mail
   url = 'https://github.com/GabrielSCabrera/Termighty',
-  download_url = 'https://github.com/GabrielSCabrera/Termighty/archive/v0.0.5.tar.gz',    # I explain this later on
+  download_url = 'https://github.com/GabrielSCabrera/Termighty/archive/v0.0.6.tar.gz',    # I explain this later on
   keywords = ['terminal', 'gui', 'interactive'],   # Keywords that define your package best
   install_requires=[],
   classifiers=[
