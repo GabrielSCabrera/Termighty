@@ -1,9 +1,8 @@
 from distutils.core import setup
 setup(
   name = 'Termighty',
-  packages = ['Termighty'],
-  version = '0.0.5',      # Start with a small number and increase it with every change you make
-  # license='GPLv3',
+  packages = ['Termighty', 'Termighty.obj', 'Termighty.utils'],
+  version = '0.0.6',      # Start with a small number and increase it with every change you make
   description = 'A Python-based GUI development package for Ubuntu\'s Gnome terminal',
   author = 'Gabriel S. Cabrera',
   author_email = 'gabric@uio.no',      # Type in your E-Mail

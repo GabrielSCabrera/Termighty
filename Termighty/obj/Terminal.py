@@ -1,8 +1,8 @@
 from ..utils.exceptions import *
 from ..utils.config import *
-from .Char import Char
-from .Charray import Charray
-from .String import String
+from ..obj import Char
+from ..obj import Charray
+from ..obj import String
 
 class Terminal:
 
