@@ -12,3 +12,10 @@ Termighty features:
 * `Terminal`objects -  interface that takes over the terminal, and displays `Charray` objects.
 * Keypress events - react immediately to users pressing any alphanumeric keys.
 * Unit Tests - a robust set of tests allows users to modify Termighty more securely
+
+## Installation
+*Note: Termighty is designed for the Ubuntu 18.04 LTS Gnome terminal*
+
+In the terminal, run `pip Termighty` to install it
+
+For more information, consult `Handbook.md`
