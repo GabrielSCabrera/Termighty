@@ -1,5 +1,6 @@
 from ..utils.exceptions import *
 from ..utils.config import *
+from ..utils.utils import *
 
 class Char:
 

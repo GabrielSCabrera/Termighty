@@ -253,7 +253,10 @@ class Charray:
             Saves the array data to a file, which can be loaded using the
             load_Charray(filename, directory = "./") function.
         """
-        save_loc = "./data/char_arr/"
+        path = os.path.dirname(os.path.abspath(__file__))
+        data_loc = os.path.join(path, "/data/")
+        charray_loc = os.path.join(path, "/charray/")
+
         idx = 0
         file1 = None
         file2 = None
@@ -281,6 +284,11 @@ class Charray:
                 b.append(compact[l])
             if j == self.w-1:
                 text += "\n"
+
+        if not os.path.isdir(charray_loc):
+            if not os.path.isdir(data_loc):
+                os.mkdir(data_loc)
+            os.mkdir(charray_loc)
         with open(save_loc + file1, "w+b") as outfile:
             outfile.write(b)
         with open(save_loc + file2, "w+") as outfile:
