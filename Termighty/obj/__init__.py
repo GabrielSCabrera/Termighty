@@ -1,4 +1,4 @@
 import .Char.Char as Char
-from .Charray import Charray
-from .String import String
-from .Terminal import Terminal
+import .Charray.Charray as Charray
+import .String.String as String
+import .Terminal.Terminal as Terminal

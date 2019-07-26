@@ -2,12 +2,12 @@ from distutils.core import setup
 setup(
   name = 'Termighty',
   packages = ['Termighty', 'Termighty.obj', 'Termighty.utils'],
-  version = '0.0.11',      # Start with a small number and increase it with every change you make
+  version = '0.0.12',      # Start with a small number and increase it with every change you make
   description = 'A Python-based GUI development package for Ubuntu\'s Gnome terminal',
   author = 'Gabriel S. Cabrera',
   author_email = 'gabric@uio.no',      # Type in your E-Mail
   url = 'https://github.com/GabrielSCabrera/Termighty',
-  download_url = 'https://github.com/GabrielSCabrera/Termighty/archive/v0.0.11.tar.gz',    # I explain this later on
+  download_url = 'https://github.com/GabrielSCabrera/Termighty/archive/v0.0.12.tar.gz',    # I explain this later on
   keywords = ['terminal', 'gui', 'interactive'],   # Keywords that define your package best
   install_requires=[],
   classifiers=[
