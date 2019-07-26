@@ -16,6 +16,6 @@ Termighty features:
 ## Installation
 *Note: Termighty is designed for the Ubuntu 18.04 LTS Gnome terminal*
 
-In the terminal, run `pip Termighty` to install it
+In the terminal, run `pip install Termighty` to install it
 
 For more information, consult `Handbook.md`
