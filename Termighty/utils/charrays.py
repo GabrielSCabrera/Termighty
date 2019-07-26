@@ -1,4 +1,5 @@
-from ..obj.Charray import Charray
+from ..obj import Charray
+from ..obj import Char
 from .exceptions import *
 from .config import *
 from .utils import *
@@ -46,7 +47,7 @@ def load_Charray(filename, directory = "./"):
     colors = ["k", "r", "g", "y", "b", "p", "c", "w", "d"]
     styles = ["d", "b", "f", "i", "u", "n", "s"]
     i = 0
-    C = Charray(height = b[0], width = b[1])
+    C = Charray.Charray(height = b[0], width = b[1])
     for h in range(b[0]):
         for w in range(b[1]):
             idx_t = b[2 + 3*i]
@@ -139,7 +140,7 @@ def display_logo(h = None, w = None):
     style += "ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
 
     # Creating the (h,w) background array
-    C = Charray(height = h, width = w)
+    C = Charray.Charray(height = h, width = w)
 
     # Creating the logo array, which composed of the four layers
     D = design_Charray(termite, t_color, b_color, style)
@@ -295,7 +296,7 @@ styles = None):
                     raise ValueError(msg)
 
     # Creating an empty Charray to fill with the markdown values
-    C = Charray(height = lines, width = line_len)
+    C = Charray.Charray(height = lines, width = line_len)
     chars, t_colors, b_colors, styles = properties
     for i in range(lines):
         for j in range(line_len):
@@ -328,7 +329,7 @@ styles = None):
             else:
                 s = styles[i][j]
 
-            C[i,j] = Char(c, t, b, s)
+            C[i,j] = Char.Char(c, t, b, s)
     return C
 
 def big_letter(s, t_color = "default", b_color = "default", style = "default"):
@@ -648,7 +649,7 @@ def hcat(l):
     # Checking that the arrays are of equal heights, if so appends them to
     # new_arrs.
     for n,i in enumerate(l):
-        if not isinstance(i, Charray):
+        if not isinstance(i, Charray.Charray):
             raise TypeError(msg)
         elif height is None:
             height = i.h
@@ -663,7 +664,7 @@ def hcat(l):
         for n,j in enumerate(i):
             new_arr[n] = new_arr[n] + j
 
-    return Charray(arr = new_arr)
+    return Charray.Charray(arr = new_arr)
 
 def vcat(l):
     """
@@ -688,9 +689,9 @@ def vcat(l):
     # Checking that the arrays are of equal widths, if so appends them to
     # new_arrs.
     for n,i in enumerate(l):
-        if not isinstance(i, (Charray, Char)):
+        if not isinstance(i, (Charray.Charray, Char.Char)):
             raise TypeError(msg)
-        elif isinstance(i, Char):
+        elif isinstance(i, Char.Char):
             if width is None or new_arr is None:
                 width = 1
                 new_arr = [[i]]
@@ -698,7 +699,7 @@ def vcat(l):
                 new_arr.append([i])
             else:
                 raise ValueError(msg)
-        elif isinstance(i, Charray):
+        elif isinstance(i, Charray.Charray):
             if width is None or new_arr is None:
                 width = i.w
                 new_arr = i.arr
@@ -706,4 +707,4 @@ def vcat(l):
                 raise ValueError(msg)
             else:
                 new_arr += i.arr
-    return Charray(arr = new_arr)
+    return Charray.Charray(arr = new_arr)

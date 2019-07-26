@@ -1,7 +1,7 @@
 from ..utils.exceptions import *
 from ..utils.config import *
 from ..utils.utils import *
-from ..obj import Char
+from . import Char
 
 class Charray:
     """
@@ -40,7 +40,7 @@ class Charray:
             for i in range(h):
                 sub_arr = []
                 for j in range(w):
-                    sub_arr.append(Char(t_color = t_color, b_color = b_color,
+                    sub_arr.append(Char.Char(t_color = t_color, b_color = b_color,
                     style = style))
                 arr.append(sub_arr)
 
@@ -94,10 +94,10 @@ class Charray:
             # If "arr" is a list or tuple, checks it is rectangular and
             # if confirmed, determines the dimensions of "arr" and checks that
             # all elements are Char objects
-            if isinstance(arr[0], Char):
+            if isinstance(arr[0], Char.Char):
                 w = 1
                 for i in arr[1:]:
-                    if not isinstance(i, Char):
+                    if not isinstance(i, Char.Char):
                         raise TypeError(msg)
                     w += 1
                 h = 1
@@ -108,7 +108,7 @@ class Charray:
                     if not isinstance(i, (list, tuple)) or len(i) != w:
                         raise TypeError(msg)
                     for j in i:
-                        if not isinstance(j, Char):
+                        if not isinstance(j, Char.Char):
                             raise TypeError(msg)
                     h += 1
 
@@ -129,7 +129,7 @@ class Charray:
                 msg += " Charray of size ({:d}, {:d})".format(self.h, self.w)
                 raise IndexError(msg)
 
-            if isinstance(self.arr[idx], Char):
+            if isinstance(self.arr[idx], Char.Char):
                 return self.arr[idx]
             else:
                 return Charray(arr = self.arr[idx])
@@ -188,7 +188,7 @@ class Charray:
             msg += " with object of type {}".format(type(new))
             raise TypeError(msg)
 
-        elif isinstance(sub_arr, Char) and isinstance(new, Char):
+        elif isinstance(sub_arr, Char.Char) and isinstance(new, Char.Char):
 
             # If both are of type Char, wraps around the Char overwrite method
             sub_arr.overwrite(new)
@@ -253,9 +253,10 @@ class Charray:
             Saves the array data to a file, which can be loaded using the
             load_Charray(filename, directory = "./") function.
         """
+        raise NotImplementedError()
         path = os.path.dirname(os.path.abspath(__file__))
         data_loc = os.path.join(path, "/data/")
-        charray_loc = os.path.join(path, "/charray/")
+        charray_loc = os.path.join(data_loc, "/charray/")
 
         idx = 0
         file1 = None
@@ -268,7 +269,7 @@ class Charray:
             idx += 1
             file1 = "a{:d}{}".format(idx, extension1)
             file2 = "a{:d}{}".format(idx, extension2)
-            if file_exists(file1, save_loc) or file_exists(file2, save_loc):
+            if file_exists(file1, charray_loc) or file_exists(file2, charray_loc):
                 continue
             else:
                 break
@@ -289,9 +290,9 @@ class Charray:
             if not os.path.isdir(data_loc):
                 os.mkdir(data_loc)
             os.mkdir(charray_loc)
-        with open(save_loc + file1, "w+b") as outfile:
+        with open(charray_loc + file1, "w+b") as outfile:
             outfile.write(b)
-        with open(save_loc + file2, "w+") as outfile:
+        with open(charray_loc + file2, "w+") as outfile:
             outfile.write(text)
         return "a{:d}".format(idx)
 

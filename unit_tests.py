@@ -170,30 +170,34 @@ def run_unit_tests():
     big_word("Haldo", t_color = "k", b_color = "r").display()
 
     # LOAD CHAR ARRAY
-    print("load_Charray(filename, directory = \"./\")")
-    print("\tFirst should match second:")
-    C = Charray(height = 3, width = 60, b_color = "p")
-    print(C)
-    savename = C.save()
-    D = load_Charray(filename = savename, directory = "./data/char_arr/")
-    print(D)
+    # TODO:
+    # print("load_Charray(filename, directory = \"./\")")
+    # print("\tFirst should match second:")
+    # C = Charray(height = 3, width = 60, b_color = "p")
+    # print(C)
+    # savename = C.save()
+    # D = load_Charray(filename = savename, directory = "./data/char_arr/")
+    # print(D)
 
     #FILE EXISTS 1
-    print("file_exists(filename, directory = \"./\")")
-    test("Testing for file that exists")
-    assert term.file_exists("{}.chc".format(savename), directory = "./data/char_arr/")
-    assert term.file_exists("{}.chs".format(savename), directory = "./data/char_arr/")
+    # TODO:
+    # print("file_exists(filename, directory = \"./\")")
+    # test("Testing for file that exists")
+    # assert term.file_exists("{}.chc".format(savename), directory = "./data/char_arr/")
+    # assert term.file_exists("{}.chs".format(savename), directory = "./data/char_arr/")
 
     # DELETE CHAR ARRAY
-    print("delete_Charray(filename, directory = \"./\")")
-    test("Removing the previously generated files")
-    delete_Charray(savename, directory = "./data/char_arr/")
+    # TODO:
+    # print("delete_Charray(filename, directory = \"./\")")
+    # test("Removing the previously generated files")
+    # delete_Charray(savename, directory = "./data/char_arr/")
 
     #FILE EXISTS 2
-    print("file_exists(filename, directory = \"./\")")
-    test("Testing for file that does not exist")
-    assert not term.file_exists("{}.chc".format(savename), directory = "./data/char_arr/")
-    assert not term.file_exists("{}.chs".format(savename), directory = "./data/char_arr/")
+    # TODO:
+    # print("file_exists(filename, directory = \"./\")")
+    # test("Testing for file that does not exist")
+    # assert not term.file_exists("{}.chc".format(savename), directory = "./data/char_arr/")
+    # assert not term.file_exists("{}.chs".format(savename), directory = "./data/char_arr/")
 
     """                            TESTS FOR CHAR                               """
     print("CHAR TESTS")
