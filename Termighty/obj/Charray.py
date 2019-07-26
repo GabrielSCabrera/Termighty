@@ -1,7 +1,7 @@
 from ..utils.exceptions import *
 from ..utils.config import *
 from ..utils.utils import *
-from .Char import Char
+from ..obj.Char import Char
 
 class Charray:
     """
