@@ -1,8 +1,8 @@
 from ..utils.exceptions import *
 from ..utils.config import *
 from ..utils.utils import *
-from ..obj.Char import Char
-from ..obj.Charray import Charray
+from ..obj import Char
+from ..obj import Charray
 
 class String(Charray):
 

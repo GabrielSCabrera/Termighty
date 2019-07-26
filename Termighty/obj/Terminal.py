@@ -2,9 +2,9 @@ from ..utils.exceptions import *
 from ..utils.config import *
 from ..utils.utils import *
 from ..utils.charrays import *
-from ..obj.Char import Char
-from ..obj.Charray import Charray
-from ..obj.String import String
+from ..obj import Char
+from ..obj import Charray
+from ..obj import String
 
 class Terminal:
 
