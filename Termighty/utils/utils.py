@@ -1,3 +1,4 @@
+from .config import *
 from .exceptions import *
 
 # Processing Tools
