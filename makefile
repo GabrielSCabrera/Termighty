@@ -37,3 +37,7 @@ push: clean-pyc
 	@ git add .
 	@ git commit -m "Automatic Backup"
 	@ git push
+
+pull: clean-pyc
+	@ echo "\033[1;3;32mpulling from github\033[m"
+	@ git pull
