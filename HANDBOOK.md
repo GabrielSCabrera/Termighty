@@ -7,8 +7,7 @@
        │   └── defaults.py
        ├── data
        │   ├── ANSI.py
-       │   ├── RGB.py
-       │   └── test.py
+       │   └── RGB.py
        ├── obj
        │   ├── Color.py
        │   ├── Grid.py
