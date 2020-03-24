@@ -1,4 +1,4 @@
-from . import config
+from .config import *
 from .tests import *
 from .utils import *
 from .tools import *

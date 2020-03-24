@@ -45,8 +45,8 @@ class Color:
         checkers.check_range_arr(**RGB_params)
         self.RGB_arr = np.array(RGB, dtype = np.uint8)
 
-    @classmethod
-    def palette(cls, name):
+    @staticmethod
+    def palette(name):
         '''
             PURPOSE
             To initialize a 'Color' instance using a color name; only
@@ -59,10 +59,10 @@ class Color:
             Instance of 'Color'
         '''
         checkers.check_type(name, str, 'name', 'palette')
-        if name not in data.RGB.keys():
+        if name not in data.colors.keys():
             msg = f'Selected color \'{color}\' is unknown'
             raise ValueError(msg)
-        return Color(data.RGB[name], name)
+        return Color(data.colors[name], name)
 
     '''SETTER METHODS'''
 
@@ -261,7 +261,7 @@ class Color:
             out         <str>
         '''
         out = format.bold('LIST OF ALL AVAILABLE COLORS') + '\n\n'
-        colors = [Color(j,i) for i,j in data.RGB.items()]
+        colors = [Color(j,i) for i,j in data.colors.items()]
         colors = sorted(colors)
         for color in colors:
             out += f'{color.sample} {color.name.upper()}\n'
@@ -434,13 +434,12 @@ class Color:
     def __hash__(self):
         '''
             PURPOSE
-            To return a unique hash for the combined RGB values and
-            color name
+            To return a unique hash for the RGB values of a 'Color' instance
 
             RETURNS
             <int>
         '''
-        ID = f'{self.R:03d}{self.G:03d}{self.B:03d}{self.name}'
+        ID = f'{self.R:03d}{self.G:03d}{self.B:03d}'
         return hash(ID)
 
     def __is__(self, color):

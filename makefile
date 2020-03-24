@@ -15,6 +15,7 @@ clean-pyc:
 	@ rm -f -r ./Termighty/exceptions/__pycache__/
 	@ rm -f -r ./Termighty/obj/__pycache__/
 	@ rm -f -r ./Termighty/tests/__pycache__/
+	@ rm -f -r ./Termighty/tools/__pycache__/
 	@ rm -f -r ./Termighty/utils/__pycache__/
 
 clean-build:
@@ -30,3 +31,16 @@ test: run_main clean-pyc
 run_main:
 	@ echo "\033[1;3;32mrun test\033[m"
 	@ python3 ../main.py;
+
+push: clean-pyc
+	@ ARG=$(filter-out $@,$(MAKECMDGOALS))
+	@ ARG="\"${ARG}\""
+	@ echo "\033[1;3;32mpushing to github\033[m"
+	@ git add .
+	@ git commit -m $ARG
+
+maketest:
+
+
+%:
+	@:

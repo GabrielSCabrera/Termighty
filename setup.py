@@ -1,4 +1,7 @@
 from distutils.core import setup
+
+dependencies = ['numpy', 'python3-tk']  # NOTE: Might not work for python3-tk, since it is installed via apt-get instead of pip3
+
 setup(
   name = 'Termighty',
   packages = ['Termighty', 'Termighty.obj', 'Termighty.utils'],
@@ -9,12 +12,12 @@ setup(
   url = 'https://github.com/GabrielSCabrera/Termighty',
   download_url = 'https://github.com/GabrielSCabrera/Termighty/archive/v0.0.1.tar.gz',
   keywords = ['terminal', 'gui', 'interactive'],
-  install_requires=[],
+  install_requires = dependencies,
   classifiers=[
     'Development Status :: 3 - Alpha',
     'Intended Audience :: Developers',
     'Topic :: Software Development :: Build Tools',
-    'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',   
+    'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
     'Programming Language :: Python :: 3',
     'Programming Language :: Python :: 3.4',
     'Programming Language :: Python :: 3.5',

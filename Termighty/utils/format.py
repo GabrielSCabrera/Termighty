@@ -1,8 +1,11 @@
+from ..config import escape_sequence as esc
+
+
 def bold(string):
-    return f'\033[1m{string}\033[m'
+    return esc.format(1) + string + esc.format('')
 
 def italic(string):
-    return f'\033[3m{string}\033[m'
+    return esc.format(3) + string + esc.format('')
 
 def underline(string):
-    return f'\033[4m{string}\033[m'
+    return esc.format(4) + string + esc.format('')

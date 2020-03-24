@@ -1,2 +1,2 @@
-from .ANSI import ANSI
-from .RGB import RGB
+from .ANSI import *
+from .RGB import *
