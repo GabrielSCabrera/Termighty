@@ -37,7 +37,7 @@ The program as it should be accessed by the user when imported
 Much of the program is dedicated to internal management, and should never be
 accessed by the user
 
-## class **Color**
+## class Color
 
 ### Minimal Example
 
