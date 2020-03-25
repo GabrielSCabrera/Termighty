@@ -49,12 +49,19 @@ accessed by the user
 ### Instance Methods
 
 &ensp; **\_\_init\_\_**(RGB, name = 'Unnamed Color')
+
 &ensp; **rename**(name)
+
 &ensp; **reset_RGB**(RGB)
+
 &ensp; **\_\_str\_\_**()
+
 &ensp; **\_\_repr\_\_**()
+
 &ensp; **\_\_add\_\_**(color)
+
 &ensp; **\_\_sub\_\_**(color)
+
 &ensp; **\_\_is\_\_**(color)
 
 ## Class Style
