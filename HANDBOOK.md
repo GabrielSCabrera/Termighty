@@ -41,6 +41,8 @@ accessed by the user
 
 ### Minimal Example
 
+Creating a color with an arbitrary set of RGB values, as well as the color *blue*.
+
     >>> import termighty as tm
     >>> color = tm.Color((31,41,59))      # Creating an arbitrary color
     >>> blue = tm.Color.palette('blue')   # Creating a color from a known color name
@@ -233,6 +235,8 @@ ___
 
 ### Minimal Example
 
+Creating a *bold* style and making a string ready-to-print in bold to the terminal.
+
     >>> import termighty as tm
     >>> bold = tm.Style('bold')           # Creating a 'bold' style
     >>> bold_string = bold('Hello World') # Will be bold when printed to terminal
@@ -327,45 +331,46 @@ ___
 
 ### Minimal Example
 
+    Creating a *Pixel* instance with red text, a blue background, and the character *T*.
+
+    >>> import Termighty as tm
+    >>> pixel = tm.Pixel(color_t = 'red', color_b = 'blue', char = 'T')
+
 ### Instance Methods
 
 #### Pixel.\_\_init\_\_(color\_t = None, color\_b = None, style = None, char = None)
 
-___
-#### Pixel.update\_color_t(color)
+Initialize an instance of *Pixel*
+
+
+
+ with a text color *color_t*, which may be a 3-tuple of
+
+ | Parameter | Expects |
+ | --- | --- |
+ | `color_t` | *Color* instance, 3-tuple of unsigned 8-bit integers, or color name |
+ | `color_b` | *Color* instance, 3-tuple of unsigned 8-bit integers, or color name |
+ | `style` | *Style* instance or style name |
+ | `char` | *str* of length one |
 
 ___
-#### Pixel.update\_color_b(color)
+#### Pixel.set\_color_t(color)
 
 ___
-#### Pixel.update\_style(style)
+#### Pixel.set\_color_b(color)
 
 ___
-#### Pixel.update\_char(char)
+#### Pixel.set\_style(style)
+
+___
+#### Pixel.set\_char(char)
 
 ___
 #### Pixel.\_\_str\_\_()
 
 ___
-### Static Methods
-
-#### Pixel.is\_char(char)
-
-___
 ### Property Methods
 
-#### Pixel.color\_t\_seq
-
-___
-#### Pixel.color\_b\_seq
-
-___
-#### Pixel.style\_seq
-
-___
-#### Pixel.end\_seq
-
-___
 #### Pixel.color\_t
 
 ___

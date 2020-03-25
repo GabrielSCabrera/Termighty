@@ -50,7 +50,7 @@ class Pixel:
             self.is_char(char)
             self.char_str = char
 
-        self.update_str()
+        self.update()
 
     @staticmethod
     def is_char(char):
@@ -70,7 +70,7 @@ class Pixel:
 
     '''UPDATERS'''
 
-    def update_color_t(self, color):
+    def set_color_t(self, color):
         '''
             PURPOSE
             Sets the text color 'self.color_t_obj' to a new value and updates
@@ -81,9 +81,9 @@ class Pixel:
                             instance of <class 'Color'> OR a <str> color label
         '''
         self.color_t_obj = interpreters.get_color(color)
-        self.update_str()
+        self.update()
 
-    def update_color_b(self, color):
+    def set_color_b(self, color):
         '''
             PURPOSE
             Sets the background color 'self.color_b_obj' to a new value and
@@ -94,9 +94,9 @@ class Pixel:
                             instance of <class 'Color'> OR a <str> color label
         '''
         self.color_b_obj = interpreters.get_color(color)
-        self.update_str()
+        self.update()
 
-    def update_style(self, style):
+    def set_style(self, style):
         '''
             PURPOSE
             Sets the background color 'self.style_obj' to a new value and
@@ -105,11 +105,10 @@ class Pixel:
             PARAMETERS
             style           Instance of <class 'Style'> OR a <str> style label
         '''
-        raise NotImplementedError()
         self.style_obj = interpreters.get_style(color)
-        self.update_str()
+        self.update()
 
-    def update_char(self, char):
+    def set_char(self, char):
         '''
             PURPOSE
             Sets the background color 'self.char_obj' to a new value and
@@ -120,9 +119,9 @@ class Pixel:
         '''
         self.is_char(char)
         self.char_str = char
-        self.update_str()
+        self.update()
 
-    def update_str(self):
+    def update(self):
         '''
             PURPOSE
             To update the value of the saved output string based on the current
