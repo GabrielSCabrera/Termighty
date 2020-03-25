@@ -220,19 +220,34 @@ Returns a color sample as a string.
 
 #### \_\_init\_\_(styles = None)
 
-Initializes the *Style* instance
+Initializes the *Style* instance, with any number of valid <str> arguments.
 
     >>> style_1 = tm.Style()                      # Creating an empty style
     >>> style_2 = tm.Style('italic')              # Creating an italic style
     >>> style_3 = tm.Style('underline', 'blink')  # Creating an underlined & blinking style
 
-#### update()
+The valid arguments are presented in the following table:
+
+| --- | --- |
+| Argument | Effect |
+| --- | --- |
+| bold | Bold (thicker) text |
+| faint | Fainter text |
+| italic | Italic (askew) text |
+| underline | Underlined text |
+| blink | Blinking text |
+| reverse | Text & background colors switch |
+| crossed out | Text is crossed out |
+| overlined | Overlined text |
+| --- | --- |
+
 #### add(styles)
+
 #### \_\_iadd\_\_(styles)
+
 #### \_\_call\_\_(string)
+
 #### \_\_str\_\_()
-#### \_\_repr\_\_()
-#### \_\_hash\_\_()
 
 ### Static Methods
 
