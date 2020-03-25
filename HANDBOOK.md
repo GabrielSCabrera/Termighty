@@ -215,7 +215,7 @@ Returns a color sample as a string.
     >>> import termighty as tm
     >>> bold = tm.Style('bold')   # Creating a 'bold' style
     >>> print(bold('Hello World'))
-    `Hello World`
+  ` Hello World`
 
 ### Instance Methods
 
