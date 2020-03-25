@@ -2,57 +2,57 @@
 
 ## Table of Contents
 
-    Program Structure
-    Module Structure
-    class Color
-        Minimal Example
-        Instance Methods
-            Color.__init__
-            Color.rename
-            Color.reset_RGB
-            Color.__str__
-            Color.__add__
-            Color.__sub__
-            Color.__is__
-            Color.__eq__
-            Color.__neq__
-        Static Methods
-            Color.palette
-            Color.chart
-            Color.list_colors
-        Properties
-            Color.RGB
-            Color.R
-            Color.G
-            Color.B
-            Color.sample
-    class Style
-        Minimal Example
-        Instance Methods
-            Style.__init__
-            Style.add
-            Style.remove
-            Style.__call__
-            Style.__str__
-        Static Methods
-            Style.clear
-            Style.list_styles
-    class Pixel
-        Minimal Example
-        Instance Methods
-            Pixel.__init__
-            Pixel.set_color_t
-            Pixel.set_color_b
-            Pixel.set_style
-            Pixel.set_char
-            Pixel.__str__
-        Properties
-            Pixel.color\_t
-            Pixel.color\_b
-            Pixel.style
-            Pixel.char
-    class Grid
-    class Painter
+    ├──Program Structure
+    ├──Module Structure
+    ├──class Color
+    │  ├── Minimal Example
+    │  ├── Instance Methods
+    │  │   ├── Color.__init__
+    │  │   ├── Color.rename
+    │  │   ├── Color.reset_RGB
+    │  │   ├── Color.__str__
+    │  │   ├── Color.__add__
+    │  │   ├── Color.__sub__
+    │  │   ├── Color.__is__
+    │  │   ├── Color.__eq__
+    │  │   └── Color.__neq__
+    │  ├── Static Methods
+    │  │   ├── Color.palette
+    │  │   ├── Color.chart
+    │  │   └── Color.list_colors
+    │  └── Properties
+    │      ├── Color.RGB
+    │      ├── Color.R
+    │      ├── Color.G
+    │      ├── Color.B
+    │      └── Color.sample
+    ├──class Style
+    │  ├── Minimal Example
+    │  ├── Instance Methods
+    │  │   ├── Style.__init__
+    │  │   ├── Style.add
+    │  │   ├── Style.remove
+    │  │   ├── Style.__call__
+    │  │   └── Style.__str__
+    │  └── Static Methods
+    │      ├── Style.clear
+    │      └── Style.list_styles
+    ├──class Pixel
+    │  ├── Minimal Example
+    │  ├── Instance Methods
+    │  │   ├── Pixel.__init__
+    │  │   ├── Pixel.set_color_t
+    │  │   ├── Pixel.set_color_b
+    │  │   ├── Pixel.set_style
+    │  │   ├── Pixel.set_char
+    │  │   └── Pixel.__str__
+    │  └── Properties
+    │      ├── Pixel.color_t
+    │      ├── Pixel.color_b
+    │      ├── Pixel.style
+    │      └── Pixel.char
+    ├──class Grid
+    ├──class Painter
 
 ## Program Structure
 The program as it is organized in the file-system.
