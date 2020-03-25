@@ -1,4 +1,6 @@
+from ..config import escape_sequence as esc
 from ..utils import interpreters, checkers
+from ..data import styles as ANSI_styles
 from ..config import defaults
 from .Color import Color
 from .Style import Style
@@ -63,7 +65,7 @@ class Pixel:
             True
         '''
         checkers.check_type(char, str, 'char', 'is_char')
-        if len(char) != 1:
+        if len(char.__repr__()) != 3:
             msg = '\n\nParameter \'char\' should be a one-character <str>'
             raise ValueError(msg)
         return True
@@ -105,7 +107,7 @@ class Pixel:
             PARAMETERS
             style           Instance of <class 'Style'> OR a <str> style label
         '''
-        self.style_obj = interpreters.get_style(color)
+        self.style_obj = interpreters.get_style(style)
         self.update()
 
     def set_char(self, char):
@@ -167,7 +169,8 @@ class Pixel:
             RETURNS
             <str>
         '''
-        raise NotImplementedError()
+        values = ';'.join(str(ANSI_styles[i]) for i in self.style.styles)
+        return esc.format(values)
 
     @property
     def end_seq(self):
@@ -247,5 +250,5 @@ class Pixel:
             RETURNS
             <int>
         '''
-        ID = f'{self.R:03d}{self.G:03d}{self.B:03d}{self.name}'
+        ID = sum(map(hash, (self.color_t, self.color_t, self.style, self.char)))
         return hash(ID)

@@ -16,7 +16,7 @@ def get_color(color):
         Instance of <class 'color'>
     '''
     if isinstance(color, Color):
-        return color
+        return color.copy()
     elif isinstance(color, str) and color.lower() in data.colors.keys():
         return Color(data.colors[color.lower()], color.lower())
     elif isinstance(color, tuple) and len(color) == 3:

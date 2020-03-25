@@ -128,6 +128,7 @@ class Color:
         self.RGB_arr[2] = B
 
     '''GETTER METHODS'''
+
     @property
     def name(self):
         '''
@@ -355,6 +356,19 @@ class Color:
         new_RGB = tuple(max(int(i), 0) for i in new_RGB)
         return Color(new_RGB)
 
+    def __hash__(self):
+        '''
+            PURPOSE
+            To return a unique hash for the RGB values of a 'Color' instance
+
+            RETURNS
+            <int>
+        '''
+        ID = f'{self.R:03d}{self.G:03d}{self.B:03d}'
+        return hash(ID)
+
+    '''COMPARATORS'''
+
     def __eq__(self, color):
         '''
             PURPOSE
@@ -367,6 +381,7 @@ class Color:
             RETURNS
             <bool>
         '''
+        checkers.check_type(color, Color)
         if np.array_equal(color.RGB, self.RGB):
             return True
         else:
@@ -398,6 +413,7 @@ class Color:
             RETURNS
             <bool>
         '''
+        checkers.check_type(color, Color)
         if self.R < color.R:
             return True
         elif self.G < color.G and self.R == color.R:
@@ -419,6 +435,7 @@ class Color:
             RETURNS
             <bool>
         '''
+        checkers.check_type(color, Color)
         if self.R > color.R:
             return True
         elif self.G > color.G and self.R == color.R:
@@ -440,6 +457,7 @@ class Color:
             RETURNS
             <bool>
         '''
+        checkers.check_type(color, Color)
         if self.R > color.R:
             return False
         elif self.G > color.G and self.R == color.R:
@@ -462,6 +480,7 @@ class Color:
             RETURNS
             <bool>
         '''
+        checkers.check_type(color, Color)
         if self.R < color.R:
             return False
         elif self.G < color.G and self.R == color.R:
@@ -470,17 +489,6 @@ class Color:
             return False
         else:
             return True
-
-    def __hash__(self):
-        '''
-            PURPOSE
-            To return a unique hash for the RGB values of a 'Color' instance
-
-            RETURNS
-            <int>
-        '''
-        ID = f'{self.R:03d}{self.G:03d}{self.B:03d}'
-        return hash(ID)
 
     def __is__(self, color):
         '''

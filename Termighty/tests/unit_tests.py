@@ -9,8 +9,6 @@ import numpy as np
 # except TypeError:
 #     T.passed()
 
-
-
 # # New Test
 # T.start('Constructor: valid RGB arg')
 # try:
@@ -18,8 +16,6 @@ import numpy as np
 #     T.passed()
 # except Exception as e:
 #     T.failed(e)
-
-
 
 # # New Test
 # pairs = (((0,0,0),(0,0,1),False),
@@ -729,7 +725,7 @@ def test_Style():
             args = [key]
             args = list(set(args))
             style.add(*args)
-            assert style.styles == args
+            assert sorted(style.styles) == sorted(args)
             T.passed()
         except Exception as e:
             T.failed(e)
@@ -743,7 +739,7 @@ def test_Style():
             args = [key, keys[(n+1)%len(keys)]]
             args = list(set(args))
             style.add(*args)
-            assert style.styles == args
+            assert sorted(style.styles) == sorted(args)
             T.passed()
         except Exception as e:
             T.failed(e)
@@ -757,7 +753,7 @@ def test_Style():
             args = [key, keys[(n+1)%len(keys)], keys[(n+2)%len(keys)]]
             args = list(set(args))
             style.add(*args)
-            assert style.styles == args
+            assert sorted(style.styles) == sorted(args)
             T.passed()
         except Exception as e:
             T.failed(e)
@@ -819,8 +815,383 @@ def test_Style():
         assert bold_1 == bold_2
         assert bold_1 is not bold_2
         T.passed()
-    except ValueError:
+    except ValueError as e:
+        T.failed(e)
+
+    # New Test
+    T.start('__call__: valid arg')
+    try:
+        bold = Style('bold')
+        exp = '\x1b[1mhello world!\x1b[21;22;23;24;25;27;29;55m'
+        assert bold('hello world!') == exp
+        T.passed()
+    except ValueError as e:
+        T.failed(e)
+
+    # New Test
+    T.start('__call__: invalid arg')
+    try:
+        bold = Style('bold')
+        bold(3)
         T.failed()
+    except TypeError:
+        T.passed()
+
+    # New Test
+    T.start('clear')
+    try:
+        exp = '\x1b[21;22;23;24;25;27;29;55m'
+        assert Style.clear() == exp
+        T.passed()
+    except TypeError as e:
+        T.failed(e)
+
+    # New Test
+    T.start('__str__')
+    try:
+        bold = Style('bold')
+        assert isinstance(bold.__str__(), str)
+        T.passed()
+    except TypeError as e:
+        T.failed(e)
+
+    # New Test
+    T.start('__repr__')
+    try:
+        bold = Style('bold')
+        assert isinstance(bold.__repr__(), str)
+        T.passed()
+    except TypeError as e:
+        T.failed(e)
+
+    # New Test
+    T.start('__hash__')
+    try:
+        bold = Style('bold')
+        assert isinstance(bold.__hash__(), int)
+        T.passed()
+    except TypeError as e:
+        T.failed(e)
+
+    # New Test
+    T.start('__eq__')
+    try:
+        bold_1 = Style('bold')
+        bold_2 = Style('bold')
+        assert bold_1 == bold_2
+        T.passed()
+    except TypeError as e:
+        T.failed(e)
+
+    # New Test
+    T.start('__eq__')
+    try:
+        bold_1 = Style('bold')
+        bold_2 = Style('italic')
+        assert bold_1 != bold_2
+        T.passed()
+    except TypeError as e:
+        T.failed(e)
+
+    # New Test
+    T.start('list_styles')
+    try:
+        assert isinstance(Style.list_styles(), str)
+        T.passed()
+    except TypeError as e:
+        T.failed(e)
+
+    results = T.end()
+
+    return results
+
+def test_Pixel():
+    '''
+        PURPOSE
+        Tests for class Pixel
+
+        RETURNS
+        results         <dict>
+    '''
+    # Importing class 'Pixel' locally
+    from ..obj import Pixel
+    # Importing class 'Color' locally
+    from ..obj import Color
+    # Importing class 'Style' locally
+    from ..obj import Style
+
+    # Initializing 'Tester' instance
+    T = Tester('class Pixel')
+
+    blue = Color.palette('blue')
+    red = Color.palette('red')
+    bold = Style('bold')
+    args = ((( blue, None, 'bold',  'a'), True),
+            (('red',  red,   None, None), True),
+            (( None, blue,   bold,  'b'), True),
+            (( blue,'red',   bold, None), True),
+            (('red',  red,   None, None), True),
+            (( blue, None, 'bold', None), True),
+            (( None, None,   bold, None), True),
+            (( None, None,   None, None), True),
+            (('red',  red,   bold, None), True),
+            (( None, blue,   bold,  'b'), True),
+            (( blue,'red',   bold, None), True),
+            (('red',  red, 'bold', None), True),
+            (( blue, None, 'bold', None), True),
+            (( None, None,   bold, None), True),
+            (( None, None,   None,'abc'), ValueError),
+            (('red',  red,    red, None), ValueError),
+            (( 'rd', blue,   bold,  'b'), ValueError),
+            (( blue, 'rd',   bold, None), ValueError),
+            (('red',  red,  'bld', None), ValueError),
+            (( blue,    5, 'bold', None), ValueError),
+            (( None, None,   blue, None), ValueError),
+            (( None, None,      0, None), ValueError),
+            ((    5, None,   None, None), ValueError)
+           )
+    for n,arg in enumerate(args):
+        # New Test
+        T.start(f'Constructor: args [{n+1}]')
+        if arg[1] is True:
+            try:
+                pixel = Pixel(*arg[0])
+                T.passed()
+            except Exception as e:
+                T.failed(e)
+        else:
+            try:
+                pixel = Pixel(*arg[0])
+                T.failed()
+                print(arg[0])
+            except arg[1]:
+                T.passed()
+
+    # New Test
+    chars = ('a', 'b', ' ', '#', 'Æ', '+', '!')
+    for n, char in enumerate(chars):
+        T.start(f'is_char: valid args [{n+1}]')
+        try:
+            assert Pixel.is_char(char)
+            T.passed()
+        except Exception as e:
+            T.failed(e)
+
+    # New Test
+    chars = ('aa', ' b', '', '  ', '\n', '\t', '12', 1, True, 5.5)
+    for n, char in enumerate(chars):
+        T.start(f'is_char: invalid args [{n+1}]')
+        try:
+            Pixel.is_char(char)
+            T.failed()
+        except ValueError:
+            T.passed()
+        except TypeError:
+            T.passed()
+
+    # New Test
+    T.start('color_t')
+    try:
+        pixel = Pixel(color_t = 'red')
+        assert pixel.color_t.name == 'red'
+        T.passed()
+    except Exception as e:
+        T.failed(e)
+
+    # New Test
+    T.start('color_b')
+    try:
+        pixel = Pixel(color_b = 'red')
+        assert pixel.color_b.name == 'red'
+        T.passed()
+    except Exception as e:
+        T.failed(e)
+
+    # New Test
+    T.start('style')
+    try:
+        pixel = Pixel(style = 'bold')
+        assert pixel.style.styles[0] == 'bold'
+        assert len(pixel.style.styles) == 1
+        T.passed()
+    except Exception as e:
+        T.failed(e)
+
+    # New Test
+    T.start('char')
+    try:
+        pixel = Pixel(char = 'A')
+        assert pixel.char == 'A'
+        T.passed()
+    except Exception as e:
+        T.failed(e)
+
+    # New Test
+    args = (red, blue, 'red', 'blue', (0,0,0))
+    arg_colors = (Color.palette('red'),
+                  Color.palette('blue'),
+                  Color.palette('red'),
+                  Color.palette('blue'),
+                  Color.palette('black'))
+    for n, (arg, color) in enumerate(zip(args, arg_colors)):
+        T.start(f'set_color_t: valid args [{n+1}]')
+        try:
+            pixel = Pixel()
+            pixel.set_color_t(arg)
+            assert pixel.color_t == color
+            T.passed()
+        except Exception as e:
+            T.failed(e)
+
+    # New Test
+    args = (bold, 'blae', 5, None, (0,0,0,0), (1,2,300))
+    for n, arg in enumerate(args):
+        T.start(f'set_color_t: invalid args [{n+1}]')
+        try:
+            pixel = Pixel()
+            pixel.set_color_t(arg)
+            T.failed()
+        except ValueError:
+            T.passed()
+        except TypeError:
+            T.passed()
+
+    # New Test
+    args = (red, blue, 'red', 'blue', (0,0,0))
+    arg_colors = (Color.palette('red'),
+                  Color.palette('blue'),
+                  Color.palette('red'),
+                  Color.palette('blue'),
+                  Color.palette('black'))
+    for n, (arg, color) in enumerate(zip(args, arg_colors)):
+        T.start(f'set_color_b: valid args [{n+1}]')
+        try:
+            pixel = Pixel()
+            pixel.set_color_b(arg)
+            assert pixel.color_b == color
+            T.passed()
+        except Exception as e:
+            T.failed(e)
+
+    # New Test
+    args = (bold, 'blae', 5, None, (0,0,0,0), (1,2,300))
+    for n, arg in enumerate(args):
+        T.start(f'set_color_b: invalid args [{n+1}]')
+        try:
+            pixel = Pixel()
+            pixel.set_color_b(arg)
+            T.failed()
+        except ValueError:
+            T.passed()
+        except TypeError:
+            T.passed()
+
+    # New Test
+    args = (bold, 'italic', 'bold')
+    arg_styles = (Style('bold'),
+                  Style('italic'),
+                  Style('bold'))
+    for n, (arg, style) in enumerate(zip(args, arg_styles)):
+        T.start(f'set_style: valid args [{n+1}]')
+        try:
+            pixel = Pixel()
+            pixel.set_style(arg)
+            assert pixel.style == style
+            T.passed()
+        except Exception as e:
+            T.failed(e)
+
+    # New Test
+    args = (red, 'bld', 5, None)
+    for n, arg in enumerate(args):
+        T.start(f'set_style: invalid args [{n+1}]')
+        try:
+            pixel = Pixel()
+            pixel.set_style(arg)
+            T.failed()
+        except ValueError:
+            T.passed()
+        except TypeError:
+            T.passed()
+
+    # New Test
+    args = ('a', 'b', ' ', '#', 'Æ', '+', '!')
+    for n, arg in enumerate(args):
+        T.start(f'set_char: valid args [{n+1}]')
+        try:
+            pixel = Pixel()
+            pixel.set_char(arg)
+            assert pixel.char == arg
+            T.passed()
+        except Exception as e:
+            T.failed(e)
+
+    # New Test
+    args = ('aa', ' b', '', '  ', '\n', '\t', '12', 1, True, 5.5)
+    for n, arg in enumerate(args):
+        T.start(f'set_char: invalid args [{n+1}]')
+        try:
+            pixel = Pixel()
+            pixel.set_char(arg)
+            T.failed()
+        except ValueError:
+            T.passed()
+        except TypeError:
+            T.passed()
+
+    # New Test
+    T.start('__str__')
+    try:
+        pixel = Pixel()
+        assert isinstance(pixel.__str__(), str)
+        T.passed()
+    except TypeError:
+        T.failed()
+
+    # New Test
+    T.start('__hash__')
+    try:
+        pixel = Pixel()
+        assert isinstance(pixel.__hash__(), int)
+        T.passed()
+    except TypeError:
+        T.failed()
+
+    # New Test
+    T.start('color_t_seq')
+    try:
+        pixel = Pixel()
+        assert isinstance(pixel.color_t_seq(), str)
+        T.failed()
+    except TypeError:
+        T.passed()
+
+    # New Test
+    T.start('color_b_seq')
+    try:
+        pixel = Pixel()
+        assert isinstance(pixel.color_b_seq(), str)
+        T.failed()
+    except TypeError:
+        T.passed()
+
+    # New Test
+    T.start('style_seq')
+    try:
+        pixel = Pixel()
+        assert isinstance(pixel.style_seq, str)
+        T.passed()
+    except TypeError:
+        T.failed()
+
+    # New Test
+    T.start('end_seq')
+    try:
+        pixel = Pixel()
+        assert isinstance(pixel.end_seq(), str)
+        T.failed()
+    except TypeError:
+        T.passed()
 
     results = T.end()
 
