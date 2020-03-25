@@ -146,15 +146,15 @@ in range [0, 255].  The others must be set to None.
 `term_width` should be an integer, and will determine the chart width.
 
     >>> tm.Color.chart(R = 0, term_width = 10)
-    ██████████
-    ██████████
-    ██████████
-    ██████████
-    ██████████
+    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 
 #### list\_colors()
 
-Lists all names colors with a sample and RGB value
+Lists all names colors with a sample and RGB value.
 
     >>> tm.Color.list_colors()
     █ 000 000 000 BLACK

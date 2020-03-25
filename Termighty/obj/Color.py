@@ -247,7 +247,8 @@ class Color:
                 RGB[(idx+1)%3] = j
                 RGB[(idx+2)%3] = i
                 out += f'\033[38;2;{RGB[0]:d};{RGB[1]:d};{RGB[2]:d}m'
-                out += '█\033[m'
+                # out += '█\033[m'⠀
+                out += '⠀\033[m'
             out += '\n'
         return out
 
