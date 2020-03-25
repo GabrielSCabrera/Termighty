@@ -7,19 +7,19 @@
     class Color
         Minimal Example
         Instance Methods
-            Color.\_\_init\_\_
+            Color.__init__
             Color.rename
             Color.reset_RGB
-            Color.\_\_str\_\_
-            Color.\_\_add\_\_
-            Color.\_\_sub\_\_
-            Color.\_\_is\_\_
-            Color.\_\_eq\_\_
-            Color.\_\_neq\_\_
+            Color.__str__
+            Color.__add__
+            Color.__sub__
+            Color.__is__
+            Color.__eq__
+            Color.__neq__
         Static Methods
             Color.palette
             Color.chart
-            Color.list\_colors
+            Color.list_colors
         Property Methods
             Color.RGB
             Color.R
