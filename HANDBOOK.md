@@ -410,32 +410,90 @@ Initialize an instance of *Pixel*.
 ___
 #### Pixel.set\_color_t(color)
 
+Set the current instance's text color.
+
+    >>> pixel = tm.Pixel()
+    >>> pixel.set_color_t('blue')
+
 ___
 #### Pixel.set\_color_b(color)
+
+Set the current instance's background color.
+
+    >>> pixel = tm.Pixel()
+    >>> pixel.set_color_t('red')
 
 ___
 #### Pixel.set\_style(style)
 
+Set the current instance's style.
+
+    >>> pixel = tm.Pixel()
+    >>> pixel.set_style('bold')
+
 ___
 #### Pixel.set\_char(char)
+
+Set the current instance's character.
+
+    >>> pixel = tm.Pixel()
+    >>> pixel.set_char('T')
 
 ___
 #### Pixel.\_\_str\_\_()
 
+Print the current pixel as it is meant to be displayed.
+
+    >>> pixel = tm.Pixel(char = '█')
+    >>> print(pixel)
+    █
 ___
 ### Properties
 
 #### Pixel.color\_t
 
+Returns the pixel's text color.
+
+    >>> pixel = tm.Pixel()
+    >>> color_t = pixel.color_t
+    >>> print(color_t)
+    COLOR NAME      WHITE
+    RGB             255 255 255
+    SAMPLE          ███████████
 ___
 #### Pixel.color\_b
+
+Returns the pixel's background color.
+
+    >>> pixel = tm.Pixel()
+    >>> color_b = pixel.color_b
+    >>> print(color_b)
+    COLOR NAME      BLACK
+    RGB             000 000 000
+    SAMPLE          ███████████
 
 ___
 #### Pixel.style
 
+Returns the pixel's style.
+
+    >>> pixel = tm.Pixel(style = 'bold')
+    >>> style = pixel.style
+    >>> print(style)
+    STYLES  bold
+    SAMPLE  Aa Zz 0123
+
 ___
 #### Pixel.char
 
+Returns the pixel's character.
+
+    >>> pixel = tm.Pixel(char = 'A')
+    >>> char = pixel.char
+    >>> print(char)
+    A
+
+___
 ## class Grid
 
 ### Minimal Example

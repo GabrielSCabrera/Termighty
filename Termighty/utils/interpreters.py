@@ -45,7 +45,7 @@ def get_style(style):
     if isinstance(style, Style):
         return style
     elif isinstance(style, str) and style.lower() in data.styles.keys():
-        return Style(data.styles[style.lower()], style.lower())
+        return Style(style.lower())
     msg = ('\n\nExpected an instance of <class \'Style\'>, or a valid style as'
            'defined in ANSI.py')
     raise ValueError(msg)
