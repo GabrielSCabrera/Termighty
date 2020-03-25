@@ -50,6 +50,10 @@ accessed by the user
 
 &ensp; **\_\_init\_\_**(RGB, name = 'Unnamed Color')
 
+&ensp;&ensp; Constructor requires `RGB`: a tuple of three integers.  These integers must be values from 0 up to and including 255 – they represent red, green, and blue (RGB) color channels respectively.
+
+&ensp;&ensp; Parameter `name` is optional, and should be a string that will be given name of the instance's color.
+
 &ensp; **rename**(name)
 
 &ensp; **reset_RGB**(RGB)
