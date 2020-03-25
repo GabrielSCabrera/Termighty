@@ -55,7 +55,7 @@ Parameter `name` is optional, and should be the name of the instance's color.
 
     >>> color = tm.Color(RGB = (31,41,59), name = 'pi color')
 
----
+___
 #### Color.rename(name)
 
 Change the name of the instance by passing a string to `name`.
@@ -63,7 +63,7 @@ Change the name of the instance by passing a string to `name`.
     >>> color = tm.Color(RGB = (255,0,0), name = 'blue')  # Wrong name/color pair
     >>> color.rename('red')                               # Name fixed
 
----
+___
 #### Color.reset_RGB(RGB)
 
 Change the RGB values of the instance by passing a three-tuple of integers from 0 up to and including 255 to `RGB`.
@@ -71,7 +71,7 @@ Change the RGB values of the instance by passing a three-tuple of integers from 
     >>> color = tm.Color(RGB = (255,0,0), name = 'blue')  # Wrong name/color pair
     >>> color.reset_RGB((0,0,255))                        # Color fixed
 
----
+___
 #### Color.\_\_str\_\_()
 
 Print the color and its metadata to the terminal.
@@ -82,7 +82,7 @@ Print the color and its metadata to the terminal.
     RGB             000 000 000
     SAMPLE          ███████████
 
----
+___
 #### Color.\_\_add\_\_(color)
 
 Return a *Color* instance whose RGB values comprise of the sum of two other instances. RGB values over 255 are truncated to 255.
@@ -91,7 +91,7 @@ Return a *Color* instance whose RGB values comprise of the sum of two other inst
     >>> blue = tm.Color.palette('blue')
     >>> purple = red + blue
 
----
+___
 #### Color.\_\_sub\_\_(color)
 
 Return a *Color* instance whose RGB values comprise of the sum of two other instances. RGB values below 0 are set to 0.
@@ -100,7 +100,7 @@ Return a *Color* instance whose RGB values comprise of the sum of two other inst
     >>> purple = tm.Color.palette('purple')
     >>> blue = purple  - red
 
----
+___
 #### Color.\_\_is\_\_(color)
 
 Checks if two supposed instances of *Color* point to the same memory location.
@@ -113,7 +113,7 @@ Checks if two supposed instances of *Color* point to the same memory location.
     >>> print(red1 is red3)
     False
 
----
+___
 #### Color.\_\_eq\_\_(color)
 
 Checks if two instances of *Color* have the same RGB values.
@@ -126,7 +126,7 @@ Checks if two instances of *Color* have the same RGB values.
     >>> print(red1 == blue)
     False
 
----
+___
 #### Color.\_\_neq\_\_(color)
 
 Checks if two instances of *Color* have different RGB values.
@@ -139,7 +139,7 @@ Checks if two instances of *Color* have different RGB values.
     >>> print(red1 != blue)
     True
 
----
+___
 ### Static Methods
 
 #### Color.palette(name)
@@ -149,7 +149,7 @@ Returns an instance of *Color* whose `RGB` values are identified based on the gi
     >>> red = tm.Color.palette('red')
     >>> blue = tm.Color.palette('blue')
 
----
+___
 #### Color.chart(R = None, G = None, B = None, term\_width = 80)
 Returns a printable chart showing a 2-D color gradient field for red & green, green & blue, or blue & red.  By passing `R = 0`, we would hold the red portion of the RGB color channels constant at zero.
 
@@ -165,7 +165,7 @@ in range [0, 255].  The others must be set to None.
     ██████████
     ██████████
 
----
+___
 #### Color.list\_colors()
 
 Lists all names colors with a sample and RGB value.
@@ -181,7 +181,7 @@ Lists all names colors with a sample and RGB value.
     █ 255 255 250 BABY POWDER
     █ 255 255 255 WHITE
 
----
+___
 ### Property Methods
 
 #### Color.RGB
@@ -192,7 +192,7 @@ Returns the three-element `numpy.ndarray` of `dtype= numpy.uint8` which contains
     >>> print(color.RGB)
     [12 34 56]
 
----
+___
 #### Color.R
 
 Returns the red RGB color data.
@@ -201,7 +201,7 @@ Returns the red RGB color data.
     >>> print(color.R)
     12
 
----
+___
 #### Color.G
 
 Returns the green RGB color data.
@@ -210,7 +210,7 @@ Returns the green RGB color data.
     >>> print(color.G)
     34
 
----
+___
 #### Color.B
 
 Returns the blue RGB color data.
@@ -219,7 +219,7 @@ Returns the blue RGB color data.
     >>> print(color.B)
     56
 
----
+___
 #### Color.sample
 
 Returns a color sample as a string.
@@ -228,7 +228,7 @@ Returns a color sample as a string.
     >>> print(color.sample)
     █
 
----
+___
 ## Class Style
 
 ### Minimal Example
