@@ -130,7 +130,7 @@ Checks if two instances of 'Color' have different RGB values.
 
 ### Static Methods
 
-palette(name)
+#### palette(name)
 
 Returns an instance of 'Color' whose `RGB` values are identified based on the given `name`.  If the color is invalid, an exception is raised.
 
@@ -167,7 +167,47 @@ Lists all names colors with a sample and RGB value.
     █ 254 254 249 BABY POWDER
     █ 254 254 254 WHITE
 
+### Property Methods
 
+#### RGB
+
+Returns the three-element `numpy.ndarray` of `dtype= numpy.uint8` which contains all RGB color data.
+
+    >>> color = tm.Color((12,34,56))
+    >>> print(color.RGB)
+    [12 34 56]
+
+#### R
+
+Returns the red RGB color data.
+
+    >>> color = tm.Color((12,34,56))
+    >>> print(color.R)
+    12
+
+#### G
+
+Returns the green RGB color data.
+
+    >>> color = tm.Color((12,34,56))
+    >>> print(color.G)
+    34
+
+#### B
+
+Returns the blue RGB color data.
+
+    >>> color = tm.Color((12,34,56))
+    >>> print(color.B)
+    56
+
+#### sample
+
+Returns a color sample as a string.
+
+    >>> color = tm.Color.palette('blue')
+    >>> print(color.sample)
+    █
 
 ## Class Style
 
