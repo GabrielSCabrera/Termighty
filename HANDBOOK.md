@@ -214,14 +214,18 @@ Returns a color sample as a string.
 
     >>> import termighty as tm
     >>> bold = tm.Style('bold')   # Creating a 'bold' style
-    >>> style = tm.Style()        # Creating an empty style
-    >>> style.add('bold')         # Adding 'bold' to the previously empty style
+    >>> print(bold('Hello World'))
+    **Hello World**
 
 ### Instance Methods
 
 #### \_\_init\_\_(styles = None)
 
 Initializes the *Style* instance
+
+    >>> style_1 = tm.Style()                      # Creating an empty style
+    >>> style_2 = tm.Style('italic')              # Creating an italic style
+    >>> style_3 = tm.Style('underline', 'blink')  # Creating an underlined & blinking style
 
 #### update()
 #### add(styles)

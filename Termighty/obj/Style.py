@@ -6,14 +6,16 @@ from ..utils.format import bold
 
 class Style:
 
-    def __init__(self, styles = None):
+    def __init__(self, *styles):
         '''
             PURPOSE
             Manages styles that can be applied to text in the terminal
 
             PARAMETERS
-            styles          <str> or <list> thereof
+            styles          one or more <str>
         '''
+        if not styles:
+            styles = None
         self.styles = self.check_styles(styles)
         self.update()
 
@@ -98,7 +100,7 @@ class Style:
             self.sequence = esc.format(fmt)
             self.codes = [ANSI_styles[style] for style in self.styles]
 
-    def add(self, styles):
+    def add(self, *styles):
         '''
             PURPOSE
             Adds new styles to the current instance

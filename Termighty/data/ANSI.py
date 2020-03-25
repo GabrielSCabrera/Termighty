@@ -3,7 +3,7 @@ styles = {
           'faint':        2,
           'italic':       3,
           'underline':    4,
-          'slow blink':   5,
+          'blink':        5,
           'reverse':      7,
           'crossed out':  9,
           'overlined':    53
