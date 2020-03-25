@@ -228,7 +228,6 @@ Initializes the *Style* instance, with any number of valid <str> arguments.
 
 The valid arguments are presented in the following table:
 
-| --- | --- |
 | Argument | Effect |
 | --- | --- |
 | bold | Bold (thicker) text |
@@ -239,7 +238,6 @@ The valid arguments are presented in the following table:
 | reverse | Text & background colors switch |
 | crossed out | Text is crossed out |
 | overlined | Overlined text |
-| --- | --- |
 
 #### add(styles)
 
