@@ -42,7 +42,6 @@ accessed by the user
 ## Minimal Example
 
     >>> import termighty as tm
-
     >>> color = tm.Color((31,41,59))      # Creating an arbitrary color
     >>> blue = tm.Color.palette('blue')   # Creating a color from a known color name
 
@@ -79,7 +78,7 @@ Print the color and its metadata to the terminal.
     SAMPLE          ███████████
 #### \_\_add\_\_(color)
 
-Return a 'Color' instance whose RGB values comprise of the sum of two other instances. RGB values over 255 are truncated to 255.
+Return a *Color* instance whose RGB values comprise of the sum of two other instances. RGB values over 255 are truncated to 255.
 
     >>> red = tm.Color.palette('red')
     >>> blue = tm.Color.palette('blue')
@@ -87,7 +86,7 @@ Return a 'Color' instance whose RGB values comprise of the sum of two other inst
 
 #### \_\_sub\_\_(color)
 
-Return a 'Color' instance whose RGB values comprise of the sum of two other instances. RGB values below 0 are set to 0.
+Return a *Color* instance whose RGB values comprise of the sum of two other instances. RGB values below 0 are set to 0.
 
     >>> red = tm.Color.palette('red')
     >>> purple = tm.Color.palette('purple')
@@ -95,7 +94,7 @@ Return a 'Color' instance whose RGB values comprise of the sum of two other inst
 
 #### \_\_is\_\_(color)
 
-Checks if two supposed instances of 'Color' point to the same memory location.
+Checks if two supposed instances of *Color* point to the same memory location.
 
     >>> red1 = tm.Color.palette('red')
     >>> red2 = red1
@@ -107,7 +106,7 @@ Checks if two supposed instances of 'Color' point to the same memory location.
 
 #### \_\_eq\_\_(color)
 
-Checks if two instances of 'Color' have the same RGB values.
+Checks if two instances of *Color* have the same RGB values.
 
     >>> red1 = tm.Color.palette('red')
     >>> red2 = tm.Color.palette('red')
@@ -118,7 +117,7 @@ Checks if two instances of 'Color' have the same RGB values.
     False
 #### \_\_neq\_\_(color)
 
-Checks if two instances of 'Color' have different RGB values.
+Checks if two instances of *Color* have different RGB values.
 
     >>> red1 = tm.Color.palette('red')
     >>> red2 = tm.Color.palette('red')
@@ -132,7 +131,7 @@ Checks if two instances of 'Color' have different RGB values.
 
 #### palette(name)
 
-Returns an instance of 'Color' whose `RGB` values are identified based on the given `name`.  If the color is invalid, an exception is raised.
+Returns an instance of *Color* whose `RGB` values are identified based on the given `name`.  If the color is invalid, an exception is raised.
 
     >>> red = tm.Color.palette('red')
     >>> blue = tm.Color.palette('blue')
@@ -140,7 +139,7 @@ Returns an instance of 'Color' whose `RGB` values are identified based on the gi
 #### chart(R = None, G = None, B = None, term\_width = 80)
 Returns a printable chart showing a 2-D color gradient field for red & green, green & blue, or blue & red.  By passing `R = 0`, we would hold the red portion of the RGB color channels constant at zero.
 
-Must set exactly one of the parameters 'R', 'G', and 'B' to a value
+Must set exactly one of the parameters *R*, *G*, and *B* to a value
 in range [0, 255].  The others must be set to None.
 
 `term_width` should be an integer, and will determine the chart width.
@@ -213,9 +212,17 @@ Returns a color sample as a string.
 
 ### Minimal Example
 
+    >>> import termighty as tm
+    >>> bold = tm.Style('bold')   # Creating a 'bold' style
+    >>> style = tm.Style()        # Creating an empty style
+    >>> style.add('bold')         # Adding 'bold' to the previously empty style
+
 ### Instance Methods
 
 #### \_\_init\_\_(styles = None)
+
+Initializes the *Style* instance
+
 #### update()
 #### add(styles)
 #### \_\_iadd\_\_(styles)
