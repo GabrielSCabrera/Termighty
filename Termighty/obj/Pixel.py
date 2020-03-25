@@ -191,7 +191,7 @@ class Pixel:
             RETURNS
             Instance of 'Color'
         '''
-        raise NotImplementedError()
+        return self.color_t_obj
 
     @property
     def color_b(self):
@@ -202,7 +202,7 @@ class Pixel:
             RETURNS
             Instance of 'Color'
         '''
-        raise NotImplementedError()
+        return self.color_b_obj
 
     @property
     def style(self):
@@ -213,7 +213,7 @@ class Pixel:
             RETURNS
             Instance of 'Style
         '''
-        raise NotImplementedError()
+        return self.style_obj
 
     @property
     def char(self):

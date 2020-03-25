@@ -87,7 +87,7 @@ class Style:
             Update the ANSI escape sequence that is returned from this instance
         '''
         if not self.styles:
-            self.sequence = esc.clear()
+            self.sequence = self.clear()
             self.codes = []
         else:
             codes = [ANSI_styles[style] for style in self.styles]
