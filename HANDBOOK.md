@@ -47,7 +47,7 @@ accessed by the user
 
 ### Instance Methods
 
-#### \_\_init\_\_(RGB, name = 'Unnamed Color')
+#### Color.\_\_init\_\_(RGB, name = 'Unnamed Color')
 
 Constructor requires `RGB`: a tuple of three integers.  These integers must be values from 0 up to and including 255 – they represent red, green, and blue (RGB) color channels respectively.
 
@@ -56,7 +56,7 @@ Parameter `name` is optional, and should be the name of the instance's color.
     >>> color = tm.Color(RGB = (31,41,59), name = 'pi color')
 
 ---
-#### rename(name)
+#### Color.rename(name)
 
 Change the name of the instance by passing a string to `name`.
 
@@ -64,7 +64,7 @@ Change the name of the instance by passing a string to `name`.
     >>> color.rename('red')                               # Name fixed
 
 ---
-#### reset_RGB(RGB)
+#### Color.reset_RGB(RGB)
 
 Change the RGB values of the instance by passing a three-tuple of integers from 0 up to and including 255 to `RGB`.
 
@@ -72,7 +72,7 @@ Change the RGB values of the instance by passing a three-tuple of integers from 
     >>> color.reset_RGB((0,0,255))                        # Color fixed
 
 ---
-#### \_\_str\_\_()
+#### Color.\_\_str\_\_()
 
 Print the color and its metadata to the terminal.
 
@@ -83,7 +83,7 @@ Print the color and its metadata to the terminal.
     SAMPLE          ███████████
 
 ---
-#### \_\_add\_\_(color)
+#### Color.\_\_add\_\_(color)
 
 Return a *Color* instance whose RGB values comprise of the sum of two other instances. RGB values over 255 are truncated to 255.
 
@@ -92,7 +92,7 @@ Return a *Color* instance whose RGB values comprise of the sum of two other inst
     >>> purple = red + blue
 
 ---
-#### \_\_sub\_\_(color)
+#### Color.\_\_sub\_\_(color)
 
 Return a *Color* instance whose RGB values comprise of the sum of two other instances. RGB values below 0 are set to 0.
 
@@ -101,7 +101,7 @@ Return a *Color* instance whose RGB values comprise of the sum of two other inst
     >>> blue = purple  - red
 
 ---
-#### \_\_is\_\_(color)
+#### Color.\_\_is\_\_(color)
 
 Checks if two supposed instances of *Color* point to the same memory location.
 
@@ -114,7 +114,7 @@ Checks if two supposed instances of *Color* point to the same memory location.
     False
 
 ---
-#### \_\_eq\_\_(color)
+#### Color.\_\_eq\_\_(color)
 
 Checks if two instances of *Color* have the same RGB values.
 
@@ -127,7 +127,7 @@ Checks if two instances of *Color* have the same RGB values.
     False
 
 ---
-#### \_\_neq\_\_(color)
+#### Color.\_\_neq\_\_(color)
 
 Checks if two instances of *Color* have different RGB values.
 
@@ -142,7 +142,7 @@ Checks if two instances of *Color* have different RGB values.
 ---
 ### Static Methods
 
-#### palette(name)
+#### Color.palette(name)
 
 Returns an instance of *Color* whose `RGB` values are identified based on the given `name`.  If the color is invalid, an exception is raised.
 
@@ -150,7 +150,7 @@ Returns an instance of *Color* whose `RGB` values are identified based on the gi
     >>> blue = tm.Color.palette('blue')
 
 ---
-#### chart(R = None, G = None, B = None, term\_width = 80)
+#### Color.chart(R = None, G = None, B = None, term\_width = 80)
 Returns a printable chart showing a 2-D color gradient field for red & green, green & blue, or blue & red.  By passing `R = 0`, we would hold the red portion of the RGB color channels constant at zero.
 
 Must set exactly one of the parameters *R*, *G*, and *B* to a value
@@ -166,7 +166,7 @@ in range [0, 255].  The others must be set to None.
     ██████████
 
 ---
-#### list\_colors()
+#### Color.list\_colors()
 
 Lists all names colors with a sample and RGB value.
 
@@ -184,7 +184,7 @@ Lists all names colors with a sample and RGB value.
 ---
 ### Property Methods
 
-#### RGB
+#### Color.RGB
 
 Returns the three-element `numpy.ndarray` of `dtype= numpy.uint8` which contains all RGB color data.
 
@@ -193,7 +193,7 @@ Returns the three-element `numpy.ndarray` of `dtype= numpy.uint8` which contains
     [12 34 56]
 
 ---
-#### R
+#### Color.R
 
 Returns the red RGB color data.
 
@@ -202,7 +202,7 @@ Returns the red RGB color data.
     12
 
 ---
-#### G
+#### Color.G
 
 Returns the green RGB color data.
 
@@ -211,7 +211,7 @@ Returns the green RGB color data.
     34
 
 ---
-#### B
+#### Color.B
 
 Returns the blue RGB color data.
 
@@ -220,7 +220,7 @@ Returns the blue RGB color data.
     56
 
 ---
-#### sample
+#### Color.sample
 
 Returns a color sample as a string.
 
