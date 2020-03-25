@@ -48,25 +48,25 @@ accessed by the user
 
 ### Instance Methods
 
-&ensp; **\_\_init\_\_**(RGB, name = 'Unnamed Color')
+**\_\_init\_\_**(RGB, name = 'Unnamed Color')
 
-&ensp;&ensp; Constructor requires `RGB`: a tuple of three integers.  These integers must be values from 0 up to and including 255 – they represent red, green, and blue (RGB) color channels respectively.
+Constructor requires `RGB`: a tuple of three integers.  These integers must be values from 0 up to and including 255 – they represent red, green, and blue (RGB) color channels respectively.
 
-&ensp;&ensp; Parameter `name` is optional, and should be a string that will be given name of the instance's color.
+Parameter `name` is optional, and should be a string that will be given name of the instance's color.
 
-&ensp; **rename**(name)
+**rename**(name)
 
-&ensp; **reset_RGB**(RGB)
+**reset_RGB**(RGB)
 
-&ensp; **\_\_str\_\_**()
+**\_\_str\_\_**()
 
-&ensp; **\_\_repr\_\_**()
+**\_\_repr\_\_**()
 
-&ensp; **\_\_add\_\_**(color)
+**\_\_add\_\_**(color)
 
-&ensp; **\_\_sub\_\_**(color)
+**\_\_sub\_\_**(color)
 
-&ensp; **\_\_is\_\_**(color)
+**\_\_is\_\_**(color)
 
 ## Class Style
 
