@@ -192,7 +192,7 @@ class Pixel:
             RETURNS
             Instance of 'Color'
         '''
-        return self.color_t_obj
+        return self.color_t_obj.copy()
 
     @property
     def color_b(self):
@@ -203,7 +203,7 @@ class Pixel:
             RETURNS
             Instance of 'Color'
         '''
-        return self.color_b_obj
+        return self.color_b_obj.copy()
 
     @property
     def style(self):
@@ -214,7 +214,7 @@ class Pixel:
             RETURNS
             Instance of 'Style
         '''
-        return self.style_obj
+        return self.style_obj.copy()
 
     @property
     def char(self):

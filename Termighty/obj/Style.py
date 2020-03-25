@@ -14,8 +14,19 @@ class Style:
             PARAMETERS
             styles          Any number of <str>
         '''
-        self.styles = self.check_styles(styles)
+        self.styles_list = self.check_styles(styles)
         self.update()
+
+    @property
+    def styles(self):
+        '''
+            PURPOSE
+            Returns the list of styles currently implemented
+
+            RETURNS
+            <list> of <str>
+        '''
+        return self.styles_list.copy()
 
     @staticmethod
     def check_styles(styles):
@@ -86,17 +97,17 @@ class Style:
             PURPOSE
             Update the ANSI escape sequence that is returned from this instance
         '''
-        if not self.styles:
+        if not self.styles_list:
             self.sequence = self.clear()
             self.codes = []
         else:
-            codes = [ANSI_styles[style] for style in self.styles]
+            codes = [ANSI_styles[style] for style in self.styles_list]
             fmt = ''
             for code in codes:
                 fmt += f'{code};'
             fmt = fmt[:-1]
             self.sequence = esc.format(fmt)
-            self.codes = [ANSI_styles[style] for style in self.styles]
+            self.codes = [ANSI_styles[style] for style in self.styles_list]
 
     def add(self, *styles):
         '''
@@ -106,8 +117,8 @@ class Style:
             PARAMETERS
             styles          Any number of <str>
         '''
-        self.styles += self.check_styles(styles)
-        self.styles = list(set(styles))
+        self.styles_list += self.check_styles(styles)
+        self.styles_list = list(set(self.styles_list))
         self.update()
 
     def remove(self, *styles):
@@ -120,10 +131,20 @@ class Style:
         '''
         styles = self.check_styles(styles)
         for style in styles:
-            if style in self.styles:
-                idx = self.styles.index(style)
-                del self.style[idx]
+            if style in self.styles_list:
+                idx = self.styles_list.index(style)
+                del self.styles_list[idx]
         self.update()
+
+    def copy(self):
+        '''
+            Purpose
+            Returns a deep copy of the current instance
+
+            RETURNS
+            Instance of 'Style'
+        '''
+        return Style(*self.styles)
 
     def __call__(self, string):
         '''
@@ -169,11 +190,11 @@ class Style:
         length = max(len(out), length)
         out = bold(out) + '\t'
 
-        if not self.styles:
+        if not self.styles_list:
             out += 'None'
             return out
 
-        for code, style in zip(self.codes, self.styles):
+        for code, style in zip(self.codes, self.styles_list):
             space = ' '*(length-len(style))
             out += esc.format(code) + style + self.clear() + ' '
 
@@ -189,10 +210,10 @@ class Style:
             RETURNS
             <str>
         '''
-        if not self.styles:
+        if not self.styles_list:
             return f'Styles(None)'
         else:
-            return f'Styles({", ".join(self.styles)})'
+            return f'Styles({", ".join(self.styles_list)})'
 
     def __hash__(self):
         '''
@@ -205,6 +226,40 @@ class Style:
         '''
         ID = ''.join(f'{code:02d}' for code in self.codes)
         return hash(ID)
+
+    def __eq__(self, style):
+        '''
+            PURPOSE
+            Checks if the given parameter 'style' has the same set of
+            applied styles as the current 'Style' instance
+
+            PARAMETERS
+            style           Instance of <class 'Style'>
+
+            RETURNS
+            <bool>
+        '''
+        if self.styles == style.styles:
+            return True
+        else:
+            return False
+
+    def __neq__(self, style):
+        '''
+            PURPOSE
+            Checks if the given parameter 'style' has a different set of
+            applied styles to that of the current 'Style' instance
+
+            PARAMETERS
+            style           Instance of <class 'Style'>
+
+            RETURNS
+            <bool>
+        '''
+        if self.styles != style.styles:
+            return True
+        else:
+            return False
 
     @staticmethod
     def list_styles():

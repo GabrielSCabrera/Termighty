@@ -19,31 +19,8 @@ class Color:
             name        <str>
         '''
 
-        name_params = {
-                       'var'    : name,
-                       'name'   : 'name',
-                       'types'  : str,
-                       'method' : '__init__'
-                       }
-
-        checkers.check_type(**name_params)
-        self.name = name
-
-        RGB_params = {
-                       'arr'    : RGB,
-                       'name'   : 'RGB',
-                       'types'  : (int, np.uint8),
-                       'method' : '__init__'
-                       }
-
-        checkers.check_type_arr(**RGB_params)
-
-        del RGB_params['types']
-        RGB_params['low'] = 0
-        RGB_params['high'] = 255
-
-        checkers.check_range_arr(**RGB_params)
-        self.RGB_arr = np.array(RGB, dtype = np.uint8)
+        self.set_name(name)
+        self.set_RGB(RGB)
 
     @staticmethod
     def palette(name):
@@ -66,7 +43,7 @@ class Color:
 
     '''SETTER METHODS'''
 
-    def rename(self, name):
+    def set_name(self, name):
         '''
             PURPOSE
             To rename the 'Color' instance
@@ -82,20 +59,20 @@ class Color:
                        }
 
         checkers.check_type(**name_params)
-        self.name = name
+        self.name_str = name
 
-    def reset_RGB(self, RGB):
+    def set_RGB(self, RGB):
         '''
             PURPOSE
             To reset the RGB values of the 'Color' instance
 
             PARAMETERS
-            RGB         <tuple> of 3 integers in range 0-255
+            RGB         iterable yielding 3 integers in range 0-255
         '''
         RGB_params = {
                        'arr'    : RGB,
                        'name'   : 'RGB',
-                       'types'  : int,
+                       'types'  : (int, np.uint8, np.int64),
                        'method' : 'reset_RGB'
                        }
 
@@ -106,9 +83,61 @@ class Color:
         RGB_params['high'] = 255
 
         checkers.check_range_arr(**RGB_params)
-        self.RGB = np.array(RGB, dtype = np.uint8)
+
+        if len(RGB) != 3:
+            msg = ('Parameter \'RGB\' in \'set_RGB\' must be a <tuple> of '
+                   'length 3 containing <int> values in range [0,255]')
+            raise ValueError
+
+        self.RGB_arr = np.array(RGB, dtype = np.uint8)
+
+    def set_R(self, R):
+        '''
+            PURPOSE
+            To set the red color in the RGB array to a new value
+
+            PARAMETERS
+            R           <int> in range 0 up to and including 255
+        '''
+        checkers.check_type(R, (int, np.uint8), 'R', 'set_R')
+        checkers.check_range(R, 0, 255, 'R', 'set_R')
+        self.RGB_arr[0] = R
+
+    def set_G(self, G):
+        '''
+            PURPOSE
+            To set the green color in the RGB array to a new value
+
+            PARAMETERS
+            G           <int> in range 0 up to and including 255
+        '''
+        checkers.check_type(G, (int, np.uint8), 'G', 'set_G')
+        checkers.check_range(G, 0, 255, 'G', 'set_G')
+        self.RGB_arr[1] = G
+
+    def set_B(self, B):
+        '''
+            PURPOSE
+            To set the blue color in the RGB array to a new value
+
+            PARAMETERS
+            B           <int> in range 0 up to and including 255
+        '''
+        checkers.check_type(B, (int, np.uint8), 'B', 'set_B')
+        checkers.check_range(B, 0, 255, 'B', 'set_B')
+        self.RGB_arr[2] = B
 
     '''GETTER METHODS'''
+    @property
+    def name(self):
+        '''
+            PURPOSE
+            Returns an instance's color name
+
+            RETURNS
+            self.name_str       <str>
+        '''
+        return self.name_str
 
     @property
     def RGB(self):
@@ -119,7 +148,7 @@ class Color:
             RETURNS
             self.RGB_arr        <ndarray> containing three <uint8> elements
         '''
-        return self.RGB_arr
+        return self.RGB_arr.copy()
 
     @property
     def R(self):
@@ -154,6 +183,16 @@ class Color:
         '''
         return self.RGB_arr[2]
 
+    def copy(self):
+        '''
+            Purpose
+            Returns a deep copy of the current instance
+
+            RETURNS
+            Instance of 'Color'
+        '''
+        return Color(self.RGB, self.name)
+
     def __str__(self):
         '''
             PURPOSE
@@ -162,7 +201,7 @@ class Color:
             RETURNS
             out         <str>
         '''
-        out = format.bold('COLOR NAME \t') + self.name.upper()
+        out = format.bold('COLOR NAME \t') + self.name_str.upper()
         out += '\n' + format.bold('RGB ')
         out += f'\t\t{self.RGB[0]:03d} {self.RGB[1]:03d} {self.RGB[2]:03d}\n'
         out += format.bold('SAMPLE \t\t') + self.sample*11
@@ -177,7 +216,7 @@ class Color:
             RETURNS
             out         <str>
         '''
-        return f'Color(({self.R},{self.G},{self.B}), {self.name})'
+        return f'Color(({self.R},{self.G},{self.B}), {self.name_str})'
 
     '''SAMPLERS METHODS'''
 
@@ -401,14 +440,14 @@ class Color:
             RETURNS
             <bool>
         '''
-        if self.R <= color.R:
-            return True
-        elif self.G <= color.G and self.R == color.R:
-            return True
-        elif self.B <= color.B and self.G == color.G and self.R == color.R:
-            return True
-        else:
+        if self.R > color.R:
             return False
+        elif self.G > color.G and self.R == color.R:
+            return False
+        elif self.B > color.B and self.G == color.G and self.R == color.R:
+            return False
+        else:
+            return True
 
     def __ge__(self, color):
         '''
@@ -423,14 +462,14 @@ class Color:
             RETURNS
             <bool>
         '''
-        if self.R >= color.R:
-            return True
-        elif self.G >= color.G and self.R == color.R:
-            return True
-        elif self.B >= color.B and self.G == color.G and self.R == color.R:
-            return True
-        else:
+        if self.R < color.R:
             return False
+        elif self.G < color.G and self.R == color.R:
+            return False
+        elif self.B < color.B and self.G == color.G and self.R == color.R:
+            return False
+        else:
+            return True
 
     def __hash__(self):
         '''

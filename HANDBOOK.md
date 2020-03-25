@@ -8,8 +8,9 @@
     │  ├── Minimal Example
     │  ├── Instance Methods
     │  │   ├── Color.__init__
-    │  │   ├── Color.rename
-    │  │   ├── Color.reset_RGB
+    │  │   ├── Color.set_name
+    │  │   ├── Color.set_RGB
+    │  │   ├── Color.copy
     │  │   ├── Color.__str__
     │  │   ├── Color.__add__
     │  │   ├── Color.__sub__
@@ -32,8 +33,11 @@
     │  │   ├── Style.__init__
     │  │   ├── Style.add
     │  │   ├── Style.remove
+    │  │   ├── Style.copy
     │  │   ├── Style.__call__
-    │  │   └── Style.__str__
+    │  │   ├── Style.__str__
+    │  │   ├── Style.__eq__
+    │  │   └── Style.__neq__
     │  └── Static Methods
     │      ├── Style.clear
     │      └── Style.list_styles
@@ -112,20 +116,60 @@ Parameter `name` is optional, and should be the name of the instance's color.
     >>> color = tm.Color(RGB = (31,41,59), name = 'pi color')
 
 ___
-#### Color.rename(name)
+#### Color.set_name(name)
 
 Change the name of the instance by passing a string to `name`.
 
     >>> color = tm.Color(RGB = (255,0,0), name = 'blue')  # Wrong name/color pair
-    >>> color.rename('red')                               # Name fixed
+    >>> color.set_name('red')                             # Name fixed
 
 ___
-#### Color.reset_RGB(RGB)
+#### Color.set_RGB(RGB)
 
 Change the RGB values of the instance by passing a three-tuple of integers from 0 up to and including 255 to `RGB`.
 
     >>> color = tm.Color(RGB = (255,0,0), name = 'blue')  # Wrong name/color pair
-    >>> color.reset_RGB((0,0,255))                        # Color fixed
+    >>> color.set_RGB((0,0,255))                          # Color fixed
+
+___
+#### Color.copy()
+
+Return a deep copy of the instance, in order to prevent memory issues.
+
+    >>> green_1 = tm.Color.palette('green')
+    >>> green_2 = green_1
+    >>> green_3 = green_1.copy()
+    >>> print(green_1 == green_2)
+    True
+    >>> print(green_1 == green_3)
+    True
+    >>> print(green_1 is green_2)
+    True
+    >>> print(green_1 is green_3)
+    False
+___
+#### Color.set_R(R)
+
+Change the red value of the instance in its RGB array to a new integer in range 0 up to and including 255.
+
+    >>> color = tm.Color(RGB = (0,0,0), name = 'red')   # Wrong name/color pair
+    >>> color.set_R(255)                                # Color fixed
+
+___
+#### Color.set_G(G)
+
+Change the green value of the instance in its RGB array to a new integer in range 0 up to and including 255.
+
+    >>> color = tm.Color(RGB = (0,0,0), name = 'green') # Wrong name/color pair
+    >>> color.set_G(255)                                # Color fixed
+
+___
+#### Color.set_B(B)
+
+Change the blue value of the instance in its RGB array to a new integer in range 0 up to and including 255.
+
+    >>> color = tm.Color(RGB = (0,0,0), name = 'blue')  # Wrong name/color pair
+    >>> color.set_B(255)                                # Color fixed
 
 ___
 #### Color.\_\_str\_\_()
@@ -240,6 +284,14 @@ Lists all named colors with a sample and RGB value.
 ___
 ### Properties
 
+#### Color.name
+
+Returns the name of the color as a <str>
+
+    >>> color = tm.Color.palette('black')
+    >>> print(color.name)
+    black
+
 #### Color.RGB
 
 Returns the three-element `numpy.ndarray` of `dtype= numpy.uint8` which contains all RGB color data.
@@ -337,6 +389,22 @@ Removes existing styles from the current instance.
     >>> style.remove('bold')
 
 ___
+#### Style.copy()
+
+Return a deep copy of the instance, in order to prevent memory issues.
+
+    >>> bold_1 = tm.Style('bold')
+    >>> bold_2 = bold_1
+    >>> bold_3 = bold_1.copy()
+    >>> print(bold_1 == bold_2)
+    True
+    >>> print(bold_1 == bold_3)
+    True
+    >>> print(bold_1 is bold_2)
+    True
+    >>> print(bold_1 is bold_3)
+    False
+___
 #### Style.\_\_call\_\_(string)
 
 Returns argument *string* (which must be of type *str*) with style formatting implemented.
@@ -353,6 +421,30 @@ Prints out information about the current *Style* instance.
     >>> print(style)
     STYLES  italic bold
     SAMPLE  Aa Zz 0123
+___
+#### Style.\_\_eq\_\_(style)
+
+Checks if two instances of *Style* have the same applied styles.
+
+    >>> bold1 = tm.Style.palette('red')
+    >>> bold2 = tm.Style.palette('red')
+    >>> italic = tm.Style.palette('italic')
+    >>> print(bold1 != bold2)
+    True
+    >>> print(bold1 != italic)
+    False
+___
+#### Style.\_\_neq\_\_(style)
+
+Checks if two instances of *Style* have different applied styles.
+
+    >>> bold1 = tm.Style.palette('bold')
+    >>> bold2 = tm.Style.palette('bold')
+    >>> italic = tm.Style.palette('italic')
+    >>> print(bold1 != bold2)
+    False
+    >>> print(bold1 != italic)
+    True
 ___
 ### Static Methods
 

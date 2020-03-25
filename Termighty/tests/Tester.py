@@ -7,7 +7,10 @@ class Tester:
         '''
             PURPOSE
             To run a series of tests efficiently, with colorful display that
-            improves readability of results
+            improves readability of results.
+
+            PARAMETERS
+            category        <str>
         '''
         self.test_N = 0
         self.passed_N = 0
@@ -18,12 +21,15 @@ class Tester:
     def start(self, description = None):
         '''
             PURPOSE
-            Run this method to initiate the testing sequence
+            Run this method to initiate the testing sequence.
+
+            PARAMETERS
+            description     <str>
         '''
         self.test_N += 1
 
         self.out = '\t{} TEST {} {:>04d}'
-        self.description = description.lower()
+        self.description = description
         if self.description is not None:
             self.out += f' \033[3m{self.description}\033[m'
         status = '\033[1;34;40mINIT\033[m'
@@ -48,6 +54,9 @@ class Tester:
         '''
             PURPOSE
             Run this method when a test has failed
+
+            PARAMETERS
+            traceback       <str>
         '''
         # Restore printing to terminal
         sys.stdout = sys.__stdout__
@@ -62,8 +71,42 @@ class Tester:
         '''
             PURPOSE
             Run this method when the testing has concluded
+
+            RETURNS
+            results         <dict>
         '''
-        out = (f'\n\t\033[1mRESULTS FOR <{self.category}>\033[m\n\n\t'
-               f'TESTS PASSED \033[32;40m{self.passed_N:>04d}\033[m\n\t'
-               f'TESTS FAILED \033[31;40m{self.failed_N:>04d}\033[m')
-        print(out)
+
+        print(self.results(self.passed_N, self.failed_N, self.category))
+
+        results = {
+                   'total'      :   self.test_N,
+                   'passed'     :   self.passed_N,
+                   'failed'     :   self.failed_N
+                  }
+
+        return results
+
+    @staticmethod
+    def results(passed, failed, name = None):
+        '''
+            PURPOSE
+            To display the results of the testing
+
+            PARAMETERS
+            passed          <int>
+            failed          <int>
+            name            <str>
+
+            RETURNS
+            out             <str>
+        '''
+
+        if name is None:
+            out = f'\n\t\033[1mRESULTS\033[m\n\n\t'
+        else:
+            out = f'\n\t\033[1mRESULTS FOR <{name}>\033[m\n\n\t'
+
+        out +=  (f'TESTS PASSED \033[32;40m{passed:>04d}\033[m\n\t'
+                 f'TESTS FAILED \033[31;40m{failed:>04d}\033[m')
+
+        return out

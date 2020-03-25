@@ -147,11 +147,11 @@ def check_range(var, low = None, high = None, name = None, method = None, functi
         RETURNS
         True
     '''
-    check_type(var, (int, float), name, method, function)
+    check_type(var, (int, float, np.uint8, np.int64, np.float64), name, method, function)
     if low is not None:
-        check_type(low, (int, float), name, method, function)
+        check_type(low, (int, float, np.uint8, np.int64, np.float64), name, method, function)
     if high is not None:
-        check_type(low, (int, float), name, method, function)
+        check_type(low, (int, float, np.uint8, np.int64, np.float64), name, method, function)
 
     if low is not None and high is not None:
 
