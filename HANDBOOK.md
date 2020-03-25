@@ -239,7 +239,7 @@ ___
 
 ### Instance Methods
 
-#### \_\_init\_\_(styles = None)
+#### Style.\_\_init\_\_(styles = None)
 
 Initializes the *Style* instance, with any number of valid <str> arguments.
 
@@ -260,47 +260,83 @@ Initializes the *Style* instance, with any number of valid <str> arguments.
 | crossed out | Text is crossed out |
 | overlined | Overlined text |
 
-#### add(styles)
+___
+#### Style.add(styles)
 
-#### \_\_iadd\_\_(styles)
+___
+#### Style.\_\_iadd\_\_(styles)
 
-#### \_\_call\_\_(string)
+___
+#### Style.\_\_call\_\_(string)
 
-#### \_\_str\_\_()
+___
+#### Style.\_\_str\_\_()
 
+___
 ### Static Methods
 
-#### check\_styles(styles)
-#### clear()
-#### list\_styles()
+#### Style.check\_styles(styles)
 
+___
+#### Style.clear()
+
+___
+#### Style.list\_styles()
+
+___
 ## Class Pixel
 
 ### Minimal Example
 
 ### Instance Methods
 
-#### \_\_init\_\_(color\_t = None, color\_b = None, style = None, char = None)
-#### update\_color_t(color)
-#### update\_color_b(color)
-#### update\_style(style)
-#### update\_char(char)
-#### \_\_str\_\_()
+#### Pixel.\_\_init\_\_(color\_t = None, color\_b = None, style = None, char = None)
 
+___
+#### Pixel.update\_color_t(color)
+
+___
+#### Pixel.update\_color_b(color)
+
+___
+#### Pixel.update\_style(style)
+
+___
+#### Pixel.update\_char(char)
+
+___
+#### Pixel.\_\_str\_\_()
+
+___
 ### Static Methods
 
-#### is\_char(char)
+#### Pixel.is\_char(char)
 
+___
 ### Property Methods
 
-#### color\_t\_seq
-#### color\_b\_seq
-#### style\_seq
-#### end\_seq
-#### color\_t
-#### color\_b
-#### style
-#### char
+#### Pixel.color\_t\_seq
+
+___
+#### Pixel.color\_b\_seq
+
+___
+#### Pixel.style\_seq
+
+___
+#### Pixel.end\_seq
+
+___
+#### Pixel.color\_t
+
+___
+#### Pixel.color\_b
+
+___
+#### Pixel.style
+
+___
+#### Pixel.char
 
 ## Class Grid
 
