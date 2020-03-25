@@ -48,20 +48,20 @@ accessed by the user
 
 ### Instance Methods
 
-\__init__(RGB, name = 'Unnamed Color')
+\_\_init__(RGB, name = 'Unnamed Color')
 rename(name)
 reset_RGB(RGB)
-\__str__()
-\__repr__()
-\__add__(color)
-\__sub__(color)
-\__eq__(color)
-\__ne__(color)
-\__lt__(color)
-\__gt__(color)
-\__le__(color)
-\__ge__(color)
-\__is__(color)    
+\_\_str\_\_()
+\_\_repr\_\_()
+\_\_add\_\_(color)
+\_\_sub\_\_(color)
+\_\_eq\_\_(color)
+\_\_ne\_\_(color)
+\_\_lt\_\_(color)
+\_\_gt\_\_(color)
+\_\_le\_\_(color)
+\_\_ge\_\_(color)
+\_\_is\_\_(color)    
 
 ## Class Style
 
