@@ -78,7 +78,9 @@ Print the color and its metadata to the terminal.
     color = tm.Color.palette('black')
     print(color)
 
-    >>> 
+    >>> COLOR NAME      BLACK
+        RGB             000 000 000
+        SAMPLE          ███████████
 
 
 
