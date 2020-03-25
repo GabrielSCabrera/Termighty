@@ -2,13 +2,13 @@
 
 ## Table of Contents
 
-[Program Structure](### Program Structure)
-[Module Structure](### Module Structure)
-[class Color](### class Color)
-[class Style](### class Style)
-[class Pixel](### class Pixel)
-[class Grid](### class Grid)
-[class Painter](### class Painter)
+1. [Program Structure](### Program Structure)
+2. [Module Structure](### Module Structure)
+3. [class Color](### class Color)
+4. [class Style](### class Style)
+5. [class Pixel](### class Pixel)
+6. [class Grid](### class Grid)
+7. [class Painter](### class Painter)
 
 ## Program Structure
 The program as it is organized in the filesystem
