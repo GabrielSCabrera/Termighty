@@ -108,6 +108,7 @@ class Style:
         '''
         self.styles += self.check_styles(styles)
         self.styles = list(set(styles))
+        self.update()
 
     def remove(self, *styles):
         '''
@@ -117,8 +118,12 @@ class Style:
             PARAMETERS
             styles          Any number of <str>
         '''
-        self.styles += self.check_styles(styles)
-        self.styles = list(set(styles))
+        styles = self.check_styles(styles)
+        for style in styles:
+            if style in self.styles:
+                idx = self.styles.index(style)
+                del self.style[idx]
+        self.update()
 
     def __call__(self, string):
         '''

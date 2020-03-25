@@ -239,7 +239,7 @@ ___
 
 ### Instance Methods
 
-#### Style.\_\_init\_\_(styles = None)
+#### Style.\_\_init\_\_(\*styles)
 
 Initializes the *Style* instance, with any number of valid *str* arguments.
 
@@ -261,19 +261,38 @@ Initializes the *Style* instance, with any number of valid *str* arguments.
 | overlined | Overlined text |
 
 ___
-#### Style.add(styles)
+#### Style.add(\*styles)
 
-Adds new styles to 
+Add new styles to the current instance.
+
+    >>> bold = tm.Style('bold')
+    >>> bold.add('italic')
+    >>> bold.add('underline', 'blink')
 
 ___
-#### Style.\_\_iadd\_\_(styles)
+#### Style.remove(\*styles)
+
+Removes existing styles from the current instance.
+
+    >>> style = tm.Style('bold','underline', 'blink')
+    >>> style.remove('underline', 'blink')
+    >>> style.remove('bold')
 
 ___
 #### Style.\_\_call\_\_(string)
 
+Returns argument *string* (which must be of type *str*) with style formatting implemented.
+
+    >>> bold = tm.Style('bold')
+    >>> greeting = 'Hello World!'
+    >>> bold_greeting = bold(greeting)
 ___
 #### Style.\_\_str\_\_()
 
+    >>> style = tm.Style('italic', 'bold')
+    >>> print(style)
+    STYLES  italic bold
+    SAMPLE  Aa Zz 0123
 ___
 ### Static Methods
 
