@@ -83,23 +83,22 @@ Print the color and its metadata to the terminal.
 ---
 **\_\_add\_\_**(color)
 
-Return a 'Color' instance whose RGB values comprise of the sum of two other instances.
+Return a 'Color' instance whose RGB values comprise of the sum of two other instances. RGB values over 255 are truncated to 255.
 
     >>> red = tm.Color.palette('red')
     >>> blue = tm.Color.palette('blue')
     >>> purple = red + blue
 
-Note – values over 255 are truncated to 255.
+
 ---
 **\_\_sub\_\_**(color)
 
-Return a 'Color' instance whose RGB values comprise of the sum of two other instances.
+Return a 'Color' instance whose RGB values comprise of the sum of two other instances. RGB values below 0 are set to 0.
 
     >>> red = tm.Color.palette('red')
     >>> purple = tm.Color.palette('purple')
     >>> blue = purple  - red
 
-Note – values below 0 are set to 0.
 ---
 **\_\_is\_\_**(color)
 
