@@ -172,12 +172,12 @@ class Color:
     def __repr__(self):
         '''
             PURPOSE
-            Returns a color sample that can be printed
+            Returns a color sample that is machine-readable
 
             RETURNS
             out         <str>
         '''
-        return self.sample
+        return f'Color(({self.R},{self.G},{self.B}), {self.name})'
 
     '''SAMPLERS METHODS'''
 
