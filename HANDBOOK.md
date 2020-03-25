@@ -41,10 +41,10 @@ accessed by the user
 
 ### Minimal Example
 
-    import termighty as tm
+    >>> import termighty as tm
 
-    color = tm.Color((31,41,59))      # Creating an arbitrary color
-    blue = tm.Color.palette('blue')   # Creating a color from a known color name
+    >>> color = tm.Color((31,41,59))      # Creating an arbitrary color
+    >>> blue = tm.Color.palette('blue')   # Creating a color from a known color >>> name
 
 ### Instance Methods
 
@@ -54,7 +54,7 @@ Constructor requires `RGB`: a tuple of three integers.  These integers must be v
 
 Parameter `name` is optional, and should be the name of the instance's color.
 
-    color = tm.Color(RGB = (31,41,59), name = 'pi color')
+    >>> color = tm.Color(RGB = (31,41,59), name = 'pi color')
 
 **rename**(name)
 
