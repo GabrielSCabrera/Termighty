@@ -168,7 +168,7 @@ in range [0, 255].  The others must be set to None.
 ___
 #### Color.list\_colors()
 
-Lists all names colors with a sample and RGB value.
+Lists all named colors with a sample and RGB value.
 
     >>> tm.Color.list_colors()
     █ 000 000 000 BLACK
@@ -289,6 +289,8 @@ Returns argument *string* (which must be of type *str*) with style formatting im
 ___
 #### Style.\_\_str\_\_()
 
+Prints out information about the current *Style* instance.
+
     >>> style = tm.Style('italic', 'bold')
     >>> print(style)
     STYLES  italic bold
@@ -296,14 +298,30 @@ ___
 ___
 ### Static Methods
 
-#### Style.check\_styles(styles)
-
-___
 #### Style.clear()
 
+Returns a string that will reset the terminal's character style, without affecting any other properties (such as color).
+
+    >>> print('\\033[1m')
+    >>> print('BOLD TEXT')
+    >>> print(tm.Style.clear())
+    STYLES  italic bold
+    SAMPLE  Aa Zz 0123
 ___
 #### Style.list\_styles()
 
+Lists all styles with a sample.
+
+    >>> tm.Style.list_styles()
+    STYLES
+            bold
+           faint
+          italic
+       underline
+           blink
+         reverse
+     crossed out
+       overlined
 ___
 ## class Pixel
 
