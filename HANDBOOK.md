@@ -161,10 +161,10 @@ Lists all names colors with a sample and RGB value.
     █ 000 000 155 DUKE BLUE
     █ 000 000 204 MEDIUM BLUE
     ⋮
-    █ 254 254 224 LIGHT YELLOW
-    █ 254 254 239 IVORY
-    █ 254 254 249 BABY POWDER
-    █ 254 254 254 WHITE
+    █ 255 255 225 LIGHT YELLOW
+    █ 255 255 240 IVORY
+    █ 255 255 250 BABY POWDER
+    █ 255 255 255 WHITE
 
 ### Property Methods
 
@@ -226,7 +226,7 @@ Initializes the *Style* instance, with any number of valid <str> arguments.
     >>> style_2 = tm.Style('italic')              # Creating an italic style
     >>> style_3 = tm.Style('underline', 'blink')  # Creating an underlined & blinking style
 
-The valid arguments are presented in the following table:
+##### Valid Arguments
 
 | Argument | Effect |
 | --- | --- |
