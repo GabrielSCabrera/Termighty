@@ -52,11 +52,20 @@ accessed by the user
 
 Constructor requires `RGB`: a tuple of three integers.  These integers must be values from 0 up to and including 255 – they represent red, green, and blue (RGB) color channels respectively.
 
-Parameter `name` is optional, and should be a string that will be given name of the instance's color.
+Parameter `name` is optional, and should be the name of the instance's color.
+
+    color = tm.Color(RGB = (31,41,59), name = 'pi color')
 
 **rename**(name)
 
+    color = tm.Color(RGB = (255,0,0), name = 'blue')  # Wrong name/color pair
+    color.rename('red')                               # Name fixed
+
+
 **reset_RGB**(RGB)
+
+    color = tm.Color(RGB = (255,0,0), name = 'blue')  # Wrong name/color pair
+    color.reset_RGB((0,0,255))                        # Color fixed
 
 **\_\_str\_\_**()
 
