@@ -5,6 +5,8 @@ from .Style import Style
 
 class Pixel:
 
+    '''CONSTRUCTOR'''
+
     def __init__(self, color_t = None, color_b = None, style = None, char = None):
         '''
             PURPOSE
@@ -66,7 +68,7 @@ class Pixel:
             raise ValueError(msg)
         return True
 
-    # UPDATERS
+    '''UPDATERS'''
 
     def update_color_t(self, color):
         '''
@@ -130,7 +132,7 @@ class Pixel:
         self.out = self.end_seq + self.color_t_seq + self.color_b_seq
         self.out += self.char + self.end_seq
 
-    # FORMATTERS
+    '''FORMATTERS'''
 
     @property
     def color_t_seq(self):
@@ -180,7 +182,7 @@ class Pixel:
         '''
         return '\033[m'
 
-    # OUTPUT AND METADATA
+    '''OUTPUT AND METADATA'''
 
     @property
     def color_t(self):

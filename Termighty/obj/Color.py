@@ -446,7 +446,7 @@ class Color:
         '''
             PURPOSE
             Determines whether or not the current instance and given
-            parameter 'color' have the same hash
+            parameter 'color' point to the same memory location
 
             PARAMETERS
             color           Instance of <class 'Color'>
@@ -454,7 +454,7 @@ class Color:
             RETURNS
             <bool>
         '''
-        if self.__hash__() == color.__hash__():
+        if self is color:
             return True
         else:
             return False
