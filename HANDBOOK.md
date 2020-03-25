@@ -48,14 +48,14 @@ accessed by the user
 
 ### Instance Methods
 
-**\_\_init\_\_**(RGB, name = 'Unnamed Color')
-
-Constructor requires `RGB`: a tuple of three integers.  These integers must be values from 0 up to and including 255 – they represent red, green, and blue (RGB) color channels respectively.
-
-Parameter `name` is optional, and should be the name of the instance's color.
-
-    >>> color = tm.Color(RGB = (31,41,59), name = 'pi color')
----
+> **\_\_init\_\_**(RGB, name = 'Unnamed Color')
+> 
+> Constructor requires `RGB`: a tuple of three integers.  These integers must be values from 0 up to and including 255 – they represent red, green, and blue (RGB) color channels respectively.
+> 
+> Parameter `name` is optional, and should be the name of the instance's color.
+> 
+>     >>> color = tm.Color(RGB = (31,41,59), name = 'pi color')
+> ---
 **rename**(name)
 
 Change the name of the instance by passing a string to `name`.
