@@ -229,7 +229,7 @@ Returns a color sample as a string.
     █
 
 ___
-## Class Style
+## class Style
 
 ### Minimal Example
 
@@ -241,7 +241,7 @@ ___
 
 #### Style.\_\_init\_\_(styles = None)
 
-Initializes the *Style* instance, with any number of valid <str> arguments.
+Initializes the *Style* instance, with any number of valid *str* arguments.
 
     >>> style_1 = tm.Style()                      # Creating an empty style
     >>> style_2 = tm.Style('italic')              # Creating an italic style
@@ -262,6 +262,8 @@ Initializes the *Style* instance, with any number of valid <str> arguments.
 
 ___
 #### Style.add(styles)
+
+Adds new styles to 
 
 ___
 #### Style.\_\_iadd\_\_(styles)
@@ -284,7 +286,7 @@ ___
 #### Style.list\_styles()
 
 ___
-## Class Pixel
+## class Pixel
 
 ### Minimal Example
 
@@ -338,7 +340,7 @@ ___
 ___
 #### Pixel.char
 
-## Class Grid
+## class Grid
 
 ### Minimal Example
 
@@ -348,7 +350,7 @@ ___
 
 ### Property Methods
 
-## Class Painter
+## class Painter
 
 ### Minimal Example
 

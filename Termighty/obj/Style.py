@@ -12,10 +12,8 @@ class Style:
             Manages styles that can be applied to text in the terminal
 
             PARAMETERS
-            styles          one or more <str>
+            styles          Any number of <str>
         '''
-        if not styles:
-            styles = None
         self.styles = self.check_styles(styles)
         self.update()
 
@@ -106,20 +104,21 @@ class Style:
             Adds new styles to the current instance
 
             PARAMETERS
-            styles          <list> of <str> or <str>
+            styles          Any number of <str>
         '''
         self.styles += self.check_styles(styles)
         self.styles = list(set(styles))
 
-    def __iadd__(self, styles):
+    def remove(self, *styles):
         '''
             PURPOSE
-            Adds new styles to the current instance
+            Removes styles in the current instance
 
             PARAMETERS
-            styles          <list> of <str> or <str>
+            styles          Any number of <str>
         '''
-        self.add(styles)
+        self.styles += self.check_styles(styles)
+        self.styles = list(set(styles))
 
     def __call__(self, string):
         '''
