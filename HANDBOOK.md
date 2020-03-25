@@ -60,27 +60,27 @@ Parameter `name` is optional, and should be the name of the instance's color.
 
 Change the name of the instance by passing a string to `name`.
 
-    color = tm.Color(RGB = (255,0,0), name = 'blue')  # Wrong name/color pair
-    color.rename('red')                               # Name fixed
+    >>> color = tm.Color(RGB = (255,0,0), name = 'blue')  # Wrong name/color pair
+    >>> color.rename('red')                               # Name fixed
 
 
 **reset_RGB**(RGB)
 
 Change the RGB values of the instance by passing a three-tuple of integers from 0 up to and including 255 to `RGB`.
 
-    color = tm.Color(RGB = (255,0,0), name = 'blue')  # Wrong name/color pair
-    color.reset_RGB((0,0,255))                        # Color fixed
+    >>> color = tm.Color(RGB = (255,0,0), name = 'blue')  # Wrong name/color pair
+    >>> color.reset_RGB((0,0,255))                        # Color fixed
 
 **\_\_str\_\_**()
 
 Print the color and its metadata to the terminal.
 
-    color = tm.Color.palette('black')
-    print(color)
+    >>> color = tm.Color.palette('black')
+    >>> print(color)
+    COLOR NAME      BLACK
+    RGB             000 000 000
+    SAMPLE          ███████████
 
-    >>> COLOR NAME      BLACK
-        RGB             000 000 000
-        SAMPLE          ███████████
 
 
 
