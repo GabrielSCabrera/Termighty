@@ -213,9 +213,8 @@ Returns a color sample as a string.
 ### Minimal Example
 
     >>> import termighty as tm
-    >>> bold = tm.Style('bold')   # Creating a 'bold' style
-    >>> print(bold('Hello World'))
-  ` Hello World`
+    >>> bold = tm.Style('bold')           # Creating a 'bold' style
+    >>> bold_string = bold('Hello World') # Will be bold when printed to terminal
 
 ### Instance Methods
 
