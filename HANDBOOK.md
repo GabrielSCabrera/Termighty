@@ -2,13 +2,22 @@
 
 ## Table of Contents
 
-1. [Program Structure](### Program Structure)
-2. [Module Structure](### Module Structure)
-3. [class Color](### class Color)
-4. [class Style](### class Style)
-5. [class Pixel](### class Pixel)
-6. [class Grid](### class Grid)
-7. [class Painter](### class Painter)
+### Program Structure
+### Module Structure
+### class Color
+#### Minimal Example
+#### Instance Methods
+#### Static Methods
+### class Style
+#### Minimal Example
+#### Instance Methods
+#### Static Methods
+### class Pixel
+#### Minimal Example
+#### Instance Methods
+#### Property Methods
+### class Grid
+### class Painter
 
 ## Program Structure
 The program as it is organized in the filesystem
