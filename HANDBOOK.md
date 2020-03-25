@@ -340,13 +340,13 @@ ___
 
 #### Pixel.\_\_init\_\_(color\_t = None, color\_b = None, style = None, char = None)
 
-Initialize an instance of *Pixel*
+Initialize an instance of *Pixel*.
 
+    >>> pixel = tm.Pixel()
 
+##### Constructor Arguments
 
- with a text color *color_t*, which may be a 3-tuple of
-
- | Parameter | Expects |
+ | Optional Parameter | Expects |
  | --- | --- |
  | `color_t` | *Color* instance, 3-tuple of unsigned 8-bit integers, or color name |
  | `color_b` | *Color* instance, 3-tuple of unsigned 8-bit integers, or color name |
