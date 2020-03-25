@@ -81,14 +81,88 @@ Print the color and its metadata to the terminal.
     RGB             000 000 000
     SAMPLE          ███████████
 
-
-
-
 **\_\_add\_\_**(color)
+
+Return a 'Color' instance whose RGB values comprise of the sum of two other instances.
+
+    >>> red = tm.Color.palette('red')
+    >>> blue = tm.Color.palette('blue')
+    >>> purple = red + blue
+
+Note – values over 255 are truncated to 255.
 
 **\_\_sub\_\_**(color)
 
+Return a 'Color' instance whose RGB values comprise of the sum of two other instances.
+
+    >>> red = tm.Color.palette('red')
+    >>> purple = tm.Color.palette('purple')
+    >>> blue = purple  - red
+
+Note – values below 0 are set to 0.
+
 **\_\_is\_\_**(color)
+
+Checks if two supposed instances of 'Color' point to the same memory location.
+
+    >>> red1 = tm.Color.palette('red')
+    >>> red2 = red1
+    >>> red3 = tm.Color.palette('red')
+    >>> print(red1 is red2)
+    True
+    >>> print(red1 is red3)
+    False
+
+**\_\_eq\_\_**(color)
+
+Checks if two instances of 'Color' have the same RGB values.
+
+    >>> red1 = tm.Color.palette('red')
+    >>> red2 = tm.Color.palette('red')
+    >>> blue = tm.Color.palette('blue')
+    >>> print(red1 == red2)
+    True
+    >>> print(red1 == blue)
+    False
+
+**\_\_neq\_\_**(color)
+
+Checks if two instances of 'Color' have different RGB values.
+
+    >>> red1 = tm.Color.palette('red')
+    >>> red2 = tm.Color.palette('red')
+    >>> blue = tm.Color.palette('blue')
+    >>> print(red1 != red2)
+    False
+    >>> print(red1 != blue)
+    True
+
+### Static Methods
+
+**palette**(name)
+
+Returns an instance of 'Color' whose `RGB` values are identified based on the given `name`.  If the color is invalid, an exception is raised.
+
+    >>> red = tm.Color.palette('red')
+    >>> blue = tm.Color.palette('blue')
+
+**chart**(R = None, G = None, B = None, term_width = 80)
+
+Returns a printable chart showing a 2-D color gradient field for red & green, green & blue, or blue & red.  By passing `R = 0`, we would hold the red portion of the RGB color channels constant at zero.
+
+Must set exactly one of the parameters 'R', 'G', and 'B' to a value
+in range [0, 255].  The others must be set to None.
+
+`term_width` should be an integer, and will determine the chart width.
+
+    >>> tm.Color.chart(R = 0)
+
+Note that
+
+**list\_colors**()
+
+Lists all names colors with a sample and RGB value
+
 
 ## Class Style
 

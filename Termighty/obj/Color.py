@@ -264,7 +264,8 @@ class Color:
         colors = [Color(j,i) for i,j in data.colors.items()]
         colors = sorted(colors)
         for color in colors:
-            out += f'{color.sample} {color.name.upper()}\n'
+            RGB = f'{color.R:>03d} {color.G:>03d} {color.B:>03d}'
+            out += f'{color.sample} {RGB} {color.name.upper()}\n'
         return out
 
     '''MAGIC METHODS'''
