@@ -48,21 +48,21 @@ accessed by the user
 
 ### Instance Methods
 
-&nbsp;&nbsp;&nbsp;**\_\_init\_\_(RGB, name = 'Unnamed Color')**
+&ensp; **\_\_init\_\_(RGB, name = 'Unnamed Color')**
 
-&nbsp;&nbsp;&nbsp;**rename(name)**
+&ensp; **rename(name)**
 
-&nbsp;&nbsp;&nbsp;**reset_RGB(RGB)**
+&ensp; **reset_RGB(RGB)**
 
-&nbsp;&nbsp;&nbsp;**\_\_str\_\_()**
+&ensp; **\_\_str\_\_()**
 
-&nbsp;&nbsp;&nbsp;**\_\_repr\_\_()**
+&ensp; **\_\_repr\_\_()**
 
-&nbsp;&nbsp;&nbsp;**\_\_add\_\_(color)**
+&ensp; **\_\_add\_\_(color)**
 
-&nbsp;&nbsp;&nbsp;**\_\_sub\_\_(color)**
+&ensp; **\_\_sub\_\_(color)**
 
-&nbsp;&nbsp;&nbsp;**\_\_is\_\_(color)**
+&ensp; **\_\_is\_\_(color)**
 
 ## Class Style
 
