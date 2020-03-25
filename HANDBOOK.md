@@ -44,7 +44,7 @@ accessed by the user
     >>> import termighty as tm
 
     >>> color = tm.Color((31,41,59))      # Creating an arbitrary color
-    >>> blue = tm.Color.palette('blue')   # Creating a color from a known color >>> name
+    >>> blue = tm.Color.palette('blue')   # Creating a color from a known color name
 
 ### Instance Methods
 
@@ -88,7 +88,6 @@ Return a 'Color' instance whose RGB values comprise of the sum of two other inst
     >>> red = tm.Color.palette('red')
     >>> blue = tm.Color.palette('blue')
     >>> purple = red + blue
-
 
 ---
 **\_\_sub\_\_**(color)
