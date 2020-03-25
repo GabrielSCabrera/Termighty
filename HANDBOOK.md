@@ -37,7 +37,7 @@ The program as it should be accessed by the user when imported
 Much of the program is dedicated to internal management, and should never be
 accessed by the user
 
-## Class Color
+## <class 'Color'>
 
 ### Minimal Example
 
@@ -48,27 +48,27 @@ accessed by the user
 
 ### Instance Methods
 
-#### **\_\_init\_\_**(RGB, name = 'Unnamed Color')
+#### \_\_init\_\_(RGB, name = 'Unnamed Color')
 
 Constructor requires `RGB`: a tuple of three integers.  These integers must be values from 0 up to and including 255 – they represent red, green, and blue (RGB) color channels respectively.
 
 Parameter `name` is optional, and should be the name of the instance's color.
 
     >>> color = tm.Color(RGB = (31,41,59), name = 'pi color')
-#### **rename**(name)
+#### rename(name)
 
 Change the name of the instance by passing a string to `name`.
 
     >>> color = tm.Color(RGB = (255,0,0), name = 'blue')  # Wrong name/color pair
     >>> color.rename('red')                               # Name fixed
 
-#### **reset_RGB**(RGB)
+#### reset_RGB(RGB)
 
 Change the RGB values of the instance by passing a three-tuple of integers from 0 up to and including 255 to `RGB`.
 
     >>> color = tm.Color(RGB = (255,0,0), name = 'blue')  # Wrong name/color pair
     >>> color.reset_RGB((0,0,255))                        # Color fixed
-#### **\_\_str\_\_**()
+#### \_\_str\_\_()
 
 Print the color and its metadata to the terminal.
 
@@ -77,7 +77,7 @@ Print the color and its metadata to the terminal.
     COLOR NAME      BLACK
     RGB             000 000 000
     SAMPLE          ███████████
-#### **\_\_add\_\_**(color)
+#### \_\_add\_\_(color)
 
 Return a 'Color' instance whose RGB values comprise of the sum of two other instances. RGB values over 255 are truncated to 255.
 
@@ -85,7 +85,7 @@ Return a 'Color' instance whose RGB values comprise of the sum of two other inst
     >>> blue = tm.Color.palette('blue')
     >>> purple = red + blue
 
-#### **\_\_sub\_\_**(color)
+#### \_\_sub\_\_(color)
 
 Return a 'Color' instance whose RGB values comprise of the sum of two other instances. RGB values below 0 are set to 0.
 
@@ -93,7 +93,7 @@ Return a 'Color' instance whose RGB values comprise of the sum of two other inst
     >>> purple = tm.Color.palette('purple')
     >>> blue = purple  - red
 
-#### **\_\_is\_\_**(color)
+#### \_\_is\_\_(color)
 
 Checks if two supposed instances of 'Color' point to the same memory location.
 
@@ -104,7 +104,7 @@ Checks if two supposed instances of 'Color' point to the same memory location.
     True
     >>> print(red1 is red3)
     False
-#### **\_\_eq\_\_**(color)
+#### \_\_eq\_\_(color)
 
 Checks if two instances of 'Color' have the same RGB values.
 
@@ -115,7 +115,7 @@ Checks if two instances of 'Color' have the same RGB values.
     True
     >>> print(red1 == blue)
     False
-#### **\_\_neq\_\_**(color)
+#### \_\_neq\_\_(color)
 
 Checks if two instances of 'Color' have different RGB values.
 
@@ -129,14 +129,14 @@ Checks if two instances of 'Color' have different RGB values.
 ---
 ### Static Methods
 
-**palette**(name)
+palette(name)
 
 Returns an instance of 'Color' whose `RGB` values are identified based on the given `name`.  If the color is invalid, an exception is raised.
 
     >>> red = tm.Color.palette('red')
     >>> blue = tm.Color.palette('blue')
 
-#### **chart**(R = None, G = None, B = None, term_width = 80)
+#### chart(R = None, G = None, B = None, term_width = 80)
 Returns a printable chart showing a 2-D color gradient field for red & green, green & blue, or blue & red.  By passing `R = 0`, we would hold the red portion of the RGB color channels constant at zero.
 
 Must set exactly one of the parameters 'R', 'G', and 'B' to a value
@@ -146,7 +146,7 @@ in range [0, 255].  The others must be set to None.
 
     >>> tm.Color.chart(R = 0)
 
-#### **list\_colors**()
+#### list\_colors()
 
 Lists all names colors with a sample and RGB value
 
