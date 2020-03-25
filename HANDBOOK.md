@@ -37,9 +37,9 @@ The program as it should be accessed by the user when imported
 Much of the program is dedicated to internal management, and should never be
 accessed by the user
 
-## <class 'Color'>
+## class 'Color'
 
-## Minimal Example
+### Minimal Example
 
     >>> import termighty as tm
     >>> color = tm.Color((31,41,59))      # Creating an arbitrary color
