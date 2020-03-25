@@ -78,7 +78,7 @@ Print the color and its metadata to the terminal.
     color = tm.Color.palette('black')
     print(color)
 
-    \>\>\> 
+    >>> 
 
 
 
