@@ -20,7 +20,7 @@
             Color.palette
             Color.chart
             Color.list_colors
-        Property Methods
+        Properties
             Color.RGB
             Color.R
             Color.G
@@ -29,11 +29,28 @@
     class Style
         Minimal Example
         Instance Methods
+            Style.__init__
+            Style.add
+            Style.remove
+            Style.__call__
+            Style.__str__
         Static Methods
+            Style.clear
+            Style.list_styles
     class Pixel
         Minimal Example
         Instance Methods
-        Property Methods
+            Pixel.__init__
+            Pixel.set_color_t
+            Pixel.set_color_b
+            Pixel.set_style
+            Pixel.set_char
+            Pixel.__str__
+        Properties
+            Pixel.color\_t
+            Pixel.color\_b
+            Pixel.style
+            Pixel.char
     class Grid
     class Painter
 
@@ -221,7 +238,7 @@ Lists all named colors with a sample and RGB value.
     █ 255 255 255 WHITE
 
 ___
-### Property Methods
+### Properties
 
 #### Color.RGB
 
@@ -406,7 +423,7 @@ ___
 #### Pixel.\_\_str\_\_()
 
 ___
-### Property Methods
+### Properties
 
 #### Pixel.color\_t
 
@@ -427,7 +444,7 @@ ___
 
 ### Static Methods
 
-### Property Methods
+### Properties
 
 ## class Painter
 
@@ -437,4 +454,4 @@ ___
 
 ### Static Methods
 
-### Property Methods
+### Properties
