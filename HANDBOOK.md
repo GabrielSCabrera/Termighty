@@ -161,9 +161,7 @@ Lists all names colors with a sample and RGB value.
     █ 000 000 127 NAVY BLUE
     █ 000 000 155 DUKE BLUE
     █ 000 000 204 MEDIUM BLUE
-    .
-    .
-    .
+   ⋮
     █ 254 254 224 LIGHT YELLOW
     █ 254 254 239 IVORY
     █ 254 254 249 BABY POWDER
