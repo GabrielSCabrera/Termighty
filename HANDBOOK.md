@@ -1,5 +1,15 @@
 # Reference
 
+## Table of Contents
+
+[Program Structure](### Program Structure)
+[Module Structure](### Module Structure)
+[class Color](### class Color)
+[class Style](### class Style)
+[class Pixel](### class Pixel)
+[class Grid](### class Grid)
+[class Painter](### class Painter)
+
 ## Program Structure
 The program as it is organized in the filesystem
 
