@@ -98,7 +98,7 @@ class Style:
             self.sequence = esc.format(fmt)
             self.codes = [ANSI_styles[style] for style in self.styles]
 
-    def __iadd__(self, styles):
+    def add(self, styles):
         '''
             PURPOSE
             Adds new styles to the current instance
@@ -108,6 +108,16 @@ class Style:
         '''
         self.styles += self.check_styles(styles)
         self.styles = list(set(styles))
+
+    def __iadd__(self, styles):
+        '''
+            PURPOSE
+            Adds new styles to the current instance
+
+            PARAMETERS
+            styles          <list> of <str> or <str>
+        '''
+        self.add(styles)
 
     def __call__(self, string):
         '''

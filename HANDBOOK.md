@@ -39,7 +39,7 @@ accessed by the user
 
 ## <class 'Color'>
 
-### Minimal Example
+## Minimal Example
 
     >>> import termighty as tm
 
@@ -137,7 +137,7 @@ Returns an instance of 'Color' whose `RGB` values are identified based on the gi
     >>> red = tm.Color.palette('red')
     >>> blue = tm.Color.palette('blue')
 
-#### chart(R = None, G = None, B = None, term_width = 80)
+#### chart(R = None, G = None, B = None, term\_width = 80)
 Returns a printable chart showing a 2-D color gradient field for red & green, green & blue, or blue & red.  By passing `R = 0`, we would hold the red portion of the RGB color channels constant at zero.
 
 Must set exactly one of the parameters 'R', 'G', and 'B' to a value
@@ -213,14 +213,67 @@ Returns a color sample as a string.
 
 ### Minimal Example
 
+### Instance Methods
+
+#### \_\_init\_\_(styles = None)
+#### update()
+#### add(styles)
+#### \_\_iadd\_\_(styles)
+#### \_\_call\_\_(string)
+#### \_\_str\_\_()
+#### \_\_repr\_\_()
+#### \_\_hash\_\_()
+
+### Static Methods
+
+#### check\_styles(styles)
+#### clear()
+#### list\_styles()
+
 ## Class Pixel
 
 ### Minimal Example
+
+### Instance Methods
+
+#### \_\_init\_\_(color\_t = None, color\_b = None, style = None, char = None)
+#### update\_color_t(color)
+#### update\_color_b(color)
+#### update\_style(style)
+#### update\_char(char)
+#### \_\_str\_\_()
+
+### Static Methods
+
+#### is\_char(char)
+
+### Property Methods
+
+#### color\_t\_seq
+#### color\_b\_seq
+#### style\_seq
+#### end\_seq
+#### color\_t
+#### color\_b
+#### style
+#### char
 
 ## Class Grid
 
 ### Minimal Example
 
+### Instance Methods
+
+### Static Methods
+
+### Property Methods
+
 ## Class Painter
 
 ### Minimal Example
+
+### Instance Methods
+
+### Static Methods
+
+### Property Methods
