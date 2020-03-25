@@ -2,22 +2,40 @@
 
 ## Table of Contents
 
-### Program Structure
-### Module Structure
-### class Color
-#### Minimal Example
-#### Instance Methods
-#### Static Methods
-### class Style
-#### Minimal Example
-#### Instance Methods
-#### Static Methods
-### class Pixel
-#### Minimal Example
-#### Instance Methods
-#### Property Methods
-### class Grid
-### class Painter
+    Program Structure
+    Module Structure
+    class Color
+        Minimal Example
+        Instance Methods
+            Color.\_\_init\_\_
+            Color.rename
+            Color.reset_RGB
+            Color.\_\_str\_\_
+            Color.\_\_add\_\_
+            Color.\_\_sub\_\_
+            Color.\_\_is\_\_
+            Color.\_\_eq\_\_
+            Color.\_\_neq\_\_
+        Static Methods
+            Color.palette
+            Color.chart
+            Color.list\_colors
+        Property Methods
+            Color.RGB
+            Color.R
+            Color.G
+            Color.B
+            Color.sample
+    class Style
+        Minimal Example
+        Instance Methods
+        Static Methods
+    class Pixel
+        Minimal Example
+        Instance Methods
+        Property Methods
+    class Grid
+    class Painter
 
 ## Program Structure
 The program as it is organized in the filesystem
