@@ -104,6 +104,7 @@ Checks if two supposed instances of 'Color' point to the same memory location.
     True
     >>> print(red1 is red3)
     False
+
 #### \_\_eq\_\_(color)
 
 Checks if two instances of 'Color' have the same RGB values.
@@ -126,7 +127,7 @@ Checks if two instances of 'Color' have different RGB values.
     False
     >>> print(red1 != blue)
     True
----
+
 ### Static Methods
 
 palette(name)
@@ -144,13 +145,32 @@ in range [0, 255].  The others must be set to None.
 
 `term_width` should be an integer, and will determine the chart width.
 
-    >>> tm.Color.chart(R = 0)
+    >>> tm.Color.chart(R = 0, term_width = 10)
+    ██████████
+    ██████████
+    ██████████
+    ██████████
+    ██████████
 
 #### list\_colors()
 
 Lists all names colors with a sample and RGB value
 
----
+    >>> tm.Color.list_colors()
+    █ 000 000 000 BLACK
+    █ 000 000 127 NAVY BLUE
+    █ 000 000 155 DUKE BLUE
+    █ 000 000 204 MEDIUM BLUE
+    .
+    .
+    .
+    █ 254 254 224 LIGHT YELLOW
+    █ 254 254 239 IVORY
+    █ 254 254 249 BABY POWDER
+    █ 254 254 254 WHITE
+
+
+
 ## Class Style
 
 ### Minimal Example
