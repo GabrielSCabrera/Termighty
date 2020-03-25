@@ -55,7 +55,7 @@
     class Painter
 
 ## Program Structure
-The program as it is organized in the filesystem
+The program as it is organized in the file-system.
 
      └── Termighty
        ├── config
@@ -77,16 +77,16 @@ The program as it is organized in the filesystem
            ├── format.py
            └── interpreters.py
 
-## Module Structure
-The program as it should be accessed by the user when imported
+## Package Structure
+The package as it is accessed by the user when imported.
 
-    └── Termighty                   <module>
-      ├── Color                       <class>
-      ├── Grid                        <class>
-      ├── Pixel                       <class>
-      ├── Style                       <class>
-      └── tools                       <module>
-          └── Painter                   <class>
+    └── [module] Termighty
+      ├── [class] Color
+      ├── [class] Grid
+      ├── [class] Pixel
+      ├── [class] Style
+      └── [module] tools
+          └── [class] Painter
 
 Much of the program is dedicated to internal management, and should never be
 accessed by the user
