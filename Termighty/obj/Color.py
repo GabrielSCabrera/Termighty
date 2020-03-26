@@ -204,7 +204,7 @@ class Color:
         '''
         out = format.bold('COLOR NAME \t') + self.name_str.upper()
         out += '\n' + format.bold('RGB ')
-        out += f'\t\t{self.RGB[0]:03d} {self.RGB[1]:03d} {self.RGB[2]:03d}\n'
+        out += f'\t\t{self.R:03d} {self.G:03d} {self.B:03d}\n'
         out += format.bold('SAMPLE \t\t') + self.sample*11
 
         return out
@@ -217,7 +217,7 @@ class Color:
             RETURNS
             out         <str>
         '''
-        return f'Color(({self.R},{self.G},{self.B}), {self.name_str})'
+        return f'Color({self.R:03d} {self.G:03d} {self.B:03d} | {self.name})'
 
     '''SAMPLERS METHODS'''
 
@@ -489,20 +489,3 @@ class Color:
             return False
         else:
             return True
-
-    def __is__(self, color):
-        '''
-            PURPOSE
-            Determines whether or not the current instance and given
-            parameter 'color' point to the same memory location
-
-            PARAMETERS
-            color           Instance of <class 'Color'>
-
-            RETURNS
-            <bool>
-        '''
-        if self is color:
-            return True
-        else:
-            return False

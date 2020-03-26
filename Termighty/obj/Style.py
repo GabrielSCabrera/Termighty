@@ -171,9 +171,9 @@ class Style:
             <str>
         '''
         if not self.styles_list:
-            return f'Styles(None)'
+            return f'Style(Empty)'
         else:
-            return f'Styles({", ".join(self.styles_list)})'
+            return f'Style({", ".join(self.styles_list)})'
 
     def __hash__(self):
         '''

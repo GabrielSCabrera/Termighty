@@ -191,7 +191,7 @@ class Pixel:
         '''
         return esc.format('')
 
-    '''OUTPUT AND METADATA'''
+    '''GETTERS'''
 
     @property
     def color_t(self):
@@ -202,7 +202,7 @@ class Pixel:
             RETURNS
             Instance of 'Color'
         '''
-        return self.color_t_obj.copy()
+        return self.color_t_obj
 
     @property
     def color_b(self):
@@ -213,7 +213,7 @@ class Pixel:
             RETURNS
             Instance of 'Color'
         '''
-        return self.color_b_obj.copy()
+        return self.color_b_obj
 
     @property
     def style(self):
@@ -224,7 +224,7 @@ class Pixel:
             RETURNS
             Instance of 'Style
         '''
-        return self.style_obj.copy()
+        return self.style_obj
 
     @property
     def char(self):
@@ -236,6 +236,22 @@ class Pixel:
             <str>
         '''
         return self.char_str
+
+    def copy(self):
+        '''
+            PURPOSE
+            Returns a deep copy of the current 'Pixel' instance
+
+            RETURNS
+            Instance of class 'Pixel'
+        '''
+        params = {
+                  'color_t':self.color_t.copy(),
+                  'color_b':self.color_b.copy(),
+                  'style':self.style.copy(),
+                  'char':self.char,
+                 }
+        return Pixel(**params)
 
     def __str__(self):
         '''
@@ -255,9 +271,24 @@ class Pixel:
             aspects (colors, styles, chars.)
 
             RETURNS
-            <str>
+            out         <str>
         '''
-        return self.out
+        RGBt = (f'({self.color_t.R:03d} {self.color_t.G:03d} '
+                f'{self.color_t.B:03d})')
+        RGBb = (f'({self.color_b.R:03d} {self.color_b.G:03d} '
+                f'{self.color_b.B:03d})')
+
+        if self.style.styles:
+            styles = ','.join(self.style.styles)
+        else:
+            styles = 'Empty'
+
+        char = self.char
+
+        out = (f'Pixel(Color_t{RGBt}, Color_b{RGBt}, Style({styles}, '
+               f'Char({char})))')
+
+        return out
 
     def __hash__(self):
         '''
@@ -270,3 +301,19 @@ class Pixel:
         '''
         ID = sum(map(hash, (self.color_t, self.color_t, self.style, self.char)))
         return hash(ID)
+
+    def __eq__(self, pixel):
+        '''
+            PURPOSE
+            Confirms that the current 'Pixel' instance has the same properties
+            as another instance
+
+            RETURNS
+            <bool>
+        '''
+        if not isinstance(pixel, Pixel) or self.color_t != pixel.color_t or\
+           self.color_b != pixel.color_b or self.style != pixel.style or\
+           self.char != pixel.char:
+           return False
+        else:
+           return True

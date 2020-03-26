@@ -30,8 +30,6 @@ class Painter:
         self.height_px = self.shape_px[0]
         self.width_px = self.shape_px[1]
 
-
-
         arr = np.empty((self.height, self.width), dtype = Color)
 
         color = 'black'

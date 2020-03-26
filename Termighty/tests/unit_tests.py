@@ -1,46 +1,6 @@
 from .Tester import Tester
 import numpy as np
 
-# # New Test
-# T.start('Empty Constructor')
-# try:
-#     color = Color()
-#     T.failed()
-# except TypeError:
-#     T.passed()
-
-# # New Test
-# T.start('Constructor: valid RGB arg')
-# try:
-#     blue = Color(RGB = (0, 0, 255))
-#     T.passed()
-# except Exception as e:
-#     T.failed(e)
-
-# # New Test
-# pairs = (((0,0,0),(0,0,1),False),
-#          ((0,0,0),(0,0,0),False),
-#          ((0,0,1),(0,0,2),False),
-#          ((0,0,2),(0,0,2),False),
-#          ((0,0,2),(0,1,0),False),
-#          ((0,1,0),(0,2,0),False),
-#          ((0,2,0),(0,2,0),False),
-#          ((0,2,0),(1,0,0),False),
-#          ((1,0,0),(2,0,0),False),
-#          ((2,0,0),(2,0,0),False),
-#          ((0,0,2),(0,0,1),True),
-#          ((0,1,0),(0,0,2),True),
-#          ((1,0,0),(0,2,0),True))
-# for n, (RGB_1, RGB_2, boolean) in enumerate(pairs):
-#     T.start(f'__gt__ [{n+1}]')
-#     try:
-#         color_1 = Color(RGB_1)
-#         color_2 = Color(RGB_2)
-#         assert (color_1 > color_2) is boolean
-#         T.passed()
-#     except Exception as e:
-#         T.failed(e)
-
 def test_Color():
     '''
         PURPOSE
@@ -1127,6 +1087,17 @@ def test_Pixel():
             T.failed(e)
 
     # New Test
+    T.start('copy')
+    try:
+        pixel_1 = Pixel('blue', 'red')
+        pixel_2 = pixel_1.copy()
+        assert pixel_1 == pixel_2
+        assert pixel_1 is not pixel_2
+        T.passed()
+    except ValueError:
+        T.failed()
+
+    # New Test
     args = ('aa', ' b', '', '  ', '\n', '\t', '12', 1, True, 5.5)
     for n, arg in enumerate(args):
         T.start(f'set_char: invalid args [{n+1}]')
@@ -1329,12 +1300,51 @@ def test_Grid():
         T.failed()
 
     # New Test
+    T.start('__eq__[1]')
+    try:
+        grid_1 = Grid.empty((20, 10))
+        grid_2 = Grid.empty((20, 10))
+        assert grid_1 == grid_2
+        T.passed()
+    except ValueError:
+        T.failed()
+
+    # New Test
+    T.start('__eq__[2]')
+    try:
+        grid_1 = Grid.empty((20, 10))
+        grid_2 = Grid.empty((10, 10))
+        assert not (grid_1 == grid_2)
+        T.passed()
+    except ValueError:
+        T.failed()
+
+    # New Test
+    T.start('__neq__[1]')
+    try:
+        grid_1 = Grid.empty((20, 10))
+        grid_2 = Grid.empty((20, 10))
+        assert not (grid_1 != grid_2)
+        T.passed()
+    except ValueError:
+        T.failed()
+
+    # New Test
+    T.start('__neq__[2]')
+    try:
+        grid_1 = Grid.empty((20, 10))
+        grid_2 = Grid.empty((10, 10))
+        assert grid_1 != grid_2
+        T.passed()
+    except ValueError:
+        T.failed()
+
+    # New Test
     arr = [[Pixel(char = '1'), Pixel(char = '5'), Pixel(char = '9')],
            [Pixel(char = '2'), Pixel(char = '6'), Pixel(char = 'a')],
            [Pixel(char = '3'), Pixel(char = '7'), Pixel(char = 'b')],
            [Pixel(char = '4'), Pixel(char = '8'), Pixel(char = 'c')]]
     arr = np.array(arr, dtype = Pixel)
-
     indices = ((0,0),(3,2),(0),(3),(slice(0,None,2)))
     for n,idx in enumerate(indices):
         T.start(f'__getitem__: valid arg [{n+1}]')
@@ -1351,6 +1361,76 @@ def test_Grid():
             T.passed()
         except Exception as e:
             T.failed(e)
+
+
+    # New Test
+    indices = ((5,0),(-8,2),('A'),(3.2),(slice(0,1,2),40))
+    for n,idx in enumerate(indices):
+        T.start(f'__getitem__: invalid arg [{n+1}]')
+        try:
+            exp = arr.__getitem__(idx)
+            T.failed()
+        except IndexError:
+            T.passed()
+
+    # New Test
+    arr2 = [[Pixel(char = 'A'), Pixel(char = 'E'), Pixel(char = 'I')],
+            [Pixel(char = 'B'), Pixel(char = 'F'), Pixel(char = 'J')],
+            [Pixel(char = 'C'), Pixel(char = 'G'), Pixel(char = 'K')],
+            [Pixel(char = 'D'), Pixel(char = 'H'), Pixel(char = 'L')]]
+    arr2 = np.array(arr2, dtype = Pixel)
+    indices = ((0,0),(3,2),(0),(3),(slice(0,None,2)))
+    for n,idx in enumerate(indices):
+        T.start(f'__setitem__: valid arg [{n+1}]')
+        try:
+            new_arr = arr2.__getitem__(idx)
+            grid = Grid(arr)
+            grid.__setitem__(idx, new_arr)
+            subgrid = grid.__getitem__(idx)
+            if isinstance(new_arr, Pixel):
+                assert new_arr == subgrid
+            elif new_arr.ndim == 1:
+                assert np.array_equal(new_arr, subgrid.data.squeeze())
+            else:
+                assert np.array_equal(new_arr, subgrid.data)
+            T.passed()
+        except Exception as e:
+            T.failed(e)
+
+    # New Test
+    indices = ((0),(3),(slice(0,None,2)),(slice(0,3,2)),(slice(0,3,1)))
+    for n,idx in enumerate(indices):
+        T.start(f'__setitem__: valid arg [{n+len(indices)+1}]')
+        try:
+            new_arr = arr2.__getitem__(idx)
+            if new_arr.ndim == 1:
+                new_arr = new_arr[None,:]
+            new_arr = Grid(new_arr)
+            grid = Grid(arr)
+            grid.__setitem__(idx, new_arr)
+            subgrid = grid.__getitem__(idx)
+            assert new_arr == subgrid
+            T.passed()
+        except Exception as e:
+            T.failed(e)
+
+    # New Test
+    T.start('__str__')
+    try:
+        grid = Grid.empty((20, 10))
+        assert isinstance(grid.__str__(), str)
+        T.passed()
+    except ValueError:
+        T.failed()
+
+    # New Test
+    T.start('__repr__')
+    try:
+        grid = Grid.empty((20, 10))
+        assert isinstance(grid.__repr__(), str)
+        T.passed()
+    except ValueError:
+        T.failed()
 
     results = T.end()
     return results
