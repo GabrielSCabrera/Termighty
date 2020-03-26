@@ -29,15 +29,15 @@ clean: clean-pyc clean-build
 test: test_wrap clean-pyc
 test_wrap:
 	@ echo "\033[1;3;32mrun test\033[m"
-	@ python3 ../main.py --test;
+	@ python3 main.py --test;
 
 run: run_wrap clean-pyc
 run_wrap:
 	@ echo "\033[1;3;32mrun test\033[m"
-	@ python3 ../main.py;
+	@ python3 main.py;
 
 help:
-	@ python3 ../main.py -h;
+	@ python3 main.py -h;
 
 push: clean-pyc
 	@ echo "\033[1;3;32mpushing to github\033[m"

@@ -93,7 +93,7 @@ def check_type(var, types, name = None, method = None, function = None):
 def check_type_arr(arr, types, name = None, method = None, function = None):
     '''
         PURPOSE
-        Confirms that every element of 'var' is of desired type, otherwise
+        Confirms that every element of 'arr' is of desired type, otherwise
         raises a TypeError.
 
         PARAMETERS
@@ -119,6 +119,52 @@ def check_type_arr(arr, types, name = None, method = None, function = None):
 
     for var in arr:
         check_type(var, types, name, method, function)
+
+    return True
+
+def check_type_arr_2D(arr, types, name = None, method = None, function = None):
+    '''
+        PURPOSE
+        Confirms that 'arr' is a 2_D rectangular iterable whose elements are
+        all of desired type, otherwise raises a TypeError.
+
+        PARAMETERS
+        arr         2-D iterable
+        types       <type> or list/array of <type>
+
+        OPTIONAL PARAMETERS
+        name        <str> name of the variable
+        method      <str> name of the method from which this variable came
+        function    <str> name of the function from which this variable came
+
+        WARNING
+        Cannot pass both 'method' and 'function', as these are mutually
+        exclusive.
+
+        RETURNS
+        True
+    '''
+    msg = ( '\n\nParameter \'arr\' must be a member of <class \'list\'> or '
+           f'<class \'tuple\'> containing equal-length members of <class '
+            '\'list\'> or <class \'tuple\'> containing instances of \'Pixel\'.')
+
+    if not isinstance(arr, (list, tuple, np.ndarray)):
+        msg += f'Got instance of {str(type(arr))} instead.'
+        raise TypeError(msg)
+
+    row_length = None
+
+    for row in arr:
+        try:
+            iter(row)
+        except:
+            raise TypeError(msg)
+        if row_length is None:
+            row_length = len(row)
+        elif len(row) != row_length:
+            raise ValueError(msg)
+        for var in row:
+            check_type(var, types, name, method, function)
 
     return True
 
@@ -209,7 +255,7 @@ def check_range_arr(arr, low = None, high = None, name = None, method = None, fu
         Either can be set to None, which removes that particular boundary.
 
         PARAMETERS
-        arr         number or
+        arr         iterable of numbers
         types       <type> or list/array of <type>
 
         OPTIONAL PARAMETERS
@@ -233,5 +279,51 @@ def check_range_arr(arr, low = None, high = None, name = None, method = None, fu
 
     for var in arr:
         check_range(var, low, high, name, method, function)
+
+    return True
+
+def check_range_arr_2D(arr, low = None, high = None, name = None, method = None, function = None):
+    '''
+        PURPOSE
+        Checks that 'arr' is a 2-D rectangular iterable of numbers within the
+        selected range.  'low' is the lower boundary, and 'high' is the upper
+        boundary. Either can be set to None, which removes that particular
+        boundary.
+
+        PARAMETERS
+        arr         2-D iterable of numbers
+        types       <type> or list/array of <type>
+
+        OPTIONAL PARAMETERS
+        low         <float> or <int>
+        high        <float> or <int>
+        name        <str> name of the variable
+        method      <str> name of the method from which this variable came
+        function    <str> name of the function from which this variable came
+
+        WARNING
+        Cannot pass both 'method' and 'function', as these are mutually
+        exclusive.
+
+        RETURNS
+        True
+    '''
+    msg = ( '\n\nParameter \'arr\' must be a member of <class \'list\'> or '
+           f'<class \'tuple\'> containing equal-length members of <class '
+            '\'list\'> or <class \'tuple\'> containing instances of \'Pixel\'.')
+
+    if not isinstance(arr, (list, tuple, np.ndarray)):
+        msg += f'Got instance of {str(type(arr))} instead.'
+        raise TypeError(msg)
+
+    row_length = None
+
+    for row in arr:
+        if row_length is None:
+            row_length = len(row)
+        elif len(row) != row_length:
+            raise ValueError(msg)
+        for var in row:
+            check_range(var, low, high, name, method, function)
 
     return True

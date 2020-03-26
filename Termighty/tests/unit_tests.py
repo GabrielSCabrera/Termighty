@@ -1196,3 +1196,127 @@ def test_Pixel():
     results = T.end()
 
     return results
+
+def test_Grid():
+    '''
+        PURPOSE
+        Tests for class Grid
+
+        RETURNS
+        results         <dict>
+    '''
+    # Importing class 'Pixel' locally
+    from ..obj import Pixel
+
+    # Importing class 'Grid' locally
+    from ..obj import Grid
+
+    # Initializing 'Tester' instance
+    T = Tester('class Grid', dev = True)
+
+    # New Test
+    T.start('Empty Constructor')
+    try:
+        grid = Grid()
+        T.failed()
+    except Exception:
+        T.passed()
+
+    # New Test
+    T.start('Constructor: valid arg')
+    pixels = [[Pixel() for i in range(5)] for j in range(5)]
+    try:
+        grid = Grid(pixels)
+        T.passed()
+    except ValueError:
+        T.failed()
+
+    # New Test
+    T.start('Constructor: invalid arg [1]')
+    pixels = [[Pixel() for i in range(5)] for j in range(5)]
+    pixels.append([Pixel()])
+    try:
+        grid = Grid(pixels)
+        T.failed()
+    except ValueError:
+        T.passed()
+
+    # New Test
+    T.start('Constructor: invalid arg [2]')
+    pixels = [[Pixel() for i in range(5)] for j in range(5)]
+    pixels.append(Pixel())
+    try:
+        grid = Grid(pixels)
+        T.failed()
+    except TypeError:
+        T.passed()
+
+    # New Test
+    T.start('Constructor: invalid arg [3]')
+    pixels = [['' for i in range(5)] for j in range(5)]
+    try:
+        grid = Grid(pixels)
+        T.failed()
+    except TypeError:
+        T.passed()
+
+    # New Test
+    T.start('Constructor: invalid arg [4]')
+    pixels = [['' for i in range(5)] for j in range(5)]
+    pixels[0].append(Pixel())
+    try:
+        grid = Grid(pixels)
+        T.failed()
+    except TypeError:
+        T.passed()
+
+    # New Test
+    T.start('empty: valid arg [1]')
+    try:
+        grid = Grid.empty((1,40))
+        T.passed()
+    except Exception as e:
+        T.failed(e)
+
+    # New Test
+    T.start('empty: valid arg [2]')
+    try:
+        grid = Grid.empty((10,20))
+        T.passed()
+    except Exception as e:
+        T.failed(e)
+
+    # New Test
+    T.start('empty: invalid arg [1]')
+    try:
+        grid = Grid.empty('A')
+        T.failed()
+    except TypeError:
+        T.passed()
+
+    # New Test
+    T.start('empty: invalid arg [2]')
+    try:
+        grid = Grid.empty((20, 'A'))
+        T.failed()
+    except TypeError:
+        T.passed()
+
+    # New Test
+    T.start('empty: invalid arg [3]')
+    try:
+        grid = Grid.empty((20, -2))
+        T.failed()
+    except ValueError:
+        T.passed()
+
+    # New Test
+    T.start('empty: invalid arg [4]')
+    try:
+        grid = Grid.empty((20, 20, 10))
+        T.failed()
+    except ValueError:
+        T.passed()
+
+    results = T.end()
+    return results

@@ -3,7 +3,7 @@ import io
 
 class Tester:
 
-    def __init__(self, category):
+    def __init__(self, category, dev = False):
         '''
             PURPOSE
             To run a series of tests efficiently, with colorful display that
@@ -15,6 +15,7 @@ class Tester:
         self.test_N = 0
         self.passed_N = 0
         self.failed_N = 0
+        self.dev = dev
         self.category = category.upper()
         print(f'\n\033[4;1mBEGIN TESTS FOR <{self.category}>\033[m\n')
 
@@ -37,7 +38,8 @@ class Tester:
         sys.stdout.flush()
 
         # Suppress printing to terminal
-        sys.stdout = io.StringIO()
+        if not self.dev:
+            sys.stdout = io.StringIO()
 
     def passed(self):
         '''
@@ -45,7 +47,8 @@ class Tester:
             Run this method when a test has passed
         '''
         # Restore printing to terminal
-        sys.stdout = sys.__stdout__
+        if not self.dev:
+            sys.stdout = sys.__stdout__
         status = '\033[1;32;40mPASS\033[m'
         print('\r' + self.out.format(status, self.category, self.test_N))
         self.passed_N += 1
@@ -59,7 +62,8 @@ class Tester:
             traceback       <str>
         '''
         # Restore printing to terminal
-        sys.stdout = sys.__stdout__
+        if not self.dev:
+            sys.stdout = sys.__stdout__
         status = '\033[1;31;40mFAIL\033[m'
         if traceback is not None:
             self.out += (f'\n\n\t     \033[7;31;47mTRACEBACK\033[m\n\t     '
@@ -79,7 +83,6 @@ class Tester:
         print(self.results(self.passed_N, self.failed_N, self.category))
 
         results = {
-                   'total'      :   self.test_N,
                    'passed'     :   self.passed_N,
                    'failed'     :   self.failed_N
                   }
