@@ -24,9 +24,6 @@ class Grid:
         self.height_val = self.shape_arr[0]
         self.width_val = self.shape_arr[1]
 
-        # The grid that will contain each 'Pixel' instance
-        self.data = np.empty((self.height_val, self.width_val), dtype = Pixel)
-
     @classmethod
     def empty(self, shape):
         '''
@@ -62,7 +59,18 @@ class Grid:
             RETURNS
             shape       <tuple> of length 2 with <int> values
         '''
-        return self.shape_arr.copy
+        return self.shape_arr
+
+    @property
+    def size(self):
+        '''
+            PURPOSE
+            Returns the size of the current instance
+
+            RETURNS
+            <int>
+        '''
+        return self.data.size
 
     @property
     def height(self):
@@ -89,5 +97,35 @@ class Grid:
     def __getitem__(self, idx):
         '''
             PURPOSE
-            Retrieve an element or sub-grid
+            Retrieve an element or sub-grid of the current instance
+
+            RETURNS
+            Instance of 'Pixel' or 'Grid'
         '''
+        try:
+            subdata = self.data[idx]
+        except IndexError:
+            msg = 'Attempt to access Pixel or sub-Grid at invalid index'
+            raise IndexError(msg)
+
+        if isinstance(subdata, Pixel):
+            return subdata
+        elif subdata.ndim == 1:
+            return Grid(subdata[None,:])
+        else:
+            return Grid(subdata)
+
+    def __str__(self):
+        '''
+            PURPOSE
+            Returns a printable string that contains the grid data
+
+            RETURNS
+            out         <str>
+        '''
+        out = ''
+        for row in self.data:
+            for pixel in row:
+                out += pixel.__str__()
+            out += '\n'
+        return out[:-1]

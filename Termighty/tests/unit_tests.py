@@ -1318,5 +1318,39 @@ def test_Grid():
     except ValueError:
         T.passed()
 
+    # New Test
+    T.start('shape')
+    try:
+        grid = Grid.empty((20, 10))
+        shape = grid.shape
+        assert np.array_equal(shape, (20, 10))
+        T.passed()
+    except ValueError:
+        T.failed()
+
+    # New Test
+    arr = [[Pixel(char = '1'), Pixel(char = '5'), Pixel(char = '9')],
+           [Pixel(char = '2'), Pixel(char = '6'), Pixel(char = 'a')],
+           [Pixel(char = '3'), Pixel(char = '7'), Pixel(char = 'b')],
+           [Pixel(char = '4'), Pixel(char = '8'), Pixel(char = 'c')]]
+    arr = np.array(arr, dtype = Pixel)
+
+    indices = ((0,0),(3,2),(0),(3),(slice(0,None,2)))
+    for n,idx in enumerate(indices):
+        T.start(f'__getitem__: valid arg [{n+1}]')
+        try:
+            exp = arr.__getitem__(idx)
+            grid = Grid(arr)
+            grid = grid.__getitem__(idx)
+            if isinstance(grid, Pixel):
+                assert np.array_equal(exp, grid)
+            elif exp.ndim == 1:
+                assert np.array_equal(exp, grid.data.squeeze())
+            else:
+                assert np.array_equal(exp, grid.data)
+            T.passed()
+        except Exception as e:
+            T.failed(e)
+
     results = T.end()
     return results

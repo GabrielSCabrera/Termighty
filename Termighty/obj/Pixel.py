@@ -131,7 +131,7 @@ class Pixel:
             'char_obj'
         '''
         self.out = self.end_seq + self.color_t_seq + self.color_b_seq
-        self.out += self.char + self.end_seq
+        self.out += self.style_seq + self.char_str + self.end_seq
 
     '''FORMATTERS'''
 
@@ -143,9 +143,11 @@ class Pixel:
             attribute 'self.color_t_obj'
 
             RETURNS
-            <str>
+            out         <str>
         '''
-        return f'\033[38;2;{self.color_t.R};{self.color_t.G};{self.color_t.B}m'
+        out = \
+        esc.format(f'38;2;{self.color_t.R};{self.color_t.G};{self.color_t.B}')
+        return out
 
     @property
     def color_b_seq(self):
@@ -155,9 +157,11 @@ class Pixel:
             attribute 'self.color_b_obj'
 
             RETURNS
-            <str>
+            out         <str>
         '''
-        return f'\033[48;2;{self.color_b.R};{self.color_b.G};{self.color_b.B}m'
+        out = \
+        esc.format(f'48;2;{self.color_b.R};{self.color_b.G};{self.color_b.B}')
+        return out
 
     @property
     def style_seq(self):
@@ -169,8 +173,11 @@ class Pixel:
             RETURNS
             <str>
         '''
-        values = ';'.join(str(ANSI_styles[i]) for i in self.style.styles)
-        return esc.format(values)
+        if self.style.styles:
+            values = ';'.join(str(ANSI_styles[i]) for i in self.style.styles)
+            return esc.format(values)
+        else:
+            return ''
 
     @property
     def end_seq(self):
@@ -182,7 +189,7 @@ class Pixel:
             RETURNS
             <str>
         '''
-        return '\033[m'
+        return esc.format('')
 
     '''OUTPUT AND METADATA'''
 
@@ -231,6 +238,17 @@ class Pixel:
         return self.char_str
 
     def __str__(self):
+        '''
+            PURPOSE
+            To return a printable string that displays all the instance's
+            aspects (colors, styles, chars.)
+
+            RETURNS
+            <str>
+        '''
+        return self.out
+
+    def __repr__(self):
         '''
             PURPOSE
             To return a printable string that displays all the instance's
