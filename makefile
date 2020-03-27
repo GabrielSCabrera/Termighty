@@ -12,8 +12,8 @@ clean-pyc:
 	@ rm -f -r ./Termighty/__pycache__/
 	@ rm -f -r ./Termighty/config/__pycache__/
 	@ rm -f -r ./Termighty/data/__pycache__/
-	@ rm -f -r ./Termighty/exceptions/__pycache__/
 	@ rm -f -r ./Termighty/obj/__pycache__/
+	@ rm -f -r ./Termighty/samples/__pycache__/
 	@ rm -f -r ./Termighty/tests/__pycache__/
 	@ rm -f -r ./Termighty/tools/__pycache__/
 	@ rm -f -r ./Termighty/utils/__pycache__/
@@ -33,8 +33,13 @@ test_wrap:
 
 run: run_wrap clean-pyc
 run_wrap:
-	@ echo "\033[1;3;32mrun test\033[m"
+	@ echo "\033[1;3;32mrun main\033[m"
 	@ python3 main.py;
+
+logo: logo_wrap clean-pyc
+logo_wrap:
+	@ echo "\033[1;3;32mrun logo\033[m"
+	@ python3 main.py --logo;
 
 help:
 	@ python3 main.py -h;

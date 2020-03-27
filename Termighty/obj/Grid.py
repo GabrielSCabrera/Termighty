@@ -24,6 +24,11 @@ class Grid:
         self.height_val = self.shape_arr[0]
         self.width_val = self.shape_arr[1]
 
+        if self.height_val == 1:
+            self.ndim_val = 1
+        else:
+            self.ndim_val = 2
+
     @classmethod
     def empty(self, shape):
         '''
@@ -48,7 +53,45 @@ class Grid:
         data = [[Pixel() for i in range(shape[1])] for j in range(shape[0])]
         return Grid(data)
 
+    '''SETTERS'''
+
+    def __setitem__(self, idx, value):
+        '''
+            PURPOSE
+            Replaces an element or sub-grid of the current instance
+
+            PARAMETERS
+            idx             Length 1 or 2 <tuple> containing <int> or <slice>
+            value           Instance of 'Pixel' or 'Grid'
+        '''
+        if not isinstance(value, (Pixel, Grid, list, tuple, np.ndarray)):
+            msg = ('Parameter \'value\' in \'__setitem__\' must be an instance '
+                   'of class \'Pixel\'/\'Grid\', or an iterable of \'Pixels\'')
+            raise ValueError(msg)
+
+        try:
+            if isinstance(value, Pixel):
+                self.data[idx] = value
+            elif isinstance(value, Grid):
+                self.data[idx] = value.data
+            elif isinstance(value, (list, tuple, np.ndarray)):
+                self.data[idx] = value
+        except IndexError:
+            msg = f'Attempt to access Pixel or sub-Grid at invalid index {idx}'
+            raise IndexError(msg)
+
     '''GETTERS'''
+
+    @property
+    def ndim(self):
+        '''
+            PURPOSE
+            Returns the dimensionality of the current 'Grid' instance
+
+            RETURNS
+            <int>
+        '''
+        return self.ndim_val
 
     @property
     def shape(self):
@@ -132,31 +175,6 @@ class Grid:
             return Grid(subdata[None,:])
         else:
             return Grid(subdata)
-
-    def __setitem__(self, idx, value):
-        '''
-            PURPOSE
-            Replaces an element or sub-grid of the current instance
-
-            PARAMETERS
-            idx             Length 1 or 2 <tuple> containing <int> or <slice>
-            value           Instance of 'Pixel' or 'Grid'
-        '''
-        if not isinstance(value, (Pixel, Grid, list, tuple, np.ndarray)):
-            msg = ('Parameter \'value\' in \'__setitem__\' must be an instance '
-                   'of class \'Pixel\'/\'Grid\', or an iterable of \'Pixels\'')
-            raise ValueError(msg)
-
-        try:
-            if isinstance(value, Pixel):
-                self.data[idx] = value
-            elif isinstance(value, Grid):
-                self.data[idx] = value.data
-            elif isinstance(value, (list, tuple, np.ndarray)):
-                self.data[idx] = value
-        except IndexError:
-            msg = f'Attempt to access Pixel or sub-Grid at invalid index {idx}'
-            raise IndexError(msg)
 
     def __str__(self):
         '''

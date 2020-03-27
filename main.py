@@ -15,7 +15,13 @@ def parse_args():
 
     parser = argparse.ArgumentParser(description = argparse_desc)
 
-    parser.add_argument('--test', action='store_true', help = 'Runs all unit tests')
+    help_test = 'Runs all unit tests'
+    help_logo = 'Displays the Termighty logo'
+    help_run = 'Runs the main script'
+
+    parser.add_argument('--test', action = 'store_true', help = help_test)
+    parser.add_argument('--logo', action = 'store_true', help = help_logo)
+    parser.add_argument('--run', action = 'store_true', help = help_run)
 
     return parser.parse_args()
 
@@ -31,6 +37,7 @@ def procedure_test():
     results['Style'] = tm.tests.test_Style()
     results['Pixel'] = tm.tests.test_Pixel()
     results['Grid']  = tm.tests.test_Grid()
+    results['Term']  = tm.tests.test_Term()
 
     final_tally = {'passed':0, 'failed':0}
     for key, value in results.items():
@@ -51,5 +58,7 @@ def procedure_main():
 
 if cmdline_args.test is True:
     procedure_test()
-
-procedure_main()
+if cmdline_args.logo is True:
+    tm.samples.logo()
+if cmdline_args.run is True:
+    procedure_main()
