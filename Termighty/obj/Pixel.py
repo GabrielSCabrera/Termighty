@@ -22,7 +22,7 @@ class Pixel:
                             instance of <class 'Color'> OR a <str> color label
             color_b         <tuple> of 3 <int> values in range [0,255] OR
                             instance of <class 'Color'> OR a <str> color label
-            style           <str>
+            style           <str>, <list> of <str>, or instance of class 'Style'
             char            <str>
 
             WARNING
@@ -286,11 +286,11 @@ class Pixel:
             RETURNS
             <ndarray> of <uint64>
         '''
-        arr = np.zeros(8, dtype = np.uint32)
+        arr = np.zeros(7 + len(ANSI_styles.keys()), dtype = np.uint32)
         arr[0:3] = self.color_t.RGB
         arr[3:6] = self.color_b.RGB
         arr[6] = ord(self.char)
-        # arr[6:] = self.style.as_arr
+        arr[7:] = self.style.as_arr
         return arr
 
     def __str__(self):
