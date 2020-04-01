@@ -1164,6 +1164,16 @@ def test_Pixel():
     except TypeError:
         T.passed()
 
+    # New Test
+    # T.start('as_arr [0]')
+    try:
+        pixel = Pixel(char = '5')
+        print(pixel.as_arr)
+        exit()
+        T.passed()
+    except TypeError:
+        T.failed()
+
     results = T.end()
 
     return results

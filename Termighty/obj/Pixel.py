@@ -5,6 +5,8 @@ from ..config import defaults
 from .Color import Color
 from .Style import Style
 
+import numpy as np
+
 class Pixel:
 
     '''CONSTRUCTOR'''
@@ -69,6 +71,13 @@ class Pixel:
             msg = '\n\nParameter \'char\' should be a one-character <str>'
             raise ValueError(msg)
         return True
+
+    @staticmethod
+    def from_arr(arr):
+        '''
+            PURPOSE
+            Given an array of TBDDDDD
+        '''
 
     '''UPDATERS'''
 
@@ -252,6 +261,37 @@ class Pixel:
                   'char':self.char,
                  }
         return Pixel(**params)
+
+    @property
+    def as_arr(self):
+        '''
+            PURPOSE
+            Returns the current 'Pixel' instance as an array, which can be used
+            to recreate the instance at a later time.
+
+            NOTE
+            The output array consists of eight elements, mapped as follows:
+
+            arr = [
+                   color_t R          Red part of color_t's RGB array
+                   color_t G        Green part of color_t's RGB array
+                   color_t B         Blue part of color_t's RGB array
+                   color_b R          Red part of color_b's RGB array
+                   color_b G        Green part of color_b's RGB array
+                   color_b B         Blue part of color_b's RGB array
+                   style int        Mapped style integer, see ANSI.py
+                   ord(char)          Unicode character as an integer
+                  ]
+
+            RETURNS
+            <ndarray> of <uint64>
+        '''
+        arr = np.zeros(8, dtype = np.uint32)
+        arr[0:3] = self.color_t.RGB
+        arr[3:6] = self.color_b.RGB
+        arr[6] = ord(self.char)
+        # arr[6:] = self.style.as_arr
+        return arr
 
     def __str__(self):
         '''

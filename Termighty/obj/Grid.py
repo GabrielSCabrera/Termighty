@@ -151,6 +151,14 @@ class Grid:
                 new_data[i,j] = self.data[i,j].copy()
         return Grid(new_data)
 
+    def save(self, filename):
+        '''
+            PURPOSE
+            Saves the current 'Grid' instance to file
+        '''
+        checkers.check_type(filename, str, 'filename', 'save')
+        path = defaults.save_dirs['grid'] / filename
+
     def __getitem__(self, idx):
         '''
             PURPOSE

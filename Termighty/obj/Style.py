@@ -1,3 +1,5 @@
+from numba import jitclass, int8
+
 from ..config import escape_sequence as esc
 from ..utils import interpreters, checkers
 from ..data import styles as ANSI_styles
@@ -119,6 +121,19 @@ class Style:
         '''
         out = self.sequence + string + self.clear()
         return out
+
+    @property
+    def as_arr(self):
+        '''
+            PURPOSE
+            Returns the current instance as an array of integers given by
+            ANSI.py
+
+            RETURNS
+            <ndarray> of <uint8>
+        '''
+        # NOTE: CONTINUE HERE
+        raise NotImplementedError()
 
     @staticmethod
     def clear():
