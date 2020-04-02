@@ -85,7 +85,7 @@ class Grid:
             filename += '.npy'
         path = defaults.save_dirs['grid'] / filename
         arr = np.load(path).astype(np.uint32)
-        grid = np.zeros(arr.shape[:2], dtype = Grid)
+        grid = np.zeros(arr.shape[:-1], dtype = Grid)
         for i in range(arr.shape[0]):
             for j in range(arr.shape[1]):
                 grid[i,j] = Pixel.from_arr(arr[i,j])
@@ -171,18 +171,17 @@ class Grid:
     def as_arr(self):
         '''
             PURPOSE
-            Returns an array representative of the current grid, as a numpy
+            Returns an array representative of the current grid, as a 3-D numpy
             array with elements given by 'Pixel.as_arr'
 
             RETURNS
             <ndarray>
         '''
-        save_data = np.zeros((*self.shape, 7 + Style.arr_len()))
+        arr = np.zeros((*self.shape, 7 + Style.arr_len()))
         for i in range(self.shape[0]):
             for j in range(self.shape[1]):
-                save_data[i,j] = self.data[i,j].as_arr
-        4
-        return save_data
+                arr[i,j] = self.data[i,j].as_arr
+        return arr
 
     '''ACCESSOR METHODS'''
 
@@ -223,7 +222,7 @@ class Grid:
     def height(self):
         '''
             PURPOSE
-            Returns the shape of the current instance
+            Returns the height of the current instance
 
             RETURNS
             <int>
@@ -234,7 +233,7 @@ class Grid:
     def width(self):
         '''
             PURPOSE
-            Returns the shape of the current instance
+            Returns the width of the current instance
 
             RETURNS
             <int>
@@ -253,8 +252,7 @@ class Grid:
         '''
         checkers.check_type(filename, path_types, 'filename', 'save')
         path = defaults.save_dirs['grid'] / filename
-        save_data = self.as_arr
-        np.save(path, save_data)
+        np.save(path, self.as_arr)
 
     '''COMPARATORS'''
 

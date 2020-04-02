@@ -5,7 +5,7 @@ from .Tester import Tester
 import os
 
 # Development Mode - True allows program output to terminal during tests
-dev = False
+dev = True
 
 def test_Color():
     '''
@@ -2115,6 +2115,9 @@ def test_Series():
     # Importing class 'Grid' locally
     from ..obj import Grid
 
+    # Importing class 'Pixel' locally
+    from ..obj import Pixel
+
     # Initializing 'Tester' instance
     T = Tester('class Series', dev)
 
@@ -2160,6 +2163,75 @@ def test_Series():
         T.passed()
     except AssertionError as e:
         T.failed(e)
+
+    # New Test
+    T.start('__setitem__')
+    try:
+        grid_1 = Grid.empty((20, 20))
+        grid_2 = Grid.empty((20, 20))
+        grid_3 = Grid.empty((20, 20))
+        grid_4 = Grid.empty((20, 20))
+        grid_1[5,5] = Pixel(char = 'O')
+        grid_3[5,5] = Pixel(char = 'A')
+        grid_4[5,5] = Pixel(char = 'A')
+        exp = Pixel(char = 'A')
+        series = Series([grid_1, grid_2])
+        series[0] = grid_3
+        assert series[0] == grid_4
+        assert series[0][5,5] == exp
+        T.passed()
+    except AssertionError as e:
+        T.failed(e)
+
+    # New Test
+    arr = [[Pixel(char = '1'), Pixel(char = '5'), Pixel(char = '9')],
+           [Pixel(char = '2'), Pixel(char = '6'), Pixel(char = 'a')],
+           [Pixel(char = '3'), Pixel(char = '7'), Pixel(char = 'b')],
+           [Pixel(char = '4'), Pixel(char = '8'), Pixel(char = 'c')]]
+
+    arr2 = [[Pixel(char = 'A'), Pixel(char = 'E'), Pixel(char = 'I')],
+            [Pixel(char = 'B'), Pixel(char = 'F'), Pixel(char = 'J')],
+            [Pixel(char = 'C'), Pixel(char = 'G'), Pixel(char = 'K')],
+            [Pixel(char = 'D'), Pixel(char = 'H'), Pixel(char = 'L')]]
+
+    arr = Grid(arr)
+    arr2 = Grid(arr2)
+
+    # New Test
+    T.start('save')
+    try:
+        series = Series([arr, arr2])
+        filename = 'bd83uh9849u80jrhirh'
+        series.save(filename)
+        filename += '.npy'
+        path = defaults.save_dirs['series'] / filename
+        assert os.path.exists(path)
+        os.remove(path)
+        T.passed()
+    except AssertionError as e:
+        T.failed(e)
+
+    # New Test
+    # T.start('load')
+    # try:
+    series = Series([arr, arr2])
+    filename = 'hfyg82830y9cy3c0u48yn'
+    series.save(filename)
+    filename += '.npy'
+    path = defaults.save_dirs['series'] / filename
+    assert os.path.exists(path)
+    new_series = Series.load(filename)
+    print(new_series[0])
+    print(new_series[1])
+    print(series[0])
+    print(series[1])
+    # exit(1)
+    assert new_series == series
+    assert new_series is not series
+    os.remove(path)
+    T.passed()
+    # except AssertionError as e:
+    #     T.failed(e)
 
     results = T.end()
     return results
