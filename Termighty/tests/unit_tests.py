@@ -2212,26 +2212,22 @@ def test_Series():
         T.failed(e)
 
     # New Test
-    # T.start('load')
-    # try:
-    series = Series([arr, arr2])
-    filename = 'hfyg82830y9cy3c0u48yn'
-    series.save(filename)
-    filename += '.npy'
-    path = defaults.save_dirs['series'] / filename
-    assert os.path.exists(path)
-    new_series = Series.load(filename)
-    print(new_series[0])
-    print(new_series[1])
-    print(series[0])
-    print(series[1])
-    # exit(1)
-    assert new_series == series
-    assert new_series is not series
-    os.remove(path)
-    T.passed()
-    # except AssertionError as e:
-    #     T.failed(e)
+    T.start('load')
+    try:
+        series = Series([arr, arr2])
+        filename = 'hfyg82830y9cy3c0u48yn'
+        series.save(filename)
+        filename += '.npy'
+        path = defaults.save_dirs['series'] / filename
+        assert os.path.exists(path)
+        new_series = Series.load(filename)
+        assert new_series[0] == series[0]
+        assert new_series[1] == series[1]
+        assert new_series is not series
+        os.remove(path)
+        T.passed()
+    except AssertionError as e:
+        T.failed(e)
 
     results = T.end()
     return results
