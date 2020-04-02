@@ -2136,13 +2136,29 @@ def test_Series():
         T.failed(e)
 
     # New Test
-    T.start('Constructor: valid args [1]')
+    T.start('Constructor: valid args [2]')
     try:
         grid_1 = Grid.empty((20, 20))
         grid_2 = Grid.empty((20, 20))
         series = Series([grid_1, grid_2])
         T.passed()
     except Exception as e:
+        T.failed(e)
+
+    # New Test
+    T.start('__getitem__')
+    try:
+        grid_1 = Grid.empty((20, 20))
+        grid_2 = Grid.empty((20, 20))
+        grid_3 = Grid.empty((20, 20))
+        grid_1[5,5] = Pixel(char = 'O')
+        grid_3[5,5] = Pixel(char = 'O')
+        exp = Pixel(char = 'O')
+        series = Series([grid_1, grid_2])
+        assert series[0] == grid_3
+        assert series[0][5,5] == exp
+        T.passed()
+    except AssertionError as e:
         T.failed(e)
 
     results = T.end()
