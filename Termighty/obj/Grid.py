@@ -1,8 +1,9 @@
 import numpy as np
 
-from ..data import int_types, str_types, arr_types
+from ..data import int_types, str_types, arr_types, path_types
 from ..utils import interpreters, checkers
 from ..config import defaults
+from .Style import Style
 from .Pixel import Pixel
 from .Color import Color
 
@@ -69,6 +70,26 @@ class Grid:
             for j in range(new_data.shape[1]):
                 new_data[i,j] = self.data[i,j].copy()
         return Grid(new_data)
+
+    def load(filename):
+        '''
+            PURPOSE
+            To load an already saved 'Grid' instance from the default 'grid'
+            directory denoted in 'defaults.py'.
+
+            PARAMETERS
+            path        <str> or <pathlib> instance
+        '''
+        checkers.check_type(filename, path_types, 'filename', 'save')
+        if not filename.endswith('.npy'):
+            filename += '.npy'
+        path = defaults.save_dirs['grid'] / filename
+        arr = np.load(path).astype(np.uint32)
+        grid = np.zeros(arr.shape[:2], dtype = Grid)
+        for i in range(arr.shape[0]):
+            for j in range(arr.shape[1]):
+                grid[i,j] = Pixel.from_arr(arr[i,j])
+        return Grid(grid)
 
     '''SETTER METHODS'''
 
@@ -146,6 +167,23 @@ class Grid:
         '''
         return f'Grid(h={self.height}, w={self.width})'
 
+    @property
+    def as_arr(self):
+        '''
+            PURPOSE
+            Returns an array representative of the current grid, as a numpy
+            array with elements given by 'Pixel.as_arr'
+
+            RETURNS
+            <ndarray>
+        '''
+        save_data = np.zeros((*self.shape, 7 + Style.arr_len()))
+        for i in range(self.shape[0]):
+            for j in range(self.shape[1]):
+                save_data[i,j] = self.data[i,j].as_arr
+        4
+        return save_data
+
     '''ACCESSOR METHODS'''
 
     @property
@@ -209,9 +247,14 @@ class Grid:
         '''
             PURPOSE
             Saves the current 'Grid' instance to file
+
+            PARAMETERS
+            filename        <str>
         '''
-        checkers.check_type(filename, str_types, 'filename', 'save')
+        checkers.check_type(filename, path_types, 'filename', 'save')
         path = defaults.save_dirs['grid'] / filename
+        save_data = self.as_arr
+        np.save(path, save_data)
 
     '''COMPARATORS'''
 

@@ -1,6 +1,6 @@
 import numpy as np
 
-from ..data import arr_types, str_types
+from ..data import arr_types, str_types, real_types
 
 def check_type(var, types, name = None, method = None, function = None):
     '''
@@ -186,11 +186,11 @@ def check_range(var, low = None, high = None, name = None, method = None, functi
         RETURNS
         True
     '''
-    check_type(var, (int, float, np.uint8, np.int64, np.float64), name, method, function)
+    check_type(var, real_types, name, method, function)
     if low is not None:
-        check_type(low, (int, float, np.uint8, np.int64, np.float64), name, method, function)
+        check_type(low, real_types, name, method, function)
     if high is not None:
-        check_type(low, (int, float, np.uint8, np.int64, np.float64), name, method, function)
+        check_type(low, real_types, name, method, function)
 
     if low is not None and high is not None:
 

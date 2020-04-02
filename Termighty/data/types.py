@@ -1,6 +1,9 @@
 import numpy as np
+import pathlib
 
 str_types = (str)
+
+path_types = (str, pathlib.Path)
 
 arr_types = (list, tuple, np.ndarray)
 

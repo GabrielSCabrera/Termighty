@@ -1,3 +1,4 @@
+from .Series import Series
 from .Pixel import Pixel
 from .Style import Style
 from .Color import Color

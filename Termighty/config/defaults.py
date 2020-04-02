@@ -23,8 +23,9 @@ save_path = home / 'Documents' / 'Termighty'
 
 # Default saving directories
 save_dirs = {
-             # Key      Directory
-             'grid' :   'grids'
+             # Key          Directory
+             'grid'     :   'grids',
+             'series'   :   'series'
             }
 
 save_dirs = {i:save_path / j for i,j in save_dirs.items()}

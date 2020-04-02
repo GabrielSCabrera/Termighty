@@ -202,6 +202,17 @@ class Style:
         '''
         return self.styles_list.copy()
 
+    @staticmethod
+    def arr_len():
+        '''
+            PURPOSE
+            Returns the length of the array returned from 'as_arr'
+
+            RETURNS
+            <int>
+        '''
+        return len(ANSI_styles.keys())
+
     '''SAMPLER METHODS'''
 
     @staticmethod

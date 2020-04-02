@@ -1,6 +1,8 @@
 import numpy as np
 
+from ..config import defaults
 from .Tester import Tester
+import os
 
 # Development Mode - True allows program output to terminal during tests
 dev = False
@@ -1804,6 +1806,37 @@ def test_Grid():
     except AssertionError as e:
         T.failed(e)
 
+    # New Test
+    T.start('save')
+    try:
+        grid = Grid(arr)
+        filename = 'dhqw19h28dn201ie8uhc380'
+        grid.save(filename)
+        filename += '.npy'
+        path = defaults.save_dirs['grid'] / filename
+        assert os.path.exists(path)
+        os.remove(path)
+        T.passed()
+    except AssertionError as e:
+        T.failed(e)
+
+    # New Test
+    T.start('load')
+    try:
+        grid = Grid(arr)
+        filename = '322g53g5eewfwf4g54465jhw'
+        grid.save(filename)
+        filename += '.npy'
+        path = defaults.save_dirs['grid'] / filename
+        assert os.path.exists(path)
+        new_grid = Grid.load(filename)
+        assert new_grid == grid
+        assert new_grid is not grid
+        os.remove(path)
+        T.passed()
+    except AssertionError as e:
+        T.failed(e)
+
     results = T.end()
     return results
 
@@ -2062,6 +2095,35 @@ def test_Term():
         assert not Term.locked()
         T.passed()
     except AssertionError as e:
+        T.failed(e)
+
+    results = T.end()
+    return results
+
+def test_Series():
+    '''
+        PURPOSE
+        Tests for class Series
+
+        RETURNS
+        results         <dict>
+    '''
+
+    # Importing class 'Series' locally
+    from ..obj import Series
+
+    # Importing class 'Grid' locally
+    from ..obj import Grid
+
+    # Initializing 'Tester' instance
+    T = Tester('class Series', dev)
+
+    # New Test
+    T.start('Empty Constructor')
+    try:
+        series = Series()
+        T.passed()
+    except Exception as e:
         T.failed(e)
 
     results = T.end()
