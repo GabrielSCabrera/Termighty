@@ -2126,5 +2126,24 @@ def test_Series():
     except Exception as e:
         T.failed(e)
 
+    # New Test
+    T.start('Constructor: valid args [1]')
+    try:
+        grid = Grid.empty((20, 20))
+        series = Series(grid)
+        T.passed()
+    except Exception as e:
+        T.failed(e)
+
+    # New Test
+    T.start('Constructor: valid args [1]')
+    try:
+        grid_1 = Grid.empty((20, 20))
+        grid_2 = Grid.empty((20, 20))
+        series = Series([grid_1, grid_2])
+        T.passed()
+    except Exception as e:
+        T.failed(e)
+
     results = T.end()
     return results
