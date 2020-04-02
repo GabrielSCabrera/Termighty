@@ -10,36 +10,36 @@ styles = {
          }
 
 styles_clear = {
-                'bold':         21,
-                'faint':        22,
-                'italic':       23,
-                'underline':    24,
-                'slow blink':   25,
-                'reverse':      27,
-                'crossed out':  29,
-                'overlined':    55
+                'bold'          :   21,
+                'faint'         :   22,
+                'italic'        :   23,
+                'underline'     :   24,
+                'blink'         :   25,
+                'reverse'       :   27,
+                'crossed out'   :   29,
+                'overlined'     :   55
                }
 
 styles_to_int = {
-                 1  :   0,
-                 2  :   1,
-                 3  :   2,
-                 4  :   3,
-                 5  :   4,
-                 7  :   5,
-                 9  :   6,
-                 53 :   7
+                 'bold'         :   0,
+                 'faint'        :   1,
+                 'italic'       :   2,
+                 'underline'    :   3,
+                 'blink'        :   4,
+                 'reverse'      :   5,
+                 'crossed out'  :   6,
+                 'overlined'    :   7
                 }
 
 int_to_styles = {
-                 0  :   1,
-                 1  :   2,
-                 2  :   3,
-                 3  :   4,
-                 4  :   5,
-                 5  :   7,
-                 6  :   9,
-                 7  :   53
+                 0  :   'bold',
+                 1  :   'faint',
+                 2  :   'italic',
+                 3  :   'underline',
+                 4  :   'blink',
+                 5  :   'reverse',
+                 6  :   'crossed out',
+                 7  :   'overlined'
                 }
 
 key_events = {

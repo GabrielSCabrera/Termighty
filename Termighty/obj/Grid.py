@@ -1,5 +1,6 @@
 import numpy as np
 
+from ..data import int_types, str_types, arr_types
 from ..utils import interpreters, checkers
 from ..config import defaults
 from .Pixel import Pixel
@@ -42,7 +43,7 @@ class Grid:
             RETURNS
             grid            Instance of class 'Grid'
         '''
-        checkers.check_type_arr(shape, (int, np.int64), 'shape', '__init__')
+        checkers.check_type_arr(shape, int_types, 'shape', '__init__')
         checkers.check_range_arr(shape, 1, None, 'shape', '__init__')
 
         if len(shape) != 2:
@@ -64,17 +65,14 @@ class Grid:
             idx             Length 1 or 2 <tuple> containing <int> or <slice>
             value           Instance of 'Pixel' or 'Grid'
         '''
-        if not isinstance(value, (Pixel, Grid, list, tuple, np.ndarray)):
-            msg = ('Parameter \'value\' in \'__setitem__\' must be an instance '
-                   'of class \'Pixel\'/\'Grid\', or an iterable of \'Pixels\'')
-            raise ValueError(msg)
-
+        checkers.check_type(value, arr_types + (Pixel, Grid), 'value',
+                            '__setitem__')
         try:
             if isinstance(value, Pixel):
                 self.data[idx] = value
             elif isinstance(value, Grid):
                 self.data[idx] = value.data
-            elif isinstance(value, (list, tuple, np.ndarray)):
+            elif isinstance(value, arr_types):
                 self.data[idx] = value
         except IndexError:
             msg = f'Attempt to access Pixel or sub-Grid at invalid index {idx}'
@@ -156,7 +154,7 @@ class Grid:
             PURPOSE
             Saves the current 'Grid' instance to file
         '''
-        checkers.check_type(filename, str, 'filename', 'save')
+        checkers.check_type(filename, str_types, 'filename', 'save')
         path = defaults.save_dirs['grid'] / filename
 
     def __getitem__(self, idx):

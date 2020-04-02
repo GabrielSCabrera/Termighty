@@ -1,6 +1,7 @@
 from numba import jitclass, int8
 
-from ..data import styles_clear, styles_to_int
+from ..data import styles_clear, styles_to_int, int_to_styles
+from ..data import int_types, str_types, arr_types
 from ..config import escape_sequence as esc
 from ..utils import interpreters, checkers
 from ..data import styles as ANSI_styles
@@ -20,8 +21,28 @@ class Style:
             PARAMETERS
             styles          Any number of <str>
         '''
-        self.styles_list = self.check_styles(styles)
+        self.styles_list = sorted(list(set(self.check_styles(styles))))
         self.update()
+
+    def from_arr(arr):
+        '''
+            PURPOSE
+            Returns a new 'Style' instance based on the values given in 'arr'
+
+            PARAMETERS
+            arr         <np.ndarray> of integers
+
+            RETURNS
+            Instance of 'Style'
+        '''
+        checkers.check_type_arr(arr, int_types, 'arr', 'from_arr')
+        checkers.check_range_arr(arr, 0, 1, 'arr', 'from_arr')
+        checkers.check_shape_arr(arr, (len(ANSI_styles),), 'arr', 'from_arr')
+        styles = []
+        for n,i in enumerate(arr):
+            if i == 1:
+                styles.append(int_to_styles[n])
+        return Style(*styles)
 
     '''SETTER METHODS'''
 
@@ -34,7 +55,7 @@ class Style:
             styles          Any number of <str>
         '''
         self.styles_list += self.check_styles(styles)
-        self.styles_list = list(set(self.styles_list))
+        self.styles_list = sorted(list(set(self.styles_list)))
         self.update()
 
     def remove(self, *styles):
@@ -71,9 +92,8 @@ class Style:
 
         self.arr = np.zeros(len(ANSI_styles.keys()), dtype = np.uint8)
         for style in self.styles_list:
-            n = styles_to_int[ANSI_styles[style]]
+            n = styles_to_int[style]
             self.arr[n] = 1
-
 
     '''GETTER METHODS'''
 
@@ -141,7 +161,6 @@ class Style:
             <ndarray> of <uint8>
         '''
         return self.arr
-
 
     @staticmethod
     def clear():
@@ -228,11 +247,11 @@ class Style:
         options = list(ANSI_styles.keys())
         if styles in [[], (), None]:
             return []
-        elif isinstance(styles, (list, tuple)):
+        elif isinstance(styles, arr_types):
 
             for style in styles:
 
-                if not isinstance(style, str):
+                if not isinstance(style, str_types):
                     msg = ('\n\nParameter \'styles\' in \'Style.__init__\' must'
                            ' contain <str> elements that take one or more of '
                            'the following values:\n')
@@ -252,7 +271,7 @@ class Style:
 
             return list(set((styles)))
 
-        elif isinstance(styles, str):
+        elif isinstance(styles, str_types):
 
             if styles not in options:
                 msg = ('\n\nParameter \'styles\' in \'Style.__init__\' must be '
@@ -309,3 +328,13 @@ class Style:
             return True
         else:
             return False
+
+    def __len__(self):
+        '''
+            PURPOSE
+            Returns the number of styles in the current instance
+
+            RETURNS
+            <int>
+        '''
+        return len(self.styles_list)

@@ -1,6 +1,9 @@
 from .Tester import Tester
 import numpy as np
 
+# Development Mode - True allows program output to terminal during tests
+dev = False
+
 def test_Color():
     '''
         PURPOSE
@@ -13,7 +16,7 @@ def test_Color():
     from ..obj import Color
 
     # Initializing 'Tester' instance
-    T = Tester('class Color')
+    T = Tester('class Color', dev)
 
     # New Test
     T.start('Empty Constructor')
@@ -646,7 +649,7 @@ def test_Style():
     from ..obj import Style
 
     # Initializing 'Tester' instance
-    T = Tester('class Style')
+    T = Tester('class Style', dev)
 
     # New Test
     T.start('Empty Constructor')
@@ -918,6 +921,114 @@ def test_Style():
     except AssertionError as e:
         T.failed(e)
 
+    # New Test
+    T.start('as_arr [1]')
+    try:
+        bold_1 = Style('bold')
+        exp = [1, 0, 0, 0, 0, 0, 0, 0]
+        assert np.array_equal(bold_1.as_arr, exp)
+        T.passed()
+    except AssertionError as e:
+        T.failed(e)
+
+    # New Test
+    T.start('as_arr [2]')
+    try:
+        style = Style('bold', 'italic')
+        exp = [1, 0, 1, 0, 0, 0, 0, 0]
+        assert np.array_equal(style.as_arr, exp)
+        T.passed()
+    except AssertionError as e:
+        T.failed(e)
+
+    # New Test
+    T.start('as_arr [3]')
+    try:
+        style = Style('bold', 'underline')
+        exp = [1, 0, 0, 1, 0, 0, 0, 0]
+        assert np.array_equal(style.as_arr, exp)
+        T.passed()
+    except AssertionError as e:
+        T.failed(e)
+
+    # New Test
+    T.start('from_arr [1]')
+    try:
+        arr = [1, 0, 0, 1, 0, 0, 0, 0]
+        exp = Style('bold', 'underline')
+        style = Style.from_arr(arr)
+        assert style == exp
+        T.passed()
+    except AssertionError as e:
+        T.failed(e)
+
+    # New Test
+    T.start('from_arr [2]')
+    try:
+        arr = [1, 0, 1, 0, 0, 0, 0, 0]
+        exp = Style('bold', 'italic')
+        style = Style.from_arr(arr)
+        assert style == exp
+        T.passed()
+    except AssertionError as e:
+        T.failed(e)
+
+    # New Test
+    T.start('from_arr [3]')
+    try:
+        arr = [1, 0, 0, 0, 0, 0, 0, 0]
+        exp = Style('bold')
+        style = Style.from_arr(arr)
+        assert style == exp
+        T.passed()
+    except AssertionError as e:
+        T.failed(e)
+
+    # New Test
+    T.start('__len__ [1]')
+    try:
+        style = Style('bold')
+        assert len(style) == 1
+        T.passed()
+    except AssertionError as e:
+        T.failed(e)
+
+    # New Test
+    T.start('__len__ [2]')
+    try:
+        style = Style('bold', 'italic')
+        assert len(style) == 2
+        T.passed()
+    except AssertionError as e:
+        T.failed(e)
+
+    # New Test
+    T.start('__len__ [3]')
+    try:
+        style = Style()
+        assert len(style) == 0
+        T.passed()
+    except AssertionError as e:
+        T.failed(e)
+
+    # New Test
+    T.start('__bool__')
+    try:
+        style = Style('bold')
+        assert style
+        T.passed()
+    except AssertionError as e:
+        T.failed(e)
+
+    # New Test
+    T.start('__bool__')
+    try:
+        style = Style()
+        assert not style
+        T.passed()
+    except AssertionError as e:
+        T.failed(e)
+
     results = T.end()
 
     return results
@@ -938,7 +1049,7 @@ def test_Pixel():
     from ..obj import Style
 
     # Initializing 'Tester' instance
-    T = Tester('class Pixel')
+    T = Tester('class Pixel', dev)
 
     blue = Color.palette('blue')
     red = Color.palette('red')
@@ -1266,11 +1377,57 @@ def test_Pixel():
         T.failed()
 
     # New Test
-    # T.start('as_arr [4]')
+    T.start('as_arr [4]')
     try:
         pixel = Pixel(color_b = 'red', char = '¤')
         exp = [255, 255, 255, 255, 0, 0, 164, 0, 0, 0, 0, 0, 0, 0, 0]
         assert np.array_equal(pixel.as_arr , exp)
+        T.passed()
+    except AssertionError:
+        T.failed()
+
+    # New Test
+    T.start('from_arr [1]')
+    try:
+        arr = [255, 255, 255, 0, 0, 0, 65, 0, 0, 0, 0, 0, 0, 0, 0]
+        exp = Pixel(char = 'A')
+        pixel = Pixel.from_arr(arr)
+        assert pixel == exp
+        T.passed()
+    except AssertionError:
+        T.failed()
+
+    # New Test
+    T.start('from_arr [2]')
+    try:
+        arr = [255, 255, 255, 0, 0, 0, 53, 1, 0, 1, 1, 0, 0, 0, 0]
+        style = Style('bold', 'italic', 'underline')
+        exp = Pixel(char = '5', style = style)
+        pixel = Pixel.from_arr(arr)
+        assert pixel == exp
+        T.passed()
+    except AssertionError:
+        T.failed()
+
+    # New Test
+    T.start('from_arr [3]')
+    try:
+        arr = [0, 0, 255, 0, 0, 0, 167, 1, 0, 0, 1, 1, 0, 0, 0]
+        style = Style('bold', 'blink', 'underline')
+        exp = Pixel(color_t = 'blue', char = '§', style = style)
+        pixel = Pixel.from_arr(arr)
+        assert pixel == exp
+        T.passed()
+    except AssertionError:
+        T.failed()
+
+    # New Test
+    T.start('from_arr [4]')
+    try:
+        arr = [255, 255, 255, 255, 0, 0, 164, 0, 0, 0, 0, 0, 0, 0, 0]
+        exp = Pixel(color_b = 'red', char = '¤')
+        pixel = Pixel.from_arr(arr)
+        assert pixel == exp
         T.passed()
     except AssertionError:
         T.failed()
@@ -1294,7 +1451,7 @@ def test_Grid():
     from ..obj import Grid
 
     # Initializing 'Tester' instance
-    T = Tester('class Grid')
+    T = Tester('class Grid', dev)
 
     # New Test
     T.start('Empty Constructor')
@@ -1607,23 +1764,23 @@ def test_Grid():
             T.failed(e)
 
     # New Test
-    T.start('__setitem__: invalid arg')
+    T.start('__setitem__: invalid arg [1]')
     try:
         grid = Grid.empty((20, 20))
         grid.__setitem__(0, 'A')
         T.failed()
-    except ValueError:
+    except TypeError:
         T.passed()
     else:
         T.failed()
 
     # New Test
-    T.start('__setitem__: invalid arg')
+    T.start('__setitem__: invalid arg [1]')
     try:
         grid = Grid.empty((20, 20))
         grid.__setitem__('A', 0)
         T.failed()
-    except ValueError:
+    except TypeError:
         T.passed()
     else:
         T.failed()
@@ -1672,8 +1829,7 @@ def test_Term():
     from ..config import term_width, term_height
 
     # Initializing 'Tester' instance
-    T = Tester('class Term')
-    # T = Tester('class Term', dev = True)
+    T = Tester('class Term', dev)
 
     # New Test
     T.start('Empty Constructor')
@@ -1856,21 +2012,21 @@ def test_Term():
             T.failed(e)
 
     # New Test
-    T.start('__setitem__: invalid arg')
+    T.start('__setitem__: invalid arg [1]')
     try:
         term = Term((20, 20))
         term.__setitem__(0, 'A')
         T.failed()
-    except ValueError:
+    except TypeError:
         T.passed()
 
     # New Test
-    T.start('__setitem__: invalid arg')
+    T.start('__setitem__: invalid arg [2]')
     try:
         term = Term((20, 20))
         term.__setitem__('A', 0)
         T.failed()
-    except ValueError:
+    except TypeError:
         T.passed()
 
     # New Test

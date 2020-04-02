@@ -1,6 +1,7 @@
 from ..config import escape_sequence as esc
 from ..utils import interpreters, checkers
 from ..data import styles as ANSI_styles
+from ..data import str_types, int_types
 from ..config import defaults
 from .Color import Color
 from .Style import Style
@@ -66,7 +67,7 @@ class Pixel:
             RETURNS
             True
         '''
-        checkers.check_type(char, str, 'char', 'is_char')
+        checkers.check_type(char, str_types, 'char', 'is_char')
         if len(char.__repr__()) != 3:
             msg = '\n\nParameter \'char\' should be a one-character <str>'
             raise ValueError(msg)
@@ -76,8 +77,41 @@ class Pixel:
     def from_arr(arr):
         '''
             PURPOSE
-            Given an array of TBDDDDD
+            Returns a new 'Pixel' instance based on the values given in 'arr'
+
+            PARAMETERS
+            arr         <np.ndarray> of integers
+
+            NOTE
+            The input array must consist of 8+ integers, mapped as follows:
+
+            arr = [
+                   color_t R          Red part of color_t's RGB array
+                   color_t G        Green part of color_t's RGB array
+                   color_t B         Blue part of color_t's RGB array
+                   color_b R          Red part of color_b's RGB array
+                   color_b G        Green part of color_b's RGB array
+                   color_b B         Blue part of color_b's RGB array
+                   style int        Mapped style integer, see ANSI.py
+                   ord(char)          Unicode character as an integer
+                   styles_1                          Binary style map
+                   styles_2                          Binary style map
+                     ⋮
+                   styles_N                          Binary style map
+                  ]
+
+            Where 'N' in 'styles_N' is the number of styles in 'ANSI.py'
+
+            RETURNS
+            Instance of 'Pixel'
         '''
+        checkers.check_type_arr(arr, int_types, 'arr', 'from_arr')
+        checkers.check_shape_arr(arr, (7+len(ANSI_styles),), 'arr', 'from_arr')
+        color_t = arr[0:3]
+        color_b = arr[3:6]
+        char = chr(arr[6])
+        style = Style.from_arr(arr[7:])
+        return Pixel(color_t, color_b, style, char)
 
     '''UPDATERS'''
 
@@ -270,7 +304,7 @@ class Pixel:
             to recreate the instance at a later time.
 
             NOTE
-            The output array consists of eight elements, mapped as follows:
+            The output array consists of eight integers, mapped as follows:
 
             arr = [
                    color_t R          Red part of color_t's RGB array
@@ -319,14 +353,14 @@ class Pixel:
                 f'{self.color_b.B:03d})')
 
         if self.style.styles:
-            styles = ','.join(self.style.styles)
+            styles = ', '.join(self.style.styles)
         else:
             styles = 'Empty'
 
         char = self.char
 
-        out = (f'Pixel(Color_t{RGBt}, Color_b{RGBt}, Style({styles}, '
-               f'Char({char})))')
+        out = (f'Pixel(Color_t{RGBt}, Color_b{RGBb}, Style({styles}), '
+               f'Char(\'{char}\')))')
 
         return out
 

@@ -1,8 +1,9 @@
 import numpy as np
 import shutil
 
-from ..utils import interpreters, checkers
+from ..data import int_types, str_types, arr_types
 from ..config import term_width, term_height
+from ..utils import interpreters, checkers
 from .Color import Color
 from .Style import Style
 from .Pixel import Pixel
@@ -21,7 +22,7 @@ class Term:
             shape       <tuple> containing two elements of <class 'int'>
         '''
         if shape is not None:
-            checkers.check_type_arr(shape, (int, np.int64), 'shape', '__init__')
+            checkers.check_type_arr(shape, int_types, 'shape', '__init__')
             if len(shape) != 2:
                 msg = 'Parameter \'shape\' in \'__init__\' must be of length 2'
                 raise ValueError(msg)
@@ -29,7 +30,7 @@ class Term:
             shape = (term_height, term_width)
 
         self.data = Grid.empty(shape)
-        self.term_shape = shutil.get_terminal_size()
+        self.term_shape = tuple(shutil.get_terminal_size())
         self.shape_arr = self.data.shape
         self.height_val = self.shape_arr[0]
         self.width_val = self.shape_arr[1]
@@ -76,7 +77,7 @@ class Term:
             PARAMETERS
             shape       <tuple> containing two elements of <class 'int'>
         '''
-        checkers.check_type_arr(shape, (int, np.int64), 'shape', '__init__')
+        checkers.check_type_arr(shape, int_types, 'shape', '__init__')
         if len(shape) != 2:
             msg = 'Parameter \'shape\' in \'__init__\' must be of length 2'
             raise ValueError(msg)
@@ -177,18 +178,9 @@ class Term:
             Instance of 'Pixel' or 'Grid'
         '''
 
-        try:
-            subdata = self.grid.data[idx]
-        except IndexError:
-            msg = f'Attempt to access Pixel or sub-Grid at invalid index {idx}'
-            raise IndexError(msg)
+        subdata = self.grid.__getitem__(idx)
+        return subdata
 
-        if isinstance(subdata, Pixel):
-            return subdata
-        elif subdata.ndim == 1:
-            return Grid(subdata[None,:])
-        else:
-            return Grid(subdata)
 
     def __setitem__(self, idx, value):
         '''
@@ -199,18 +191,11 @@ class Term:
             idx             Length 1 or 2 <tuple> containing <int> or <slice>
             value           Instance of 'Pixel' or 'Grid'
         '''
-        if not isinstance(value, (Pixel, Grid, list, tuple, np.ndarray)):
-            msg = ('Parameter \'value\' in \'__setitem__\' must be an instance '
-                   'of class \'Pixel\'/\'Grid\', or an iterable of \'Pixels\'')
-            raise ValueError(msg)
-
         try:
-            if isinstance(value, Pixel):
-                self.grid.data[idx] = value
-            elif isinstance(value, Grid):
-                self.grid.data[idx] = value.data
-            elif isinstance(value, (list, tuple, np.ndarray)):
-                self.grid.data[idx] = value
+            if isinstance(value, Grid):
+                self.grid.__setitem__(idx, value.data)
+            else:
+                self.grid.__setitem__(idx, value)
         except IndexError:
             msg = f'Attempt to access Pixel or sub-Grid at invalid index {idx}'
             raise IndexError(msg)

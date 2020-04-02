@@ -1,3 +1,5 @@
+from ..data import arr_types, str_types
+
 import numpy as np
 
 def check_type(var, types, name = None, method = None, function = None):
@@ -28,20 +30,20 @@ def check_type(var, types, name = None, method = None, function = None):
     # To report errors in the arguments passed to this function
     fmt_msg = ('\n\nParameter \'{}\' in function \'check_type\' must be a '
                    'member of {}')
-    if name is not None and not isinstance(name, str):
+    if name is not None and not isinstance(name, str_types):
         raise TypeError(fmt_msg.format('name', 'str'))
-    if method is not None and not isinstance(method, str):
+    if method is not None and not isinstance(method, str_types):
         raise TypeError(fmt_msg.format('method', 'str'))
-    if function is not None and not isinstance(function, str):
+    if function is not None and not isinstance(function, str_types):
         raise TypeError(fmt_msg.format('function', 'str'))
 
     # Making sure that 'function' and 'method' are not both implemented
     if function is not None and method is not None:
         msg = ('\n\nCannot pass arguments \'function\' and \'method\' to '
                'function \'check_type\' simultaneously.')
-        raise IOError(msg)
+        raise ValueError(msg)
 
-    if isinstance(types, (list, tuple)) and len(types) >= 1:
+    if isinstance(types, arr_types) and len(types) >= 1:
         for t in types:
             if not isinstance(t, type):
                 fmt_msg += 'or a list/tuple with elements of {}'
@@ -58,7 +60,7 @@ def check_type(var, types, name = None, method = None, function = None):
         else:
             valid_types = f'one of the following:'
             for t in types:
-                valid_types += f'\n\t<class \'{str(t)}\'>'
+                valid_types += f'\n\t{str(t)}'
 
         if name is not None:
             msg = f'\n\nParameter \'{name}\' '
@@ -112,11 +114,7 @@ def check_type_arr(arr, types, name = None, method = None, function = None):
         RETURNS
         True
     '''
-    if not isinstance(arr, (list, tuple, np.ndarray)):
-        msg = ( '\n\nParameter \'arr\' must be a member of <class \'list\'> or '
-               f'<class \'tuple\'>.  Got instance of {str(type(arr))} instead.')
-        raise TypeError(msg)
-
+    check_type(arr, arr_types, name, method, function)
     for var in arr:
         check_type(var, types, name, method, function)
 
@@ -144,19 +142,15 @@ def check_type_arr_2D(arr, types, name = None, method = None, function = None):
         RETURNS
         True
     '''
-    msg = ( '\n\nParameter \'arr\' must be a member of <class \'list\'> or '
-           f'<class \'tuple\'> containing equal-length members of <class '
-            '\'list\'> or <class \'tuple\'> containing instances of \'Pixel\'.')
 
-    if not isinstance(arr, (list, tuple, np.ndarray)):
-        msg += f'Got instance of {str(type(arr))} instead.'
-        raise TypeError(msg)
+    check_type(arr, arr_types, name, method, function)
 
+    msg = '\n\nParameter \'arr\' must be a 2-D rectangular array.'
     row_length = None
 
     for row in arr:
         try:
-            iter(row)
+            check_type(row, arr_types, name, method, function)
         except:
             raise TypeError(msg)
         if row_length is None:
@@ -177,7 +171,6 @@ def check_range(var, low = None, high = None, name = None, method = None, functi
 
         PARAMETERS
         var         number or
-        types       <type> or list/array of <type>
 
         OPTIONAL PARAMETERS
         low         <float> or <int>
@@ -256,7 +249,6 @@ def check_range_arr(arr, low = None, high = None, name = None, method = None, fu
 
         PARAMETERS
         arr         iterable of numbers
-        types       <type> or list/array of <type>
 
         OPTIONAL PARAMETERS
         low         <float> or <int>
@@ -272,11 +264,7 @@ def check_range_arr(arr, low = None, high = None, name = None, method = None, fu
         RETURNS
         True
     '''
-    if not isinstance(arr, (list, tuple, np.ndarray)):
-        msg = ( '\n\nParameter \'arr\' must be a member of <class \'list\'> or '
-               f'<class \'tuple\'>.  Got instance of {str(type(arr))} instead.')
-        raise TypeError(msg)
-
+    check_type(arr, arr_types, name, method, function)
     for var in arr:
         check_range(var, low, high, name, method, function)
 
@@ -292,7 +280,6 @@ def check_range_arr_2D(arr, low = None, high = None, name = None, method = None,
 
         PARAMETERS
         arr         2-D iterable of numbers
-        types       <type> or list/array of <type>
 
         OPTIONAL PARAMETERS
         low         <float> or <int>
@@ -308,14 +295,9 @@ def check_range_arr_2D(arr, low = None, high = None, name = None, method = None,
         RETURNS
         True
     '''
-    msg = ( '\n\nParameter \'arr\' must be a member of <class \'list\'> or '
-           f'<class \'tuple\'> containing equal-length members of <class '
-            '\'list\'> or <class \'tuple\'> containing instances of \'Pixel\'.')
+    check_type(arr, arr_types, name, method, function)
 
-    if not isinstance(arr, (list, tuple, np.ndarray)):
-        msg += f'Got instance of {str(type(arr))} instead.'
-        raise TypeError(msg)
-
+    msg = '\n\nParameter \'arr\' must be a 2-D rectangular array.'
     row_length = None
 
     for row in arr:
@@ -327,3 +309,71 @@ def check_range_arr_2D(arr, low = None, high = None, name = None, method = None,
             check_range(var, low, high, name, method, function)
 
     return True
+
+def check_shape_arr(arr, shape, name = None, method = None, function = None):
+    '''
+        PURPOSE
+        Confirms that array 'arr' is of desired shape, otherwise raises a
+        ValueError.
+
+        PARAMETERS
+        arr         <list>, <tuple>, or <np.ndarray>
+        shape       <tuple> of <int>
+
+        OPTIONAL PARAMETERS
+        name        <str> name of the variable
+        method      <str> name of the method from which this variable came
+        function    <str> name of the function from which this variable came
+
+        WARNING
+        Cannot pass both 'method' and 'function', as these are mutually
+        exclusive.
+
+        RETURNS
+        True
+    '''
+    check_type(arr, arr_types, 'arr', method, function)
+    check_type(shape, arr_types, 'shape', method, function)
+
+    # To report errors in the arguments passed to this function
+    fmt_msg = ('\n\nParameter \'{}\' in function \'check_shape_arr\' must be a '
+                   'member of {}')
+    if name is not None and not isinstance(name, str_types):
+        raise TypeError(fmt_msg.format('name', 'str'))
+    if method is not None and not isinstance(method, str_types):
+        raise TypeError(fmt_msg.format('method', 'str'))
+    if function is not None and not isinstance(function, str_types):
+        raise TypeError(fmt_msg.format('function', 'str'))
+
+    # Making sure that 'function' and 'method' are not both implemented
+    if function is not None and method is not None:
+        msg = ('\n\nCannot pass arguments \'function\' and \'method\' to '
+               'function \'check_shape_arr\' simultaneously.')
+        raise ValueError(msg)
+
+    if not isinstance(arr, np.ndarray):
+        arr = np.array(arr)
+
+    if not np.array_equal(arr.shape, shape):
+        if name is not None:
+            msg = f'\n\nParameter \'{name}\' '
+            if function is not None:
+                msg += f'in function \'{function}\' '
+
+            elif method is not None:
+                msg += f'in method \'{method}\' '
+
+            msg += (f'is of shape {arr.shape}, but expected {shape}.')
+
+        elif function is not None:
+            msg = (f'Function \'{function}\' got an array of shape {arr.shape},'
+                   f' but expected {shape}.')
+
+        elif method is not None:
+            msg = (f'Method \'{method}\' got an array of shape {arr.shape}, '
+                    f'but expected {shape}.')
+
+        else:
+            msg = f'Got array of shape {arr.shape}, but expected {shape}.'
+
+        raise TypeError(msg)

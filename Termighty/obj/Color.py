@@ -1,5 +1,7 @@
+from ..data import int_types, str_types
 from ..utils import format, checkers
 from .. import data
+
 import numpy as np
 
 class Color:
@@ -35,7 +37,7 @@ class Color:
             RETURNS
             Instance of 'Color'
         '''
-        checkers.check_type(name, str, 'name', 'palette')
+        checkers.check_type(name, str_types, 'name', 'palette')
         if name not in data.colors.keys():
             msg = f'Selected color \'{color}\' is unknown'
             raise ValueError(msg)
@@ -54,7 +56,7 @@ class Color:
         name_params = {
                        'var'    : name,
                        'name'   : 'name',
-                       'types'  : str,
+                       'types'  : str_types,
                        'method' : 'rename'
                        }
 
@@ -72,7 +74,7 @@ class Color:
         RGB_params = {
                        'arr'    : RGB,
                        'name'   : 'RGB',
-                       'types'  : (int, np.uint8, np.int64),
+                       'types'  : int_types,
                        'method' : 'reset_RGB'
                        }
 
@@ -99,7 +101,7 @@ class Color:
             PARAMETERS
             R           <int> in range 0 up to and including 255
         '''
-        checkers.check_type(R, (int, np.uint8), 'R', 'set_R')
+        checkers.check_type(R, int_types, 'R', 'set_R')
         checkers.check_range(R, 0, 255, 'R', 'set_R')
         self.RGB_arr[0] = R
 
@@ -111,7 +113,7 @@ class Color:
             PARAMETERS
             G           <int> in range 0 up to and including 255
         '''
-        checkers.check_type(G, (int, np.uint8), 'G', 'set_G')
+        checkers.check_type(G, int_types, 'G', 'set_G')
         checkers.check_range(G, 0, 255, 'G', 'set_G')
         self.RGB_arr[1] = G
 
@@ -123,7 +125,7 @@ class Color:
             PARAMETERS
             B           <int> in range 0 up to and including 255
         '''
-        checkers.check_type(B, (int, np.uint8), 'B', 'set_B')
+        checkers.check_type(B, int_types, 'B', 'set_B')
         checkers.check_range(B, 0, 255, 'B', 'set_B')
         self.RGB_arr[2] = B
 
@@ -274,7 +276,7 @@ class Color:
                    'to None.')
             raise ValueError(msg)
 
-        checkers.check_type(term_width, int, 'term_width', 'chart')
+        checkers.check_type(term_width, int_types, 'term_width', 'chart')
 
         step = 256//term_width + 1
         colors = np.arange(0, 256, step)
