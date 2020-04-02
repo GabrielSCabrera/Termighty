@@ -1,7 +1,8 @@
-from ..obj import Term, Grid, Pixel, Color, Style
 import numpy as np
 import time
 import sys
+
+from ..obj import Term, Grid, Pixel, Color, Style
 
 ROWS, COLS = 24, 80
 

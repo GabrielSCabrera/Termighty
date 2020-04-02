@@ -30,6 +30,8 @@ class Grid:
         else:
             self.ndim_val = 2
 
+    '''INSTANTIATORS'''
+
     @classmethod
     def empty(self, shape):
         '''
@@ -54,7 +56,21 @@ class Grid:
         data = [[Pixel() for i in range(shape[1])] for j in range(shape[0])]
         return Grid(data)
 
-    '''SETTERS'''
+    def copy(self):
+        '''
+            PURPOSE
+            Returns a deep copy of the current 'Grid' instance
+
+            RETURNS
+            Instance of class 'Grid'
+        '''
+        new_data = np.empty_like(self.data, dtype = Pixel)
+        for i in range(new_data.shape[0]):
+            for j in range(new_data.shape[1]):
+                new_data[i,j] = self.data[i,j].copy()
+        return Grid(new_data)
+
+    '''SETTER METHODS'''
 
     def __setitem__(self, idx, value):
         '''
@@ -78,7 +94,59 @@ class Grid:
             msg = f'Attempt to access Pixel or sub-Grid at invalid index {idx}'
             raise IndexError(msg)
 
-    '''GETTERS'''
+    '''GETTER METHODS'''
+
+    def __getitem__(self, idx):
+        '''
+            PURPOSE
+            Retrieve an element or sub-grid of the current instance
+
+            PARAMETERS
+            idx             Length 1 or 2 <tuple> containing <int> or <slice>
+
+            RETURNS
+            Instance of 'Pixel' or 'Grid'
+        '''
+
+        try:
+            subdata = self.data[idx]
+        except IndexError:
+            msg = f'Attempt to access Pixel or sub-Grid at invalid index {idx}'
+            raise IndexError(msg)
+
+        if isinstance(subdata, Pixel):
+            return subdata
+        elif subdata.ndim == 1:
+            return Grid(subdata[None,:])
+        else:
+            return Grid(subdata)
+
+    def __str__(self):
+        '''
+            PURPOSE
+            Returns a printable string that contains the grid data
+
+            RETURNS
+            out         <str>
+        '''
+        out = ''
+        for row in self.data:
+            for pixel in row:
+                out += pixel.__str__()
+            out += '\n'
+        return out[:-1]
+
+    def __repr__(self):
+        '''
+            PURPOSE
+            Returns a machine-readable <str> with instance information
+
+            RETURNS
+            <str>
+        '''
+        return f'Grid(h={self.height}, w={self.width})'
+
+    '''ACCESSOR METHODS'''
 
     @property
     def ndim(self):
@@ -135,19 +203,7 @@ class Grid:
         '''
         return self.width_val
 
-    def copy(self):
-        '''
-            PURPOSE
-            Returns a deep copy of the current 'Grid' instance
-
-            RETURNS
-            Instance of class 'Grid'
-        '''
-        new_data = np.empty_like(self.data, dtype = Pixel)
-        for i in range(new_data.shape[0]):
-            for j in range(new_data.shape[1]):
-                new_data[i,j] = self.data[i,j].copy()
-        return Grid(new_data)
+    '''SAVING'''
 
     def save(self, filename):
         '''
@@ -157,55 +213,7 @@ class Grid:
         checkers.check_type(filename, str_types, 'filename', 'save')
         path = defaults.save_dirs['grid'] / filename
 
-    def __getitem__(self, idx):
-        '''
-            PURPOSE
-            Retrieve an element or sub-grid of the current instance
-
-            PARAMETERS
-            idx             Length 1 or 2 <tuple> containing <int> or <slice>
-
-            RETURNS
-            Instance of 'Pixel' or 'Grid'
-        '''
-
-        try:
-            subdata = self.data[idx]
-        except IndexError:
-            msg = f'Attempt to access Pixel or sub-Grid at invalid index {idx}'
-            raise IndexError(msg)
-
-        if isinstance(subdata, Pixel):
-            return subdata
-        elif subdata.ndim == 1:
-            return Grid(subdata[None,:])
-        else:
-            return Grid(subdata)
-
-    def __str__(self):
-        '''
-            PURPOSE
-            Returns a printable string that contains the grid data
-
-            RETURNS
-            out         <str>
-        '''
-        out = ''
-        for row in self.data:
-            for pixel in row:
-                out += pixel.__str__()
-            out += '\n'
-        return out[:-1]
-
-    def __repr__(self):
-        '''
-            PURPOSE
-            Returns a machine-readable <str> with instance information
-
-            RETURNS
-            <str>
-        '''
-        return f'Grid(h={self.height}, w={self.width})'
+    '''COMPARATORS'''
 
     def __eq__(self, grid):
         '''

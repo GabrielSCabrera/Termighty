@@ -1,6 +1,6 @@
-from ..data import arr_types, str_types
-
 import numpy as np
+
+from ..data import arr_types, str_types
 
 def check_type(var, types, name = None, method = None, function = None):
     '''

@@ -11,7 +11,11 @@ from .Grid import Grid
 
 class Term:
 
-    lock_bool = False       # Set to True when a single instance is made live
+    '''CLASS ATTRIBUTES'''
+
+    lock_bool = False       # Set to True when any instance is made live
+
+    '''CONSTRUCTOR'''
 
     def __init__(self, shape = None):
         '''
@@ -37,6 +41,8 @@ class Term:
         self.live_bool = False
         self.update()
 
+    '''INSTANTIATORS'''
+
     @staticmethod
     def from_grid(grid):
         '''
@@ -55,33 +61,81 @@ class Term:
         term.update()
         return term
 
-    @staticmethod
-    def locked():
+    def copy(self):
         '''
             PURPOSE
-            Returns True if the console is locked (because an instance of
-            'Term' is currently live) or False if the console is available for
-            writing.
+            Returns a deep copy of the current 'Term' instance
 
             RETURNS
-            <bool>
+            Instance of class 'Term'
         '''
-        return Term.lock_bool
+        return Term.from_grid(self.data.copy())
 
-    @staticmethod
-    def resize_console(shape):
+    '''SETTER METHODS'''
+
+    def __setitem__(self, idx, value):
         '''
             PURPOSE
-            Resizes the terminal to the new dimensions given in 'shape'
+            Replaces an element or sub-grid of the current instance
 
             PARAMETERS
-            shape       <tuple> containing two elements of <class 'int'>
+            idx             Length 1 or 2 <tuple> containing <int> or <slice>
+            value           Instance of 'Pixel' or 'Grid'
         '''
-        checkers.check_type_arr(shape, int_types, 'shape', '__init__')
-        if len(shape) != 2:
-            msg = 'Parameter \'shape\' in \'__init__\' must be of length 2'
-            raise ValueError(msg)
-        print(f'\033[8;{shape[0]};{shape[1]}t', end = '')
+        try:
+            if isinstance(value, Grid):
+                self.grid.__setitem__(idx, value.data)
+            else:
+                self.grid.__setitem__(idx, value)
+        except IndexError:
+            msg = f'Attempt to access Pixel or sub-Grid at invalid index {idx}'
+            raise IndexError(msg)
+
+        self.update()
+
+    '''GETTER METHODS'''
+
+    def __getitem__(self, idx):
+        '''
+            PURPOSE
+            Retrieve an element or sub-grid of the current 'Term' instance
+
+            PARAMETERS
+            idx             Length 1 or 2 <tuple> containing <int> or <slice>
+
+            RETURNS
+            Instance of 'Pixel' or 'Grid'
+        '''
+
+        subdata = self.grid.__getitem__(idx)
+        return subdata
+
+    def __str__(self):
+        '''
+            PURPOSE
+            Returns a printable string that contains the 'Term' data
+
+            RETURNS
+            out         <str>
+        '''
+        out = ''
+        for row in self.grid.data:
+            for pixel in row:
+                out += pixel.__str__()
+            out += '\n'
+        return out[:-1]
+
+    def __repr__(self):
+        '''
+            PURPOSE
+            Returns a machine-readable <str> with instance information
+
+            RETURNS
+            <str>
+        '''
+        return f'Term(h={self.height}, w={self.width})'
+
+    '''ACCESSORS'''
 
     @property
     def grid(self):
@@ -138,6 +192,8 @@ class Term:
         '''
         return self.width_val
 
+    '''MANAGERS'''
+
     @property
     def live(self):
         '''
@@ -149,83 +205,40 @@ class Term:
         '''
         return self.live_bool
 
+    @staticmethod
+    def locked():
+        '''
+            PURPOSE
+            Returns True if the console is locked (because an instance of
+            'Term' is currently live) or False if the console is available for
+            writing.
+
+            RETURNS
+            <bool>
+        '''
+        return Term.lock_bool
+
+    @staticmethod
+    def resize_console(shape):
+        '''
+            PURPOSE
+            Resizes the terminal to the new dimensions given in 'shape'
+
+            PARAMETERS
+            shape       <tuple> containing two elements of <class 'int'>
+        '''
+        checkers.check_type_arr(shape, int_types, 'shape', '__init__')
+        if len(shape) != 2:
+            msg = 'Parameter \'shape\' in \'__init__\' must be of length 2'
+            raise ValueError(msg)
+        print(f'\033[8;{shape[0]};{shape[1]}t', end = '')
+
     def update(self):
         '''
             PURPOSE
             Updates the console if current 'Term' instance is live
         '''
         pass
-
-    def copy(self):
-        '''
-            PURPOSE
-            Returns a deep copy of the current 'Term' instance
-
-            RETURNS
-            Instance of class 'Term'
-        '''
-        return Term.from_grid(self.data.copy())
-
-    def __getitem__(self, idx):
-        '''
-            PURPOSE
-            Retrieve an element or sub-grid of the current 'Term' instance
-
-            PARAMETERS
-            idx             Length 1 or 2 <tuple> containing <int> or <slice>
-
-            RETURNS
-            Instance of 'Pixel' or 'Grid'
-        '''
-
-        subdata = self.grid.__getitem__(idx)
-        return subdata
-
-
-    def __setitem__(self, idx, value):
-        '''
-            PURPOSE
-            Replaces an element or sub-grid of the current instance
-
-            PARAMETERS
-            idx             Length 1 or 2 <tuple> containing <int> or <slice>
-            value           Instance of 'Pixel' or 'Grid'
-        '''
-        try:
-            if isinstance(value, Grid):
-                self.grid.__setitem__(idx, value.data)
-            else:
-                self.grid.__setitem__(idx, value)
-        except IndexError:
-            msg = f'Attempt to access Pixel or sub-Grid at invalid index {idx}'
-            raise IndexError(msg)
-
-        self.update()
-
-    def __str__(self):
-        '''
-            PURPOSE
-            Returns a printable string that contains the 'Term' data
-
-            RETURNS
-            out         <str>
-        '''
-        out = ''
-        for row in self.grid.data:
-            for pixel in row:
-                out += pixel.__str__()
-            out += '\n'
-        return out[:-1]
-
-    def __repr__(self):
-        '''
-            PURPOSE
-            Returns a machine-readable <str> with instance information
-
-            RETURNS
-            <str>
-        '''
-        return f'Term(h={self.height}, w={self.width})'
 
     def __enter__(self):
         '''

@@ -1,3 +1,5 @@
+import numpy as np
+
 from ..config import escape_sequence as esc
 from ..utils import interpreters, checkers
 from ..data import styles as ANSI_styles
@@ -6,7 +8,6 @@ from ..config import defaults
 from .Color import Color
 from .Style import Style
 
-import numpy as np
 
 class Pixel:
 
@@ -56,6 +57,8 @@ class Pixel:
             self.char_str = char
 
         self.update()
+
+    '''INSTANTIATORS'''
 
     @staticmethod
     def is_char(char):
@@ -113,7 +116,23 @@ class Pixel:
         style = Style.from_arr(arr[7:])
         return Pixel(color_t, color_b, style, char)
 
-    '''UPDATERS'''
+    def copy(self):
+        '''
+            PURPOSE
+            Returns a deep copy of the current 'Pixel' instance
+
+            RETURNS
+            Instance of class 'Pixel'
+        '''
+        params = {
+                  'color_t':self.color_t.copy(),
+                  'color_b':self.color_b.copy(),
+                  'style':self.style.copy(),
+                  'char':self.char,
+                 }
+        return Pixel(**params)
+
+    '''SETTER METHODS'''
 
     def set_color_t(self, color):
         '''
@@ -166,135 +185,7 @@ class Pixel:
         self.char_str = char
         self.update()
 
-    def update(self):
-        '''
-            PURPOSE
-            To update the value of the saved output string based on the current
-            instance attributes 'color_t_obj', 'color_b_obj', 'style_obj', and
-            'char_obj'
-        '''
-        self.out = self.end_seq + self.color_t_seq + self.color_b_seq
-        self.out += self.style_seq + self.char_str + self.end_seq
-
-    '''FORMATTERS'''
-
-    @property
-    def color_t_seq(self):
-        '''
-            PURPOSE
-            Returns the ANSI escape sequence that sets the text color to the
-            attribute 'self.color_t_obj'
-
-            RETURNS
-            out         <str>
-        '''
-        out = \
-        esc.format(f'38;2;{self.color_t.R};{self.color_t.G};{self.color_t.B}')
-        return out
-
-    @property
-    def color_b_seq(self):
-        '''
-            PURPOSE
-            Returns the ANSI escape sequence that sets the background color to
-            attribute 'self.color_b_obj'
-
-            RETURNS
-            out         <str>
-        '''
-        out = \
-        esc.format(f'48;2;{self.color_b.R};{self.color_b.G};{self.color_b.B}')
-        return out
-
-    @property
-    def style_seq(self):
-        '''
-            PURPOSE
-            Returns the ANSI escape sequence that sets the text style to
-            attribute 'self.style_obj'
-
-            RETURNS
-            <str>
-        '''
-        if self.style.styles:
-            values = ';'.join(str(ANSI_styles[i]) for i in self.style.styles)
-            return esc.format(values)
-        else:
-            return ''
-
-    @property
-    def end_seq(self):
-        '''
-            PURPOSE
-            To reset the terminal to its default values (i.e. remove all
-            custom-implemented colors or styles)
-
-            RETURNS
-            <str>
-        '''
-        return esc.format('')
-
-    '''GETTERS'''
-
-    @property
-    def color_t(self):
-        '''
-            PURPOSE
-            Return the 'Color' instance used to color the terminal text
-
-            RETURNS
-            Instance of 'Color'
-        '''
-        return self.color_t_obj
-
-    @property
-    def color_b(self):
-        '''
-            PURPOSE
-            Return the 'Color' instance used to color the terminal text
-
-            RETURNS
-            Instance of 'Color'
-        '''
-        return self.color_b_obj
-
-    @property
-    def style(self):
-        '''
-            PURPOSE
-            Return the 'Style' instance used to style the terminal text
-
-            RETURNS
-            Instance of 'Style
-        '''
-        return self.style_obj
-
-    @property
-    def char(self):
-        '''
-            PURPOSE
-            Return the current value of attribute 'char_var'
-
-            RETURNS
-            <str>
-        '''
-        return self.char_str
-
-    def copy(self):
-        '''
-            PURPOSE
-            Returns a deep copy of the current 'Pixel' instance
-
-            RETURNS
-            Instance of class 'Pixel'
-        '''
-        params = {
-                  'color_t':self.color_t.copy(),
-                  'color_b':self.color_b.copy(),
-                  'style':self.style.copy(),
-                  'char':self.char,
-                 }
-        return Pixel(**params)
+    '''GETTER METHODS'''
 
     @property
     def as_arr(self):
@@ -376,6 +267,124 @@ class Pixel:
         ID = sum(map(hash, (self.color_t, self.color_t, self.style, self.char)))
         return hash(ID)
 
+    '''ACCESSORS'''
+
+    @property
+    def color_t(self):
+        '''
+            PURPOSE
+            Return the 'Color' instance used to color the terminal text
+
+            RETURNS
+            Instance of 'Color'
+        '''
+        return self.color_t_obj
+
+    @property
+    def color_b(self):
+        '''
+            PURPOSE
+            Return the 'Color' instance used to color the terminal text
+
+            RETURNS
+            Instance of 'Color'
+        '''
+        return self.color_b_obj
+
+    @property
+    def style(self):
+        '''
+            PURPOSE
+            Return the 'Style' instance used to style the terminal text
+
+            RETURNS
+            Instance of 'Style
+        '''
+        return self.style_obj
+
+    @property
+    def char(self):
+        '''
+            PURPOSE
+            Return the current value of attribute 'char_var'
+
+            RETURNS
+            <str>
+        '''
+        return self.char_str
+
+    '''MANAGERS'''
+
+    def update(self):
+        '''
+            PURPOSE
+            To update the value of the saved output string based on the current
+            instance attributes 'color_t_obj', 'color_b_obj', 'style_obj', and
+            'char_obj'
+        '''
+        self.out = self.end_seq + self.color_t_seq + self.color_b_seq
+        self.out += self.style_seq + self.char_str + self.end_seq
+
+    '''FORMATTERS'''
+
+    @property
+    def color_t_seq(self):
+        '''
+            PURPOSE
+            Returns the ANSI escape sequence that sets the text color to the
+            attribute 'self.color_t_obj'
+
+            RETURNS
+            out         <str>
+        '''
+        out = \
+        esc.format(f'38;2;{self.color_t.R};{self.color_t.G};{self.color_t.B}')
+        return out
+
+    @property
+    def color_b_seq(self):
+        '''
+            PURPOSE
+            Returns the ANSI escape sequence that sets the background color to
+            attribute 'self.color_b_obj'
+
+            RETURNS
+            out         <str>
+        '''
+        out = \
+        esc.format(f'48;2;{self.color_b.R};{self.color_b.G};{self.color_b.B}')
+        return out
+
+    @property
+    def style_seq(self):
+        '''
+            PURPOSE
+            Returns the ANSI escape sequence that sets the text style to
+            attribute 'self.style_obj'
+
+            RETURNS
+            <str>
+        '''
+        if self.style.styles:
+            values = ';'.join(str(ANSI_styles[i]) for i in self.style.styles)
+            return esc.format(values)
+        else:
+            return ''
+
+    @property
+    def end_seq(self):
+        '''
+            PURPOSE
+            To reset the terminal to its default values (i.e. remove all
+            custom-implemented colors or styles)
+
+            RETURNS
+            <str>
+        '''
+        return esc.format('')
+
+    '''COMPARATORS'''
+
     def __eq__(self, pixel):
         '''
             PURPOSE
@@ -391,3 +400,14 @@ class Pixel:
            return False
         else:
            return True
+
+    def __neq__(self, pixel):
+        '''
+            PURPOSE
+            Confirms that the current 'Pixel' instance has properties different
+            to another instance
+
+            RETURNS
+            <bool>
+        '''
+        return not self.__eq__(pixel)

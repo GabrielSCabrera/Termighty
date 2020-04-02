@@ -1,6 +1,5 @@
 from ..config import escape_sequence as esc
 
-
 def bold(string):
     return esc.format(1) + string + esc.format('')
 

@@ -1,5 +1,6 @@
-from .Tester import Tester
 import numpy as np
+
+from .Tester import Tester
 
 # Development Mode - True allows program output to terminal during tests
 dev = False

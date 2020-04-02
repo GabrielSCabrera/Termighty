@@ -1,8 +1,8 @@
+import numpy as np
+
 from ..data import int_types, str_types
 from ..utils import format, checkers
 from .. import data
-
-import numpy as np
 
 class Color:
 
@@ -24,6 +24,8 @@ class Color:
         self.set_name(name)
         self.set_RGB(RGB)
 
+    '''INSTANTIATORS'''
+
     @staticmethod
     def palette(name):
         '''
@@ -42,6 +44,16 @@ class Color:
             msg = f'Selected color \'{color}\' is unknown'
             raise ValueError(msg)
         return Color(data.colors[name], name)
+
+    def copy(self):
+        '''
+            Purpose
+            Returns a deep copy of the current instance
+
+            RETURNS
+            Instance of 'Color'
+        '''
+        return Color(self.RGB, self.name)
 
     '''SETTER METHODS'''
 
@@ -131,6 +143,44 @@ class Color:
 
     '''GETTER METHODS'''
 
+    def __str__(self):
+        '''
+            PURPOSE
+            Returns the color name, RGB value, and a sample of the color
+
+            RETURNS
+            out         <str>
+        '''
+        out = format.bold('COLOR NAME \t') + self.name_str.upper()
+        out += '\n' + format.bold('RGB ')
+        out += f'\t\t{self.R:03d} {self.G:03d} {self.B:03d}\n'
+        out += format.bold('SAMPLE \t\t') + self.sample*11
+
+        return out
+
+    def __repr__(self):
+        '''
+            PURPOSE
+            Returns a color sample that is machine-readable
+
+            RETURNS
+            out         <str>
+        '''
+        return f'Color({self.R:03d} {self.G:03d} {self.B:03d} | {self.name})'
+
+    def __hash__(self):
+        '''
+            PURPOSE
+            To return a unique hash for the RGB values of a 'Color' instance
+
+            RETURNS
+            <int>
+        '''
+        ID = f'{self.R:03d}{self.G:03d}{self.B:03d}'
+        return hash(ID)
+
+    '''ACCESSOR METHODS'''
+
     @property
     def name(self):
         '''
@@ -186,42 +236,7 @@ class Color:
         '''
         return self.RGB_arr[2]
 
-    def copy(self):
-        '''
-            Purpose
-            Returns a deep copy of the current instance
-
-            RETURNS
-            Instance of 'Color'
-        '''
-        return Color(self.RGB, self.name)
-
-    def __str__(self):
-        '''
-            PURPOSE
-            Returns the color name, RGB value, and a sample of the color
-
-            RETURNS
-            out         <str>
-        '''
-        out = format.bold('COLOR NAME \t') + self.name_str.upper()
-        out += '\n' + format.bold('RGB ')
-        out += f'\t\t{self.R:03d} {self.G:03d} {self.B:03d}\n'
-        out += format.bold('SAMPLE \t\t') + self.sample*11
-
-        return out
-
-    def __repr__(self):
-        '''
-            PURPOSE
-            Returns a color sample that is machine-readable
-
-            RETURNS
-            out         <str>
-        '''
-        return f'Color({self.R:03d} {self.G:03d} {self.B:03d} | {self.name})'
-
-    '''SAMPLERS METHODS'''
+    '''SAMPLER METHODS'''
 
     @property
     def sample(self):
@@ -310,7 +325,7 @@ class Color:
             out += f'{color.sample} {RGB} {color.name.upper()}\n'
         return out
 
-    '''MAGIC METHODS'''
+    '''OPERATORS'''
 
     def __add__(self, color):
         '''
@@ -357,17 +372,6 @@ class Color:
         new_RGB = self.RGB.astype(np.int64) - color.RGB.astype(np.int64)
         new_RGB = tuple(max(int(i), 0) for i in new_RGB)
         return Color(new_RGB)
-
-    def __hash__(self):
-        '''
-            PURPOSE
-            To return a unique hash for the RGB values of a 'Color' instance
-
-            RETURNS
-            <int>
-        '''
-        ID = f'{self.R:03d}{self.G:03d}{self.B:03d}'
-        return hash(ID)
 
     '''COMPARATORS'''
 

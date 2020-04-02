@@ -1,10 +1,14 @@
-main:
+main: install
+
+install:
 	@ echo "\033[1;3;32minstall dev build\033[m"
 	@ pip3 install --editable .
 
-remove:
+uninstall:
 	@ echo "\033[1;3;32muninstall dev build\033[m"
 	@ pip3 uninstall .
+
+reinstall: uninstall install
 
 clean-pyc:
 	@ echo "\033[1;3;32mclean __pycache__\033[m"

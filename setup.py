@@ -1,6 +1,6 @@
 from distutils.core import setup
 
-dependencies = ['numpy', 'python3-tk']  # NOTE: Might not work for python3-tk, since it is installed via apt-get instead of pip3
+dependencies = ['numpy']
 
 setup(
   name = 'Termighty',

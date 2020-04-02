@@ -1,4 +1,4 @@
-from numba import jitclass, int8
+import numpy as np
 
 from ..data import styles_clear, styles_to_int, int_to_styles
 from ..data import int_types, str_types, arr_types
@@ -7,11 +7,9 @@ from ..utils import interpreters, checkers
 from ..data import styles as ANSI_styles
 from ..utils.format import bold
 
-import numpy as np
-
 class Style:
 
-    '''CONSTRUCTOR'''
+    '''CONSTRUCTORS'''
 
     def __init__(self, *styles):
         '''
@@ -24,6 +22,9 @@ class Style:
         self.styles_list = sorted(list(set(self.check_styles(styles))))
         self.update()
 
+    '''INSTANTIATORS'''
+
+    @staticmethod
     def from_arr(arr):
         '''
             PURPOSE
@@ -43,6 +44,16 @@ class Style:
             if i == 1:
                 styles.append(int_to_styles[n])
         return Style(*styles)
+
+    def copy(self):
+        '''
+            Purpose
+            Returns a deep copy of the current instance
+
+            RETURNS
+            Instance of 'Style'
+        '''
+        return Style(*self.styles)
 
     '''SETTER METHODS'''
 
@@ -73,68 +84,7 @@ class Style:
                 del self.styles_list[idx]
         self.update()
 
-    def update(self):
-        '''
-            PURPOSE
-            Update the ANSI escape sequence that is returned from this instance
-        '''
-        if not self.styles_list:
-            self.sequence = self.clear()
-            self.codes = []
-        else:
-            codes = [ANSI_styles[style] for style in self.styles_list]
-            fmt = ''
-            for code in codes:
-                fmt += f'{code};'
-            fmt = fmt[:-1]
-            self.sequence = esc.format(fmt)
-            self.codes = [ANSI_styles[style] for style in self.styles_list]
-
-        self.arr = np.zeros(len(ANSI_styles.keys()), dtype = np.uint8)
-        for style in self.styles_list:
-            n = styles_to_int[style]
-            self.arr[n] = 1
-
     '''GETTER METHODS'''
-
-    @staticmethod
-    def list_styles():
-        '''
-            PURPOSE
-            Returns a human-readable description of all available styles
-
-            RETURNS
-            out         <str>
-        '''
-        out = 'STYLES'
-        length = max(len(key) for key in ANSI_styles.keys()) + 1
-        length = max(len(out), length)
-        out = bold(out) + '\n'
-        for key, value in ANSI_styles.items():
-            space = ' '*(length-len(key))
-            out += space + esc.format(value) + key + Style.clear() + '\n'
-        return out
-
-    @property
-    def styles(self):
-        '''
-            PURPOSE
-            Returns a copy of the list of styles currently implemented
-
-            RETURNS
-            <list> of <str>
-        '''
-        return self.styles_list.copy()
-
-    def copy(self):
-        '''
-            Purpose
-            Returns a deep copy of the current instance
-
-            RETURNS
-            Instance of 'Style'
-        '''
-        return Style(*self.styles)
 
     def __call__(self, string):
         '''
@@ -228,6 +178,73 @@ class Style:
         '''
         ID = ''.join(f'{code:02d}' for code in self.codes)
         return hash(ID)
+
+    def __len__(self):
+        '''
+            PURPOSE
+            Returns the number of styles in the current instance
+
+            RETURNS
+            <int>
+        '''
+        return len(self.styles_list)
+
+    '''ACCESSORS'''
+
+    @property
+    def styles(self):
+        '''
+            PURPOSE
+            Returns a copy of the list of styles currently implemented
+
+            RETURNS
+            <list> of <str>
+        '''
+        return self.styles_list.copy()
+
+    '''SAMPLER METHODS'''
+
+    @staticmethod
+    def list_styles():
+        '''
+            PURPOSE
+            Returns a human-readable description of all available styles
+
+            RETURNS
+            out         <str>
+        '''
+        out = 'STYLES'
+        length = max(len(key) for key in ANSI_styles.keys()) + 1
+        length = max(len(out), length)
+        out = bold(out) + '\n'
+        for key, value in ANSI_styles.items():
+            space = ' '*(length-len(key))
+            out += space + esc.format(value) + key + Style.clear() + '\n'
+        return out
+
+    '''MANAGERS'''
+
+    def update(self):
+        '''
+            PURPOSE
+            Update the ANSI escape sequence that is returned from this instance
+        '''
+        if not self.styles_list:
+            self.sequence = self.clear()
+            self.codes = []
+        else:
+            codes = [ANSI_styles[style] for style in self.styles_list]
+            fmt = ''
+            for code in codes:
+                fmt += f'{code};'
+            fmt = fmt[:-1]
+            self.sequence = esc.format(fmt)
+            self.codes = [ANSI_styles[style] for style in self.styles_list]
+
+        self.arr = np.zeros(len(ANSI_styles.keys()), dtype = np.uint8)
+        for style in self.styles_list:
+            n = styles_to_int[style]
+            self.arr[n] = 1
 
     '''COMPARATORS'''
 
@@ -328,13 +345,3 @@ class Style:
             return True
         else:
             return False
-
-    def __len__(self):
-        '''
-            PURPOSE
-            Returns the number of styles in the current instance
-
-            RETURNS
-            <int>
-        '''
-        return len(self.styles_list)
