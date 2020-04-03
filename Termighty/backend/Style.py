@@ -24,8 +24,8 @@ class Style:
 
     '''INSTANTIATORS'''
 
-    @staticmethod
-    def from_arr(arr):
+    @classmethod
+    def from_arr(cls, arr):
         '''
             PURPOSE
             Returns a new 'Style' instance based on the values given in 'arr'
@@ -43,7 +43,7 @@ class Style:
         for n,i in enumerate(arr):
             if i == 1:
                 styles.append(int_to_styles[n])
-        return Style(*styles)
+        return cls(*styles)
 
     def copy(self):
         '''
@@ -112,8 +112,8 @@ class Style:
         '''
         return self.arr
 
-    @staticmethod
-    def clear():
+    @classmethod
+    def clear(cls):
         '''
             PURPOSE
             Return an ANSI escape sequence that clears all styles
@@ -202,8 +202,8 @@ class Style:
         '''
         return self.styles_list.copy()
 
-    @staticmethod
-    def arr_len():
+    @classmethod
+    def arr_len(cls):
         '''
             PURPOSE
             Returns the length of the array returned from 'as_arr'
@@ -215,8 +215,8 @@ class Style:
 
     '''SAMPLERS'''
 
-    @staticmethod
-    def list_styles():
+    @classmethod
+    def list_styles(cls):
         '''
             PURPOSE
             Returns a human-readable description of all available styles
@@ -230,7 +230,7 @@ class Style:
         out = bold(out) + '\n'
         for key, value in ANSI_styles.items():
             space = ' '*(length-len(key))
-            out += space + esc.format(value) + key + Style.clear() + '\n'
+            out += space + esc.format(value) + key + cls.clear() + '\n'
         return out
 
     '''MANAGERS'''
@@ -259,8 +259,8 @@ class Style:
 
     '''COMPARATORS'''
 
-    @staticmethod
-    def check_styles(styles):
+    @classmethod
+    def check_styles(cls, styles):
         '''
             PURPOSE
             Checks that parameter 'styles' is a <str> or list thereof, whose

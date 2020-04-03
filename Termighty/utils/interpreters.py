@@ -1,6 +1,6 @@
 from ..data import str_types, int_types, arr_types
-from ..obj.Color import Color
-from ..obj.Style import Style
+from ..backend.Color import Color
+from ..backend.Style import Style
 from . import checkers
 from .. import data
 

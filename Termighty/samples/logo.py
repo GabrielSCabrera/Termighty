@@ -4,7 +4,7 @@ import time
 import sys
 import os
 
-from ..obj import Term, Grid, Pixel, Color, Style, Series
+from ..backend import Term, Grid, Pixel, Color, Style, Series
 from ..config import defaults
 
 ROWS, COLS = 24, 80
@@ -696,13 +696,12 @@ def get_series():
     char_arrs = np.array(char_arrs)
     args = [(char_arrs[idx[n]], color) for n, color in enumerate(colors_b)]
 
+    # char_arrs = end_text()
+    # pool = Pool()
+    # grids = pool.map(step1, char_arrs)
 
-    char_arrs = end_text()
     pool = Pool()
-    grids = pool.map(step1, char_arrs)
-
-    pool = Pool()
-    grids += pool.map(step2, args)
+    grids = pool.map(step2, args)
 
     grid = Grid.empty((ROWS, COLS))
     for i in range(ROWS):

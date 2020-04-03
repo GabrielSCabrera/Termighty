@@ -28,8 +28,8 @@ class Grid:
 
     '''INSTANTIATORS'''
 
-    @staticmethod
-    def empty(shape):
+    @classmethod
+    def empty(cls, shape):
         '''
             PURPOSE
             Returns a 'Grid' instance that contains empty 'Pixel' instances and
@@ -66,8 +66,8 @@ class Grid:
                 new_data[i,j] = self.data[i,j].copy()
         return Grid(new_data)
 
-    @staticmethod
-    def load(filename):
+    @classmethod
+    def load(cls, filename):
         '''
             PURPOSE
             To load an already saved 'Grid' instance from the default 'grid'
@@ -81,10 +81,10 @@ class Grid:
             filename += '.npy'
         path = defaults.save_dirs['grid'] / filename
         arr = np.load(path).astype(np.uint32)
-        return Grid.from_arr(arr)
+        return cls.from_arr(arr)
 
-    @staticmethod
-    def from_arr(arr):
+    @classmethod
+    def from_arr(cls, arr):
         '''
             PURPOSE
             To load a 'Grid' instance from an array.

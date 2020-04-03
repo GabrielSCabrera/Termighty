@@ -1,4 +1,4 @@
-from ..obj import Grid, Pixel, Color
+from ..backend import Grid, Pixel, Color
 
 
 class Gradient(Grid):
@@ -6,5 +6,5 @@ class Gradient(Grid):
     def __init__(self):
         '''
             PURPOSE
+            To 
         '''
-        

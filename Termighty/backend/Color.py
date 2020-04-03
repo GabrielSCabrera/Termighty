@@ -26,8 +26,8 @@ class Color:
 
     '''INSTANTIATORS'''
 
-    @staticmethod
-    def palette(name):
+    @classmethod
+    def palette(cls, name):
         '''
             PURPOSE
             To initialize a 'Color' instance using a color name; only
@@ -229,8 +229,8 @@ class Color:
         out += '█\033[m'
         return out
 
-    @staticmethod
-    def chart(R = None, G = None, B = None, term_width = 80):
+    @classmethod
+    def chart(cls, R = None, G = None, B = None, term_width = 80):
         '''
             PURPOSE
             Return a terminal-printable color chart
@@ -286,8 +286,8 @@ class Color:
             out += '\n'
         return out
 
-    @staticmethod
-    def list_colors():
+    @classmethod
+    def list_colors(cls):
         '''
             PURPOSE
             Returns a list of all the available colors and their names

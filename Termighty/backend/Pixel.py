@@ -59,8 +59,8 @@ class Pixel:
 
     '''INSTANTIATORS'''
 
-    @staticmethod
-    def is_char(char):
+    @classmethod
+    def is_char(cls, char):
         '''
             PURPOSE
             Confirms that 'char' is a single-character <str>, or raises an
@@ -75,8 +75,8 @@ class Pixel:
             raise ValueError(msg)
         return True
 
-    @staticmethod
-    def from_arr(arr):
+    @classmethod
+    def from_arr(cls, arr):
         '''
             PURPOSE
             Returns a new 'Pixel' instance based on the values given in 'arr'
@@ -321,8 +321,8 @@ class Pixel:
             instance attributes 'color_t_obj', 'color_b_obj', 'style_obj', and
             'char_obj'
         '''
-        self.out = self.end_seq + self.color_t_seq + self.color_b_seq
-        self.out += self.style_seq + self.char_str + self.end_seq
+        self.out = esc.format('') + self.color_t_seq + self.color_b_seq
+        self.out += self.style_seq + self.char_str
 
     '''FORMATTERS'''
 

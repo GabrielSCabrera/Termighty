@@ -1,7 +1,7 @@
 import tkinter as tk
 import numpy as np
 
-from ..obj import Color, Pixel
+from ..backend import Color, Pixel
 from ..config import defaults
 
 class Painter:

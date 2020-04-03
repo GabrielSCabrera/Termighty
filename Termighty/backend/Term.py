@@ -6,6 +6,7 @@ import os
 
 from ..data import int_types, str_types, arr_types
 from ..config import term_width, term_height
+from ..config import escape_sequence as esc
 from ..utils import interpreters, checkers
 from .Color import Color
 from .Style import Style
@@ -47,8 +48,8 @@ class Term:
 
     '''INSTANTIATORS'''
 
-    @staticmethod
-    def from_grid(grid):
+    @classmethod
+    def from_grid(cls, grid):
         '''
             PURPOSE
             Initializes an instance of 'Term' from a 'Grid' instance
@@ -60,7 +61,7 @@ class Term:
             Instance of class 'Term'
         '''
         checkers.check_type(grid, Grid, 'grid', 'from_grid')
-        term = Term(grid.shape)
+        term = cls(grid.shape)
         term.data[:,:] = grid
         term.update()
         return term
@@ -97,8 +98,8 @@ class Term:
 
         self.update()
 
-    @staticmethod
-    def cursor_to(idx):
+    @classmethod
+    def cursor_to(cls, idx):
         '''
             PURPOSE
             Returns a string that moves the cursor the the given coordinates
@@ -112,8 +113,8 @@ class Term:
         '''
         sys.stdout.write(f"\033[{idx[0]};{idx[1]}H")
 
-    @staticmethod
-    def write_at(idx, pixel, move = True):
+    @classmethod
+    def write_at(cls, idx, pixel):
         '''
             PURPOSE
             Displays the given 'Pixel' instance at the given coordinates 'idx'.
@@ -122,10 +123,16 @@ class Term:
             idx         <tuple> of two non-negative <int> values
             pixel       instance of class 'Pixel'
         '''
-        if move:
-            Term.cursor_to(idx)
+        cls.cursor_to(idx)
         sys.stdout.write(pixel.__str__())
-        # sys.stdout.flush()
+
+    @classmethod
+    def cursor_right(cls, N = 1):
+        '''
+            PURPOSE
+            Moves the cursor to the right by N values
+        '''
+        sys.stdout.write(f'\033[{N}C')
 
     '''GETTERS'''
 
@@ -228,36 +235,38 @@ class Term:
 
     '''MANAGERS'''
 
-    @staticmethod
-    def clear():
+    @classmethod
+    def clear(cls):
         '''
             PURPOSE
             Clears the terminal
         '''
+        sys.stdout.write(esc.format(''))
+        sys.stdout.flush()
         os.system('clear')
 
-    @staticmethod
-    def cursor_hide():
+    @classmethod
+    def cursor_hide(cls):
         '''
             PURPOSE
             Hides the cursor in the terminal
         '''
         sys.stdout.write('\033[?25l')
         sys.stdout.flush()
-        Term.cursor_bool = False
+        cls.cursor_bool = False
 
-    @staticmethod
-    def cursor_show():
+    @classmethod
+    def cursor_show(cls):
         '''
             PURPOSE
             Shows the cursor in the terminal
         '''
         sys.stdout.write('\033[?25h')
         sys.stdout.flush()
-        Term.cursor_bool = True
+        cls.cursor_bool = True
 
-    @staticmethod
-    def sleep(t):
+    @classmethod
+    def sleep(cls, t):
         '''
             PURPOSE
             Sets the terminal to sleep for the given number of seconds
@@ -278,8 +287,8 @@ class Term:
         '''
         return self.live_bool
 
-    @staticmethod
-    def locked():
+    @classmethod
+    def locked(cls):
         '''
             PURPOSE
             Returns True if the console is locked (because an instance of
@@ -291,8 +300,8 @@ class Term:
         '''
         return Term.lock_bool
 
-    @staticmethod
-    def resize_console(shape):
+    @classmethod
+    def resize_console(cls, shape):
         '''
             PURPOSE
             Resizes the terminal to the new dimensions given in 'shape'
@@ -301,17 +310,8 @@ class Term:
             shape       <tuple> containing two elements of <class 'int'>
         '''
         checkers.check_type_arr(shape, int_types, 'shape', '__init__')
-        if len(shape) != 2:
-            msg = 'Parameter \'shape\' in \'__init__\' must be of length 2'
-            raise ValueError(msg)
+        checkers.check_shape_arr(shape, (2,), 'shape', '__init__')
         print(f'\033[8;{shape[0]};{shape[1]}t', end = '')
-
-    def print_all(self):
-        '''
-            PURPOSE
-            Sets the cursor to the origin and reprints the entire 'Grid'
-            instance to the terminal
-        '''
 
     def update(self):
         '''
@@ -319,11 +319,11 @@ class Term:
             Updates the console if current 'Term' instance is live
         '''
         if self.live_bool:
-            skip = False
             for i in range(0, self.height):
                 self.cursor_to((i,0))
                 for j in range(0, self.width):
                     sys.stdout.write(self.data[i,j].__str__())
+
             sys.stdout.flush()
 
     def __enter__(self):
@@ -335,13 +335,14 @@ class Term:
             RETURNS
             self
         '''
-        if self.locked():
+        if Term.locked():
             msg = ('Attempt to call method \'__enter__\' on instance of '
                    '\'Term\' while another instance is currently live.')
             raise IOError(msg)
 
         Term.lock_bool = True
         self.live_bool = True
+        self.last_data = self.data.copy()
         self.resize_console(self.shape)
         Term.cursor_hide()
         Term.cursor_to((0,0))

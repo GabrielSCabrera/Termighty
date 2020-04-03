@@ -43,8 +43,8 @@ class Series:
 
     '''INSTANTIATORS'''
 
-    @staticmethod
-    def load(filename):
+    @classmethod
+    def load(cls, filename):
         '''
             PURPOSE
             To load an already saved 'Series' instance from the default 'series'
@@ -61,7 +61,7 @@ class Series:
         series = np.empty(arr.shape[0], dtype = Grid)
         for i in range(arr.shape[0]):
             series[i] = Grid.from_arr(arr[i])
-        return Series(series)
+        return cls(series)
 
     '''ITERATORS'''
 

@@ -5,7 +5,7 @@ from .Tester import Tester
 import os
 
 # Development Mode - True allows program output to terminal during tests
-dev = True
+dev = False
 
 def test_Color():
     '''
@@ -16,7 +16,7 @@ def test_Color():
         results         <dict>
     '''
     # Importing class 'Color' locally
-    from ..obj import Color
+    from ..backend import Color
 
     # Initializing 'Tester' instance
     T = Tester('class Color', dev)
@@ -649,7 +649,7 @@ def test_Style():
     from ..data import styles
 
     # Importing class 'Style' locally
-    from ..obj import Style
+    from ..backend import Style
 
     # Initializing 'Tester' instance
     T = Tester('class Style', dev)
@@ -1045,11 +1045,11 @@ def test_Pixel():
         results         <dict>
     '''
     # Importing class 'Pixel' locally
-    from ..obj import Pixel
+    from ..backend import Pixel
     # Importing class 'Color' locally
-    from ..obj import Color
+    from ..backend import Color
     # Importing class 'Style' locally
-    from ..obj import Style
+    from ..backend import Style
 
     # Initializing 'Tester' instance
     T = Tester('class Pixel', dev)
@@ -1448,10 +1448,10 @@ def test_Grid():
         results         <dict>
     '''
     # Importing class 'Pixel' locally
-    from ..obj import Pixel
+    from ..backend import Pixel
 
     # Importing class 'Grid' locally
-    from ..obj import Grid
+    from ..backend import Grid
 
     # Initializing 'Tester' instance
     T = Tester('class Grid', dev)
@@ -1840,265 +1840,6 @@ def test_Grid():
     results = T.end()
     return results
 
-def test_Term():
-    '''
-        PURPOSE
-        Tests for class Term
-
-        RETURNS
-        results         <dict>
-    '''
-
-    # Importing class 'Pixel' locally
-    from ..obj import Pixel
-
-    # Importing class 'Grid' locally
-    from ..obj import Grid
-
-    # Importing class 'Term' locally
-    from ..obj import Term
-
-    import shutil
-    from ..config import term_width, term_height
-
-    # Initializing 'Tester' instance
-    T = Tester('class Term', dev)
-
-    # New Test
-    T.start('Empty Constructor')
-    try:
-        term = Term()
-        T.passed()
-    except Exception as e:
-        T.failed(e)
-
-    # New Test
-    args = ((10, 20), (5, 5), (1, 2))
-    for n,arg in enumerate(args):
-        T.start(f'Constructor: valid args [{n+1}]')
-        try:
-            term = Term(arg)
-            T.passed()
-        except Exception as e:
-            T.failed(e)
-    # New Test
-    args = ((10), ('A', 5), (1, 2, 20), 'B', 5)
-    for n,arg in enumerate(args):
-        T.start(f'Constructor: invalid args [{n+1}]')
-        try:
-            term = Term(arg)
-            T.failed()
-        except:
-            T.passed()
-
-    # New Test
-    arr = [[Pixel(char = '1'), Pixel(char = '5'), Pixel(char = '9')],
-           [Pixel(char = '2'), Pixel(char = '6'), Pixel(char = 'a')],
-           [Pixel(char = '3'), Pixel(char = '7'), Pixel(char = 'b')],
-           [Pixel(char = '4'), Pixel(char = '8'), Pixel(char = 'c')]]
-    arr = np.array(arr, dtype = Pixel)
-    T.start('from_grid')
-    try:
-        term = Term.from_grid(Grid(arr))
-        assert term.grid == Grid(arr)
-        T.passed()
-    except AssertionError as e:
-        T.failed(e)
-
-    # New Test
-    T.start('shape')
-    try:
-        term = Term((20, 10))
-        shape = term.shape
-        assert np.array_equal(shape, (20, 10))
-        T.passed()
-    except AssertionError as e:
-        T.failed(e)
-
-    # New Test
-    T.start('height')
-    try:
-        term = Term((20, 10))
-        height = term.height
-        assert height == 20
-        T.passed()
-    except AssertionError as e:
-        T.failed(e)
-
-    # New Test
-    T.start('width')
-    try:
-        term = Term((20, 10))
-        width = term.width
-        assert width == 10
-        T.passed()
-    except AssertionError as e:
-        T.failed(e)
-
-    # New Test
-    T.start('size')
-    try:
-        term = Term((20, 10))
-        size = term.size
-        assert size == 200
-        T.passed()
-    except AssertionError as e:
-        T.failed(e)
-
-    # New Test
-    T.start('live')
-    try:
-        term = Term((20, 10))
-        assert not term.live
-        term.live_bool = True
-        assert term.live
-        T.passed()
-    except AssertionError as e:
-        T.failed(e)
-
-    # New Test
-    indices = ((0,0),(3,2),(0),(3),(slice(0,None,2)))
-    for n,idx in enumerate(indices):
-        T.start(f'__getitem__: valid arg [{n+1}]')
-        try:
-            exp = arr.__getitem__(idx)
-            term = Term.from_grid(Grid(arr))
-            grid = term.__getitem__(idx)
-            if isinstance(grid, Pixel):
-                assert np.array_equal(exp, grid)
-            elif exp.ndim == 1:
-                assert np.array_equal(exp, grid.data.squeeze())
-            else:
-                assert np.array_equal(exp, grid.data)
-            T.passed()
-        except AssertionError as e:
-            T.failed(e)
-
-    # New Test
-    indices = ((5,0),(-8,2),('A'),(3.2),(slice(0,1,2),40))
-    for n,idx in enumerate(indices):
-        T.start(f'__getitem__: invalid arg [{n+1}]')
-        try:
-            term = Term.from_grid(Grid(arr))
-            exp = arr.__getitem__(idx)
-            T.failed()
-        except IndexError:
-            T.passed()
-
-    # New Test
-    T.start('__str__')
-    try:
-        term = Term((20, 10))
-        assert isinstance(term.__str__(), str)
-        T.passed()
-    except AssertionError as e:
-        T.failed(e)
-
-    # New Test
-    T.start('__repr__')
-    try:
-        term = Term((20, 10))
-        assert isinstance(term.__repr__(), str)
-        T.passed()
-    except AssertionError as e:
-        T.failed(e)
-
-    # New Test
-    arr2 = [[Pixel(char = 'A'), Pixel(char = 'E'), Pixel(char = 'I')],
-            [Pixel(char = 'B'), Pixel(char = 'F'), Pixel(char = 'J')],
-            [Pixel(char = 'C'), Pixel(char = 'G'), Pixel(char = 'K')],
-            [Pixel(char = 'D'), Pixel(char = 'H'), Pixel(char = 'L')]]
-    arr2 = np.array(arr2, dtype = Pixel)
-    indices = ((0,0),(3,2),(0),(3),(slice(0,None,2)))
-    for n,idx in enumerate(indices):
-        T.start(f'__setitem__: valid arg [{n+1}]')
-        try:
-            new_arr = arr2.__getitem__(idx)
-            term = Term.from_grid(Grid(arr2))
-            term.__setitem__(idx, new_arr)
-            subgrid = term.__getitem__(idx)
-            if isinstance(new_arr, Pixel):
-                assert new_arr == subgrid
-            elif new_arr.ndim == 1:
-                assert np.array_equal(new_arr, subgrid.data.squeeze())
-            else:
-                assert np.array_equal(new_arr, subgrid.data)
-            T.passed()
-        except AssertionError as e:
-            T.failed(e)
-
-    # New Test
-    indices = ((0),(3),(slice(0,None,2)),(slice(0,3,2)),(slice(0,3,1)))
-    for n,idx in enumerate(indices):
-        T.start(f'__setitem__: valid arg [{n+len(indices)+1}]')
-        try:
-            new_arr = arr2.__getitem__(idx)
-            if new_arr.ndim == 1:
-                new_arr = new_arr[None,:]
-            new_arr = Grid(new_arr)
-            term = Term.from_grid(Grid(arr))
-            term.__setitem__(idx, new_arr)
-            subgrid = term.__getitem__(idx)
-            assert new_arr == subgrid
-            T.passed()
-        except AssertionError as e:
-            T.failed(e)
-
-    # New Test
-    T.start('__setitem__: invalid arg [1]')
-    try:
-        term = Term((20, 20))
-        term.__setitem__(0, 'A')
-        T.failed()
-    except TypeError:
-        T.passed()
-
-    # New Test
-    T.start('__setitem__: invalid arg [2]')
-    try:
-        term = Term((20, 20))
-        term.__setitem__('A', 0)
-        T.failed()
-    except TypeError:
-        T.passed()
-
-    # New Test
-    T.start('locked')
-    try:
-        term = Term((20, 10))
-        Term.lock_bool = True
-        assert term.locked()
-        Term.lock_bool = False
-        assert not term.locked()
-        T.passed()
-    except AssertionError as e:
-        T.failed(e)
-
-    # New Test
-    T.start('resize_console')
-    try:
-        term = Term((30, 30))
-        Term.resize_console((30, 30))
-        Term.resize_console(term.term_shape)
-        T.passed()
-    except ValueError as e:
-        T.failed(e)
-
-    # New Test
-    T.start('__enter__ & __exit__')
-    try:
-        term = Term((20, 10))
-        assert not Term.locked()
-        with term:
-            assert Term.locked()
-        assert not Term.locked()
-        T.passed()
-    except AssertionError as e:
-        T.failed(e)
-
-    results = T.end()
-    return results
-
 def test_Series():
     '''
         PURPOSE
@@ -2109,13 +1850,13 @@ def test_Series():
     '''
 
     # Importing class 'Series' locally
-    from ..obj import Series
+    from ..backend import Series
 
     # Importing class 'Grid' locally
-    from ..obj import Grid
+    from ..backend import Grid
 
     # Importing class 'Pixel' locally
-    from ..obj import Pixel
+    from ..backend import Pixel
 
     # Initializing 'Tester' instance
     T = Tester('class Series', dev)
@@ -2354,6 +2095,265 @@ def test_Series():
     results = T.end()
     return results
 
+def test_Term():
+    '''
+        PURPOSE
+        Tests for class Term
+
+        RETURNS
+        results         <dict>
+    '''
+
+    # Importing class 'Pixel' locally
+    from ..backend import Pixel
+
+    # Importing class 'Grid' locally
+    from ..backend import Grid
+
+    # Importing class 'Term' locally
+    from ..backend import Term
+
+    import shutil
+    from ..config import term_width, term_height
+
+    # Initializing 'Tester' instance
+    T = Tester('class Term', dev)
+
+    # New Test
+    T.start('Empty Constructor')
+    try:
+        term = Term()
+        T.passed()
+    except Exception as e:
+        T.failed(e)
+
+    # New Test
+    args = ((10, 20), (5, 5), (1, 2))
+    for n,arg in enumerate(args):
+        T.start(f'Constructor: valid args [{n+1}]')
+        try:
+            term = Term(arg)
+            T.passed()
+        except Exception as e:
+            T.failed(e)
+    # New Test
+    args = ((10), ('A', 5), (1, 2, 20), 'B', 5)
+    for n,arg in enumerate(args):
+        T.start(f'Constructor: invalid args [{n+1}]')
+        try:
+            term = Term(arg)
+            T.failed()
+        except:
+            T.passed()
+
+    # New Test
+    arr = [[Pixel(char = '1'), Pixel(char = '5'), Pixel(char = '9')],
+           [Pixel(char = '2'), Pixel(char = '6'), Pixel(char = 'a')],
+           [Pixel(char = '3'), Pixel(char = '7'), Pixel(char = 'b')],
+           [Pixel(char = '4'), Pixel(char = '8'), Pixel(char = 'c')]]
+    arr = np.array(arr, dtype = Pixel)
+    T.start('from_grid')
+    try:
+        term = Term.from_grid(Grid(arr))
+        assert term.grid == Grid(arr)
+        T.passed()
+    except AssertionError as e:
+        T.failed(e)
+
+    # New Test
+    T.start('shape')
+    try:
+        term = Term((20, 10))
+        shape = term.shape
+        assert np.array_equal(shape, (20, 10))
+        T.passed()
+    except AssertionError as e:
+        T.failed(e)
+
+    # New Test
+    T.start('height')
+    try:
+        term = Term((20, 10))
+        height = term.height
+        assert height == 20
+        T.passed()
+    except AssertionError as e:
+        T.failed(e)
+
+    # New Test
+    T.start('width')
+    try:
+        term = Term((20, 10))
+        width = term.width
+        assert width == 10
+        T.passed()
+    except AssertionError as e:
+        T.failed(e)
+
+    # New Test
+    T.start('size')
+    try:
+        term = Term((20, 10))
+        size = term.size
+        assert size == 200
+        T.passed()
+    except AssertionError as e:
+        T.failed(e)
+
+    # New Test
+    T.start('live')
+    try:
+        term = Term((20, 10))
+        assert not term.live
+        term.live_bool = True
+        assert term.live
+        T.passed()
+    except AssertionError as e:
+        T.failed(e)
+
+    # New Test
+    indices = ((0,0),(3,2),(0),(3),(slice(0,None,2)))
+    for n,idx in enumerate(indices):
+        T.start(f'__getitem__: valid arg [{n+1}]')
+        try:
+            exp = arr.__getitem__(idx)
+            term = Term.from_grid(Grid(arr))
+            grid = term.__getitem__(idx)
+            if isinstance(grid, Pixel):
+                assert np.array_equal(exp, grid)
+            elif exp.ndim == 1:
+                assert np.array_equal(exp, grid.data.squeeze())
+            else:
+                assert np.array_equal(exp, grid.data)
+            T.passed()
+        except AssertionError as e:
+            T.failed(e)
+
+    # New Test
+    indices = ((5,0),(-8,2),('A'),(3.2),(slice(0,1,2),40))
+    for n,idx in enumerate(indices):
+        T.start(f'__getitem__: invalid arg [{n+1}]')
+        try:
+            term = Term.from_grid(Grid(arr))
+            exp = arr.__getitem__(idx)
+            T.failed()
+        except IndexError:
+            T.passed()
+
+    # New Test
+    T.start('__str__')
+    try:
+        term = Term((20, 10))
+        assert isinstance(term.__str__(), str)
+        T.passed()
+    except AssertionError as e:
+        T.failed(e)
+
+    # New Test
+    T.start('__repr__')
+    try:
+        term = Term((20, 10))
+        assert isinstance(term.__repr__(), str)
+        T.passed()
+    except AssertionError as e:
+        T.failed(e)
+
+    # New Test
+    arr2 = [[Pixel(char = 'A'), Pixel(char = 'E'), Pixel(char = 'I')],
+            [Pixel(char = 'B'), Pixel(char = 'F'), Pixel(char = 'J')],
+            [Pixel(char = 'C'), Pixel(char = 'G'), Pixel(char = 'K')],
+            [Pixel(char = 'D'), Pixel(char = 'H'), Pixel(char = 'L')]]
+    arr2 = np.array(arr2, dtype = Pixel)
+    indices = ((0,0),(3,2),(0),(3),(slice(0,None,2)))
+    for n,idx in enumerate(indices):
+        T.start(f'__setitem__: valid arg [{n+1}]')
+        try:
+            new_arr = arr2.__getitem__(idx)
+            term = Term.from_grid(Grid(arr2))
+            term.__setitem__(idx, new_arr)
+            subgrid = term.__getitem__(idx)
+            if isinstance(new_arr, Pixel):
+                assert new_arr == subgrid
+            elif new_arr.ndim == 1:
+                assert np.array_equal(new_arr, subgrid.data.squeeze())
+            else:
+                assert np.array_equal(new_arr, subgrid.data)
+            T.passed()
+        except AssertionError as e:
+            T.failed(e)
+
+    # New Test
+    indices = ((0),(3),(slice(0,None,2)),(slice(0,3,2)),(slice(0,3,1)))
+    for n,idx in enumerate(indices):
+        T.start(f'__setitem__: valid arg [{n+len(indices)+1}]')
+        try:
+            new_arr = arr2.__getitem__(idx)
+            if new_arr.ndim == 1:
+                new_arr = new_arr[None,:]
+            new_arr = Grid(new_arr)
+            term = Term.from_grid(Grid(arr))
+            term.__setitem__(idx, new_arr)
+            subgrid = term.__getitem__(idx)
+            assert new_arr == subgrid
+            T.passed()
+        except AssertionError as e:
+            T.failed(e)
+
+    # New Test
+    T.start('__setitem__: invalid arg [1]')
+    try:
+        term = Term((20, 20))
+        term.__setitem__(0, 'A')
+        T.failed()
+    except TypeError:
+        T.passed()
+
+    # New Test
+    T.start('__setitem__: invalid arg [2]')
+    try:
+        term = Term((20, 20))
+        term.__setitem__('A', 0)
+        T.failed()
+    except TypeError:
+        T.passed()
+
+    # New Test
+    T.start('locked')
+    try:
+        term = Term((20, 10))
+        Term.lock_bool = True
+        assert term.locked()
+        Term.lock_bool = False
+        assert not term.locked()
+        T.passed()
+    except AssertionError as e:
+        T.failed(e)
+
+    # New Test
+    T.start('resize_console')
+    try:
+        term = Term((30, 30))
+        Term.resize_console((30, 30))
+        Term.resize_console(term.term_shape)
+        T.passed()
+    except ValueError as e:
+        T.failed(e)
+
+    # # New Test CLEARS TERMINAL, REMOVED
+    # T.start('__enter__ & __exit__')
+    # try:
+    #     term = Term((20, 10))
+    #     assert not Term.locked()
+    #     with term:
+    #         assert Term.locked()
+    #     assert not Term.locked()
+    #     T.passed()
+    # except AssertionError as e:
+    #     T.failed(e)
+
+    results = T.end()
+    return results
+
 def test_Window():
     '''
         PURPOSE
@@ -2362,12 +2362,20 @@ def test_Window():
         RETURNS
         results         <dict>
     '''
+    # Importing defaults
+    from ..config import defaults
+
+    # Importing class 'Pixel' locally
+    from ..backend import Pixel
+
+    # Importing class 'Grid' locally
+    from ..backend import Grid
 
     # Importing class 'Window' locally
-    from ..obj import Window
+    from ..backend import Window
 
     # Importing class 'Term' locally
-    from ..obj import Term
+    from ..backend import Term
 
     # Initializing 'Tester' instance
     T = Tester('class Window', dev)
@@ -2385,7 +2393,7 @@ def test_Window():
     # New Test
     T.start('Constructor: valid args')
     try:
-        window = Window((5,5))
+        window = Window((5,5), (0,0))
         T.passed()
     except Exception as e:
         T.failed(e)
@@ -2415,7 +2423,7 @@ def test_Window():
     try:
         window = Window((1,-5))
         T.failed()
-    except ValueError:
+    except TypeError:
         T.passed()
     else:
         T.failed()
@@ -2425,10 +2433,243 @@ def test_Window():
     try:
         window = Window((1,2,4))
         T.failed()
+    except TypeError:
+        T.passed()
+    else:
+        T.failed()
+
+    # New Test
+    T.start('Constructor: invalid args [5]')
+    try:
+        window = Window('A', (0,0))
+        T.failed()
+    except TypeError:
+        T.passed()
+    else:
+        T.failed()
+
+    # New Test
+    T.start('Constructor: invalid args [6]')
+    try:
+        window = Window((1,'B'), (0,0))
+        T.failed()
+    except TypeError:
+        T.passed()
+    else:
+        T.failed()
+
+    # New Test
+    T.start('Constructor: invalid args [7]')
+    try:
+        window = Window((1,-5), (0,0))
+        T.failed()
     except ValueError:
         T.passed()
     else:
         T.failed()
+
+    # New Test
+    T.start('Constructor: invalid args [8]')
+    try:
+        window = Window((1,2,4), (0,0))
+        T.failed()
+    except ValueError:
+        T.passed()
+    else:
+        T.failed()
+
+    # New Test
+    arr = [[Pixel(char = '1'), Pixel(char = '5'), Pixel(char = '9')],
+           [Pixel(char = '2'), Pixel(char = '6'), Pixel(char = 'a')],
+           [Pixel(char = '3'), Pixel(char = '7'), Pixel(char = 'b')],
+           [Pixel(char = '4'), Pixel(char = '8'), Pixel(char = 'c')]]
+    arr = np.array(arr, dtype = Pixel)
+    T.start('from_grid')
+    try:
+        window = Window.from_grid(Grid(arr), (0, 0))
+        assert window.grid == Grid(arr)
+        T.passed()
+    except AssertionError as e:
+        T.failed(e)
+
+    # New Test
+    T.start('shape')
+    try:
+        window = Window((20, 10), (0, 0))
+        shape = window.shape
+        assert np.array_equal(shape, (20, 10))
+        T.passed()
+    except AssertionError as e:
+        T.failed(e)
+
+    # New Test
+    T.start('height')
+    try:
+        window = Window((20, 10), (0, 0))
+        height = window.height
+        assert height == 20
+        T.passed()
+    except AssertionError as e:
+        T.failed(e)
+
+    # New Test
+    T.start('width')
+    try:
+        window = Window((20, 10), (0, 0))
+        width = window.width
+        assert width == 10
+        T.passed()
+    except AssertionError as e:
+        T.failed(e)
+
+    # New Test
+    T.start('size')
+    try:
+        window = Window((20, 10), (0, 0))
+        size = window.size
+        assert size == 200
+        T.passed()
+    except AssertionError as e:
+        T.failed(e)
+
+    # New Test
+    T.start('live')
+    try:
+        window = Window((20, 10), (0, 0))
+        assert not window.live
+        window.live_bool = True
+        assert window.live
+        T.passed()
+    except AssertionError as e:
+        T.failed(e)
+
+    # New Test
+    indices = ((0,0),(3,2),(0),(3),(slice(0,None,2)))
+    for n,idx in enumerate(indices):
+        T.start(f'__getitem__: valid arg [{n+1}]')
+        try:
+            exp = arr.__getitem__(idx)
+            window = Window.from_grid(Grid(arr), (0, 0))
+            grid = window.__getitem__(idx)
+            if isinstance(grid, Pixel):
+                assert np.array_equal(exp, grid)
+            elif exp.ndim == 1:
+                assert np.array_equal(exp, grid.data.squeeze())
+            else:
+                assert np.array_equal(exp, grid.data)
+            T.passed()
+        except AssertionError as e:
+            T.failed(e)
+
+    # New Test
+    indices = ((5,0),(-8,2),('A'),(3.2),(slice(0,1,2),40))
+    for n,idx in enumerate(indices):
+        T.start(f'__getitem__: invalid arg [{n+1}]')
+        try:
+            window = Window.from_grid(Grid(arr), (0, 0))
+            exp = arr.__getitem__(idx)
+            T.failed()
+        except IndexError:
+            T.passed()
+
+    # New Test
+    T.start('__str__')
+    try:
+        window = Window((20, 10), (0, 0))
+        assert isinstance(window.__str__(), str)
+        T.passed()
+    except AssertionError as e:
+        T.failed(e)
+
+    # New Test
+    T.start('__repr__')
+    try:
+        window = Window((20, 10), (0, 0))
+        assert isinstance(window.__repr__(), str)
+        T.passed()
+    except AssertionError as e:
+        T.failed(e)
+
+    # New Test
+    arr2 = [[Pixel(char = 'A'), Pixel(char = 'E'), Pixel(char = 'I')],
+            [Pixel(char = 'B'), Pixel(char = 'F'), Pixel(char = 'J')],
+            [Pixel(char = 'C'), Pixel(char = 'G'), Pixel(char = 'K')],
+            [Pixel(char = 'D'), Pixel(char = 'H'), Pixel(char = 'L')]]
+    arr2 = np.array(arr2, dtype = Pixel)
+    indices = ((0,0),(3,2),(0),(3),(slice(0,None,2)))
+    for n,idx in enumerate(indices):
+        T.start(f'__setitem__: valid arg [{n+1}]')
+        try:
+            new_arr = arr2.__getitem__(idx)
+            window = Window.from_grid(Grid(arr2), (0, 0))
+            window.__setitem__(idx, new_arr)
+            subgrid = window.__getitem__(idx)
+            if isinstance(new_arr, Pixel):
+                assert new_arr == subgrid
+            elif new_arr.ndim == 1:
+                assert np.array_equal(new_arr, subgrid.data.squeeze())
+            else:
+                assert np.array_equal(new_arr, subgrid.data)
+            T.passed()
+        except AssertionError as e:
+            T.failed(e)
+
+    # New Test
+    indices = ((0),(3),(slice(0,None,2)),(slice(0,3,2)),(slice(0,3,1)))
+    for n,idx in enumerate(indices):
+        T.start(f'__setitem__: valid arg [{n+len(indices)+1}]')
+        try:
+            new_arr = arr2.__getitem__(idx)
+            if new_arr.ndim == 1:
+                new_arr = new_arr[None,:]
+            new_arr = Grid(new_arr)
+            window = Window.from_grid(Grid(arr), (0, 0))
+            window.__setitem__(idx, new_arr)
+            subgrid = window.__getitem__(idx)
+            assert new_arr == subgrid
+            T.passed()
+        except AssertionError as e:
+            T.failed(e)
+
+    # New Test
+    T.start('__setitem__: invalid arg [1]')
+    try:
+        window = Window((20, 20), (0, 0))
+        window.__setitem__(0, 'A')
+        T.failed()
+    except TypeError:
+        T.passed()
+
+    # New Test
+    T.start('__setitem__: invalid arg [2]')
+    try:
+        window = Window((20, 20), (0, 0))
+        window.__setitem__('A', 0)
+        T.failed()
+    except TypeError:
+        T.passed()
+
+    # New Test
+    T.start('locked')
+    try:
+        window = Window((20, 10), (0, 0))
+        Term.lock_bool = True
+        assert window.locked()
+        Term.lock_bool = False
+        assert not window.locked()
+        T.passed()
+    except AssertionError as e:
+        T.failed(e)
+
+    # New Test
+    T.start('resize_console')
+    try:
+        window = Window((30, 30), (0, 0))
+        Term.resize_console((30, 30))
+        Term.resize_console((defaults.term_height, defaults.term_width))
+        T.passed()
+    except ValueError as e:
+        T.failed(e)
 
     results = T.end()
     return results
