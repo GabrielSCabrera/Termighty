@@ -20,7 +20,7 @@ class Color:
             OPTIONAL PARAMETERS
             name        <str>
         '''
-
+        self.RGB_arr = np.zeros(3, np.uint8)
         self.set_name(name)
         self.set_RGB(RGB)
 
@@ -65,14 +65,7 @@ class Color:
             PARAMETERS
             name        <str>
         '''
-        name_params = {
-                       'var'    : name,
-                       'name'   : 'name',
-                       'types'  : str_types,
-                       'method' : 'rename'
-                       }
-
-        checkers.check_type(**name_params)
+        checkers.check_type(name, str_types, 'name', 'rename')
         self.name_str = name
 
     def set_RGB(self, RGB):
@@ -83,27 +76,12 @@ class Color:
             PARAMETERS
             RGB         iterable yielding 3 integers in range 0-255
         '''
-        RGB_params = {
-                       'arr'    : RGB,
-                       'name'   : 'RGB',
-                       'types'  : int_types,
-                       'method' : 'reset_RGB'
-                       }
+        checkers.check_type_arr(RGB, int_types, 'RGB', 'reset_RGB')
+        checkers.check_range_arr(RGB, 0, 255, 'RGB', 'reset_RGB')
+        checkers.check_shape_arr(RGB, (3,), 'RGB', 'reset_RGB')
 
-        checkers.check_type_arr(**RGB_params)
-
-        del RGB_params['types']
-        RGB_params['low'] = 0
-        RGB_params['high'] = 255
-
-        checkers.check_range_arr(**RGB_params)
-
-        if len(RGB) != 3:
-            msg = ('Parameter \'RGB\' in \'set_RGB\' must be a <tuple> of '
-                   'length 3 containing <int> values in range [0,255]')
-            raise ValueError
-
-        self.RGB_arr = np.array(RGB, dtype = np.uint8)
+        for i in range(3):
+            self.RGB_arr[i] = RGB[i]
 
     def set_R(self, R):
         '''
@@ -201,7 +179,7 @@ class Color:
             RETURNS
             self.RGB_arr        <ndarray> containing three <uint8> elements
         '''
-        return self.RGB_arr.copy()
+        return (self.R, self.G, self.B)
 
     @property
     def R(self):
@@ -346,7 +324,7 @@ class Color:
                        }
 
         checkers.check_type(**name_params)
-        new_RGB = self.RGB.astype(np.int64) + color.RGB.astype(np.int64)
+        new_RGB = self.RGB_arr.astype(np.int64) + color.RGB_arr
         new_RGB = tuple(min(int(i), 255) for i in new_RGB)
         return Color(new_RGB)
 

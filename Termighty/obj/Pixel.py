@@ -8,7 +8,6 @@ from ..config import defaults
 from .Color import Color
 from .Style import Style
 
-
 class Pixel:
 
     '''CONSTRUCTOR'''
@@ -132,7 +131,7 @@ class Pixel:
                  }
         return Pixel(**params)
 
-    '''SETTER METHODS'''
+    '''SETTERS'''
 
     def set_color_t(self, color):
         '''
@@ -185,7 +184,7 @@ class Pixel:
         self.char_str = char
         self.update()
 
-    '''GETTER METHODS'''
+    '''GETTERS'''
 
     @property
     def as_arr(self):

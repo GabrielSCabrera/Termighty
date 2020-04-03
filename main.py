@@ -39,6 +39,7 @@ def procedure_test():
     results['Grid']  = tm.tests.test_Grid()
     results['Term']  = tm.tests.test_Term()
     results['Series']  = tm.tests.test_Series()
+    results['Window']  = tm.tests.test_Window()
 
     final_tally = {'passed':0, 'failed':0}
     for key, value in results.items():

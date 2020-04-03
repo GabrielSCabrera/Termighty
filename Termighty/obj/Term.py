@@ -1,5 +1,8 @@
 import numpy as np
 import shutil
+import time
+import sys
+import os
 
 from ..data import int_types, str_types, arr_types
 from ..config import term_width, term_height
@@ -14,6 +17,7 @@ class Term:
     '''CLASS ATTRIBUTES'''
 
     lock_bool = False       # Set to True when any instance is made live
+    cursor_bool = True      # Set to True when the cursor is displayed
 
     '''CONSTRUCTOR'''
 
@@ -26,15 +30,15 @@ class Term:
             shape       <tuple> containing two elements of <class 'int'>
         '''
         if shape is not None:
+            checkers.check_type(shape, arr_types, 'shape', '__init__')
             checkers.check_type_arr(shape, int_types, 'shape', '__init__')
-            if len(shape) != 2:
-                msg = 'Parameter \'shape\' in \'__init__\' must be of length 2'
-                raise ValueError(msg)
+            checkers.check_range_arr(shape, 1, None, 'shape', '__init__')
+            checkers.check_shape_arr(shape, (2,), 'shape', '__init__')
         else:
             shape = (term_height, term_width)
 
         self.data = Grid.empty(shape)
-        self.term_shape = tuple(shutil.get_terminal_size())
+        self.term_shape = tuple(shutil.get_terminal_size())[::-1]
         self.shape_arr = self.data.shape
         self.height_val = self.shape_arr[0]
         self.width_val = self.shape_arr[1]
@@ -71,7 +75,7 @@ class Term:
         '''
         return Term.from_grid(self.data.copy())
 
-    '''SETTER METHODS'''
+    '''SETTERS'''
 
     def __setitem__(self, idx, value):
         '''
@@ -93,7 +97,37 @@ class Term:
 
         self.update()
 
-    '''GETTER METHODS'''
+    @staticmethod
+    def cursor_to(idx):
+        '''
+            PURPOSE
+            Returns a string that moves the cursor the the given coordinates
+            'idx' when printed
+
+            PARAMETERS
+            idx         <tuple> of two non-negative <int> values
+
+            RETURNS
+            <str>
+        '''
+        sys.stdout.write(f"\033[{idx[0]};{idx[1]}H")
+
+    @staticmethod
+    def write_at(idx, pixel, move = True):
+        '''
+            PURPOSE
+            Displays the given 'Pixel' instance at the given coordinates 'idx'.
+
+            PARAMETERS
+            idx         <tuple> of two non-negative <int> values
+            pixel       instance of class 'Pixel'
+        '''
+        if move:
+            Term.cursor_to(idx)
+        sys.stdout.write(pixel.__str__())
+        # sys.stdout.flush()
+
+    '''GETTERS'''
 
     def __getitem__(self, idx):
         '''
@@ -194,6 +228,45 @@ class Term:
 
     '''MANAGERS'''
 
+    @staticmethod
+    def clear():
+        '''
+            PURPOSE
+            Clears the terminal
+        '''
+        os.system('clear')
+
+    @staticmethod
+    def cursor_hide():
+        '''
+            PURPOSE
+            Hides the cursor in the terminal
+        '''
+        sys.stdout.write('\033[?25l')
+        sys.stdout.flush()
+        Term.cursor_bool = False
+
+    @staticmethod
+    def cursor_show():
+        '''
+            PURPOSE
+            Shows the cursor in the terminal
+        '''
+        sys.stdout.write('\033[?25h')
+        sys.stdout.flush()
+        Term.cursor_bool = True
+
+    @staticmethod
+    def sleep(t):
+        '''
+            PURPOSE
+            Sets the terminal to sleep for the given number of seconds
+
+            PARAMETERS
+            t           <float> greater than or equal to zero
+        '''
+        time.sleep(t)
+
     @property
     def live(self):
         '''
@@ -233,12 +306,25 @@ class Term:
             raise ValueError(msg)
         print(f'\033[8;{shape[0]};{shape[1]}t', end = '')
 
+    def print_all(self):
+        '''
+            PURPOSE
+            Sets the cursor to the origin and reprints the entire 'Grid'
+            instance to the terminal
+        '''
+
     def update(self):
         '''
             PURPOSE
             Updates the console if current 'Term' instance is live
         '''
-        pass
+        if self.live_bool:
+            skip = False
+            for i in range(0, self.height):
+                self.cursor_to((i,0))
+                for j in range(0, self.width):
+                    sys.stdout.write(self.data[i,j].__str__())
+            sys.stdout.flush()
 
     def __enter__(self):
         '''
@@ -257,14 +343,20 @@ class Term:
         Term.lock_bool = True
         self.live_bool = True
         self.resize_console(self.shape)
+        Term.cursor_hide()
+        Term.cursor_to((0,0))
+        Term.clear()
         self.update()
         return self
 
     def __exit__(self, exc_type, exc_value, traceback):
         '''
             PURPOSE
-            Kills the current 'Term' instance after closing of context manager.
+            Kills the current 'Term' instance's live session after closing of
+            context manager.
         '''
-        self.resize_console(self.term_shape)
         Term.lock_bool = False
         self.live_bool = False
+        self.resize_console(self.term_shape)
+        Term.clear()
+        Term.cursor_show()

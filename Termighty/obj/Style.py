@@ -55,7 +55,7 @@ class Style:
         '''
         return Style(*self.styles)
 
-    '''SETTER METHODS'''
+    '''SETTERS'''
 
     def add(self, *styles):
         '''
@@ -84,7 +84,7 @@ class Style:
                 del self.styles_list[idx]
         self.update()
 
-    '''GETTER METHODS'''
+    '''GETTERS'''
 
     def __call__(self, string):
         '''
@@ -213,7 +213,7 @@ class Style:
         '''
         return len(ANSI_styles.keys())
 
-    '''SAMPLER METHODS'''
+    '''SAMPLERS'''
 
     @staticmethod
     def list_styles():

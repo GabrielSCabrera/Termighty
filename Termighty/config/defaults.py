@@ -30,6 +30,10 @@ save_dirs = {
 
 save_dirs = {i:save_path / j for i,j in save_dirs.items()}
 
+# Logo save path
+logo_file = 'logo.npy'
+logo_path = save_dirs['series'] / logo_file
+
 # Creating non-existent directories
 if not os.path.isdir(save_path):
     os.mkdir(save_path)

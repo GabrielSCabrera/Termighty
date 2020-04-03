@@ -1857,7 +1857,6 @@ def test_Term():
 
     # Importing class 'Term' locally
     from ..obj import Term
-    Term.resize_console((24, 80))
 
     import shutil
     from ..config import term_width, term_height
@@ -2165,7 +2164,7 @@ def test_Series():
         T.failed(e)
 
     # New Test
-    T.start('__setitem__')
+    T.start('__setitem__ [0]')
     try:
         grid_1 = Grid.empty((20, 20))
         grid_2 = Grid.empty((20, 20))
@@ -2179,6 +2178,118 @@ def test_Series():
         series[0] = grid_3
         assert series[0] == grid_4
         assert series[0][5,5] == exp
+        T.passed()
+    except AssertionError as e:
+        T.failed(e)
+
+    # New Test
+    T.start('__setitem__ [1]')
+    try:
+        grid_1 = Grid.empty((20, 20))
+        grid_2 = Grid.empty((20, 20))
+        grid_3 = Grid.empty((20, 20))
+        grid_4 = Grid.empty((20, 20))
+        grid_5 = Grid.empty((20, 20))
+
+        char_1 = 'O'
+        char_2 = '?'
+        grid_4[5,5] = Pixel(char = char_1)
+        grid_5[5,5] = Pixel(char = char_2)
+
+        replace = [grid_4, grid_5]
+        series = Series([grid_1, grid_2, grid_3])
+        series[1:] = replace
+
+        assert series[1][5,5] == Pixel(char = char_1)
+        assert series[2][5,5] == Pixel(char = char_2)
+        T.passed()
+    except AssertionError as e:
+        T.failed(e)
+
+    # New Test
+    T.start('shape [1]')
+    try:
+        series = Series()
+        shape = series.shape
+        assert np.array_equal(shape, (0, 0, 0))
+        T.passed()
+    except AssertionError as e:
+        T.failed(e)
+
+    # New Test
+    T.start('shape [2]')
+    try:
+        grid_1 = Grid.empty((20, 30))
+        grid_2 = Grid.empty((20, 30))
+        series = Series([grid_1, grid_2])
+        shape = series.shape
+        assert np.array_equal(shape, (2, 20, 30))
+        T.passed()
+    except AssertionError as e:
+        T.failed(e)
+
+    # New Test
+    T.start('height [1]')
+    try:
+        series = Series()
+        height = series.height
+        assert height == 0
+        T.passed()
+    except AssertionError as e:
+        T.failed(e)
+
+    # New Test
+    T.start('height [2]')
+    try:
+        grid_1 = Grid.empty((20, 30))
+        grid_2 = Grid.empty((20, 30))
+        series = Series([grid_1, grid_2])
+        height = series.height
+        assert height == 20
+        T.passed()
+    except AssertionError as e:
+        T.failed(e)
+
+    # New Test
+    T.start('width [1]')
+    try:
+        series = Series()
+        width = series.width
+        assert width == 0
+        T.passed()
+    except AssertionError as e:
+        T.failed(e)
+
+    # New Test
+    T.start('width [2]')
+    try:
+        grid_1 = Grid.empty((20, 30))
+        grid_2 = Grid.empty((20, 30))
+        series = Series([grid_1, grid_2])
+        width = series.width
+        assert width == 30
+        T.passed()
+    except AssertionError as e:
+        T.failed(e)
+
+    # New Test
+    T.start('size [1]')
+    try:
+        series = Series()
+        size = series.size
+        assert size == 0
+        T.passed()
+    except AssertionError as e:
+        T.failed(e)
+
+    # New Test
+    T.start('size [2]')
+    try:
+        grid_1 = Grid.empty((20, 30))
+        grid_2 = Grid.empty((20, 30))
+        series = Series([grid_1, grid_2])
+        size = series.size
+        assert size == 1200
         T.passed()
     except AssertionError as e:
         T.failed(e)
@@ -2228,6 +2339,96 @@ def test_Series():
         T.passed()
     except AssertionError as e:
         T.failed(e)
+
+    # New Test
+    T.start('__iter__')
+    try:
+        arrays = [arr, arr2]
+        series = Series(arrays)
+        for grid, array in zip(series, arrays):
+            assert grid == array
+        T.passed()
+    except AssertionError as e:
+        T.failed(e)
+
+    results = T.end()
+    return results
+
+def test_Window():
+    '''
+        PURPOSE
+        Tests for class Window
+
+        RETURNS
+        results         <dict>
+    '''
+
+    # Importing class 'Window' locally
+    from ..obj import Window
+
+    # Importing class 'Term' locally
+    from ..obj import Term
+
+    # Initializing 'Tester' instance
+    T = Tester('class Window', dev)
+
+    # New Test
+    T.start('Empty Constructor')
+    try:
+        window = Window()
+        T.failed()
+    except TypeError:
+        T.passed()
+    else:
+        T.failed()
+
+    # New Test
+    T.start('Constructor: valid args')
+    try:
+        window = Window((5,5))
+        T.passed()
+    except Exception as e:
+        T.failed(e)
+
+    # New Test
+    T.start('Constructor: invalid args [1]')
+    try:
+        window = Window('A')
+        T.failed()
+    except TypeError:
+        T.passed()
+    else:
+        T.failed()
+
+    # New Test
+    T.start('Constructor: invalid args [2]')
+    try:
+        window = Window((1,'B'))
+        T.failed()
+    except TypeError:
+        T.passed()
+    else:
+        T.failed()
+
+    # New Test
+    T.start('Constructor: invalid args [3]')
+    try:
+        window = Window((1,-5))
+        T.failed()
+    except ValueError:
+        T.passed()
+    else:
+        T.failed()
+
+    # New Test
+    T.start('Constructor: invalid args [4]')
+    try:
+        window = Window((1,2,4))
+        T.failed()
+    except ValueError:
+        T.passed()
+    else:
+        T.failed()
 
     results = T.end()
     return results

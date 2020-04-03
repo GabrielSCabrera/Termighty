@@ -39,14 +39,7 @@ class Series:
             self.grids = []
             self.shape_arr = (0,0,0)
 
-        self.length_val = self.shape_arr[0]
-        self.height_val = self.shape_arr[1]
-        self.width_val = self.shape_arr[2]
-
-        if self.height_val == 1:
-            self.ndim_val = 2
-        else:
-            self.ndim_val = 3
+        self.update()
 
     '''INSTANTIATORS'''
 
@@ -61,19 +54,38 @@ class Series:
             path        <str> or <pathlib> instance
         '''
         checkers.check_type(filename, path_types, 'filename', 'save')
-        if not filename.endswith('.npy'):
+        if not str(filename).endswith('.npy'):
             filename += '.npy'
         path = defaults.save_dirs['series'] / filename
         arr = np.load(path).astype(np.uint32)
-        series_arr = np.zeros(arr.shape[:-1], dtype = Grid)
+        series = np.empty(arr.shape[0], dtype = Grid)
         for i in range(arr.shape[0]):
-            for j in range(arr.shape[1]):
-                for k in range(arr.shape[2]):
-                    series_arr[i,j,k] = Pixel.from_arr(arr[i,j,k])
-        series = []
-        for grid in series_arr:
-            series.append(Grid(grid))
+            series[i] = Grid.from_arr(arr[i])
         return Series(series)
+
+    '''ITERATORS'''
+
+    def __iter__(self):
+        '''
+            PURPOSE
+            See __next__
+        '''
+        self.iter_idx = -1
+        return self
+
+    def __next__(self):
+        '''
+            PURPOSE
+            Allows iteration over the 'Grid' instances in 'self.grids'
+
+            RETURNS
+            instances of 'Grid'
+        '''
+        self.iter_idx += 1
+        if self.iter_idx >= self.length_val:
+            raise StopIteration
+        else:
+            return self.grids.__getitem__(self.iter_idx)
 
     '''SETTER METHODS'''
 
@@ -87,20 +99,48 @@ class Series:
             idx         <int> or <slice>
             value       instance of 'Grid' or 'Series'
         '''
-        checkers.check_type(value, (Grid, Series))
-        self.grids.__setitem__(idx, value)
+        checkers.check_type(value, (Grid, Series) + arr_types)
+
+        idx_map = np.arange(0, self.length_val, dtype = np.int64)[idx]
+        if isinstance(idx_map, np.int64) and isinstance(value, Grid):
+            return self.grids.__setitem__(idx, value)
+        elif isinstance(idx_map, np.ndarray) and\
+             isinstance(value, (Series,) + arr_types):
+            for n, idx in enumerate(idx_map):
+                self.grids.__setitem__(idx, value[n])
 
     '''GETTER METHODS'''
 
     def __getitem__(self, idx):
         '''
             PURPOSE
-            To access an individual frame (or 'Grid' instance) from a Series
+            To access an individual frame (or 'Grid' instance) from a Series,
+            or a subset of the given series.
 
             PARAMETERS
             idx         <int> or <slice>
+
+            RETURNS
+            instance of 'Grid' or 'Series'
         '''
-        return self.grids.__getitem__(idx)
+        idx_map = np.arange(0, self.length_val, dtype = np.int64)[idx]
+        if isinstance(idx_map, np.int64):
+            return self.grids.__getitem__(idx)
+        else:
+            out = []
+            for idx in idx_map:
+                out.append(self.grids.__getitem__(idx))
+            return Series(out)
+
+    def __len__(self):
+        '''
+            PURPOSE
+            Returns the length (in Grids) of the current instance
+
+            RETURNS
+            <int>
+        '''
+        return self.length_val
 
     @property
     def as_arr(self):
@@ -117,18 +157,7 @@ class Series:
             arr[i] = self.grids[i].as_arr
         return arr
 
-    '''ACCESSOR METHODS'''
-
-    @property
-    def ndim(self):
-        '''
-            PURPOSE
-            Returns the dimensionality of the current 'Grid' instance
-
-            RETURNS
-            <int>
-        '''
-        return self.ndim_val
+    '''ACCESSORS'''
 
     @property
     def shape(self):
@@ -150,7 +179,7 @@ class Series:
             RETURNS
             <int>
         '''
-        return self.data.size
+        return np.prod(self.shape_arr)
 
     @property
     def length(self):
@@ -184,6 +213,17 @@ class Series:
             <int>
         '''
         return self.width_val
+
+    '''MANAGERS'''
+
+    def update(self):
+        '''
+            PURPOSE
+            Updates instance attributes based on the state of 'self.shape_arr'
+        '''
+        self.length_val = self.shape_arr[0]
+        self.height_val = self.shape_arr[1]
+        self.width_val = self.shape_arr[2]
 
     '''SAVING'''
 

@@ -1,3 +1,4 @@
+from multiprocessing import Pool
 import numpy as np
 
 from ..data import int_types, str_types, arr_types, path_types
@@ -23,18 +24,12 @@ class Grid:
         self.data = np.array(data, dtype = Pixel)
 
         self.shape_arr = self.data.shape
-        self.height_val = self.shape_arr[0]
-        self.width_val = self.shape_arr[1]
-
-        if self.height_val == 1:
-            self.ndim_val = 1
-        else:
-            self.ndim_val = 2
+        self.update()
 
     '''INSTANTIATORS'''
 
-    @classmethod
-    def empty(self, shape):
+    @staticmethod
+    def empty(shape):
         '''
             PURPOSE
             Returns a 'Grid' instance that contains empty 'Pixel' instances and
@@ -71,6 +66,7 @@ class Grid:
                 new_data[i,j] = self.data[i,j].copy()
         return Grid(new_data)
 
+    @staticmethod
     def load(filename):
         '''
             PURPOSE
@@ -85,10 +81,22 @@ class Grid:
             filename += '.npy'
         path = defaults.save_dirs['grid'] / filename
         arr = np.load(path).astype(np.uint32)
-        grid = np.zeros(arr.shape[:-1], dtype = Grid)
+        return Grid.from_arr(arr)
+
+    @staticmethod
+    def from_arr(arr):
+        '''
+            PURPOSE
+            To load a 'Grid' instance from an array.
+
+            PARAMETERS
+            path        <str> or <pathlib> instance
+        '''
+        pool = Pool()
+        grid = np.empty(arr.shape[:-1], dtype = Grid)
         for i in range(arr.shape[0]):
-            for j in range(arr.shape[1]):
-                grid[i,j] = Pixel.from_arr(arr[i,j])
+            for n,j in enumerate(pool.imap(Pixel.from_arr, arr[i])):
+                grid[i,n] = j
         return Grid(grid)
 
     '''SETTER METHODS'''
@@ -183,7 +191,7 @@ class Grid:
                 arr[i,j] = self.data[i,j].as_arr
         return arr
 
-    '''ACCESSOR METHODS'''
+    '''ACCESSORS'''
 
     @property
     def ndim(self):
@@ -239,6 +247,21 @@ class Grid:
             <int>
         '''
         return self.width_val
+
+    '''MANAGERS'''
+
+    def update(self):
+        '''
+            PURPOSE
+            Updates instance attributes based on the state of 'self.shape_arr'
+        '''
+        self.height_val = self.shape_arr[0]
+        self.width_val = self.shape_arr[1]
+
+        if self.height_val == 1:
+            self.ndim_val = 1
+        else:
+            self.ndim_val = 2
 
     '''SAVING'''
 
