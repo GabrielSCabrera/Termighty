@@ -19,7 +19,7 @@ def test_Color():
     from ..backend import Color
 
     # Initializing 'Tester' instance
-    T = Tester('class Color', dev)
+    T = Tester('Color', dev)
 
     # New Test
     T.start('Empty Constructor')
@@ -652,7 +652,7 @@ def test_Style():
     from ..backend import Style
 
     # Initializing 'Tester' instance
-    T = Tester('class Style', dev)
+    T = Tester('Style', dev)
 
     # New Test
     T.start('Empty Constructor')
@@ -1052,7 +1052,7 @@ def test_Pixel():
     from ..backend import Style
 
     # Initializing 'Tester' instance
-    T = Tester('class Pixel', dev)
+    T = Tester('Pixel', dev)
 
     blue = Color.palette('blue')
     red = Color.palette('red')
@@ -1454,7 +1454,7 @@ def test_Grid():
     from ..backend import Grid
 
     # Initializing 'Tester' instance
-    T = Tester('class Grid', dev)
+    T = Tester('Grid', dev)
 
     # New Test
     T.start('Empty Constructor')
@@ -1859,7 +1859,7 @@ def test_Series():
     from ..backend import Pixel
 
     # Initializing 'Tester' instance
-    T = Tester('class Series', dev)
+    T = Tester('Series', dev)
 
     # New Test
     T.start('Empty Constructor')
@@ -2117,7 +2117,7 @@ def test_Term():
     from ..config import term_width, term_height
 
     # Initializing 'Tester' instance
-    T = Tester('class Term', dev)
+    T = Tester('Term', dev)
 
     # New Test
     T.start('Empty Constructor')
@@ -2378,7 +2378,7 @@ def test_Window():
     from ..backend import Term
 
     # Initializing 'Tester' instance
-    T = Tester('class Window', dev)
+    T = Tester('Window', dev)
 
     # New Test
     T.start('Empty Constructor')

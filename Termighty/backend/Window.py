@@ -46,7 +46,7 @@ class Window(Term):
 
             PARAMETERS
             grid        Instance of class 'Grid'
-            pos         <tuple> with two postive <int> elements
+            pos         <tuple> with two positive <int> elements
 
             RETURNS
             Instance of class 'Window'
@@ -55,16 +55,6 @@ class Window(Term):
         window = cls(grid.shape, pos)
         window.data[:,:] = grid
         return window
-
-    def copy(self):
-        '''
-            PURPOSE
-            Returns a deep copy of the current 'Window' instance
-
-            RETURNS
-            Instance of class 'Window'
-        '''
-        return Window.from_grid(self.data.copy())
 
     '''SETTERS'''
 

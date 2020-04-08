@@ -35,6 +35,11 @@ test_wrap:
 	@ echo "\033[1;3;32mrun test\033[m"
 	@ python3 main.py --test;
 
+calibrate: calibrate_wrap clean-pyc
+calibrate_wrap:
+	@ echo "\033[1;3;32mrun calibrate\033[m"
+	@ python3 main.py --calibrate;
+
 run: run_wrap clean-pyc
 run_wrap:
 	@ echo "\033[1;3;32mrun main\033[m"

@@ -74,7 +74,7 @@ class Term:
             RETURNS
             Instance of class 'Term'
         '''
-        return Term.from_grid(self.data.copy())
+        return self.from_grid(self.data.copy())
 
     '''SETTERS'''
 
@@ -298,7 +298,7 @@ class Term:
             RETURNS
             <bool>
         '''
-        return Term.lock_bool
+        return cls.lock_bool
 
     @classmethod
     def resize_console(cls, shape):

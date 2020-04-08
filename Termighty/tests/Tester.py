@@ -1,3 +1,4 @@
+import inspect
 import sys
 import io
 
@@ -29,7 +30,7 @@ class Tester:
         '''
         self.test_N += 1
 
-        self.out = '\t{} TEST {} {:>04d}'
+        self.out = '\t{} TEST \033[3m{}\033[m \033[2m[{:>04d}]\033[m'
         self.description = description
         if self.description is not None:
             self.out += f' \033[3m{self.description}\033[m'
@@ -61,10 +62,14 @@ class Tester:
             PARAMETERS
             traceback       <str>
         '''
+        # Getting line where issue arises
+        frameinfo = inspect.getframeinfo(inspect.currentframe().f_back)
         # Restore printing to terminal
         if not self.dev:
             sys.stdout = sys.__stdout__
         status = '\033[1;31;40mFAIL\033[m'
+        self.out += (f' \033[1;31;40mline:{frameinfo.lineno}\033[m in '
+                     f'file \033[1;31;40m{frameinfo.filename}\033[m')
         if traceback is not None:
             self.out += (f'\n\n\t     \033[7;31;47mTRACEBACK\033[m\n\t     '
                          f'{traceback}\n')
@@ -89,8 +94,8 @@ class Tester:
 
         return results
 
-    @staticmethod
-    def results(passed, failed, name = None):
+    @classmethod
+    def results(cls, passed, failed, name = None):
         '''
             PURPOSE
             To display the results of the testing

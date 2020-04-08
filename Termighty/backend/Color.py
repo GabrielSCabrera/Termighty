@@ -45,6 +45,21 @@ class Color:
             raise ValueError(msg)
         return Color(data.colors[name], name)
 
+    def complement(self):
+        '''
+            PURPOSE
+            Returns the color complement of the current instance, which is the
+            element-wise difference (255,255,255) - (R,G,B), with R, G, and B
+            being the current instance's color channels.
+
+            RETURNS
+            instance of class 'Color'
+        '''
+        RGB = np.zeros(3, dtype = np.uint8)
+        for i in range(3):
+            RGB[i] = 255 - self.RGB_arr[i]
+        return Color(RGB = RGB)
+
     def copy(self):
         '''
             Purpose
@@ -225,8 +240,8 @@ class Color:
             RETURNS
             out         <str>
         '''
-        out = f'\033[38;2;{self.RGB[0]:d};{self.RGB[1]:d};{self.RGB[2]:d}m'
-        out += '█\033[m'
+        out = f'\033[48;2;{self.RGB[0]:d};{self.RGB[1]:d};{self.RGB[2]:d}m'
+        out += ' \033[m'
         return out
 
     @classmethod
