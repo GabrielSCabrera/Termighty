@@ -4,7 +4,13 @@ import time
 import sys
 import os
 
-from ..backend import Term, Grid, Pixel, Color, Style, Series
+from ..backend import Term
+# from ..backend import Grid, Pixel, Color, Style, Series
+from ..backend import Grid_Fast as Grid
+from ..backend import Pixel_Fast as Pixel
+from ..backend import Color_Fast as Color
+from ..backend import Style_Fast as Style
+from ..backend import Series_Fast as Series
 from ..config import defaults
 
 ROWS, COLS = 24, 80
@@ -624,8 +630,8 @@ def color_b_gradients():
 
     colors_w = np.linspace(0, 255, COLS).astype(np.uint8)
     colors_h = np.linspace(0, 255, ROWS).astype(np.uint8)
-    colors_up = np.arange(0, 256, 15, dtype = np.uint8)
-    colors_down = np.arange(255, -1, -15, dtype = np.uint8)
+    colors_up = np.arange(0, 256, 5, dtype = np.uint8)
+    colors_down = np.arange(255, -1, -5, dtype = np.uint8)
     colors_3 = np.concatenate([colors_up, colors_down])
     color_grid = np.meshgrid(colors_w, colors_h)
     out = ''
@@ -674,9 +680,9 @@ def color_b_gradients():
             new.append([])
             for j in i:
                 RGB = [0,0,0]
-                RGB[0] = max(0, j[0]-20)
-                RGB[1] = max(0, j[1]-12)
-                RGB[2] = max(0, j[2]-10)
+                RGB[0] = max(0, j[0]-10)
+                RGB[1] = max(0, j[1]-8)
+                RGB[2] = max(0, j[2]-5)
                 new[-1].append(tuple(RGB))
         colors_b.append(new)
 
@@ -696,12 +702,12 @@ def get_series():
     char_arrs = np.array(char_arrs)
     args = [(char_arrs[idx[n]], color) for n, color in enumerate(colors_b)]
 
-    # char_arrs = end_text()
-    # pool = Pool()
-    # grids = pool.map(step1, char_arrs)
-
     pool = Pool()
     grids = pool.map(step2, args)
+
+    char_arrs = end_text()
+    pool = Pool()
+    grids += pool.map(step1, char_arrs)
 
     grid = Grid.empty((ROWS, COLS))
     for i in range(ROWS):
@@ -736,10 +742,10 @@ def logo():
     '''
     t_sleep = 0.07
     term = Term((ROWS, COLS))
+    print('Loading Logo', end = '', flush = True)
+    series = get_series()
     with term:
         term.cursor_to((0,0))
-        print('Loading Logo')
-        series = get_series()
         for grid in series:
             term[:] = grid
             time.sleep(t_sleep)

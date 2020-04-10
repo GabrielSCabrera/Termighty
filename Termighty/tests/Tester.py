@@ -1,6 +1,7 @@
 import inspect
 import sys
 import io
+import re
 
 class Tester:
 
@@ -18,7 +19,7 @@ class Tester:
         self.failed_N = 0
         self.dev = dev
         self.category = category.upper()
-        print(f'\n\033[4;1mBEGIN TESTS FOR <{self.category}>\033[m\n')
+        print(f'\n\033[4;1mBEGIN TESTS FOR ⟨{self.category}⟩\033[m\n')
 
     def start(self, description = None):
         '''
@@ -68,10 +69,12 @@ class Tester:
         if not self.dev:
             sys.stdout = sys.__stdout__
         status = '\033[1;31;40mFAIL\033[m'
-        self.out += (f' \033[1;31;40mline:{frameinfo.lineno}\033[m in '
-                     f'file \033[1;31;40m{frameinfo.filename}\033[m')
+        filename = frameinfo.filename.split('/')[-1]
+        self.out += (f' \n\t\033[1;31;40mLINE {frameinfo.lineno}\033[m in '
+                     f'\033[1;31;40m{filename}\033[m')
         if traceback is not None:
-            self.out += (f'\n\n\t     \033[7;31;47mTRACEBACK\033[m\n\t     '
+            exc_type = re.sub('.*\'(.*)\'.*', r'\1', str(type(traceback)))
+            self.out += (f'\n\n\t     \033[7;31;47m{exc_type}\033[m\n\t     '
                          f'{traceback}\n')
         print('\r' + self.out.format(status, self.category, self.test_N))
         self.failed_N += 1
@@ -112,7 +115,7 @@ class Tester:
         if name is None:
             out = f'\n\t\033[1mRESULTS\033[m\n\n\t'
         else:
-            out = f'\n\t\033[1mRESULTS FOR <{name}>\033[m\n\n\t'
+            out = f'\n\t\033[1mRESULTS FOR ⟨{name}⟩\033[m\n\n\t'
 
         out +=  (f'TESTS PASSED \033[32;40m{passed:>04d}\033[m\n\t'
                  f'TESTS FAILED \033[31;40m{failed:>04d}\033[m')

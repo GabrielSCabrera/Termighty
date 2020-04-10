@@ -1,4 +1,5 @@
 from ..data import int_types, arr_types
+from ..config import defaults
 from ..utils import checkers
 from .Term import Term
 from .Grid import Grid
@@ -77,19 +78,6 @@ class Window(Term):
             raise IndexError(msg)
 
         self.update()
-
-    def write_at(self, idx, pixel):
-        '''
-            PURPOSE
-            Displays the given 'Pixel' instance at the given relative
-            coordinates 'idx'.
-
-            PARAMETERS
-            idx         <tuple> of two non-negative <int> values
-            pixel       instance of class 'Pixel'
-        '''
-        self.cursor_to(idx)
-        sys.stdout.write(pixel.__str__())
 
     def cursor_to(self, idx):
         '''
@@ -238,7 +226,13 @@ class Window(Term):
             PURPOSE
             Clears the window
         '''
-        self.data = Grid.empty(self.shape_arr)
+        for m, row in enumerate(self.data):
+            for n, col in enumerate(row):
+                self.data[m,n].color_t.set_RGB(defaults.color_t)
+                self.data[m,n].color_b.set_RGB(defaults.color_b)
+                self.data[m,n].char = ' '
+                self.data[m,n].update()
+
         self.update()
 
     def open():
@@ -254,6 +248,7 @@ class Window(Term):
             PURPOSE
             Kills the 'Window' instance's live session
         '''
+        self.clear()
         self.live_bool = False
 
     '''REMOVED'''

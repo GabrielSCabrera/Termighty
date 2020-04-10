@@ -8,7 +8,7 @@ def calibrate_Color():
     # Importing class 'Color' locally
     from ..backend import Color
 
-    msg = ('TESTS FOR CLASS COLOR')
+    msg = ('CALIBRATION FOR CLASS COLOR')
     print(f'\n\033[30;47;4m{msg:^80s}\033[m\n')
 
     # Rainbow Calibration
@@ -105,7 +105,7 @@ def calibrate_Style():
     # Importing class 'Style' locally
     from ..backend import Style
 
-    msg = ('TESTS FOR CLASS STYLE')
+    msg = ('CALIBRATION FOR CLASS STYLE')
     print(f'\n\033[30;47;4m{msg:^80s}\033[m\n')
 
     # Single Style Calibration
@@ -193,7 +193,7 @@ def calibrate_Pixel():
     # Importing class 'Pixel' locally
     from ..backend import Pixel
 
-    msg = ('TESTS FOR CLASS PIXEL')
+    msg = ('CALIBRATION FOR CLASS PIXEL')
     print(f'\n\033[30;47;4m{msg:^80s}\033[m\n')
 
     # Rainbow Calibration
@@ -307,3 +307,182 @@ def calibrate_Pixel():
     msg += '\033[m'
 
     print(msg)
+
+def calibrate_Grid():
+    '''
+        PURPOSE
+        Runs tests for class 'Grid' that must be visually inspected
+    '''
+    # Importing class 'Grid' locally
+    from ..backend import Grid
+
+    # Importing class 'Pixel' locally
+    from ..backend import Pixel
+
+    msg = ('CALIBRATION FOR CLASS GRID')
+    print(f'\n\033[30;47;4m{msg:^80s}\033[m\n')
+
+    # Rainbow Calibration
+    msg = ('\033[1mRainbow Calibration – Confirm Next Two Rows Are Identical'
+           '\033[m\n')
+    colors = {'red'     :   (255,0,0),
+              'orange'  :   (255,127,0),
+              'yellow'  :   (255,255,0),
+              'green'   :   (0,255,0),
+              'blue'    :   (0,0,255),
+              'indigo'  :   (73,0,130),
+              'violet'  :   (142,0,255)
+             }
+
+    pixels = []
+    row1 = '\033[1mROW 1:\033[m '
+    row2 = '\033[1mROW 2:\033[m '
+    labels = '      '
+    for color, rgb in colors.items():
+        labels += f'{color:^8s} '
+        for i in range(8):
+            pixels.append(Pixel('black', color, None, color[0]))
+        pixels.append(Pixel('black'))
+        row2 += (f'\033[48;2;{rgb[0]};{rgb[1]};{rgb[2]}m\033[30m{color[0]}'
+                 '\033[m')*8 + ' '
+    row1 += Grid([pixels]).__str__()
+    msg += row1 + '\033[m\n' + row2 + '\n' + labels
+    print(msg)
+
+
+    # Fade from Black
+    msg = ('\n\033[1mColor Gradients – Confirm RGB Colors Fade Smoothly In From '
+           'Black\033[m\n')
+    length = 69
+    fmt_len = 11
+    length -= fmt_len
+    gradient = np.linspace(0, 255, length, dtype = np.uint8)
+
+    reds = np.zeros((length, 3), dtype = np.uint8)
+    greens = np.zeros((length, 3), dtype = np.uint8)
+    blues = np.zeros((length, 3), dtype = np.uint8)
+
+    reds[:,0] = gradient
+    greens[:,1] = gradient
+    blues[:,2] = gradient
+
+    msg += f'\033[1m{"RED:":{fmt_len}s}\033[m'
+    msg += ''.join(f'\033[48;2;{rgb[0]};{rgb[1]};{rgb[2]}m\033[30mX' \
+                   for rgb in reds)
+    msg += '\033[m\n' + ' '*fmt_len
+    msg += Grid([[Pixel('black', rgb, None, 'X') for rgb in reds]]).__str__()
+
+    msg += f'\033[m\n\033[1m{"GREEN:":{fmt_len}s}\033[m'
+    msg += ''.join(f'\033[48;2;{rgb[0]};{rgb[1]};{rgb[2]}m\033[30mX' \
+                   for rgb in greens)
+    msg += '\033[m\n' + ' '*fmt_len
+    msg += Grid([[Pixel('black', rgb, None, 'X') for rgb in greens]]).__str__()
+
+    msg += f'\033[m\n\033[1m{"BLUE:":{fmt_len}s}\033[m'
+    msg += ''.join(f'\033[48;2;{rgb[0]};{rgb[1]};{rgb[2]}m\033[30mX' \
+                   for rgb in blues)
+    msg += '\033[m\n' + ' '*fmt_len
+    msg += Grid([[Pixel('black', rgb, None, 'X') for rgb in blues]]).__str__()
+
+    msg += '\033[m\n'
+
+    print(msg)
+
+    # Fade Between
+    msg = ('\n\033[1mColor Gradients – Confirm RGB Colors Fade Smoothly '
+           'Between Each Other\033[m\n')
+    length = 69
+    fmt_len = 11
+    length -= fmt_len
+    gradient = np.linspace(0, 255, length, dtype = np.uint8)
+
+    RG = np.zeros((length, 3), dtype = np.uint8)
+    GB = np.zeros((length, 3), dtype = np.uint8)
+    BR = np.zeros((length, 3), dtype = np.uint8)
+
+    RG[:,0] = gradient[::-1]
+    RG[:,1] = gradient
+    GB[:,1] = gradient[::-1]
+    GB[:,2] = gradient
+    BR[:,2] = gradient[::-1]
+    BR[:,0] = gradient
+
+    msg += f'\033[1m{"RED>GREEN:":{fmt_len}s}\033[m'
+    msg += ''.join(f'\033[48;2;{rgb[0]};{rgb[1]};{rgb[2]}m\033[30mX' \
+                   for rgb in RG)
+    msg += '\033[m\n' + ' '*fmt_len
+    msg += Grid([[Pixel('black', rgb, None, 'X') for rgb in RG]]).__str__()
+
+    msg += f'\033[m\n\033[1m{"GREEN>BLUE:":{fmt_len}s}\033[m'
+    msg += ''.join(f'\033[48;2;{rgb[0]};{rgb[1]};{rgb[2]}m\033[30mX' \
+                   for rgb in GB)
+    msg += '\033[m\n' + ' '*fmt_len
+    msg += Grid([[Pixel('black', rgb, None, 'X') for rgb in GB]]).__str__()
+
+    msg += f'\033[m\n\033[1m{"BLUE>RED:":{fmt_len}s}\033[m'
+    msg += ''.join(f'\033[48;2;{rgb[0]};{rgb[1]};{rgb[2]}m\033[30mX' \
+                   for rgb in BR)
+    msg += '\033[m\n' + ' '*fmt_len
+    msg += Grid([[Pixel('black', rgb, None, 'X') for rgb in BR]]).__str__()
+    msg += '\033[m'
+
+    print(msg)
+
+def calibrate_Term():
+    '''
+        PURPOSE
+        Runs tests for class 'Term' that must be visually inspected
+    '''
+    # Importing class 'Pixel' locally
+    from ..backend import Color_Fast as Color
+
+    # Importing class 'Pixel' locally
+    from ..backend import Pixel_Fast as Pixel
+
+    # Importing class 'Grid' locally
+    from ..backend import Grid_Fast as Grid
+
+    # Importing class 'Term' locally
+    from ..backend import Term
+
+    msg = ('CALIBRATION FOR CLASS TERM')
+    print(f'\n\033[30;47;4m{msg:^80s}\033[m\n')
+
+    height, width, steps = 24, 80, 50
+    red = np.linspace(0, 255, width, dtype = np.uint8)
+    green = np.linspace(0, 255, height, dtype = np.uint8)
+    blue = np.linspace(0, 255, steps, dtype = np.uint8)
+    red, green = np.meshgrid(red, green)
+    RG = np.concatenate([red[:,:,None], green[:,:,None]], axis = 2)
+    grids = []
+    print('Loading Terminal Grids', end = '', flush = True)
+    for k in blue:
+        grids.append([[Pixel(None,Color((i,j,k))) for (i,j) in row] for row in RG])
+
+    T = Term()
+    with T:
+        for i in range(3):
+            for grid in grids:
+                T[:] = Grid(grid)
+                T.sleep(1/60)
+            for grid in grids[::-1]:
+                T[:] = Grid(grid)
+                T.sleep(1/60)
+    T.clear()
+
+def calibrate_Window():
+    '''
+        PURPOSE
+        Runs tests for class 'Window' that must be visually inspected
+    '''
+    # Importing class 'Grid' locally
+    from ..backend import Grid
+
+    # Importing class 'Term' locally
+    from ..backend import Term
+
+    # Importing class 'Window' locally
+    from ..backend import Window
+
+    msg = ('CALIBRATION FOR CLASS WINDOW')
+    print(f'\n\033[30;47;4m{msg:^80s}\033[m\n')

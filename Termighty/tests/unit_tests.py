@@ -5,7 +5,7 @@ from .Tester import Tester
 import os
 
 # Development Mode - True allows program output to terminal during tests
-dev = False
+dev = True
 
 def test_Color():
     '''
@@ -28,8 +28,8 @@ def test_Color():
         T.failed()
     except TypeError:
         T.passed()
-    else:
-        T.failed()
+    except Exception as e:
+        T.failed(e)
 
     # New Test
     T.start('Constructor: valid RGB arg')
@@ -46,8 +46,8 @@ def test_Color():
         T.failed()
     except TypeError:
         T.passed()
-    else:
-        T.failed()
+    except Exception as e:
+        T.failed(e)
 
     # New Test
     T.start('Constructor: invalid RGB arg [2]')
@@ -56,8 +56,8 @@ def test_Color():
         T.failed()
     except TypeError:
         T.passed()
-    else:
-        T.failed()
+    except Exception as e:
+        T.failed(e)
 
     # New Test
     T.start('Constructor: invalid RGB arg [3]')
@@ -66,8 +66,8 @@ def test_Color():
         T.failed()
     except ValueError:
         T.passed()
-    else:
-        T.failed()
+    except Exception as e:
+        T.failed(e)
 
     # New Test
     T.start('Constructor: invalid RGB arg [4]')
@@ -76,8 +76,8 @@ def test_Color():
         T.failed()
     except ValueError:
         T.passed()
-    else:
-        T.failed()
+    except Exception as e:
+        T.failed(e)
 
     # New Test
     T.start('palette: valid color names')
@@ -95,8 +95,8 @@ def test_Color():
         T.failed(e)
     except NameError:
         T.passed()
-    else:
-        T.failed()
+    except Exception as e:
+        T.failed(e)
 
     # New Test
     T.start('name')
@@ -104,7 +104,7 @@ def test_Color():
         white = Color.palette(name = 'white')
         assert white.name == 'white'
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -113,7 +113,7 @@ def test_Color():
         white = Color.palette(name = 'white')
         assert np.array_equal(white.RGB, (255,255,255))
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -122,7 +122,7 @@ def test_Color():
         red = Color.palette(name = 'red')
         assert red.R == 255
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -131,7 +131,7 @@ def test_Color():
         green = Color.palette(name = 'green')
         assert green.G == 255
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -140,7 +140,7 @@ def test_Color():
         blue = Color.palette(name = 'blue')
         assert blue.B == 255
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -150,7 +150,7 @@ def test_Color():
         black.set_name('black')
         assert black.name == 'black'
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -161,8 +161,8 @@ def test_Color():
         T.failed()
     except TypeError:
         T.passed()
-    else:
-        T.failed()
+    except Exception as e:
+        T.failed(e)
 
     # New Test
     T.start('set_RGB: valid tuple')
@@ -171,7 +171,7 @@ def test_Color():
         white.set_RGB((255,255,255))
         assert np.array_equal(white.RGB, (255, 255, 255))
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -182,8 +182,8 @@ def test_Color():
         T.failed()
     except TypeError:
         T.passed()
-    else:
-        T.failed()
+    except Exception as e:
+        T.failed(e)
 
     # New Test
     T.start('set_RGB: invalid tuple [1]')
@@ -193,8 +193,8 @@ def test_Color():
         T.failed()
     except TypeError:
         T.passed()
-    else:
-        T.failed()
+    except Exception as e:
+        T.failed(e)
 
     # New Test
     T.start('set_RGB: invalid tuple [2]')
@@ -204,8 +204,8 @@ def test_Color():
         T.failed()
     except ValueError:
         T.passed()
-    else:
-        T.failed()
+    except Exception as e:
+        T.failed(e)
 
     # New Test
     T.start('set_RGB: invalid tuple [3]')
@@ -215,8 +215,8 @@ def test_Color():
         T.failed()
     except ValueError:
         T.passed()
-    else:
-        T.failed()
+    except Exception as e:
+        T.failed(e)
 
     # New Test
     T.start('set_R: valid int')
@@ -225,7 +225,7 @@ def test_Color():
         red.set_R(255)
         assert red.R == 255
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -236,8 +236,8 @@ def test_Color():
         T.failed()
     except TypeError:
         T.passed()
-    else:
-        T.failed()
+    except Exception as e:
+        T.failed(e)
 
     # New Test
     T.start('set_R: invalid value')
@@ -247,8 +247,8 @@ def test_Color():
         T.failed()
     except ValueError:
         T.passed()
-    else:
-        T.failed()
+    except Exception as e:
+        T.failed(e)
 
     # New Test
     T.start('set_G: valid int')
@@ -257,7 +257,7 @@ def test_Color():
         green.set_G(255)
         assert green.G == 255
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -268,8 +268,8 @@ def test_Color():
         T.failed()
     except TypeError:
         T.passed()
-    else:
-        T.failed()
+    except Exception as e:
+        T.failed(e)
 
     # New Test
     T.start('set_G: invalid value')
@@ -279,8 +279,8 @@ def test_Color():
         T.failed()
     except ValueError:
         T.passed()
-    else:
-        T.failed()
+    except Exception as e:
+        T.failed(e)
 
     # New Test
     T.start('set_B: valid int')
@@ -289,7 +289,7 @@ def test_Color():
         blue.set_B(255)
         assert blue.B == 255
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -300,8 +300,8 @@ def test_Color():
         T.failed()
     except TypeError:
         T.passed()
-    else:
-        T.failed()
+    except Exception as e:
+        T.failed(e)
 
     # New Test
     T.start('set_B: invalid value')
@@ -311,8 +311,8 @@ def test_Color():
         T.failed()
     except ValueError:
         T.passed()
-    else:
-        T.failed()
+    except Exception as e:
+        T.failed(e)
 
     # New Test
     T.start('copy')
@@ -321,7 +321,7 @@ def test_Color():
         blue_2 = blue_1.copy()
         assert blue_1 == blue_2 and blue_1 is not blue_2
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -330,7 +330,7 @@ def test_Color():
         blue = Color(RGB = (0, 0, 0), name = 'blue')
         assert isinstance(blue.__str__(), str)
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -339,7 +339,7 @@ def test_Color():
         blue = Color(RGB = (0, 0, 0), name = 'blue')
         assert isinstance(blue.__repr__(), str)
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -348,7 +348,7 @@ def test_Color():
         blue = Color(RGB = (0, 0, 0), name = 'blue')
         assert isinstance(blue.sample, str)
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -356,7 +356,7 @@ def test_Color():
     try:
         assert isinstance(Color.chart(R = 0), str)
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -364,7 +364,7 @@ def test_Color():
     try:
         assert isinstance(Color.chart(R = 255), str)
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -372,7 +372,7 @@ def test_Color():
     try:
         assert isinstance(Color.chart(G = 0), str)
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -380,7 +380,7 @@ def test_Color():
     try:
         assert isinstance(Color.chart(G = 255), str)
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -388,7 +388,7 @@ def test_Color():
     try:
         assert isinstance(Color.chart(B = 0), str)
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -396,7 +396,7 @@ def test_Color():
     try:
         assert isinstance(Color.chart(B = 255), str)
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -406,8 +406,8 @@ def test_Color():
         T.failed()
     except TypeError:
         T.passed()
-    else:
-        T.failed()
+    except Exception as e:
+        T.failed(e)
 
 
     # New Test
@@ -417,8 +417,8 @@ def test_Color():
         T.failed()
     except TypeError:
         T.passed()
-    else:
-        T.failed()
+    except Exception as e:
+        T.failed(e)
 
 
     # New Test
@@ -428,8 +428,8 @@ def test_Color():
         T.failed()
     except TypeError:
         T.passed()
-    else:
-        T.failed()
+    except Exception as e:
+        T.failed(e)
 
 
     # New Test
@@ -439,8 +439,8 @@ def test_Color():
         T.failed()
     except ValueError:
         T.passed()
-    else:
-        T.failed()
+    except Exception as e:
+        T.failed(e)
 
     # New Test
     T.start('chart: invalid args [5]')
@@ -449,8 +449,8 @@ def test_Color():
         T.failed()
     except ValueError:
         T.passed()
-    else:
-        T.failed()
+    except Exception as e:
+        T.failed(e)
 
     # New Test
     T.start('chart: invalid args [6]')
@@ -459,8 +459,8 @@ def test_Color():
         T.failed()
     except ValueError:
         T.passed()
-    else:
-        T.failed()
+    except Exception as e:
+        T.failed(e)
 
     # New Test
     T.start('chart: invalid args [7]')
@@ -469,15 +469,15 @@ def test_Color():
         T.failed()
     except ValueError:
         T.passed()
-    else:
-        T.failed()
+    except Exception as e:
+        T.failed(e)
 
     # New Test
     T.start('list_colors')
     try:
         assert isinstance(Color.list_colors(), str)
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -487,7 +487,7 @@ def test_Color():
         blue_2 = Color.palette('blue')
         assert blue_1 == blue_2
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -497,7 +497,7 @@ def test_Color():
         red = Color.palette('red')
         assert blue != red
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -508,7 +508,7 @@ def test_Color():
         purple = Color((255, 0, 255), 'purple')
         assert blue + red == purple
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -531,7 +531,7 @@ def test_Color():
             color_2 = Color(RGB_2)
             assert (color_1 < color_2) is boolean
             T.passed()
-        except AssertionError as e:
+        except Exception as e:
             T.failed(e)
 
     # New Test
@@ -555,7 +555,7 @@ def test_Color():
             color_2 = Color(RGB_2)
             assert (color_1 <= color_2) is boolean
             T.passed()
-        except AssertionError as e:
+        except Exception as e:
             T.failed(e)
 
     # New Test
@@ -578,7 +578,7 @@ def test_Color():
             color_2 = Color(RGB_2)
             assert (color_1 >= color_2) is boolean
             T.passed()
-        except AssertionError as e:
+        except Exception as e:
             T.failed(e)
 
     # New Test
@@ -602,7 +602,7 @@ def test_Color():
             color_2 = Color(RGB_2)
             assert (color_1 > color_2) is boolean
             T.passed()
-        except AssertionError as e:
+        except Exception as e:
             T.failed(e)
 
     # New Test
@@ -612,7 +612,7 @@ def test_Color():
         blue_2 = blue_1
         assert blue_1 is blue_2
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -622,7 +622,7 @@ def test_Color():
         blue_2 = Color.palette('blue')
         assert blue_1 is not blue_2
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -631,7 +631,7 @@ def test_Color():
         blue = Color.palette('blue')
         assert isinstance(hash(blue), int)
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     results = T.end()
@@ -669,8 +669,8 @@ def test_Style():
         T.failed()
     except TypeError:
         T.passed()
-    else:
-        T.failed()
+    except Exception as e:
+        T.failed(e)
 
     # New Test
     T.start('Constructor: wrong value')
@@ -679,8 +679,8 @@ def test_Style():
         T.failed()
     except ValueError:
         T.passed()
-    else:
-        T.failed()
+    except Exception as e:
+        T.failed(e)
 
     # New Test
     keys = list(styles.keys())
@@ -748,7 +748,7 @@ def test_Style():
             style.add(*args)
             assert sorted(style.styles) == sorted(args)
             T.passed()
-        except AssertionError as e:
+        except Exception as e:
             T.failed(e)
 
     # New Test
@@ -762,7 +762,7 @@ def test_Style():
             style.add(*args)
             assert sorted(style.styles) == sorted(args)
             T.passed()
-        except AssertionError as e:
+        except Exception as e:
             T.failed(e)
 
     # New Test
@@ -776,7 +776,7 @@ def test_Style():
             style.add(*args)
             assert sorted(style.styles) == sorted(args)
             T.passed()
-        except AssertionError as e:
+        except Exception as e:
             T.failed(e)
 
     # New Test
@@ -787,7 +787,7 @@ def test_Style():
             style.remove(key)
             assert key not in style.styles
             T.passed()
-        except AssertionError as e:
+        except Exception as e:
             T.failed(e)
 
     # New Test
@@ -799,7 +799,7 @@ def test_Style():
             assert key not in style.styles
             assert keys[(n+1)%len(keys)] not in style.styles
             T.passed()
-        except AssertionError as e:
+        except Exception as e:
             T.failed(e)
 
     # New Test
@@ -812,7 +812,7 @@ def test_Style():
             assert keys[(n+1)%len(keys)] not in style.styles
             assert keys[(n+2)%len(keys)] not in style.styles
             T.passed()
-        except AssertionError as e:
+        except Exception as e:
             T.failed(e)
 
     # New Test
@@ -825,7 +825,7 @@ def test_Style():
         style.update()
         assert style.sequence == '\x1b[3m'
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -836,7 +836,7 @@ def test_Style():
         assert bold_1 == bold_2
         assert bold_1 is not bold_2
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -846,7 +846,7 @@ def test_Style():
         exp = '\x1b[1mhello world!\x1b[21;22;23;24;25;27;29;55m'
         assert bold('hello world!') == exp
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -857,8 +857,8 @@ def test_Style():
         T.failed()
     except TypeError:
         T.passed()
-    else:
-        T.failed()
+    except Exception as e:
+        T.failed(e)
 
     # New Test
     T.start('clear')
@@ -866,7 +866,7 @@ def test_Style():
         exp = '\x1b[21;22;23;24;25;27;29;55m'
         assert Style.clear() == exp
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -875,7 +875,7 @@ def test_Style():
         bold = Style('bold')
         assert isinstance(bold.__str__(), str)
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -884,7 +884,7 @@ def test_Style():
         bold = Style('bold')
         assert isinstance(bold.__repr__(), str)
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -893,7 +893,7 @@ def test_Style():
         bold = Style('bold')
         assert isinstance(bold.__hash__(), int)
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -903,7 +903,7 @@ def test_Style():
         bold_2 = Style('bold')
         assert bold_1 == bold_2
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -913,7 +913,7 @@ def test_Style():
         bold_2 = Style('italic')
         assert bold_1 != bold_2
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -921,7 +921,7 @@ def test_Style():
     try:
         assert isinstance(Style.list_styles(), str)
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -931,7 +931,7 @@ def test_Style():
         exp = [1, 0, 0, 0, 0, 0, 0, 0]
         assert np.array_equal(bold_1.as_arr, exp)
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -941,7 +941,7 @@ def test_Style():
         exp = [1, 0, 1, 0, 0, 0, 0, 0]
         assert np.array_equal(style.as_arr, exp)
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -951,7 +951,7 @@ def test_Style():
         exp = [1, 0, 0, 1, 0, 0, 0, 0]
         assert np.array_equal(style.as_arr, exp)
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -962,7 +962,7 @@ def test_Style():
         style = Style.from_arr(arr)
         assert style == exp
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -973,7 +973,7 @@ def test_Style():
         style = Style.from_arr(arr)
         assert style == exp
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -984,7 +984,7 @@ def test_Style():
         style = Style.from_arr(arr)
         assert style == exp
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -993,7 +993,7 @@ def test_Style():
         style = Style('bold')
         assert len(style) == 1
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -1002,7 +1002,7 @@ def test_Style():
         style = Style('bold', 'italic')
         assert len(style) == 2
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -1011,7 +1011,7 @@ def test_Style():
         style = Style()
         assert len(style) == 0
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -1020,7 +1020,7 @@ def test_Style():
         style = Style('bold')
         assert style
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -1029,7 +1029,7 @@ def test_Style():
         style = Style()
         assert not style
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     results = T.end()
@@ -1097,8 +1097,8 @@ def test_Pixel():
                 print(arg[0])
             except arg[1]:
                 T.passed()
-            else:
-                T.failed()
+            except Exception as e:
+                T.failed(e)
 
     # New Test
     chars = ('a', 'b', ' ', '#', 'Æ', '+', '!')
@@ -1107,7 +1107,7 @@ def test_Pixel():
         try:
             assert Pixel.is_char(char)
             T.passed()
-        except AssertionError as e:
+        except Exception as e:
             T.failed(e)
 
     # New Test
@@ -1121,8 +1121,8 @@ def test_Pixel():
             T.passed()
         except TypeError:
             T.passed()
-        else:
-            T.failed()
+        except Exception as e:
+            T.failed(e)
 
     # New Test
     T.start('color_t')
@@ -1130,7 +1130,7 @@ def test_Pixel():
         pixel = Pixel(color_t = 'red')
         assert pixel.color_t.name == 'red'
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -1139,7 +1139,7 @@ def test_Pixel():
         pixel = Pixel(color_b = 'red')
         assert pixel.color_b.name == 'red'
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -1149,7 +1149,7 @@ def test_Pixel():
         assert pixel.style.styles[0] == 'bold'
         assert len(pixel.style.styles) == 1
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -1158,7 +1158,7 @@ def test_Pixel():
         pixel = Pixel(char = 'A')
         assert pixel.char == 'A'
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -1190,8 +1190,8 @@ def test_Pixel():
             T.passed()
         except TypeError:
             T.passed()
-        else:
-            T.failed()
+        except Exception as e:
+            T.failed(e)
 
     # New Test
     args = (red, blue, 'red', 'blue', (0,0,0))
@@ -1207,7 +1207,7 @@ def test_Pixel():
             pixel.set_color_b(arg)
             assert pixel.color_b == color
             T.passed()
-        except AssertionError as e:
+        except Exception as e:
             T.failed(e)
 
     # New Test
@@ -1222,8 +1222,8 @@ def test_Pixel():
             T.passed()
         except TypeError:
             T.passed()
-        else:
-            T.failed()
+        except Exception as e:
+            T.failed(e)
 
     # New Test
     args = (bold, 'italic', 'bold')
@@ -1237,7 +1237,7 @@ def test_Pixel():
             pixel.set_style(arg)
             assert pixel.style == style
             T.passed()
-        except AssertionError as e:
+        except Exception as e:
             T.failed(e)
 
     # New Test
@@ -1252,8 +1252,8 @@ def test_Pixel():
             T.passed()
         except TypeError:
             T.passed()
-        else:
-            T.failed()
+        except Exception as e:
+            T.failed(e)
 
     # New Test
     args = ('a', 'b', ' ', '#', 'Æ', '+', '!')
@@ -1264,7 +1264,7 @@ def test_Pixel():
             pixel.set_char(arg)
             assert pixel.char == arg
             T.passed()
-        except AssertionError as e:
+        except Exception as e:
             T.failed(e)
 
     # New Test
@@ -1275,7 +1275,7 @@ def test_Pixel():
         assert pixel_1 == pixel_2
         assert pixel_1 is not pixel_2
         T.passed()
-    except AssertionError:
+    except Exception:
         T.failed()
 
     # New Test
@@ -1290,8 +1290,8 @@ def test_Pixel():
             T.passed()
         except TypeError:
             T.passed()
-        else:
-            T.failed()
+        except Exception as e:
+            T.failed(e)
 
     # New Test
     T.start('__str__')
@@ -1299,7 +1299,7 @@ def test_Pixel():
         pixel = Pixel()
         assert isinstance(pixel.__str__(), str)
         T.passed()
-    except AssertionError:
+    except Exception:
         T.failed()
 
     # New Test
@@ -1308,7 +1308,7 @@ def test_Pixel():
         pixel = Pixel()
         assert isinstance(pixel.__hash__(), int)
         T.passed()
-    except AssertionError:
+    except Exception:
         T.failed()
 
     # New Test
@@ -1317,7 +1317,7 @@ def test_Pixel():
         pixel = Pixel()
         assert isinstance(pixel.color_t_seq, str)
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -1326,7 +1326,7 @@ def test_Pixel():
         pixel = Pixel()
         assert isinstance(pixel.color_b_seq, str)
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -1335,7 +1335,7 @@ def test_Pixel():
         pixel = Pixel()
         assert isinstance(pixel.style_seq, str)
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -1344,7 +1344,7 @@ def test_Pixel():
         pixel = Pixel()
         assert isinstance(pixel.end_seq, str)
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -1354,7 +1354,7 @@ def test_Pixel():
         exp = [255, 255, 255, 0, 0, 0, 65, 0, 0, 0, 0, 0, 0, 0, 0]
         assert np.array_equal(pixel.as_arr , exp)
         T.passed()
-    except AssertionError:
+    except Exception:
         T.failed()
 
     # New Test
@@ -1365,7 +1365,7 @@ def test_Pixel():
         exp = [255, 255, 255, 0, 0, 0, 53, 1, 0, 1, 1, 0, 0, 0, 0]
         assert np.array_equal(pixel.as_arr , exp)
         T.passed()
-    except AssertionError:
+    except Exception:
         T.failed()
 
     # New Test
@@ -1376,7 +1376,7 @@ def test_Pixel():
         exp = [0, 0, 255, 0, 0, 0, 167, 1, 0, 0, 1, 1, 0, 0, 0]
         assert np.array_equal(pixel.as_arr , exp)
         T.passed()
-    except AssertionError:
+    except Exception:
         T.failed()
 
     # New Test
@@ -1386,7 +1386,7 @@ def test_Pixel():
         exp = [255, 255, 255, 255, 0, 0, 164, 0, 0, 0, 0, 0, 0, 0, 0]
         assert np.array_equal(pixel.as_arr , exp)
         T.passed()
-    except AssertionError:
+    except Exception:
         T.failed()
 
     # New Test
@@ -1397,7 +1397,7 @@ def test_Pixel():
         pixel = Pixel.from_arr(arr)
         assert pixel == exp
         T.passed()
-    except AssertionError:
+    except Exception:
         T.failed()
 
     # New Test
@@ -1409,7 +1409,7 @@ def test_Pixel():
         pixel = Pixel.from_arr(arr)
         assert pixel == exp
         T.passed()
-    except AssertionError:
+    except Exception:
         T.failed()
 
     # New Test
@@ -1421,7 +1421,7 @@ def test_Pixel():
         pixel = Pixel.from_arr(arr)
         assert pixel == exp
         T.passed()
-    except AssertionError:
+    except Exception:
         T.failed()
 
     # New Test
@@ -1432,7 +1432,7 @@ def test_Pixel():
         pixel = Pixel.from_arr(arr)
         assert pixel == exp
         T.passed()
-    except AssertionError:
+    except Exception:
         T.failed()
 
     results = T.end()
@@ -1463,8 +1463,8 @@ def test_Grid():
         T.failed()
     except Exception:
         T.passed()
-    else:
-        T.failed()
+    except Exception as e:
+        T.failed(e)
 
     # New Test
     T.start('Constructor: valid arg')
@@ -1484,8 +1484,8 @@ def test_Grid():
         T.failed()
     except ValueError:
         T.passed()
-    else:
-        T.failed()
+    except Exception as e:
+        T.failed(e)
 
     # New Test
     T.start('Constructor: invalid arg [2]')
@@ -1496,8 +1496,8 @@ def test_Grid():
         T.failed()
     except TypeError:
         T.passed()
-    else:
-        T.failed()
+    except Exception as e:
+        T.failed(e)
 
     # New Test
     T.start('Constructor: invalid arg [3]')
@@ -1507,8 +1507,8 @@ def test_Grid():
         T.failed()
     except TypeError:
         T.passed()
-    else:
-        T.failed()
+    except Exception as e:
+        T.failed(e)
 
     # New Test
     T.start('Constructor: invalid arg [4]')
@@ -1519,8 +1519,8 @@ def test_Grid():
         T.failed()
     except TypeError:
         T.passed()
-    else:
-        T.failed()
+    except Exception as e:
+        T.failed(e)
 
     # New Test
     T.start('empty: valid arg [1]')
@@ -1545,8 +1545,8 @@ def test_Grid():
         T.failed()
     except TypeError:
         T.passed()
-    else:
-        T.failed()
+    except Exception as e:
+        T.failed(e)
 
     # New Test
     T.start('empty: invalid arg [2]')
@@ -1555,8 +1555,8 @@ def test_Grid():
         T.failed()
     except TypeError:
         T.passed()
-    else:
-        T.failed()
+    except Exception as e:
+        T.failed(e)
 
     # New Test
     T.start('empty: invalid arg [3]')
@@ -1565,8 +1565,8 @@ def test_Grid():
         T.failed()
     except ValueError:
         T.passed()
-    else:
-        T.failed()
+    except Exception as e:
+        T.failed(e)
 
     # New Test
     T.start('empty: invalid arg [4]')
@@ -1575,8 +1575,8 @@ def test_Grid():
         T.failed()
     except ValueError:
         T.passed()
-    else:
-        T.failed()
+    except Exception as e:
+        T.failed(e)
 
     # New Test
     T.start('shape')
@@ -1585,7 +1585,7 @@ def test_Grid():
         shape = grid.shape
         assert np.array_equal(shape, (20, 10))
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -1595,7 +1595,7 @@ def test_Grid():
         height = grid.height
         assert height == 20
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -1605,7 +1605,7 @@ def test_Grid():
         width = grid.width
         assert width == 10
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -1615,7 +1615,7 @@ def test_Grid():
         size = grid.size
         assert size == 200
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -1625,7 +1625,7 @@ def test_Grid():
         ndim = grid.ndim
         assert ndim == 1
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -1635,7 +1635,7 @@ def test_Grid():
         ndim = grid.ndim
         assert ndim == 2
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -1645,7 +1645,7 @@ def test_Grid():
         ndim = grid.ndim
         assert ndim == 2
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -1655,7 +1655,7 @@ def test_Grid():
         grid_2 = Grid.empty((20, 10))
         assert grid_1 == grid_2
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -1665,7 +1665,7 @@ def test_Grid():
         grid_2 = Grid.empty((10, 10))
         assert not (grid_1 == grid_2)
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -1675,7 +1675,7 @@ def test_Grid():
         grid_2 = Grid.empty((20, 10))
         assert not (grid_1 != grid_2)
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -1685,7 +1685,7 @@ def test_Grid():
         grid_2 = Grid.empty((10, 10))
         assert grid_1 != grid_2
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -1708,7 +1708,7 @@ def test_Grid():
             else:
                 assert np.array_equal(exp, grid.data)
             T.passed()
-        except AssertionError as e:
+        except Exception as e:
             T.failed(e)
 
 
@@ -1722,8 +1722,8 @@ def test_Grid():
             T.failed()
         except IndexError:
             T.passed()
-        else:
-            T.failed()
+        except Exception as e:
+            T.failed(e)
 
     # New Test
     arr2 = [[Pixel(char = 'A'), Pixel(char = 'E'), Pixel(char = 'I')],
@@ -1746,7 +1746,7 @@ def test_Grid():
             else:
                 assert np.array_equal(new_arr, subgrid.data)
             T.passed()
-        except AssertionError as e:
+        except Exception as e:
             T.failed(e)
 
     # New Test
@@ -1763,7 +1763,7 @@ def test_Grid():
             subgrid = grid.__getitem__(idx)
             assert new_arr == subgrid
             T.passed()
-        except AssertionError as e:
+        except Exception as e:
             T.failed(e)
 
     # New Test
@@ -1774,8 +1774,8 @@ def test_Grid():
         T.failed()
     except TypeError:
         T.passed()
-    else:
-        T.failed()
+    except Exception as e:
+        T.failed(e)
 
     # New Test
     T.start('__setitem__: invalid arg [1]')
@@ -1785,8 +1785,8 @@ def test_Grid():
         T.failed()
     except TypeError:
         T.passed()
-    else:
-        T.failed()
+    except Exception as e:
+        T.failed(e)
 
     # New Test
     T.start('__str__')
@@ -1794,7 +1794,7 @@ def test_Grid():
         grid = Grid.empty((20, 10))
         assert isinstance(grid.__str__(), str)
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -1803,7 +1803,7 @@ def test_Grid():
         grid = Grid.empty((20, 10))
         assert isinstance(grid.__repr__(), str)
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -1817,7 +1817,7 @@ def test_Grid():
         assert os.path.exists(path)
         os.remove(path)
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -1834,7 +1834,7 @@ def test_Grid():
         assert new_grid is not grid
         os.remove(path)
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     results = T.end()
@@ -1901,7 +1901,7 @@ def test_Series():
         assert series[0] == grid_3
         assert series[0][5,5] == exp
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -1920,7 +1920,7 @@ def test_Series():
         assert series[0] == grid_4
         assert series[0][5,5] == exp
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -1944,7 +1944,7 @@ def test_Series():
         assert series[1][5,5] == Pixel(char = char_1)
         assert series[2][5,5] == Pixel(char = char_2)
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -1954,7 +1954,7 @@ def test_Series():
         shape = series.shape
         assert np.array_equal(shape, (0, 0, 0))
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -1966,7 +1966,7 @@ def test_Series():
         shape = series.shape
         assert np.array_equal(shape, (2, 20, 30))
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -1976,7 +1976,7 @@ def test_Series():
         height = series.height
         assert height == 0
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -1988,7 +1988,7 @@ def test_Series():
         height = series.height
         assert height == 20
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -1998,7 +1998,7 @@ def test_Series():
         width = series.width
         assert width == 0
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -2010,7 +2010,7 @@ def test_Series():
         width = series.width
         assert width == 30
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -2020,7 +2020,7 @@ def test_Series():
         size = series.size
         assert size == 0
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -2032,7 +2032,7 @@ def test_Series():
         size = series.size
         assert size == 1200
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -2060,7 +2060,7 @@ def test_Series():
         assert os.path.exists(path)
         os.remove(path)
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -2078,7 +2078,7 @@ def test_Series():
         assert new_series is not series
         os.remove(path)
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -2089,7 +2089,7 @@ def test_Series():
         for grid, array in zip(series, arrays):
             assert grid == array
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     results = T.end()
@@ -2157,7 +2157,7 @@ def test_Term():
         term = Term.from_grid(Grid(arr))
         assert term.grid == Grid(arr)
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -2167,7 +2167,7 @@ def test_Term():
         shape = term.shape
         assert np.array_equal(shape, (20, 10))
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -2177,7 +2177,7 @@ def test_Term():
         height = term.height
         assert height == 20
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -2187,7 +2187,7 @@ def test_Term():
         width = term.width
         assert width == 10
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -2197,7 +2197,7 @@ def test_Term():
         size = term.size
         assert size == 200
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -2208,7 +2208,7 @@ def test_Term():
         term.live_bool = True
         assert term.live
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -2226,7 +2226,7 @@ def test_Term():
             else:
                 assert np.array_equal(exp, grid.data)
             T.passed()
-        except AssertionError as e:
+        except Exception as e:
             T.failed(e)
 
     # New Test
@@ -2246,7 +2246,7 @@ def test_Term():
         term = Term((20, 10))
         assert isinstance(term.__str__(), str)
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -2255,7 +2255,7 @@ def test_Term():
         term = Term((20, 10))
         assert isinstance(term.__repr__(), str)
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -2279,7 +2279,7 @@ def test_Term():
             else:
                 assert np.array_equal(new_arr, subgrid.data)
             T.passed()
-        except AssertionError as e:
+        except Exception as e:
             T.failed(e)
 
     # New Test
@@ -2296,7 +2296,7 @@ def test_Term():
             subgrid = term.__getitem__(idx)
             assert new_arr == subgrid
             T.passed()
-        except AssertionError as e:
+        except Exception as e:
             T.failed(e)
 
     # New Test
@@ -2326,7 +2326,7 @@ def test_Term():
         Term.lock_bool = False
         assert not term.locked()
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -2348,7 +2348,7 @@ def test_Term():
     #         assert Term.locked()
     #     assert not Term.locked()
     #     T.passed()
-    # except AssertionError as e:
+    # except Exception as e:
     #     T.failed(e)
 
     results = T.end()
@@ -2387,8 +2387,8 @@ def test_Window():
         T.failed()
     except TypeError:
         T.passed()
-    else:
-        T.failed()
+    except Exception as e:
+        T.failed(e)
 
     # New Test
     T.start('Constructor: valid args')
@@ -2405,8 +2405,8 @@ def test_Window():
         T.failed()
     except TypeError:
         T.passed()
-    else:
-        T.failed()
+    except Exception as e:
+        T.failed(e)
 
     # New Test
     T.start('Constructor: invalid args [2]')
@@ -2415,8 +2415,8 @@ def test_Window():
         T.failed()
     except TypeError:
         T.passed()
-    else:
-        T.failed()
+    except Exception as e:
+        T.failed(e)
 
     # New Test
     T.start('Constructor: invalid args [3]')
@@ -2425,8 +2425,8 @@ def test_Window():
         T.failed()
     except TypeError:
         T.passed()
-    else:
-        T.failed()
+    except Exception as e:
+        T.failed(e)
 
     # New Test
     T.start('Constructor: invalid args [4]')
@@ -2435,8 +2435,8 @@ def test_Window():
         T.failed()
     except TypeError:
         T.passed()
-    else:
-        T.failed()
+    except Exception as e:
+        T.failed(e)
 
     # New Test
     T.start('Constructor: invalid args [5]')
@@ -2445,8 +2445,8 @@ def test_Window():
         T.failed()
     except TypeError:
         T.passed()
-    else:
-        T.failed()
+    except Exception as e:
+        T.failed(e)
 
     # New Test
     T.start('Constructor: invalid args [6]')
@@ -2455,8 +2455,8 @@ def test_Window():
         T.failed()
     except TypeError:
         T.passed()
-    else:
-        T.failed()
+    except Exception as e:
+        T.failed(e)
 
     # New Test
     T.start('Constructor: invalid args [7]')
@@ -2465,8 +2465,8 @@ def test_Window():
         T.failed()
     except ValueError:
         T.passed()
-    else:
-        T.failed()
+    except Exception as e:
+        T.failed(e)
 
     # New Test
     T.start('Constructor: invalid args [8]')
@@ -2475,8 +2475,8 @@ def test_Window():
         T.failed()
     except ValueError:
         T.passed()
-    else:
-        T.failed()
+    except Exception as e:
+        T.failed(e)
 
     # New Test
     arr = [[Pixel(char = '1'), Pixel(char = '5'), Pixel(char = '9')],
@@ -2489,7 +2489,7 @@ def test_Window():
         window = Window.from_grid(Grid(arr), (0, 0))
         assert window.grid == Grid(arr)
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -2499,7 +2499,7 @@ def test_Window():
         shape = window.shape
         assert np.array_equal(shape, (20, 10))
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -2509,7 +2509,7 @@ def test_Window():
         height = window.height
         assert height == 20
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -2519,7 +2519,7 @@ def test_Window():
         width = window.width
         assert width == 10
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -2529,7 +2529,7 @@ def test_Window():
         size = window.size
         assert size == 200
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -2540,7 +2540,7 @@ def test_Window():
         window.live_bool = True
         assert window.live
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -2558,7 +2558,7 @@ def test_Window():
             else:
                 assert np.array_equal(exp, grid.data)
             T.passed()
-        except AssertionError as e:
+        except Exception as e:
             T.failed(e)
 
     # New Test
@@ -2578,7 +2578,7 @@ def test_Window():
         window = Window((20, 10), (0, 0))
         assert isinstance(window.__str__(), str)
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -2587,7 +2587,7 @@ def test_Window():
         window = Window((20, 10), (0, 0))
         assert isinstance(window.__repr__(), str)
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -2611,7 +2611,7 @@ def test_Window():
             else:
                 assert np.array_equal(new_arr, subgrid.data)
             T.passed()
-        except AssertionError as e:
+        except Exception as e:
             T.failed(e)
 
     # New Test
@@ -2628,7 +2628,7 @@ def test_Window():
             subgrid = window.__getitem__(idx)
             assert new_arr == subgrid
             T.passed()
-        except AssertionError as e:
+        except Exception as e:
             T.failed(e)
 
     # New Test
@@ -2658,7 +2658,7 @@ def test_Window():
         Term.lock_bool = False
         assert not window.locked()
         T.passed()
-    except AssertionError as e:
+    except Exception as e:
         T.failed(e)
 
     # New Test
@@ -2669,6 +2669,279 @@ def test_Window():
         Term.resize_console((defaults.term_height, defaults.term_width))
         T.passed()
     except ValueError as e:
+        T.failed(e)
+
+    results = T.end()
+    return results
+
+def test_Color_Map():
+    '''
+        PURPOSE
+        Tests for class Color_Map
+
+        RETURNS
+        results         <dict>
+    '''
+
+    # Importing class 'Color_Map' locally
+    from ..frontend import Color_Map
+
+    # Initializing 'Tester' instance
+    T = Tester('Color_Map', dev)
+
+    # New Test
+    T.start('Empty Constructor')
+    try:
+        color_map = Color_Map()
+        T.passed()
+    except Exception as e:
+        T.failed(e)
+
+    # New Test
+    T.start('__call__')
+    try:
+        color_map = Color_Map()
+        color_map(1)
+        T.failed()
+    except NotImplementedError:
+        T.passed()
+    except Exception as e:
+        T.failed(e)
+
+    results = T.end()
+    return results
+
+def test_color_maps():
+    '''
+        PURPOSE
+        Tests for subclasses of Color_Map
+
+        RETURNS
+        results         <dict>
+    '''
+
+    # Importing class 'Color_Map' locally
+    from ..frontend.color_maps import Linear_Map
+
+    # Initializing 'Tester' instance
+    T = Tester('color_maps', dev)
+
+    # New Test
+    T.start('Empty Constructor')
+    try:
+        linear_map = Linear_Map()
+        T.failed()
+    except TypeError:
+        T.passed()
+    except Exception as e:
+        T.failed(e)
+
+    # New Test
+    T.start('Constructor: valid args [1]')
+    try:
+        linear_map = Linear_Map((1,50,25), (10,20,30))
+        T.passed()
+    except Exception as e:
+        T.failed(e)
+
+    # New Test
+    T.start('Constructor: valid args [2]')
+    try:
+        linear_map = Linear_Map('red', 'blue')
+        T.passed()
+    except Exception as e:
+        T.failed(e)
+
+    # New Test
+    T.start('Constructor: invalid args [1]')
+    try:
+        linear_map = Linear_Map('A', 0)
+        T.failed()
+    except ValueError:
+        T.passed()
+    except Exception as e:
+        T.failed(e)
+
+
+    # New Test
+    T.start('Constructor: invalid args [2]')
+    try:
+        linear_map = Linear_Map('red')
+        T.failed()
+    except TypeError:
+        T.passed()
+    except Exception as e:
+        T.failed(e)
+
+    # New Test
+    T.start('__call__ [1]')
+    try:
+        linear_map = Linear_Map('red', 'blue')
+        assert np.array_equal(linear_map(1), (0,0,255))
+        T.passed()
+    except Exception as e:
+        T.failed(e)
+
+    # New Test
+    T.start('__call__ [2]')
+    try:
+        linear_map = Linear_Map('red', 'blue')
+        exp = [[251, 0, 3], [127, 0, 127], [63, 0, 191], [0, 0, 255]]
+        val = linear_map([0.01, 0.5, 0.75, 1])
+        assert np.array_equal(val, exp)
+        T.passed()
+    except Exception as e:
+        T.failed(e)
+
+    results = T.end()
+    return results
+
+def test_Gradient():
+    '''
+        PURPOSE
+        Tests for class Gradient
+
+        RETURNS
+        results         <dict>
+    '''
+
+    # Importing class 'Gradient' locally
+    from ..frontend import Gradient
+
+    # Importing class 'Linear_Map' locally
+    from ..frontend import Linear_Map
+
+    # Initializing 'Tester' instance
+    T = Tester('Gradient', dev)
+
+    # New Test
+    T.start('Empty Constructor')
+    try:
+        gradient = Gradient()
+        T.failed()
+    except TypeError:
+        T.passed()
+    except Exception as e:
+        T.failed(e)
+
+    # New Test
+    T.start('Constructor: valid args')
+    try:
+        color_map = Linear_Map('red', 'blue')
+        gradient = Gradient((5,6), color_map)
+        T.passed()
+    except Exception as e:
+        T.failed(e)
+
+    # New Test
+    T.start('Constructor: invalid args [1]')
+    try:
+        gradient = Gradient((5,6,7))
+        T.failed()
+    except TypeError:
+        T.passed()
+    except Exception as e:
+        T.failed(e)
+
+    # New Test
+    T.start('Constructor: invalid args [2]')
+    try:
+        gradient = Gradient((5,0))
+        T.failed()
+    except TypeError:
+        T.passed()
+    except Exception as e:
+        T.failed(e)
+
+    # New Test
+    T.start('Constructor: invalid args [3]')
+    try:
+        gradient = Gradient((5,'A'))
+        T.failed()
+    except TypeError:
+        T.passed()
+    except Exception as e:
+        T.failed(e)
+
+    # New Test
+    T.start('Constructor: invalid args [4]')
+    try:
+        gradient = Gradient('A')
+        T.failed()
+    except TypeError:
+        T.passed()
+    except Exception as e:
+        T.failed(e)
+    # New Test
+    T.start('Constructor: invalid args [5]')
+    try:
+        gradient = Gradient((5,6), 'A')
+        T.failed()
+    except TypeError:
+        T.passed()
+    except Exception as e:
+        T.failed(e)
+
+    # New Test
+    T.start('Constructor: invalid args [6]')
+    try:
+        color_map = Linear_Map('red', 'blue')
+        gradient = Gradient((5,0), color_map)
+        T.failed()
+    except ValueError:
+        T.passed()
+    except Exception as e:
+        T.failed(e)
+
+    # New Test
+    T.start('Constructor: invalid args [7]')
+    try:
+        color_map = Linear_Map('red', 'blue')
+        gradient = Gradient((5,'A'), color_map)
+        T.failed()
+    except TypeError:
+        T.passed()
+    except Exception as e:
+        T.failed(e)
+
+    # New Test
+    T.start('Constructor: invalid args [8]')
+    try:
+        gradient = Gradient('A', 0)
+        T.failed()
+    except TypeError:
+        T.passed()
+    except Exception as e:
+        T.failed(e)
+
+    # New Test
+    T.start('__call__')
+    try:
+        color_map = Linear_Map('red', 'blue')
+        gradient = Gradient((5,5), color_map)
+        gradient(1,2,3)
+        T.failed()
+    except NotImplementedError:
+        T.passed()
+    except Exception as e:
+        T.failed(e)
+
+    # New Test
+    T.start('subclass with z(x,y) = x+y')
+    try:
+        color_map = Linear_Map('red', 'blue')
+
+        class Subclass(Gradient):
+            def __call__(self, x, y, t = 0):
+                return self.color_map(x + y)
+
+        subclass = Subclass((5,5), color_map)
+        subclass(5, 5)
+        gradient(1,2,3)
+        T.failed()
+    except NotImplementedError:
+        T.passed()
+    except Exception as e:
         T.failed(e)
 
     results = T.end()

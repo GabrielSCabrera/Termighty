@@ -44,6 +44,7 @@ class Term:
         self.height_val = self.shape_arr[0]
         self.width_val = self.shape_arr[1]
         self.live_bool = False
+        self.windows_arr = []
         self.update()
 
     '''INSTANTIATORS'''

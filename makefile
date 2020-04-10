@@ -16,7 +16,9 @@ clean-pyc:
 	@ rm -f -r ./Termighty/__pycache__/
 	@ rm -f -r ./Termighty/config/__pycache__/
 	@ rm -f -r ./Termighty/data/__pycache__/
-	@ rm -f -r ./Termighty/obj/__pycache__/
+	@ rm -f -r ./Termighty/backend/__pycache__/
+	@ rm -f -r ./Termighty/frontend/__pycache__/
+	@ rm -f -r ./Termighty/frontend/color_maps/__pycache__/
 	@ rm -f -r ./Termighty/samples/__pycache__/
 	@ rm -f -r ./Termighty/tests/__pycache__/
 	@ rm -f -r ./Termighty/tools/__pycache__/

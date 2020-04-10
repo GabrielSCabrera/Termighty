@@ -41,6 +41,9 @@ def procedure_test():
     results['Term']  = tm.tests.test_Term()
     results['Series']  = tm.tests.test_Series()
     results['Window']  = tm.tests.test_Window()
+    results['Color_Map']  = tm.tests.test_Color_Map()
+    results['color_maps']  = tm.tests.test_color_maps()
+    results['Gradient']  = tm.tests.test_Gradient()
 
     final_tally = {'passed':0, 'failed':0}
     for key, value in results.items():
@@ -60,6 +63,11 @@ def procedure_calibrate():
     tm.tests.calibrate_Color()
     tm.tests.calibrate_Style()
     tm.tests.calibrate_Pixel()
+    tm.tests.calibrate_Grid()
+    msg = 'PRESS ENTER TO BEGIN TERMINAL AND WINDOW CALIBRATION'
+    input(f'\n\033[30;47;4m{msg}\033[m')
+    tm.tests.calibrate_Term()
+    tm.tests.calibrate_Window()
 
 def procedure_main():
     '''
