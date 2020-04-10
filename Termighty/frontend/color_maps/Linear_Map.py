@@ -37,21 +37,24 @@ class Linear_Map(Color_Map):
             elif signs[i] == -1:
                 self.colors[:,i] = \
                 np.linspace(color_1[i], color_0[i], steps)[::-1]
-        self.ranges = np.linspace(0, 1, steps)
-
+        self.ranges = np.linspace(0, 1, steps-1, endpoint = False)
         super().__init__()
 
     def __call__(self, x):
         '''
             PURPOSE
-            Accepts a set of N numbers from zero up to and including one, and
-            returns a set of N RGB values in an (N,3) array.
+            Accepts an array of numbers from zero up to and including one, and
+            returns a set of corresponding RGB values.
 
             PARAMETERS
-            x           array of N floats in range [0,1]
+            x           <ndarray> of floats in range [0,1]
 
             RETURNS
-            rgb         <ndarray> of shape (N,3) of dtype <np.uint8>
+            rgb         <ndarray> of <uint8> with shape (*(x.shape), 3)
         '''
-        idx = np.searchsorted(self.ranges, x, side = 'left')
-        return self.colors[idx]
+        x = np.array(x)
+        shape = x.shape
+        idx = np.searchsorted(self.ranges, x.flatten(), side = 'right')
+        out = self.colors[idx]
+        out = out.reshape((*(x.shape), 3))
+        return out
