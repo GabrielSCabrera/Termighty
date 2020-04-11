@@ -1,8 +1,8 @@
 from ..data import int_types, arr_types
+from ..backend.Grid import Grid
 from ..config import defaults
 from ..utils import checkers
 from .Term import Term
-from .Grid import Grid
 
 class Window(Term):
 

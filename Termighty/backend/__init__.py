@@ -3,10 +3,8 @@ from .Pixel_Fast import Pixel_Fast
 from .Color_Fast import Color_Fast
 from .Style_Fast import Style_Fast
 from .Grid_Fast import Grid_Fast
-from .Window import Window
 from .Series import Series
 from .Pixel import Pixel
 from .Color import Color
 from .Style import Style
 from .Grid import Grid
-from .Term import Term

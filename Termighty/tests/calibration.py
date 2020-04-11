@@ -486,3 +486,5 @@ def calibrate_Window():
 
     msg = ('CALIBRATION FOR CLASS WINDOW')
     print(f'\n\033[30;47;4m{msg:^80s}\033[m\n')
+
+    

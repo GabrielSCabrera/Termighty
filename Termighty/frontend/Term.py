@@ -8,10 +8,10 @@ from ..data import int_types, str_types, arr_types
 from ..config import term_width, term_height
 from ..config import escape_sequence as esc
 from ..utils import interpreters, checkers
-from .Color import Color
-from .Style import Style
-from .Pixel import Pixel
-from .Grid import Grid
+from ..backend.Color import Color
+from ..backend.Style import Style
+from ..backend.Pixel import Pixel
+from ..backend.Grid import Grid
 
 class Term:
 

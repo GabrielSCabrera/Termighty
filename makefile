@@ -70,7 +70,7 @@ pull: clean-pyc
 	@ echo "\033[1;3;32mpulling from github\033[m"
 	@ git pull
 
-clean-html: clean-pyc
+clean-html:
 	@ echo "\033[1;3;32mremoving all HTML files\033[m"
 	@ rm -f -r ./*.html
 	@ rm -f -r ./Termighty/*.html
@@ -85,7 +85,7 @@ clean-html: clean-pyc
 	@ rm -f -r ./Termighty/tools/*.html
 	@ rm -f -r ./Termighty/utils/*.html
 
-pydoc: clean-pyc
+pydoc: clean-pyc clean-html
 	@ echo "\033[1;3;32mcreating pydoc HTML files\033[m"
 	@ pydoc3 -w Termighty
 	@ pydoc3 -w Termighty.backend

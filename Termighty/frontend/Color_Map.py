@@ -2,6 +2,7 @@ import numpy as np
 
 from ..backend import Grid_Fast, Pixel_Fast, Color_Fast
 from ..config import defaults
+from ..utils import bold
 
 class Color_Map:
 
@@ -62,7 +63,7 @@ class Color_Map:
             Returns a printable sample <str> with a selection of the range of
             color values for the given instance.
         '''
-        out = '\033[1mCOLOR MAP SAMPLE\033[m\n{}\033[m'
+        out = bold('COLOR MAP SAMPLE') + '\n{}\033[m'
         values = self.__call__(np.linspace(0, 1, defaults.term_width))
         pixels = [[Pixel_Fast(color_b = Color_Fast(rgb)) for rgb in values]]
         grid = Grid_Fast(pixels)
