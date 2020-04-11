@@ -1,7 +1,5 @@
 import numpy as np
 
-from ...data import int_types, str_types, arr_types, path_types
-from ...backend import Grid_Fast, Pixel_Fast, Color_Fast
 from ..Color_Map import Color_Map
 from ...utils import interpreters
 
@@ -21,10 +19,22 @@ class Linear_Map(Color_Map):
         '''
         color_0 = interpreters.get_color(color_0).RGB
         color_1 = interpreters.get_color(color_1).RGB
+
+        self.color_0 = color_0
+        self.color_1 = color_1
+
+        super().__init__()
+
+    def set_colors(self):
+        '''
+            PURPOSE
+            Implements the required method 'set_colors()' in superclass
+            'Color_Map'
+        '''
         diffs = np.zeros(3, dtype = np.int64)
 
         for i in range(3):
-            diffs[i] = color_1[i] - color_0[i]
+            diffs[i] = self.color_1[i] - self.color_0[i]
 
         signs = np.sign(diffs)
         steps = np.max(np.abs(diffs))
@@ -33,28 +43,7 @@ class Linear_Map(Color_Map):
         for i in range(3):
             if signs[i] == 1:
                 self.colors[:,i] = \
-                np.linspace(color_0[i], color_1[i], steps)
+                np.linspace(self.color_0[i], self.color_1[i], steps)
             elif signs[i] == -1:
                 self.colors[:,i] = \
-                np.linspace(color_1[i], color_0[i], steps)[::-1]
-        self.ranges = np.linspace(0, 1, steps-1, endpoint = False)
-        super().__init__()
-
-    def __call__(self, x):
-        '''
-            PURPOSE
-            Accepts an array of numbers from zero up to and including one, and
-            returns a set of corresponding RGB values.
-
-            PARAMETERS
-            x           <ndarray> of floats in range [0,1]
-
-            RETURNS
-            rgb         <ndarray> of <uint8> with shape (*(x.shape), 3)
-        '''
-        x = np.array(x)
-        shape = x.shape
-        idx = np.searchsorted(self.ranges, x.flatten(), side = 'right')
-        out = self.colors[idx]
-        out = out.reshape((*(x.shape), 3))
-        return out
+                np.linspace(self.color_1[i], self.color_0[i], steps)[::-1]

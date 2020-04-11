@@ -1,0 +1,232 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: class Pixel_Fast</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><strong>Termighty.backend.Pixel_Fast</strong> = <a name="Termighty.backend.Pixel_Fast">class Pixel_Fast</a>(<a href="builtins.html#object">builtins.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>CONSTRUCTOR<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="Pixel_Fast-__eq__"><strong>__eq__</strong></a>(self, pixel)</dt><dd><tt>PURPOSE<br>
+Confirms&nbsp;that&nbsp;the&nbsp;current&nbsp;'Pixel_Fast'&nbsp;instance&nbsp;has&nbsp;the&nbsp;same<br>
+properties&nbsp;as&nbsp;another&nbsp;instance<br>
+&nbsp;<br>
+RETURNS<br>
+&lt;bool&gt;</tt></dd></dl>
+
+<dl><dt><a name="Pixel_Fast-__hash__"><strong>__hash__</strong></a>(self)</dt><dd><tt>PURPOSE<br>
+To&nbsp;return&nbsp;a&nbsp;unique&nbsp;hash&nbsp;for&nbsp;the&nbsp;combined&nbsp;properties&nbsp;of&nbsp;a&nbsp;Pixel<br>
+instance<br>
+&nbsp;<br>
+RETURNS<br>
+&lt;int&gt;</tt></dd></dl>
+
+<dl><dt><a name="Pixel_Fast-__init__"><strong>__init__</strong></a>(self, color_t=None, color_b=None, style=None, char=None)</dt><dd><tt>PURPOSE<br>
+Basic&nbsp;unit&nbsp;of&nbsp;all&nbsp;graphics&nbsp;displayed&nbsp;in&nbsp;the&nbsp;terminal&nbsp;–&nbsp;may&nbsp;contain<br>
+a&nbsp;foreground&nbsp;color,&nbsp;background&nbsp;color,&nbsp;text&nbsp;style,&nbsp;and&nbsp;character.<br>
+&nbsp;<br>
+PARAMETERS<br>
+color_t&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;instance&nbsp;of&nbsp;'Color_Fast'<br>
+color_b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;instance&nbsp;of&nbsp;'Color_Fast'<br>
+style&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;instance&nbsp;of&nbsp;'Style_Fast'<br>
+char&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;str&gt;<br>
+&nbsp;<br>
+WARNING<br>
+Be&nbsp;aware&nbsp;that&nbsp;pixels&nbsp;are&nbsp;twice&nbsp;as&nbsp;tall&nbsp;as&nbsp;they&nbsp;are&nbsp;wide</tt></dd></dl>
+
+<dl><dt><a name="Pixel_Fast-__neq__"><strong>__neq__</strong></a>(self, pixel)</dt><dd><tt>PURPOSE<br>
+Confirms&nbsp;that&nbsp;the&nbsp;current&nbsp;'Pixel_Fast'&nbsp;instance&nbsp;has&nbsp;properties<br>
+different&nbsp;to&nbsp;another&nbsp;instance<br>
+&nbsp;<br>
+RETURNS<br>
+&lt;bool&gt;</tt></dd></dl>
+
+<dl><dt><a name="Pixel_Fast-__repr__"><strong>__repr__</strong></a>(self)</dt><dd><tt>PURPOSE<br>
+To&nbsp;return&nbsp;a&nbsp;printable&nbsp;string&nbsp;that&nbsp;displays&nbsp;all&nbsp;the&nbsp;instance's<br>
+aspects&nbsp;(colors,&nbsp;styles,&nbsp;chars.)<br>
+&nbsp;<br>
+RETURNS<br>
+out&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;str&gt;</tt></dd></dl>
+
+<dl><dt><a name="Pixel_Fast-__str__"><strong>__str__</strong></a>(self)</dt><dd><tt>PURPOSE<br>
+To&nbsp;return&nbsp;a&nbsp;printable&nbsp;string&nbsp;that&nbsp;displays&nbsp;all&nbsp;the&nbsp;instance's<br>
+aspects&nbsp;(colors,&nbsp;styles,&nbsp;chars.)<br>
+&nbsp;<br>
+RETURNS<br>
+&lt;str&gt;</tt></dd></dl>
+
+<dl><dt><a name="Pixel_Fast-copy"><strong>copy</strong></a>(self)</dt><dd><tt>PURPOSE<br>
+Returns&nbsp;a&nbsp;deep&nbsp;copy&nbsp;of&nbsp;the&nbsp;current&nbsp;'Pixel_Fast'&nbsp;instance<br>
+&nbsp;<br>
+RETURNS<br>
+Instance&nbsp;of&nbsp;class&nbsp;'Pixel_Fast'</tt></dd></dl>
+
+<dl><dt><a name="Pixel_Fast-set_char"><strong>set_char</strong></a>(self, char)</dt><dd><tt>PURPOSE<br>
+Sets&nbsp;the&nbsp;background&nbsp;color&nbsp;'self.<strong>char_obj</strong>'&nbsp;to&nbsp;a&nbsp;new&nbsp;value&nbsp;and<br>
+updates&nbsp;all&nbsp;necessary&nbsp;attributes<br>
+&nbsp;<br>
+PARAMETERS<br>
+char&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;str&gt;&nbsp;of&nbsp;length&nbsp;1</tt></dd></dl>
+
+<dl><dt><a name="Pixel_Fast-set_color_b"><strong>set_color_b</strong></a>(self, color)</dt><dd><tt>PURPOSE<br>
+Sets&nbsp;the&nbsp;background&nbsp;color&nbsp;'self.<strong>color_b_obj</strong>'&nbsp;to&nbsp;a&nbsp;new&nbsp;value&nbsp;and<br>
+updates&nbsp;all&nbsp;necessary&nbsp;attributes<br>
+&nbsp;<br>
+PARAMETERS<br>
+color&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;instance&nbsp;of&nbsp;'Color_Fast'</tt></dd></dl>
+
+<dl><dt><a name="Pixel_Fast-set_color_t"><strong>set_color_t</strong></a>(self, color)</dt><dd><tt>PURPOSE<br>
+Sets&nbsp;the&nbsp;text&nbsp;color&nbsp;'self.<strong>color_t_obj</strong>'&nbsp;to&nbsp;a&nbsp;new&nbsp;value&nbsp;and&nbsp;updates<br>
+all&nbsp;necessary&nbsp;attributes<br>
+&nbsp;<br>
+PARAMETERS<br>
+color&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;instance&nbsp;of&nbsp;'Color_Fast'</tt></dd></dl>
+
+<dl><dt><a name="Pixel_Fast-set_style"><strong>set_style</strong></a>(self, style)</dt><dd><tt>PURPOSE<br>
+Sets&nbsp;the&nbsp;background&nbsp;color&nbsp;'self.<strong>style_obj</strong>'&nbsp;to&nbsp;a&nbsp;new&nbsp;value&nbsp;and<br>
+updates&nbsp;all&nbsp;necessary&nbsp;attributes<br>
+&nbsp;<br>
+PARAMETERS<br>
+style&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Instance&nbsp;of&nbsp;'Style'</tt></dd></dl>
+
+<dl><dt><a name="Pixel_Fast-update"><strong>update</strong></a>(self)</dt><dd><tt>PURPOSE<br>
+To&nbsp;update&nbsp;the&nbsp;value&nbsp;of&nbsp;the&nbsp;saved&nbsp;output&nbsp;string&nbsp;based&nbsp;on&nbsp;the&nbsp;current<br>
+instance&nbsp;attributes&nbsp;'color_t_obj',&nbsp;'color_b_obj',&nbsp;'style_obj',&nbsp;and<br>
+'char_obj'</tt></dd></dl>
+
+<hr>
+Class methods defined here:<br>
+<dl><dt><a name="Pixel_Fast-from_arr"><strong>from_arr</strong></a>(arr)<font color="#909090"><font face="helvetica, arial"> from <a href="builtins.html#type">builtins.type</a></font></font></dt><dd><tt>PURPOSE<br>
+Returns&nbsp;a&nbsp;new&nbsp;'Pixel_Fast'&nbsp;instance&nbsp;based&nbsp;on&nbsp;the&nbsp;values&nbsp;given&nbsp;in<br>
+'arr'<br>
+&nbsp;<br>
+PARAMETERS<br>
+arr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;np.ndarray&gt;&nbsp;of&nbsp;integers<br>
+&nbsp;<br>
+NOTE<br>
+The&nbsp;input&nbsp;array&nbsp;must&nbsp;consist&nbsp;of&nbsp;8+&nbsp;integers,&nbsp;mapped&nbsp;as&nbsp;follows:<br>
+&nbsp;<br>
+arr&nbsp;=&nbsp;[<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;color_t&nbsp;R&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Red&nbsp;part&nbsp;of&nbsp;color_t's&nbsp;RGB&nbsp;array<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;color_t&nbsp;G&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Green&nbsp;part&nbsp;of&nbsp;color_t's&nbsp;RGB&nbsp;array<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;color_t&nbsp;B&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Blue&nbsp;part&nbsp;of&nbsp;color_t's&nbsp;RGB&nbsp;array<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;color_b&nbsp;R&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Red&nbsp;part&nbsp;of&nbsp;color_b's&nbsp;RGB&nbsp;array<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;color_b&nbsp;G&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Green&nbsp;part&nbsp;of&nbsp;color_b's&nbsp;RGB&nbsp;array<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;color_b&nbsp;B&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Blue&nbsp;part&nbsp;of&nbsp;color_b's&nbsp;RGB&nbsp;array<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;style&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mapped&nbsp;style&nbsp;integer,&nbsp;see&nbsp;ANSI.py<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ord(char)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Unicode&nbsp;character&nbsp;as&nbsp;an&nbsp;integer<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;styles_1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Binary&nbsp;style&nbsp;map<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;styles_2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Binary&nbsp;style&nbsp;map<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⋮<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;styles_N&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Binary&nbsp;style&nbsp;map<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]<br>
+&nbsp;<br>
+Where&nbsp;'N'&nbsp;in&nbsp;'styles_N'&nbsp;is&nbsp;the&nbsp;number&nbsp;of&nbsp;styles&nbsp;in&nbsp;'ANSI.py'<br>
+&nbsp;<br>
+RETURNS<br>
+Instance&nbsp;of&nbsp;'Pixel_Fast'</tt></dd></dl>
+
+<dl><dt><a name="Pixel_Fast-is_char"><strong>is_char</strong></a>(char)<font color="#909090"><font face="helvetica, arial"> from <a href="builtins.html#type">builtins.type</a></font></font></dt><dd><tt>PURPOSE<br>
+Confirms&nbsp;that&nbsp;'char'&nbsp;is&nbsp;a&nbsp;single-character&nbsp;&lt;str&gt;,&nbsp;or&nbsp;raises&nbsp;an<br>
+Exception<br>
+&nbsp;<br>
+RETURNS<br>
+True</tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>as_arr</strong></dt>
+<dd><tt>PURPOSE<br>
+Returns&nbsp;the&nbsp;current&nbsp;'Pixel_Fast'&nbsp;instance&nbsp;as&nbsp;an&nbsp;array,&nbsp;which&nbsp;can&nbsp;be<br>
+used&nbsp;to&nbsp;recreate&nbsp;the&nbsp;instance&nbsp;at&nbsp;a&nbsp;later&nbsp;time.<br>
+&nbsp;<br>
+NOTE<br>
+The&nbsp;output&nbsp;array&nbsp;consists&nbsp;of&nbsp;eight&nbsp;integers,&nbsp;mapped&nbsp;as&nbsp;follows:<br>
+&nbsp;<br>
+arr&nbsp;=&nbsp;[<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;color_t&nbsp;R&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Red&nbsp;part&nbsp;of&nbsp;color_t's&nbsp;RGB&nbsp;array<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;color_t&nbsp;G&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Green&nbsp;part&nbsp;of&nbsp;color_t's&nbsp;RGB&nbsp;array<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;color_t&nbsp;B&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Blue&nbsp;part&nbsp;of&nbsp;color_t's&nbsp;RGB&nbsp;array<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;color_b&nbsp;R&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Red&nbsp;part&nbsp;of&nbsp;color_b's&nbsp;RGB&nbsp;array<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;color_b&nbsp;G&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Green&nbsp;part&nbsp;of&nbsp;color_b's&nbsp;RGB&nbsp;array<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;color_b&nbsp;B&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Blue&nbsp;part&nbsp;of&nbsp;color_b's&nbsp;RGB&nbsp;array<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;style&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mapped&nbsp;style&nbsp;integer,&nbsp;see&nbsp;ANSI.py<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ord(char)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Unicode&nbsp;character&nbsp;as&nbsp;an&nbsp;integer<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]<br>
+&nbsp;<br>
+RETURNS<br>
+&lt;ndarray&gt;&nbsp;of&nbsp;&lt;uint64&gt;</tt></dd>
+</dl>
+<dl><dt><strong>char</strong></dt>
+<dd><tt>PURPOSE<br>
+Return&nbsp;the&nbsp;current&nbsp;value&nbsp;of&nbsp;attribute&nbsp;'char_var'<br>
+&nbsp;<br>
+RETURNS<br>
+&lt;str&gt;</tt></dd>
+</dl>
+<dl><dt><strong>color_b</strong></dt>
+<dd><tt>PURPOSE<br>
+Return&nbsp;the&nbsp;'Color'&nbsp;instance&nbsp;used&nbsp;to&nbsp;color&nbsp;the&nbsp;terminal&nbsp;text<br>
+&nbsp;<br>
+RETURNS<br>
+Instance&nbsp;of&nbsp;'Color'</tt></dd>
+</dl>
+<dl><dt><strong>color_b_seq</strong></dt>
+<dd><tt>PURPOSE<br>
+Returns&nbsp;the&nbsp;ANSI&nbsp;escape&nbsp;sequence&nbsp;that&nbsp;sets&nbsp;the&nbsp;background&nbsp;color&nbsp;to<br>
+attribute&nbsp;'self.<strong>color_b_obj</strong>'<br>
+&nbsp;<br>
+RETURNS<br>
+out&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;str&gt;</tt></dd>
+</dl>
+<dl><dt><strong>color_t</strong></dt>
+<dd><tt>PURPOSE<br>
+Return&nbsp;the&nbsp;'Color'&nbsp;instance&nbsp;used&nbsp;to&nbsp;color&nbsp;the&nbsp;terminal&nbsp;text<br>
+&nbsp;<br>
+RETURNS<br>
+Instance&nbsp;of&nbsp;'Color'</tt></dd>
+</dl>
+<dl><dt><strong>color_t_seq</strong></dt>
+<dd><tt>PURPOSE<br>
+Returns&nbsp;the&nbsp;ANSI&nbsp;escape&nbsp;sequence&nbsp;that&nbsp;sets&nbsp;the&nbsp;text&nbsp;color&nbsp;to&nbsp;the<br>
+attribute&nbsp;'self.<strong>color_t_obj</strong>'<br>
+&nbsp;<br>
+RETURNS<br>
+out&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;str&gt;</tt></dd>
+</dl>
+<dl><dt><strong>end_seq</strong></dt>
+<dd><tt>PURPOSE<br>
+To&nbsp;reset&nbsp;the&nbsp;terminal&nbsp;to&nbsp;its&nbsp;default&nbsp;values&nbsp;(i.e.&nbsp;remove&nbsp;all<br>
+custom-implemented&nbsp;colors&nbsp;or&nbsp;styles)<br>
+&nbsp;<br>
+RETURNS<br>
+&lt;str&gt;</tt></dd>
+</dl>
+<dl><dt><strong>style</strong></dt>
+<dd><tt>PURPOSE<br>
+Return&nbsp;the&nbsp;'Style'&nbsp;instance&nbsp;used&nbsp;to&nbsp;style&nbsp;the&nbsp;terminal&nbsp;text<br>
+&nbsp;<br>
+RETURNS<br>
+Instance&nbsp;of&nbsp;'Style</tt></dd>
+</dl>
+<dl><dt><strong>style_seq</strong></dt>
+<dd><tt>PURPOSE<br>
+Returns&nbsp;the&nbsp;ANSI&nbsp;escape&nbsp;sequence&nbsp;that&nbsp;sets&nbsp;the&nbsp;text&nbsp;style&nbsp;to<br>
+attribute&nbsp;'self.<strong>style_obj</strong>'<br>
+&nbsp;<br>
+RETURNS<br>
+&lt;str&gt;</tt></dd>
+</dl>
+</td></tr></table>
+</body></html>

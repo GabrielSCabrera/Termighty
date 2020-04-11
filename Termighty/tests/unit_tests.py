@@ -2677,44 +2677,7 @@ def test_Window():
 def test_Color_Map():
     '''
         PURPOSE
-        Tests for class Color_Map
-
-        RETURNS
-        results         <dict>
-    '''
-
-    # Importing class 'Color_Map' locally
-    from ..frontend import Color_Map
-
-    # Initializing 'Tester' instance
-    T = Tester('Color_Map', dev)
-
-    # New Test
-    T.start('Empty Constructor')
-    try:
-        color_map = Color_Map()
-        T.passed()
-    except Exception as e:
-        T.failed(e)
-
-    # New Test
-    T.start('__call__')
-    try:
-        color_map = Color_Map()
-        color_map(1)
-        T.failed()
-    except NotImplementedError:
-        T.passed()
-    except Exception as e:
-        T.failed(e)
-
-    results = T.end()
-    return results
-
-def test_color_maps():
-    '''
-        PURPOSE
-        Tests for subclasses of Color_Map
+        Tests for class Color_Map and its subclasses
 
         RETURNS
         results         <dict>
@@ -2724,7 +2687,7 @@ def test_color_maps():
     from ..frontend.color_maps import Linear_Map
 
     # Initializing 'Tester' instance
-    T = Tester('color_maps', dev)
+    T = Tester('Color_Map', dev)
 
     # New Test
     T.start('Empty Constructor')
@@ -2793,13 +2756,22 @@ def test_color_maps():
     except Exception as e:
         T.failed(e)
 
+    # New Test
+    T.start('sample')
+    try:
+        linear_map = Linear_Map('red', 'blue')
+        assert isinstance(linear_map.sample(), str)
+        T.passed()
+    except Exception as e:
+        T.failed(e)
+
     results = T.end()
     return results
 
 def test_Gradient():
     '''
         PURPOSE
-        Tests for class Gradient
+        Tests for class Gradient and its subclasses
 
         RETURNS
         results         <dict>
@@ -2825,100 +2797,53 @@ def test_Gradient():
         T.failed(e)
 
     # New Test
-    T.start('Constructor: valid args')
+    T.start('Inheritance')
     try:
-        color_map = Linear_Map('red', 'blue')
-        gradient = Gradient(slice(), color_map)
+        class Subclass(Gradient):
+            def __call__(self, x, y, t = 0):
+                return x + y
         T.passed()
     except Exception as e:
         T.failed(e)
 
-    # New Test
-    T.start('Constructor: invalid args [1]')
-    try:
-        gradient = Gradient((5,6,7))
-        T.failed()
-    except TypeError:
-        T.passed()
-    except Exception as e:
-        T.failed(e)
-
-    # New Test
-    T.start('Constructor: invalid args [2]')
-    try:
-        gradient = Gradient((5,0))
-        T.failed()
-    except TypeError:
-        T.passed()
-    except Exception as e:
-        T.failed(e)
-
-    # New Test
-    T.start('Constructor: invalid args [3]')
-    try:
-        gradient = Gradient((5,'A'))
-        T.failed()
-    except TypeError:
-        T.passed()
-    except Exception as e:
-        T.failed(e)
-
-    # New Test
-    T.start('Constructor: invalid args [4]')
-    try:
-        gradient = Gradient('A')
-        T.failed()
-    except TypeError:
-        T.passed()
-    except Exception as e:
-        T.failed(e)
-    # New Test
-    T.start('Constructor: invalid args [5]')
-    try:
-        gradient = Gradient((5,6), 'A')
-        T.failed()
-    except TypeError:
-        T.passed()
-    except Exception as e:
-        T.failed(e)
-
-    # New Test
-    T.start('Constructor: invalid args [6]')
-    try:
-        color_map = Linear_Map('red', 'blue')
-        gradient = Gradient((5,0), color_map)
-        T.failed()
-    except ValueError:
-        T.passed()
-    except Exception as e:
-        T.failed(e)
-
-    # New Test
-    T.start('Constructor: invalid args [7]')
-    try:
-        color_map = Linear_Map('red', 'blue')
-        gradient = Gradient((5,'A'), color_map)
-        T.failed()
-    except TypeError:
-        T.passed()
-    except Exception as e:
-        T.failed(e)
-
-    # New Test
-    T.start('Constructor: invalid args [8]')
-    try:
-        gradient = Gradient('A', 0)
-        T.failed()
-    except TypeError:
-        T.passed()
-    except Exception as e:
-        T.failed(e)
+    color_map_1 = Linear_Map((0,0,0), (255,255,255))
+    color_map_2 = Linear_Map('red', 'blue')
+    args = ((((10,10),(0,10),(-5,5),color_map_1), True),
+            (((10,5),(-10,-5),(0,1),color_map_2), True),
+            (((6,7),(1,2),(-1,1),color_map_2), True),
+            (((6,7),(1,2),(-1,1),color_map_2,5), True),
+            ((None,None,None,None), TypeError),
+            (((-1,5),(2,3),(3,5),color_map_1), ValueError),
+            (((3,10),(-1,1),('A',5),color_map_1), TypeError),
+            (('A',(2,3),(3,5),color_map_1), TypeError)
+           )
+    for n,arg in enumerate(args):
+        # New Test
+        T.start(f'Constructor Subclass: args [{n+1}]')
+        if arg[1] is True:
+            try:
+                subclass = Subclass(*arg[0])
+                T.passed()
+            except Exception as e:
+                T.failed(e)
+        else:
+            try:
+                subclass = Subclass(*arg[0])
+                T.failed()
+                print(arg[0])
+            except arg[1]:
+                T.passed()
+            except Exception as e:
+                T.failed(e)
 
     # New Test
     T.start('__call__')
     try:
         color_map = Linear_Map('red', 'blue')
-        gradient = Gradient((5,5), color_map)
+        xrange = (-10, 10)
+        yrange = (-10, 10)
+        shape = (24,80)
+        gradient = Gradient(shape, xrange, yrange, color_map)
         gradient(1,2,3)
         T.failed()
     except NotImplementedError:
@@ -2930,13 +2855,16 @@ def test_Gradient():
     T.start('subclass with z(x,y) = x+y')
     try:
         color_map = Linear_Map('red', 'blue')
+        xrange = (1, 81)
+        yrange = (1, 25)
+        shape = (24,80)
 
         class Subclass(Gradient):
             def __call__(self, x, y, t = 0):
-                return self.color_map(x + y)
+                return np.exp(-x**2) + np.log10(y)**2
 
-        subclass = Subclass((5,5), color_map)
-        subclass()
+        subclass = Subclass(shape, xrange, yrange, color_map)
+        subclass(5, 5)
         T.passed()
     except Exception as e:
         T.failed(e)
