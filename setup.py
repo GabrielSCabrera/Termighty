@@ -1,10 +1,14 @@
 from distutils.core import setup
 
 dependencies = ['numpy']
+packages = ['', '.backend', '.config', '.data', '.frontend', '.samples',
+            '.tests', '.tools', '.utils']
+for n, package in enumerate(packages):
+    packages[n] = 'Termighty' + package
 
 setup(
   name = 'Termighty',
-  packages = ['Termighty', 'Termighty.obj', 'Termighty.utils'],
+  packages = packages,
   version = '0.0.1',
   description = 'A Python-based GUI development package for the Gnome terminal',
   author = 'Gabriel S. Cabrera',
