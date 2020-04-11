@@ -3,8 +3,8 @@ import numpy as np
 
 from .Style_Fast import Style_Fast
 from .Pixel_Fast import Pixel_Fast
-from ..config import defaults
-from ..data import arr_types
+from ...config import defaults
+from ...data import arr_types
 
 class Grid_Fast:
 

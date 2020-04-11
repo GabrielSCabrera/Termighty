@@ -1,8 +1,8 @@
 import numpy as np
 
-from ..data import int_types, str_types
-from ..utils import format
-from .. import data
+from ...data import int_types, str_types
+from ...utils import format
+from ... import data
 
 class Color_Fast:
 

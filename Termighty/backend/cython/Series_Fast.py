@@ -1,11 +1,11 @@
 import numpy as np
 
-from ..data import str_types, int_types, arr_types, path_types
+from ...data import str_types, int_types, arr_types, path_types
 from .Style_Fast import Style_Fast
 from .Pixel_Fast import Pixel_Fast
 from .Grid_Fast import Grid_Fast
-from ..config import defaults
-from ..utils import checkers
+from ...config import defaults
+from ...utils import checkers
 
 class Series_Fast:
 

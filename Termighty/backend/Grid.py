@@ -1,8 +1,8 @@
 from ..data import int_types, str_types, arr_types, path_types
 from ..utils import interpreters, checkers
-from .Style_Fast import Style_Fast
-from .Pixel_Fast import Pixel_Fast
-from .Grid_Fast import Grid_Fast
+from .cython import Style_Fast
+from .cython import Pixel_Fast
+from .cython import Grid_Fast
 from .Pixel import Pixel
 
 class Grid(Grid_Fast):

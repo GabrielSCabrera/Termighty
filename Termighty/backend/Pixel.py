@@ -1,7 +1,7 @@
 from ..utils import interpreters, checkers
 from ..data import styles as ANSI_styles
 from ..data import str_types, int_types
-from .Pixel_Fast import Pixel_Fast
+from .cython import Pixel_Fast
 
 class Pixel(Pixel_Fast):
 

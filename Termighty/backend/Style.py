@@ -2,7 +2,7 @@ import numpy as np
 
 from ..data import int_types, str_types, arr_types
 from ..data import styles as ANSI_styles
-from .Style_Fast import Style_Fast
+from .cython import Style_Fast
 from ..utils import checkers
 
 class Style(Style_Fast):

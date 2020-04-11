@@ -1,6 +1,6 @@
 from ..data import str_types, int_types, arr_types
-from ..backend import Color_Fast
-from ..backend import Style_Fast
+from ..backend.cython import Color_Fast
+from ..backend.cython import Style_Fast
 from . import checkers
 from .. import data
 

@@ -1,12 +1,12 @@
 import numpy as np
 
-from ..config import escape_sequence as esc
-from ..data import styles as ANSI_styles
-from ..data import str_types, int_types
-from ..config import defaults
-from .Color import Color_Fast
-from .Style import Style_Fast
-from ..utils import checkers
+from ...config import escape_sequence as esc
+from ...data import styles as ANSI_styles
+from ...data import str_types, int_types
+from .Color_Fast import Color_Fast
+from .Style_Fast import Style_Fast
+from ...config import defaults
+from ...utils import checkers
 
 class Pixel_Fast:
 

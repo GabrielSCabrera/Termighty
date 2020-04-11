@@ -2,7 +2,7 @@ import numpy as np
 
 from ..data import int_types, str_types
 from ..utils import format, checkers
-from .Color_Fast import Color_Fast
+from .cython import Color_Fast
 from .. import data
 
 class Color(Color_Fast):

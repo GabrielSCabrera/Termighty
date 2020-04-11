@@ -1,10 +1,10 @@
 import numpy as np
 
-from ..data import styles_clear, styles_to_int, int_to_styles
-from ..data import int_types, str_types, arr_types
-from ..config import escape_sequence as esc
-from ..data import styles as ANSI_styles
-from ..utils.format import bold
+from ...data import styles_clear, styles_to_int, int_to_styles
+from ...data import int_types, str_types, arr_types
+from ...config import escape_sequence as esc
+from ...data import styles as ANSI_styles
+from ...utils.format import bold
 
 class Style_Fast:
 

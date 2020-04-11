@@ -1,8 +1,8 @@
 import numpy as np
 
 from ..data import str_types, int_types, arr_types, path_types
-from .Series_Fast import Series_Fast
-from .Grid_Fast import Grid_Fast
+from .cython import Series_Fast
+from .cython import Grid_Fast
 from ..config import defaults
 from ..utils import checkers
 from .Style import Style
