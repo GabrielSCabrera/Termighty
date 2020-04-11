@@ -2111,7 +2111,7 @@ def test_Term():
     from ..backend import Grid
 
     # Importing class 'Term' locally
-    from ..backend import Term
+    from ..frontend import Term
 
     import shutil
     from ..config import term_width, term_height
@@ -2372,10 +2372,10 @@ def test_Window():
     from ..backend import Grid
 
     # Importing class 'Window' locally
-    from ..backend import Window
+    from ..frontend import Window
 
     # Importing class 'Term' locally
-    from ..backend import Term
+    from ..frontend import Term
 
     # Initializing 'Tester' instance
     T = Tester('Window', dev)

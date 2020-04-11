@@ -4,8 +4,7 @@ import time
 import sys
 import os
 
-from ..backend import Term
-# from ..backend import Grid, Pixel, Color, Style, Series
+from ..frontend import Term
 from ..backend import Grid_Fast as Grid
 from ..backend import Pixel_Fast as Pixel
 from ..backend import Color_Fast as Color
