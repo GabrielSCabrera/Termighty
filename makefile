@@ -1,7 +1,8 @@
 main: install
 
 build:
-	
+	@ echo "\033[1;3;32mbuilding cython backend\033[m"
+	@ python3 ./Termighty/backend/cython/setup.py build_ext --inplace
 
 install:
 	@ echo "\033[1;3;32minstall dev build\033[m"
@@ -34,7 +35,12 @@ clean-build:
 	@ rm -f -r ./dist/
 	@ rm -f -r ./*.egg-info
 
-clean: clean-pyc clean-build
+clean-compiled:
+	@ echo "\033[1;3;32mclean compiled cython files\033[m"
+	@ rm -f -r ./Termighty/backend/cython/*.c
+	@ rm -f -r ./Termighty/backend/cython/*.so
+
+clean: clean-pyc clean-build clean-compiled
 
 test: test_wrap clean-pyc
 test_wrap:

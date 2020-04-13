@@ -1,10 +1,20 @@
-from setuptools import setup, Extension
+from setuptools import setup
 from Cython.Build import cythonize
+from pathlib import Path
 import numpy
 
-modules = ['Color_Fast.pyx', 'Grid_Fast.pyx', 'Pixel_Fast.pyx',
-           'Series_Fast.pyx', 'Style_Fast.pyx']
-setup(
-      ext_modules = cythonize("computed_types.pyx"),
-      include_dirs = [numpy.get_include()]
-     )
+build_path = Path.cwd() / 'Termighty' / 'backend' / 'cython'
+
+modules = ['Color_Fast.pyx']#, 'Grid_Fast.pyx', 'Pixel_Fast.pyx',
+           # 'Series_Fast.pyx', 'Style_Fast.pyx']
+
+for i,j in enumerate(modules):
+    modules[i] = str(build_path / j)
+
+cds = {'language_level' : "3"}
+params = {
+          'ext_modules' : cythonize(modules, compiler_directives = cds),
+          'include_dirs' : [numpy.get_include()]
+         }
+
+setup(**params)
