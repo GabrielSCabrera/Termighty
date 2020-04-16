@@ -4,6 +4,8 @@ build:
 	@ echo "\033[1;3;32mbuilding cython backend\033[m"
 	@ python3 ./Termighty/backend/cython/setup.py build_ext --inplace
 
+test-build: clean build test
+
 install:
 	@ echo "\033[1;3;32minstall dev build\033[m"
 	@ pip3 install --editable .

@@ -93,7 +93,7 @@ def test_Color():
     try:
         color = Color.palette('snicklefritz')
         T.failed(e)
-    except NameError:
+    except ValueError:
         T.passed()
     except Exception as e:
         T.failed(e)
@@ -102,7 +102,7 @@ def test_Color():
     T.start('name')
     try:
         white = Color.palette(name = 'white')
-        assert white.name == 'white'
+        assert white.name() == 'white'
         T.passed()
     except Exception as e:
         T.failed(e)
@@ -111,7 +111,7 @@ def test_Color():
     T.start('RGB')
     try:
         white = Color.palette(name = 'white')
-        assert np.array_equal(white.RGB, (255,255,255))
+        assert np.array_equal(white.RGB(), (255,255,255))
         T.passed()
     except Exception as e:
         T.failed(e)
@@ -120,7 +120,7 @@ def test_Color():
     T.start('R')
     try:
         red = Color.palette(name = 'red')
-        assert red.R == 255
+        assert red.R()== 255
         T.passed()
     except Exception as e:
         T.failed(e)
@@ -129,7 +129,7 @@ def test_Color():
     T.start('G')
     try:
         green = Color.palette(name = 'green')
-        assert green.G == 255
+        assert green.G()== 255
         T.passed()
     except Exception as e:
         T.failed(e)
@@ -138,7 +138,7 @@ def test_Color():
     T.start('B')
     try:
         blue = Color.palette(name = 'blue')
-        assert blue.B == 255
+        assert blue.B()== 255
         T.passed()
     except Exception as e:
         T.failed(e)
@@ -148,7 +148,7 @@ def test_Color():
     try:
         black = Color(RGB = (0, 0, 0), name = 'white')
         black.set_name('black')
-        assert black.name == 'black'
+        assert black.name() == 'black'
         T.passed()
     except Exception as e:
         T.failed(e)
@@ -169,7 +169,7 @@ def test_Color():
     try:
         white = Color(RGB = (0, 0, 0), name = 'white')
         white.set_RGB((255,255,255))
-        assert np.array_equal(white.RGB, (255, 255, 255))
+        assert np.array_equal(white.RGB(), (255, 255, 255))
         T.passed()
     except Exception as e:
         T.failed(e)
@@ -223,7 +223,7 @@ def test_Color():
     try:
         red = Color(RGB = (0, 0, 0), name = 'red')
         red.set_R(255)
-        assert red.R == 255
+        assert red.R()== 255
         T.passed()
     except Exception as e:
         T.failed(e)
@@ -255,7 +255,7 @@ def test_Color():
     try:
         green = Color(RGB = (0, 0, 0), name = 'green')
         green.set_G(255)
-        assert green.G == 255
+        assert green.G()== 255
         T.passed()
     except Exception as e:
         T.failed(e)
@@ -287,7 +287,7 @@ def test_Color():
     try:
         blue = Color(RGB = (0, 0, 0), name = 'blue')
         blue.set_B(255)
-        assert blue.B == 255
+        assert blue.B()== 255
         T.passed()
     except Exception as e:
         T.failed(e)
@@ -317,7 +317,7 @@ def test_Color():
     # New Test
     T.start('copy')
     try:
-        blue_1 = Color(RGB = (0, 0, 0), name = 'blue')
+        blue_1 = Color(RGB = (0, 0, 255), name = 'blue')
         blue_2 = blue_1.copy()
         assert blue_1 == blue_2 and blue_1 is not blue_2
         T.passed()
@@ -327,7 +327,7 @@ def test_Color():
     # New Test
     T.start('__str__')
     try:
-        blue = Color(RGB = (0, 0, 0), name = 'blue')
+        blue = Color(RGB = (0, 0, 255), name = 'blue')
         assert isinstance(blue.__str__(), str)
         T.passed()
     except Exception as e:
@@ -336,7 +336,7 @@ def test_Color():
     # New Test
     T.start('__repr__')
     try:
-        blue = Color(RGB = (0, 0, 0), name = 'blue')
+        blue = Color(RGB = (0, 0, 255), name = 'blue')
         assert isinstance(blue.__repr__(), str)
         T.passed()
     except Exception as e:
@@ -345,8 +345,8 @@ def test_Color():
     # New Test
     T.start('sample')
     try:
-        blue = Color(RGB = (0, 0, 0), name = 'blue')
-        assert isinstance(blue.sample, str)
+        blue = Color(RGB = (0, 0, 255), name = 'blue')
+        assert isinstance(blue.sample(), str)
         T.passed()
     except Exception as e:
         T.failed(e)
@@ -1128,7 +1128,7 @@ def test_Pixel():
     T.start('color_t')
     try:
         pixel = Pixel(color_t = 'red')
-        assert pixel.color_t.name == 'red'
+        assert pixel.color_t.name() == 'red'
         T.passed()
     except Exception as e:
         T.failed(e)
@@ -1137,7 +1137,7 @@ def test_Pixel():
     T.start('color_b')
     try:
         pixel = Pixel(color_b = 'red')
-        assert pixel.color_b.name == 'red'
+        assert pixel.color_b.name() == 'red'
         T.passed()
     except Exception as e:
         T.failed(e)

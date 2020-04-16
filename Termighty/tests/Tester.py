@@ -20,6 +20,9 @@ class Tester:
         self.dev = dev
         self.category = category.upper()
         print(f'\n\033[4;1mBEGIN TESTS FOR ⟨{self.category}⟩\033[m\n')
+        # Suppress printing to terminal
+        if not self.dev:
+            sys.stdout = io.StringIO()
 
     def start(self, description = None):
         '''
@@ -39,10 +42,6 @@ class Tester:
         print(self.out.format(status, self.category, self.test_N), end = '')
         sys.stdout.flush()
 
-        # Suppress printing to terminal
-        if not self.dev:
-            sys.stdout = io.StringIO()
-
     def passed(self):
         '''
             PURPOSE
@@ -54,6 +53,8 @@ class Tester:
         status = '\033[1;32;40mPASS\033[m'
         print('\r' + self.out.format(status, self.category, self.test_N))
         self.passed_N += 1
+        if not self.dev:
+            sys.stdout = io.StringIO()
 
     def failed(self, traceback = None):
         '''
@@ -78,6 +79,8 @@ class Tester:
                          f'{traceback}\n')
         print('\r' + self.out.format(status, self.category, self.test_N))
         self.failed_N += 1
+        if not self.dev:
+            sys.stdout = io.StringIO()
 
     def end(self):
         '''

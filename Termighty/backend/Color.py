@@ -7,12 +7,22 @@ from .. import data
 
 class Color(Color_Fast):
 
-    '''
-        Subclass of 'Color_Fast' that includes type-checking.  Safer and with
-        more informative exceptions than 'Color_Fast', but a lot slower.
-    '''
-
     '''INSTANTIATORS'''
+    def  __init__(self, RGB, name = 'Unnamed Color'):
+        '''
+            PURPOSE
+            Subclass of 'Color_Fast' that includes type-checking.  Safer and
+            with more informative exceptions than 'Color_Fast', but slower.
+
+            PARAMETERS
+            RGB         <tuple> of 3 integers in range 0-255
+
+            OPTIONAL PARAMETERS
+            name        <str>
+        '''
+        self.RGB_arr = np.zeros(3, dtype = np.uint8)
+        self.set_name(name)
+        self.set_RGB(RGB)
 
     @classmethod
     def palette(cls, name):
@@ -115,10 +125,19 @@ class Color(Color_Fast):
         '''
         if R is not None and G is None and B is None:
             checkers.check_range(R, 0, 255, 'R', 'chart')
+            idx = 0
+            val = R
+            name = 'Red'
         elif R is None and G is not None and B is None:
             checkers.check_range(G, 0, 255, 'G', 'chart')
+            idx = 1
+            val = G
+            name = 'Green'
         elif R is None and G is None and B is not None:
             checkers.check_range(B, 0, 255, 'B', 'chart')
+            idx = 2
+            val = B
+            name = 'Blue'
         else:
             msg = ('Must set exactly one of the parameters \'R\', \'G\', and '
                    '\'B\' to a value in range [0, 255].  The others must be set'
@@ -127,7 +146,37 @@ class Color(Color_Fast):
 
         checkers.check_type(term_width, int_types, 'term_width', 'chart')
 
-        return super().chart(R, G, B, term_width)
+        step = 256//term_width + 1
+        colors = np.arange(0, 256, step)
+        color_grid = np.meshgrid(colors, colors[::2])
+        out = ''
+        for m,n in zip(*color_grid):
+            for i,j in zip(m,n):
+                RGB = [0,0,0]
+                RGB[idx] = val
+                RGB[(idx+1)%3] = j
+                RGB[(idx+2)%3] = i
+                out += f'\033[38;2;{RGB[0]:d};{RGB[1]:d};{RGB[2]:d}m'
+                out += '█\033[m'
+            out += '\n'
+        return out
+
+    @classmethod
+    def list_colors(cls):
+        '''
+            PURPOSE
+            Returns a list of all the available colors and their names
+
+            RETURNS
+            out         <str>
+        '''
+        out = format.bold('LIST OF ALL AVAILABLE COLORS') + '\n\n'
+        colors = [cls(j,i) for i,j in data.colors.items()]
+        colors = sorted(colors)
+        for color in colors:
+            RGB = f'{color.R():>03d} {color.G():>03d} {color.B():>03d}'
+            out += f'{color.sample} {RGB} {color.name().upper()}\n'
+        return out
 
     '''OPERATORS'''
 

@@ -39,14 +39,14 @@ def procedure_test():
     '''
     results = {}
     results['Color'] = tm.tests.test_Color()
-    results['Style'] = tm.tests.test_Style()
-    results['Pixel'] = tm.tests.test_Pixel()
-    results['Grid']  = tm.tests.test_Grid()
-    results['Term']  = tm.tests.test_Term()
-    results['Series']  = tm.tests.test_Series()
-    results['Window']  = tm.tests.test_Window()
-    results['Color_Map']  = tm.tests.test_Color_Map()
-    results['Gradient']  = tm.tests.test_Gradient()
+    # results['Style'] = tm.tests.test_Style()
+    # results['Pixel'] = tm.tests.test_Pixel()
+    # results['Grid']  = tm.tests.test_Grid()
+    # results['Term']  = tm.tests.test_Term()
+    # results['Series']  = tm.tests.test_Series()
+    # results['Window']  = tm.tests.test_Window()
+    # results['Color_Map']  = tm.tests.test_Color_Map()
+    # results['Gradient']  = tm.tests.test_Gradient()
 
     final_tally = {'passed':0, 'failed':0}
     for key, value in results.items():
@@ -97,7 +97,7 @@ def procedure_plot():
 
         class Plot(tm.Gradient):
             def __call__(self, x, y, t):
-                return FrankeFunction(x,y)
+                return frankes_function(x,y)
 
     elif fxn.lower() == 'ripple':
 
@@ -113,7 +113,6 @@ def procedure_plot():
             def __call__(self, x, y, t):
                 return eval(fxn)
 
-    color = Color_Fast()
     color_map = tm.Linear_Map('teal', 'violet')
     plot = Plot((24,80), (x_min, x_max), (y_min, y_max), color_map)
     print(plot.__str__() + '\033[m')
