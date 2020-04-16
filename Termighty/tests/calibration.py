@@ -443,7 +443,7 @@ def calibrate_Term():
     from ..backend import Grid_Fast as Grid
 
     # Importing class 'Term' locally
-    from ..backend import Term
+    from ..frontend import Term
 
     msg = ('CALIBRATION FOR CLASS TERM')
     print(f'\n\033[30;47;4m{msg:^80s}\033[m\n')
@@ -479,10 +479,10 @@ def calibrate_Window():
     from ..backend import Grid
 
     # Importing class 'Term' locally
-    from ..backend import Term
+    from ..frontend import Term
 
     # Importing class 'Window' locally
-    from ..backend import Window
+    from ..frontend import Window
 
     msg = ('CALIBRATION FOR CLASS WINDOW')
     print(f'\n\033[30;47;4m{msg:^80s}\033[m\n')

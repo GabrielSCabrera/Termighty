@@ -1,1 +1,1 @@
-from .Painter import Painter
+#from .Painter import Painter
