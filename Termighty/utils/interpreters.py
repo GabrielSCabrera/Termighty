@@ -25,7 +25,7 @@ def get_color(color):
             if not isinstance(c, int_types) or c < 0 or c > 255:
                 break
         else:
-            return Color_Fast.Color_Fast(color)
+            return Color_Fast.Color_Fast(tuple(color))
     msg = ('\n\nExpected a tuple of three integers in range [0,255], '
            'an instance of <class \'Color\'>, or a valid color as defined in '
            'RGB.py')

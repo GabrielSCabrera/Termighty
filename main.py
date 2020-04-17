@@ -39,7 +39,7 @@ def procedure_test():
     '''
     results = {}
     results['Color'] = tm.tests.test_Color()
-    # results['Style'] = tm.tests.test_Style()
+    results['Style'] = tm.tests.test_Style()
     # results['Pixel'] = tm.tests.test_Pixel()
     # results['Grid']  = tm.tests.test_Grid()
     # results['Term']  = tm.tests.test_Term()

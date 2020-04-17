@@ -185,10 +185,10 @@ class Pixel_Fast:
             <ndarray> of <uint64>
         '''
         arr = np.zeros(7 + len(ANSI_styles.keys()), dtype = np.uint32)
-        arr[0:3] = self.color_t.RGB
-        arr[3:6] = self.color_b.RGB
+        arr[0:3] = self.color_t.RGB()
+        arr[3:6] = self.color_b.RGB()
         arr[6] = ord(self.char)
-        arr[7:] = self.style.as_arr
+        arr[7:] = self.style.as_arr()
         return arr
 
     def __str__(self):
@@ -211,13 +211,13 @@ class Pixel_Fast:
             RETURNS
             out         <str>
         '''
-        RGBt = (f'({self.color_t.R:03d} {self.color_t.G:03d} '
-                f'{self.color_t.B:03d})')
-        RGBb = (f'({self.color_b.R:03d} {self.color_b.G:03d} '
-                f'{self.color_b.B:03d})')
+        RGBt = (f'({self.color_t.R():03d} {self.color_t.G():03d} '
+                f'{self.color_t.B():03d})')
+        RGBb = (f'({self.color_b.R():03d} {self.color_b.G():03d} '
+                f'{self.color_b.B():03d})')
 
-        if self.style.styles:
-            styles = ', '.join(self.style.styles)
+        if self.style.styles():
+            styles = ', '.join(self.style.styles())
         else:
             styles = 'Empty'
 
@@ -311,7 +311,7 @@ class Pixel_Fast:
             out         <str>
         '''
         out = \
-        esc.format(f'38;2;{self.color_t.R};{self.color_t.G};{self.color_t.B}')
+        esc.format(f'38;2;{self.color_t.R()};{self.color_t.G()};{self.color_t.B()}')
         return out
 
     @property
@@ -325,7 +325,7 @@ class Pixel_Fast:
             out         <str>
         '''
         out = \
-        esc.format(f'48;2;{self.color_b.R};{self.color_b.G};{self.color_b.B}')
+        esc.format(f'48;2;{self.color_b.R()};{self.color_b.G()};{self.color_b.B()}')
         return out
 
     @property
@@ -338,8 +338,8 @@ class Pixel_Fast:
             RETURNS
             <str>
         '''
-        if self.style.styles:
-            values = ';'.join(str(ANSI_styles[i]) for i in self.style.styles)
+        if self.style.styles():
+            values = ';'.join(str(ANSI_styles[i]) for i in self.style.styles())
             return esc.format(values)
         else:
             return ''

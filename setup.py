@@ -3,6 +3,7 @@ from distutils.core import setup
 dependencies = ['numpy']
 packages = ['', '.backend', '.config', '.data', '.frontend', '.samples',
             '.tests', '.tools', '.utils']
+
 for n, package in enumerate(packages):
     packages[n] = 'Termighty' + package
 
@@ -17,6 +18,7 @@ setup(
   download_url = 'https://github.com/GabrielSCabrera/Termighty/archive/v0.0.1.tar.gz',
   keywords = ['terminal', 'gui', 'interactive'],
   install_requires = dependencies,
+  # data_files = [('Termighty', ['Termighty/data/*.json'])],
   classifiers=[
     'Development Status :: 3 - Alpha',
     'Intended Audience :: Developers',

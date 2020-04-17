@@ -29,8 +29,8 @@ def calibrate_Color():
     labels = '      '
     for color, rgb in colors.items():
         labels += f'{color:^8s} '
-        row1 += f'{Color.palette(color).sample}'*8 + ' '
-        row2 += f'{Color(rgb).sample}'*8 + ' '
+        row1 += f'{Color.palette(color).sample()}'*8 + ' '
+        row2 += f'{Color(rgb).sample()}'*8 + ' '
         row3 += f'\033[48;2;{rgb[0]};{rgb[1]};{rgb[2]}m \033[m'*8 + ' '
 
     msg += row1 + '\n' + row2 + '\n' + row3 + '\n' + labels
@@ -54,13 +54,13 @@ def calibrate_Color():
 
     msg += f'\033[1m{"RED:":{fmt_len}s}\033[m'
     msg += ''.join(f'\033[48;2;{rgb[0]};{rgb[1]};{rgb[2]}m ' for rgb in reds)
-    msg += '\033[m\n' + ' '*fmt_len + ''.join(Color(rgb).sample for rgb in reds)
+    msg += '\033[m\n' + ' '*fmt_len + ''.join(Color(tuple(rgb)).sample() for rgb in reds)
     msg += f'\033[m\n\033[1m{"GREEN:":{fmt_len}s}\033[m'
     msg += ''.join(f'\033[48;2;{rgb[0]};{rgb[1]};{rgb[2]}m ' for rgb in greens)
-    msg += '\033[m\n' + ' '*fmt_len + ''.join(Color(rgb).sample for rgb in greens)
+    msg += '\033[m\n' + ' '*fmt_len + ''.join(Color(tuple(rgb)).sample() for rgb in greens)
     msg += f'\033[m\n\033[1m{"BLUE:":{fmt_len}s}\033[m'
     msg += ''.join(f'\033[48;2;{rgb[0]};{rgb[1]};{rgb[2]}m ' for rgb in blues)
-    msg += '\033[m\n' + ' '*fmt_len + ''.join(Color(rgb).sample for rgb in blues)
+    msg += '\033[m\n' + ' '*fmt_len + ''.join(Color(tuple(rgb)).sample() for rgb in blues)
     msg += '\033[m\n'
 
     print(msg)
@@ -86,13 +86,13 @@ def calibrate_Color():
 
     msg += f'\033[1m{"RED>GREEN:":{fmt_len}s}\033[m'
     msg += ''.join(f'\033[48;2;{rgb[0]};{rgb[1]};{rgb[2]}m ' for rgb in RG)
-    msg += '\033[m\n' + ' '*fmt_len + ''.join(Color(rgb).sample for rgb in RG)
+    msg += '\033[m\n' + ' '*fmt_len + ''.join(Color(tuple(rgb)).sample() for rgb in RG)
     msg += f'\033[m\n\033[1m{"GREEN>BLUE:":{fmt_len}s}\033[m'
     msg += ''.join(f'\033[48;2;{rgb[0]};{rgb[1]};{rgb[2]}m ' for rgb in GB)
-    msg += '\033[m\n' + ' '*fmt_len + ''.join(Color(rgb).sample for rgb in GB)
+    msg += '\033[m\n' + ' '*fmt_len + ''.join(Color(tuple(rgb)).sample() for rgb in GB)
     msg += f'\033[m\n\033[1m{"BLUE>RED:":{fmt_len}s}\033[m'
     msg += ''.join(f'\033[48;2;{rgb[0]};{rgb[1]};{rgb[2]}m ' for rgb in BR)
-    msg += '\033[m\n' + ' '*fmt_len + ''.join(Color(rgb).sample for rgb in BR)
+    msg += '\033[m\n' + ' '*fmt_len + ''.join(Color(tuple(rgb)).sample() for rgb in BR)
     msg += '\033[m'
 
     print(msg)
@@ -443,7 +443,7 @@ def calibrate_Term():
     from ..backend import Grid_Fast as Grid
 
     # Importing class 'Term' locally
-    from ..backend import Term
+    from ..frontend import Term
 
     msg = ('CALIBRATION FOR CLASS TERM')
     print(f'\n\033[30;47;4m{msg:^80s}\033[m\n')
@@ -479,12 +479,10 @@ def calibrate_Window():
     from ..backend import Grid
 
     # Importing class 'Term' locally
-    from ..backend import Term
+    from ..frontend import Term
 
     # Importing class 'Window' locally
-    from ..backend import Window
+    from ..frontend import Window
 
     msg = ('CALIBRATION FOR CLASS WINDOW')
     print(f'\n\033[30;47;4m{msg:^80s}\033[m\n')
-
-    

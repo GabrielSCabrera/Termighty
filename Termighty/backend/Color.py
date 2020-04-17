@@ -64,7 +64,7 @@ class Color(Color_Fast):
         checkers.check_type_arr(RGB, int_types, 'RGB', 'reset_RGB')
         checkers.check_range_arr(RGB, 0, 255, 'RGB', 'reset_RGB')
         checkers.check_shape_arr(RGB, (3,), 'RGB', 'reset_RGB')
-        super().set_RGB(RGB)
+        super().set_RGB(tuple(RGB))
 
     def set_R(self, R):
         '''

@@ -742,11 +742,11 @@ def test_Style():
         T.start(f'add: 1 style [{n+1}]')
         try:
             style = Style()
-            assert style.styles == []
+            assert style.styles() == []
             args = [key]
             args = list(set(args))
             style.add(*args)
-            assert sorted(style.styles) == sorted(args)
+            assert sorted(style.styles()) == sorted(args)
             T.passed()
         except Exception as e:
             T.failed(e)
@@ -756,11 +756,11 @@ def test_Style():
         T.start(f'add: 2 styles [{n+1}]')
         try:
             style = Style()
-            assert style.styles == []
+            assert style.styles() == []
             args = [key, keys[(n+1)%len(keys)]]
             args = list(set(args))
             style.add(*args)
-            assert sorted(style.styles) == sorted(args)
+            assert sorted(style.styles()) == sorted(args)
             T.passed()
         except Exception as e:
             T.failed(e)
@@ -770,11 +770,11 @@ def test_Style():
         T.start(f'add: 3 styles [{n+1}]')
         try:
             style = Style()
-            assert style.styles == []
+            assert style.styles() == []
             args = [key, keys[(n+1)%len(keys)], keys[(n+2)%len(keys)]]
             args = list(set(args))
             style.add(*args)
-            assert sorted(style.styles) == sorted(args)
+            assert sorted(style.styles()) == sorted(args)
             T.passed()
         except Exception as e:
             T.failed(e)
@@ -785,7 +785,7 @@ def test_Style():
         try:
             style = Style(*keys)
             style.remove(key)
-            assert key not in style.styles
+            assert key not in style.styles()
             T.passed()
         except Exception as e:
             T.failed(e)
@@ -796,8 +796,8 @@ def test_Style():
         try:
             style = Style(*keys)
             style.remove(key, keys[(n+1)%len(keys)])
-            assert key not in style.styles
-            assert keys[(n+1)%len(keys)] not in style.styles
+            assert key not in style.styles()
+            assert keys[(n+1)%len(keys)] not in style.styles()
             T.passed()
         except Exception as e:
             T.failed(e)
@@ -808,9 +808,9 @@ def test_Style():
         try:
             style = Style(*keys)
             style.remove(key, keys[(n+1)%len(keys)], keys[(n+2)%len(keys)])
-            assert key not in style.styles
-            assert keys[(n+1)%len(keys)] not in style.styles
-            assert keys[(n+2)%len(keys)] not in style.styles
+            assert key not in style.styles()
+            assert keys[(n+1)%len(keys)] not in style.styles()
+            assert keys[(n+2)%len(keys)] not in style.styles()
             T.passed()
         except Exception as e:
             T.failed(e)
@@ -925,31 +925,31 @@ def test_Style():
         T.failed(e)
 
     # New Test
-    T.start('as_arr [1]')
+    T.start('as_arr() [1]')
     try:
         bold_1 = Style('bold')
         exp = [1, 0, 0, 0, 0, 0, 0, 0]
-        assert np.array_equal(bold_1.as_arr, exp)
+        assert np.array_equal(bold_1.as_arr(), exp)
         T.passed()
     except Exception as e:
         T.failed(e)
 
     # New Test
-    T.start('as_arr [2]')
+    T.start('as_arr() [2]')
     try:
         style = Style('bold', 'italic')
         exp = [1, 0, 1, 0, 0, 0, 0, 0]
-        assert np.array_equal(style.as_arr, exp)
+        assert np.array_equal(style.as_arr(), exp)
         T.passed()
     except Exception as e:
         T.failed(e)
 
     # New Test
-    T.start('as_arr [3]')
+    T.start('as_arr() [3]')
     try:
         style = Style('bold', 'underline')
         exp = [1, 0, 0, 1, 0, 0, 0, 0]
-        assert np.array_equal(style.as_arr, exp)
+        assert np.array_equal(style.as_arr(), exp)
         T.passed()
     except Exception as e:
         T.failed(e)
@@ -1146,8 +1146,8 @@ def test_Pixel():
     T.start('style')
     try:
         pixel = Pixel(style = 'bold')
-        assert pixel.style.styles[0] == 'bold'
-        assert len(pixel.style.styles) == 1
+        assert pixel.style.styles()[0] == 'bold'
+        assert len(pixel.style.styles()) == 1
         T.passed()
     except Exception as e:
         T.failed(e)
@@ -1348,43 +1348,43 @@ def test_Pixel():
         T.failed(e)
 
     # New Test
-    T.start('as_arr [1]')
+    T.start('as_arr() [1]')
     try:
         pixel = Pixel(char = 'A')
         exp = [255, 255, 255, 0, 0, 0, 65, 0, 0, 0, 0, 0, 0, 0, 0]
-        assert np.array_equal(pixel.as_arr , exp)
+        assert np.array_equal(pixel.as_arr() , exp)
         T.passed()
     except Exception:
         T.failed()
 
     # New Test
-    T.start('as_arr [2]')
+    T.start('as_arr() [2]')
     try:
         style = Style('bold', 'italic', 'underline')
         pixel = Pixel(char = '5', style = style)
         exp = [255, 255, 255, 0, 0, 0, 53, 1, 0, 1, 1, 0, 0, 0, 0]
-        assert np.array_equal(pixel.as_arr , exp)
+        assert np.array_equal(pixel.as_arr() , exp)
         T.passed()
     except Exception:
         T.failed()
 
     # New Test
-    T.start('as_arr [3]')
+    T.start('as_arr() [3]')
     try:
         style = Style('bold', 'blink', 'underline')
         pixel = Pixel(color_t = 'blue', char = '§', style = style)
         exp = [0, 0, 255, 0, 0, 0, 167, 1, 0, 0, 1, 1, 0, 0, 0]
-        assert np.array_equal(pixel.as_arr , exp)
+        assert np.array_equal(pixel.as_arr() , exp)
         T.passed()
     except Exception:
         T.failed()
 
     # New Test
-    T.start('as_arr [4]')
+    T.start('as_arr() [4]')
     try:
         pixel = Pixel(color_b = 'red', char = '¤')
         exp = [255, 255, 255, 255, 0, 0, 164, 0, 0, 0, 0, 0, 0, 0, 0]
-        assert np.array_equal(pixel.as_arr , exp)
+        assert np.array_equal(pixel.as_arr() , exp)
         T.passed()
     except Exception:
         T.failed()

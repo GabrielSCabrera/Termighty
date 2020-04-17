@@ -702,11 +702,13 @@ def get_series():
     args = [(char_arrs[idx[n]], color) for n, color in enumerate(colors_b)]
 
     pool = Pool()
-    grids = pool.map(step2, args)
+    grids = list(map(step2, args))
+    # grids = pool.map(step2, args)
 
     char_arrs = end_text()
     pool = Pool()
-    grids += pool.map(step1, char_arrs)
+    grids += list(map(step1, char_arrs))
+    # grids += pool.map(step1, char_arrs)
 
     grid = Grid.empty((ROWS, COLS))
     for i in range(ROWS):
@@ -729,7 +731,7 @@ def step2(args):
     n = 0
     for i in range(ROWS):
         for j in range(COLS):
-            grid[i,j].color_b.set_RGB(args[1][i][j])
+            grid[i,j].color_b.set_RGB(tuple(args[1][i][j]))
             grid[i,j].set_char(args[0][n][i][j])
             n += 1
     return grid

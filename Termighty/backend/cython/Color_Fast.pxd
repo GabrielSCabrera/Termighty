@@ -23,3 +23,11 @@ cdef class Color_Fast(object):
 
   '''SAMPLER METHODS'''
   cpdef str sample(self)
+
+  '''COMPARATORS'''
+  cpdef bint eq(self, color)
+  cpdef bint ne(self, color)
+  cpdef bint lt(self, color)
+  cpdef bint gt(self, color)
+  cpdef bint le(self, color)
+  cpdef bint ge(self, color)

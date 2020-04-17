@@ -12,7 +12,7 @@ for style in styles_clear.values():
 clear_str = clear_str[:-1]
 clear_str = esc.format(clear_str)
 
-class Style_Fast:
+cdef class Style_Fast(object):
 
     '''CONSTRUCTORS'''
 
@@ -24,7 +24,7 @@ class Style_Fast:
             PARAMETERS
             styles          Any number of <str>
         '''
-        self.styles_list = sorted(list(set(self.check_styles(styles))))
+        self.styles_list = sorted(styles)
         self.update()
 
     '''INSTANTIATORS'''
@@ -56,7 +56,7 @@ class Style_Fast:
             RETURNS
             Instance of 'Style_Fast'
         '''
-        return self.__class__(*self.styles)
+        return self.__class__(*self.styles())
 
     '''SETTERS'''
 
@@ -100,8 +100,7 @@ class Style_Fast:
         out = self.sequence + string + self.clear()
         return out
 
-    @property
-    def as_arr(self):
+    cpdef np.uint8_t[:] as_arr(self):
         '''
             PURPOSE
             Returns the current instance as an array of integers as given by
@@ -191,8 +190,7 @@ class Style_Fast:
 
     '''ACCESSORS'''
 
-    @property
-    def styles(self):
+    cpdef list styles(self):
         '''
             PURPOSE
             Returns a copy of the list of styles currently implemented
@@ -202,128 +200,34 @@ class Style_Fast:
         '''
         return self.styles_list.copy()
 
-    @classmethod
-    def arr_len(cls):
-        '''
-            PURPOSE
-            Returns the length of the array returned from 'as_arr'
-
-            RETURNS
-            <int>
-        '''
-        return len(ANSI_styles.keys())
-
-    '''SAMPLERS'''
-
-    @classmethod
-    def list_styles(cls):
-        '''
-            PURPOSE
-            Returns a human-readable description of all available styles
-
-            RETURNS
-            out         <str>
-        '''
-        out = 'STYLES'
-        length = max(len(key) for key in ANSI_styles.keys()) + 1
-        length = max(len(out), length)
-        out = bold(out) + '\n'
-        for key, value in ANSI_styles.items():
-            space = ' '*(length-len(key))
-            out += space + esc.format(value) + key + cls.clear() + '\n'
-        return out
-
     '''MANAGERS'''
 
-    def update(self):
+    cpdef void update(self):
         '''
             PURPOSE
             Update the ANSI escape sequence that is returned from this instance
         '''
+        cdef Py_ssize_t i,j,k
         if not self.styles_list:
             self.sequence = clear_str
             self.codes = []
         else:
+            self.styles_list = sorted(list(set(self.styles_list)))
             codes = [ANSI_styles[style] for style in self.styles_list]
             fmt = ''
-            for code in codes:
-                fmt += f'{code};'
-            fmt = fmt[:-1]
-            self.sequence = esc.format(fmt)
+            for i in range(len(codes)):
+                fmt += f'{codes[i]};'
+            self.sequence = esc.format(fmt[:-1])
             self.codes = [ANSI_styles[style] for style in self.styles_list]
 
         self.arr = np.zeros(len(ANSI_styles.keys()), dtype = np.uint8)
-        for style in self.styles_list:
-            n = styles_to_int[style]
-            self.arr[n] = 1
+        for j in range(len(self.styles_list)):
+            k = styles_to_int[self.styles_list[j]]
+            self.arr[k] = 1
 
     '''COMPARATORS'''
 
-    @classmethod
-    def check_styles(cls, styles):
-        '''
-            PURPOSE
-            Checks that parameter 'styles' is a <str> or list thereof, whose
-            elements are also members of the set of keys in ANSI.styles
-
-            PARAMETERS
-            styles          <str>
-
-            RETURNS
-            <list> of <str>
-        '''
-        options = list(ANSI_styles.keys())
-        if styles in [[], (), None]:
-            return []
-        elif isinstance(styles, arr_types):
-
-            for style in styles:
-
-                if not isinstance(style, str_types):
-                    msg = ('\n\nParameter \'styles\' in \'Style.__init__\' must'
-                           ' contain <str> elements that take one or more of '
-                           'the following values:\n')
-                    for o in options:
-                        msg += f'\'{o}\', '
-                    msg = msg[:-2]
-                    raise TypeError(msg)
-
-                elif style not in options:
-                    msg = ('\n\nParameter \'styles\' in \'Style.__init__\' must'
-                           ' contain <str> elements that take one or more of '
-                           'the following values:\n')
-                    for o in options:
-                        msg += f'\'{o}\', '
-                    msg = msg[:-2]
-                    raise ValueError(msg)
-
-            return list(set((styles)))
-
-        elif isinstance(styles, str_types):
-
-            if styles not in options:
-                msg = ('\n\nParameter \'styles\' in \'Style.__init__\' must be '
-                       'a <str> (or list thereof) that takes one (or more) '
-                       'of the following values:\n')
-                for o in options:
-                    msg += f'\'{o}\', '
-                msg = msg[:-2]
-                raise ValueError(msg)
-
-            return [styles]
-
-        else:
-
-            msg = ('\n\nParameter \'styles\' in \'Style.__init__\' must be '
-                   'a <str> (or list thereof) that takes one (or more) '
-                   'of the following values:\n')
-            for o in options:
-                msg += f'\'{o}\', '
-            msg = msg[:-2]
-
-            raise TypeError(msg)
-
-    def __eq__(self, style):
+    cpdef bint eq(self, style):
         '''
             PURPOSE
             Checks if the given parameter 'style' has the same set of
@@ -335,12 +239,12 @@ class Style_Fast:
             RETURNS
             <bool>
         '''
-        if self.styles == style.styles:
+        if self.styles() == style.styles():
             return True
         else:
             return False
 
-    def __neq__(self, style):
+    cpdef bint ne(self, style):
         '''
             PURPOSE
             Checks if the given parameter 'style' has a different set of
@@ -352,7 +256,36 @@ class Style_Fast:
             RETURNS
             <bool>
         '''
-        if self.styles != style.styles:
-            return True
-        else:
-            return False
+        return not self.eq(style)
+
+    '''COMPARATOR WRAPPERS'''
+
+    def __eq__(self, style):
+        '''
+            PURPOSE
+            Magic method wrapper for method eq().
+            Checks if the given parameter 'style' has the same set of
+            applied styles as the current 'Style' instance
+
+            PARAMETERS
+            style           Instance of <class 'Style_Fast'>
+
+            RETURNS
+            <bool>
+        '''
+        return self.eq(style)
+
+    def __ne__(self, style):
+        '''
+            PURPOSE
+            Magic method wrapper for method ne().
+            Checks if the given parameter 'style' has a different set of
+            applied styles to that of the current 'Style_Fast' instance
+
+            PARAMETERS
+            style           Instance of <class 'Style_Fast'>
+
+            RETURNS
+            <bool>
+        '''
+        return self.ne(style)

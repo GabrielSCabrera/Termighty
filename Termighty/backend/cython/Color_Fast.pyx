@@ -8,7 +8,7 @@ cdef class Color_Fast(object):
 
     '''CONSTRUCTOR'''
 
-    def  __init__(self, tuple RGB, name = 'Unnamed Color'):
+    def  __cinit__(self, tuple RGB, name = 'Unnamed Color'):
         '''
             PURPOSE
             Base class for the defining of RGB colors, with R, G, and B as
@@ -261,7 +261,7 @@ cdef class Color_Fast(object):
 
     '''COMPARATORS'''
 
-    def __eq__(self, color):
+    cpdef bint eq(self, color):
         '''
             PURPOSE
             Checks if the given parameter 'color' has the same RGB value
@@ -271,14 +271,15 @@ cdef class Color_Fast(object):
             color           Instance of <class 'Color_Fast'>
 
             RETURNS
-            <bool>
+            <bint>
         '''
-        if np.array_equal(color.RGB(), self.RGB()):
-            return True
-        else:
+        cdef Py_ssize_t i
+        for i in range(3):
+          if self.RGB_arr[i] != color.RGB_arr[i]:
             return False
+        return True
 
-    def __ne__(self, color):
+    cpdef bint ne(self, color):
         '''
             PURPOSE
             Checks if the given parameter 'color' has a different RGB value
@@ -288,11 +289,11 @@ cdef class Color_Fast(object):
             color           Instance of <class 'Color_Fast'>
 
             RETURNS
-            <bool>
+            <bint>
         '''
-        return not self.__eq__(color)
+        return not self.eq(color)
 
-    def __lt__(self, color):
+    cpdef bint lt(self, color):
         '''
             PURPOSE
             Checks if the given parameter 'color' has the an RGB value that is
@@ -302,18 +303,18 @@ cdef class Color_Fast(object):
             color           Instance of <class 'Color_Fast'>
 
             RETURNS
-            <bool>
+            <bint>
         '''
-        if self.R() < color.R():
+        if self.RGB_arr[0] < color.RGB_arr[0]:
             return True
-        elif self.G() < color.G() and self.R() == color.R():
+        elif self.RGB_arr[1] < color.RGB_arr[1] and self.RGB_arr[0] == color.RGB_arr[0]:
             return True
-        elif self.B() < color.B() and self.G() == color.G() and self.R() == color.R():
+        elif self.RGB_arr[2] < color.RGB_arr[2] and self.RGB_arr[1] == color.RGB_arr[1] and self.RGB_arr[0] == color.RGB_arr[0]:
             return True
         else:
             return False
 
-    def __gt__(self, color):
+    cpdef bint gt(self, color):
         '''
             PURPOSE
             Checks if the given parameter 'color' has the an RGB value that is
@@ -323,18 +324,18 @@ cdef class Color_Fast(object):
             color           Instance of <class 'Color_Fast'>
 
             RETURNS
-            <bool>
+            <bint>
         '''
-        if self.R() > color.R():
+        if self.RGB_arr[0] > color.RGB_arr[0]:
             return True
-        elif self.G() > color.G() and self.R() == color.R():
+        elif self.RGB_arr[1] > color.RGB_arr[1] and self.RGB_arr[0] == color.RGB_arr[0]:
             return True
-        elif self.B() > color.B() and self.G() == color.G() and self.R() == color.R():
+        elif self.RGB_arr[2] > color.RGB_arr[2] and self.RGB_arr[1] == color.RGB_arr[1] and self.RGB_arr[0] == color.RGB_arr[0]:
             return True
         else:
             return False
 
-    def __le__(self, color):
+    cpdef bint le(self, color):
         '''
             PURPOSE
             Checks if the given parameter 'color' has the an RGB value that is
@@ -344,18 +345,18 @@ cdef class Color_Fast(object):
             color           Instance of <class 'Color_Fast'>
 
             RETURNS
-            <bool>
+            <bint>
         '''
-        if self.R() > color.R():
+        if self.RGB_arr[0] > color.RGB_arr[0]:
             return False
-        elif self.G() > color.G() and self.R() == color.R():
+        elif self.RGB_arr[1] > color.RGB_arr[1] and self.RGB_arr[0] == color.RGB_arr[0]:
             return False
-        elif self.B() > color.B() and self.G() == color.G() and self.R() == color.R():
+        elif self.RGB_arr[2] > color.RGB_arr[2] and self.RGB_arr[1] == color.RGB_arr[1] and self.RGB_arr[0] == color.RGB_arr[0]:
             return False
         else:
             return True
 
-    def __ge__(self, color):
+    cpdef bint ge(self, color):
         '''
             PURPOSE
             Checks if the given parameter 'color' has the an RGB value that is
@@ -366,13 +367,106 @@ cdef class Color_Fast(object):
             color           Instance of <class 'Color_Fast'>
 
             RETURNS
-            <bool>
+            <bint>
         '''
-        if self.R() < color.R():
+        if self.RGB_arr[0] < color.RGB_arr[0]:
             return False
-        elif self.G() < color.G() and self.R() == color.R():
+        elif self.RGB_arr[1] < color.RGB_arr[1] and self.RGB_arr[0] == color.RGB_arr[0]:
             return False
-        elif self.B() < color.B() and self.G() == color.G() and self.R() == color.R():
+        elif self.RGB_arr[2] < color.RGB_arr[2] and self.RGB_arr[1] == color.RGB_arr[1] and self.RGB_arr[0] == color.RGB_arr[0]:
             return False
         else:
             return True
+
+    '''COMPARATOR WRAPPERS'''
+
+    def __eq__(self, color):
+        '''
+            PURPOSE
+            Magic method wrapper for method eq().
+            Checks if the given parameter 'color' has the same RGB value
+            as the current instance
+
+            PARAMETERS
+            color           Instance of <class 'Color_Fast'>
+
+            RETURNS
+            <bint>
+        '''
+        return self.eq(color)
+
+    def __ne__(self, color):
+        '''
+            PURPOSE
+            Magic method wrapper for method ne().
+            Checks if the given parameter 'color' has a different RGB value
+            than the current instance
+
+            PARAMETERS
+            color           Instance of <class 'Color_Fast'>
+
+            RETURNS
+            <bint>
+        '''
+        return self.ne(color)
+
+    def __lt__(self, color):
+        '''
+            PURPOSE
+            Magic method wrapper for method lt().
+            Checks if the given parameter 'color' has the an RGB value that is
+            less (in order R-G-B) than that of the current instance
+
+            PARAMETERS
+            color           Instance of <class 'Color_Fast'>
+
+            RETURNS
+            <bint>
+        '''
+        return self.lt(color)
+
+    def __gt__(self, color):
+        '''
+            PURPOSE
+            Magic method wrapper for method gt().
+            Checks if the given parameter 'color' has the an RGB value that is
+            greater (in order R-G-B) than that of the current instance
+
+            PARAMETERS
+            color           Instance of <class 'Color_Fast'>
+
+            RETURNS
+            <bint>
+        '''
+        return self.gt(color)
+
+    def __le__(self, color):
+        '''
+            PURPOSE
+            Magic method wrapper for method le().
+            Checks if the given parameter 'color' has the an RGB value that is
+            less (in order R-G-B) than or equal to that of the current instance
+
+            PARAMETERS
+            color           Instance of <class 'Color_Fast'>
+
+            RETURNS
+            <bint>
+        '''
+        return self.le(color)
+
+    def __ge__(self, color):
+        '''
+            PURPOSE
+            Magic method wrapper for method ge().
+            Checks if the given parameter 'color' has the an RGB value that is
+            greater (in order R-G-B) than or equal to that of the current
+            instance
+
+            PARAMETERS
+            color           Instance of <class 'Color_Fast'>
+
+            RETURNS
+            <bint>
+        '''
+        return self.ge(color)
