@@ -8,7 +8,7 @@ cdef class Color_Fast(object):
 
     '''CONSTRUCTOR'''
 
-    def  __cinit__(self, tuple RGB, name = 'Unnamed Color'):
+    def  __init__(self, RGB, name = None):
         '''
             PURPOSE
             Base class for the defining of RGB colors, with R, G, and B as
@@ -20,6 +20,8 @@ cdef class Color_Fast(object):
             OPTIONAL PARAMETERS
             name        <str>
         '''
+        if name is None:
+            name = 'Unnamed Color'
         self.RGB_arr = np.zeros(3, dtype = np.uint8)
         self.set_name(name)
         self.set_RGB(RGB)

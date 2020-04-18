@@ -713,7 +713,7 @@ def get_series():
     grid = Grid.empty((ROWS, COLS))
     for i in range(ROWS):
         for j in range(COLS):
-            grid[i,j].set_char(char = char_arrs[0][i][j])
+            grid[i,j].set_char(char_arrs[0][i][j])
     grids.append(grid)
 
     return Series(grids)
@@ -722,7 +722,7 @@ def step1(chars):
     grid = Grid.empty((ROWS, COLS))
     for i in range(ROWS):
         for j in range(COLS):
-            if grid[i,j].char != chars[i][j]:
+            if grid[i,j].char() != chars[i][j]:
                 grid[i,j].set_char(chars[i][j])
     return grid
 
@@ -731,7 +731,7 @@ def step2(args):
     n = 0
     for i in range(ROWS):
         for j in range(COLS):
-            grid[i,j].color_b.set_RGB(tuple(args[1][i][j]))
+            grid[i,j].color_b().set_RGB(tuple(args[1][i][j]))
             grid[i,j].set_char(args[0][n][i][j])
             n += 1
     return grid

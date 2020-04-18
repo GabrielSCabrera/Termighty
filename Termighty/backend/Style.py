@@ -71,17 +71,6 @@ class Style(Style_Fast):
         styles = self.check_styles(styles)
         super().remove(*styles)
 
-    @classmethod
-    def arr_len(cls):
-        '''
-            PURPOSE
-            Returns the length of the array returned from 'as_arr'
-
-            RETURNS
-            <int>
-        '''
-        return len(ANSI_styles.keys())
-
     '''SAMPLERS'''
 
     @classmethod

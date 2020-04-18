@@ -216,8 +216,8 @@ def calibrate_Pixel():
         labels += f'{color:^8s} '
         px_1 = Pixel(char = color[0], color_b = color, color_t = 'black')
         px_2 = Pixel(char = color[0], color_b = rgb, color_t = (0,0,0))
-        row1 += f'{px_1}'*8 + f'{px_1.end_seq} '
-        row2 += f'{px_2}'*8 + f'{px_2.end_seq} '
+        row1 += f'{px_1}'*8 + f'{px_1.end_seq()} '
+        row2 += f'{px_2}'*8 + f'{px_2.end_seq()} '
         row3 += (f'\033[48;2;{rgb[0]};{rgb[1]};{rgb[2]}m\033[30m{color[0]}'
                  '\033[m')*8 + ' '
 
@@ -450,7 +450,7 @@ def calibrate_Term():
 
     height, width, steps = 24, 80, 50
     red = np.linspace(0, 255, width, dtype = np.uint8)
-    green = np.linspace(0, 255, height, dtype = np.uint8)
+    green = np.linspace(120, 200, height, dtype = np.uint8)
     blue = np.linspace(0, 255, steps, dtype = np.uint8)
     red, green = np.meshgrid(red, green)
     RG = np.concatenate([red[:,:,None], green[:,:,None]], axis = 2)
@@ -461,7 +461,7 @@ def calibrate_Term():
 
     T = Term()
     with T:
-        for i in range(3):
+        for i in range(2):
             for grid in grids:
                 T[:] = Grid(grid)
                 T.sleep(1/60)

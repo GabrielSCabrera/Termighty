@@ -24,6 +24,8 @@ cdef class Style_Fast(object):
             PARAMETERS
             styles          Any number of <str>
         '''
+        if styles is None:
+            styles = []
         self.styles_list = sorted(styles)
         self.update()
 
@@ -176,7 +178,7 @@ cdef class Style_Fast(object):
             <int>
         '''
         ID = ''.join(f'{code:02d}' for code in self.codes)
-        return hash(ID)
+        return int(ID)
 
     def __len__(self):
         '''
@@ -187,6 +189,19 @@ cdef class Style_Fast(object):
             <int>
         '''
         return len(self.styles_list)
+
+    '''SETTERS'''
+
+    @classmethod
+    def arr_len(cls):
+        '''
+            PURPOSE
+            Returns the length of the array returned from 'as_arr'
+
+            RETURNS
+            <int>
+        '''
+        return len(ANSI_styles.keys())
 
     '''ACCESSORS'''
 

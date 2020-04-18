@@ -132,3 +132,21 @@ class Pixel(Pixel_Fast):
         '''
         self.is_char(char)
         super().set_char(char)
+
+    '''COMPARATORS'''
+
+    @classmethod
+    def is_char(cls, char):
+        '''
+            PURPOSE
+            Confirms that 'char' is a single-character <str>, or raises an
+            Exception
+
+            RETURNS
+            True
+        '''
+        checkers.check_type(char, str_types, 'char', 'is_char')
+        if len(char.__repr__()) != 3:
+            msg = '\n\nParameter \'char\' should be a one-character <str>'
+            raise ValueError(msg)
+        return True

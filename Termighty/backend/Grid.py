@@ -22,7 +22,7 @@ class Grid(Grid_Fast):
             PARAMETERS
             data            2-D rectangular iterable of Pixels
         '''
-        checkers.check_type_arr_2D(data, Pixel_Fast, 'data', 'generate')
+        checkers.check_type_arr_2D(data, Pixel_Fast, 'data', '__init__')
         super().__init__(data)
 
     '''INSTANTIATORS'''
@@ -40,11 +40,11 @@ class Grid(Grid_Fast):
             RETURNS
             grid            Instance of class 'Grid'
         '''
-        checkers.check_type_arr(shape, int_types, 'shape', '__init__')
-        checkers.check_range_arr(shape, 1, None, 'shape', '__init__')
+        checkers.check_type_arr(shape, int_types, 'shape', 'empty')
+        checkers.check_range_arr(shape, 1, None, 'shape', 'empty')
 
         if len(shape) != 2:
-            msg = ('Parameter \'shape\' in \'__init__\' must be a <tuple> of '
+            msg = ('Parameter \'shape\' in \'empty\' must be a <tuple> of '
                    'length 2 containing integer values greater than zero.')
             raise ValueError(msg)
 

@@ -177,6 +177,6 @@ class Gradient(Grid_Fast):
         rgb = self.color_map(Z)
         for m in range(self.shape_arr[0]):
             for n in range(self.shape_arr[1]):
-                self.data[m,n].color_b_obj.set_RGB(rgb[m,n])
+                self.data[m,n].color_b_obj.set_RGB(tuple(rgb[m,n]))
                 self.data[m,n].update()
         super().update()

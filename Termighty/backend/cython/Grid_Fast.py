@@ -82,7 +82,7 @@ class Grid_Fast:
         pool = Pool()
         grid = np.empty(arr.shape[:-1], dtype = Pixel_Fast)
         for i in range(arr.shape[0]):
-            for n,j in enumerate(pool.imap(Pixel_Fast.from_arr, arr[i])):
+            for n,j in enumerate(map(Pixel_Fast.from_arr, arr[i])):
                 grid[i,n] = j
         return cls(grid)
 
@@ -165,7 +165,7 @@ class Grid_Fast:
         arr = np.zeros((*self.shape, 7 + Style_Fast.arr_len()))
         for i in range(self.shape[0]):
             for j in range(self.shape[1]):
-                arr[i,j] = self.data[i,j].as_arr
+                arr[i,j] = self.data[i,j].as_arr()
         return arr
 
     '''ACCESSORS'''

@@ -6,13 +6,13 @@ from ...data import str_types, int_types
 from .Color_Fast import Color_Fast
 from .Style_Fast import Style_Fast
 from ...config import defaults
-from ...utils import checkers
 
-class Pixel_Fast:
+cdef class Pixel_Fast(object):
 
     '''CONSTRUCTOR'''
 
-    def __init__(self, color_t = None, color_b = None, style = None, char = None):
+    def __init__(self, color_t = None, color_b = None, style = None,
+                 character = None):
         '''
             PURPOSE
             Basic unit of all graphics displayed in the terminal – may contain
@@ -22,7 +22,7 @@ class Pixel_Fast:
             color_t         instance of 'Color_Fast'
             color_b         instance of 'Color_Fast'
             style           instance of 'Style_Fast'
-            char            <str>
+            character       <str>
 
             WARNING
             Be aware that pixels are twice as tall as they are wide
@@ -44,10 +44,10 @@ class Pixel_Fast:
         else:
             self.style_obj = style
 
-        if char is None:
+        if character is None:
             self.char_str = ' '
         else:
-            self.char_str = char
+            self.char_str = character
 
         self.update()
 
@@ -86,11 +86,11 @@ class Pixel_Fast:
             RETURNS
             Instance of 'Pixel_Fast'
         '''
-        color_t = Color_Fast(arr[0:3])
-        color_b = Color_Fast(arr[3:6])
-        char = chr(arr[6])
+        color_t = Color_Fast(tuple(arr[0:3]))
+        color_b = Color_Fast(tuple(arr[3:6]))
+        character = chr(arr[6])
         style = Style_Fast.from_arr(arr[7:])
-        return cls(color_t, color_b, style, char)
+        return cls(color_t, color_b, style, character)
 
     def copy(self):
         '''
@@ -100,17 +100,12 @@ class Pixel_Fast:
             RETURNS
             Instance of class 'Pixel_Fast'
         '''
-        params = {
-                  'color_t':self.color_t.copy(),
-                  'color_b':self.color_b.copy(),
-                  'style':self.style.copy(),
-                  'char':self.char,
-                 }
-        return self.__class__(**params)
+        return self.__class__(self.color_t().copy(), self.color_b().copy(),
+                              self.style().copy(), self.char())
 
     '''SETTERS'''
 
-    def set_color_t(self, color):
+    cpdef void set_color_t(self, object color):
         '''
             PURPOSE
             Sets the text color 'self.color_t_obj' to a new value and updates
@@ -122,7 +117,7 @@ class Pixel_Fast:
         self.color_t_obj = color
         self.update()
 
-    def set_color_b(self, color):
+    cpdef void set_color_b(self, object color):
         '''
             PURPOSE
             Sets the background color 'self.color_b_obj' to a new value and
@@ -134,7 +129,7 @@ class Pixel_Fast:
         self.color_b_obj = color
         self.update()
 
-    def set_style(self, style):
+    cpdef void set_style(self, object style):
         '''
             PURPOSE
             Sets the background color 'self.style_obj' to a new value and
@@ -146,22 +141,21 @@ class Pixel_Fast:
         self.style_obj = style
         self.update()
 
-    def set_char(self, char):
+    cpdef void set_char(self, str character):
         '''
             PURPOSE
             Sets the background color 'self.char_obj' to a new value and
             updates all necessary attributes
 
             PARAMETERS
-            char           <str> of length 1
+            character     <str> of length 1
         '''
-        self.char_str = char
+        self.char_str = character
         self.update()
 
     '''GETTERS'''
 
-    @property
-    def as_arr(self):
+    cpdef np.uint64_t[:] as_arr(self):
         '''
             PURPOSE
             Returns the current 'Pixel_Fast' instance as an array, which can be
@@ -184,11 +178,11 @@ class Pixel_Fast:
             RETURNS
             <ndarray> of <uint64>
         '''
-        arr = np.zeros(7 + len(ANSI_styles.keys()), dtype = np.uint32)
-        arr[0:3] = self.color_t.RGB()
-        arr[3:6] = self.color_b.RGB()
-        arr[6] = ord(self.char)
-        arr[7:] = self.style.as_arr()
+        arr = np.zeros(7 + len(ANSI_styles.keys()), dtype = np.uint64)
+        arr[0:3] = self.color_t_obj.RGB_arr
+        arr[3:6] = self.color_b_obj.RGB_arr
+        arr[6] = ord(self.char_str)
+        arr[7:] = self.style_obj.as_arr()
         return arr
 
     def __str__(self):
@@ -211,20 +205,18 @@ class Pixel_Fast:
             RETURNS
             out         <str>
         '''
-        RGBt = (f'({self.color_t.R():03d} {self.color_t.G():03d} '
-                f'{self.color_t.B():03d})')
-        RGBb = (f'({self.color_b.R():03d} {self.color_b.G():03d} '
-                f'{self.color_b.B():03d})')
+        RGBt = (f'({self.color_t().R():03d} {self.color_t().G():03d} '
+                f'{self.color_t().B():03d})')
+        RGBb = (f'({self.color_b().R():03d} {self.color_b().G():03d} '
+                f'{self.color_b().B():03d})')
 
-        if self.style.styles():
-            styles = ', '.join(self.style.styles())
+        if self.style().styles():
+            styles = ', '.join(self.style().styles())
         else:
             styles = 'Empty'
 
-        char = self.char
-
         out = (f'Pixel(Color_t{RGBt}, Color_b{RGBb}, Style({styles}), '
-               f'Char(\'{char}\')))')
+               f'Char(\'{self.char()}\')))')
 
         return out
 
@@ -237,13 +229,12 @@ class Pixel_Fast:
             RETURNS
             <int>
         '''
-        ID = sum(map(hash, (self.color_t, self.color_t, self.style, self.char)))
-        return hash(ID)
+        ID = sum(map(hash, (self.color_t(), self.color_b(), self.style(), self.char())))
+        return int(ID)
 
     '''ACCESSORS'''
 
-    @property
-    def color_t(self):
+    cpdef object color_t(self):
         '''
             PURPOSE
             Return the 'Color' instance used to color the terminal text
@@ -253,8 +244,7 @@ class Pixel_Fast:
         '''
         return self.color_t_obj
 
-    @property
-    def color_b(self):
+    cpdef object color_b(self):
         '''
             PURPOSE
             Return the 'Color' instance used to color the terminal text
@@ -264,8 +254,7 @@ class Pixel_Fast:
         '''
         return self.color_b_obj
 
-    @property
-    def style(self):
+    cpdef object style(self):
         '''
             PURPOSE
             Return the 'Style' instance used to style the terminal text
@@ -275,8 +264,7 @@ class Pixel_Fast:
         '''
         return self.style_obj
 
-    @property
-    def char(self):
+    cpdef str char(self):
         '''
             PURPOSE
             Return the current value of attribute 'char_var'
@@ -288,20 +276,19 @@ class Pixel_Fast:
 
     '''MANAGERS'''
 
-    def update(self):
+    cpdef void update(self):
         '''
             PURPOSE
             To update the value of the saved output string based on the current
             instance attributes 'color_t_obj', 'color_b_obj', 'style_obj', and
             'char_obj'
         '''
-        self.out = esc.format('') + self.color_t_seq + self.color_b_seq
-        self.out += self.style_seq + self.char_str
+        self.out = esc.format('') + self.color_t_seq() + self.color_b_seq()
+        self.out += self.style_seq() + self.char_str
 
     '''FORMATTERS'''
 
-    @property
-    def color_t_seq(self):
+    cpdef str color_t_seq(self):
         '''
             PURPOSE
             Returns the ANSI escape sequence that sets the text color to the
@@ -310,12 +297,9 @@ class Pixel_Fast:
             RETURNS
             out         <str>
         '''
-        out = \
-        esc.format(f'38;2;{self.color_t.R()};{self.color_t.G()};{self.color_t.B()}')
-        return out
+        return esc.format(f'38;2;{self.color_t_obj.RGB_arr[0]};{self.color_t_obj.RGB_arr[1]};{self.color_t_obj.RGB_arr[2]}')
 
-    @property
-    def color_b_seq(self):
+    cpdef str color_b_seq(self):
         '''
             PURPOSE
             Returns the ANSI escape sequence that sets the background color to
@@ -324,12 +308,9 @@ class Pixel_Fast:
             RETURNS
             out         <str>
         '''
-        out = \
-        esc.format(f'48;2;{self.color_b.R()};{self.color_b.G()};{self.color_b.B()}')
-        return out
+        return esc.format(f'48;2;{self.color_b_obj.RGB_arr[0]};{self.color_b_obj.RGB_arr[1]};{self.color_b_obj.RGB_arr[2]}')
 
-    @property
-    def style_seq(self):
+    cpdef str style_seq(self):
         '''
             PURPOSE
             Returns the ANSI escape sequence that sets the text style to
@@ -338,14 +319,21 @@ class Pixel_Fast:
             RETURNS
             <str>
         '''
-        if self.style.styles():
-            values = ';'.join(str(ANSI_styles[i]) for i in self.style.styles())
-            return esc.format(values)
-        else:
-            return ''
+        cdef Py_ssize_t i
+        cdef str values = ''
+        cdef list styles = self.style_obj.styles_list
+        cdef int length = len(styles)
+        cdef str number
+        for i in range(length):
+            number = styles[i]
+            values += f'{ANSI_styles[number]}'
+            if i < length - 1:
+                values += ';'
+        if length > 0:
+            values = esc.format(values)
+        return values
 
-    @property
-    def end_seq(self):
+    cpdef str end_seq(self):
         '''
             PURPOSE
             To reset the terminal to its default values (i.e. remove all
@@ -358,23 +346,7 @@ class Pixel_Fast:
 
     '''COMPARATORS'''
 
-    @classmethod
-    def is_char(cls, char):
-        '''
-            PURPOSE
-            Confirms that 'char' is a single-character <str>, or raises an
-            Exception
-
-            RETURNS
-            True
-        '''
-        checkers.check_type(char, str_types, 'char', 'is_char')
-        if len(char.__repr__()) != 3:
-            msg = '\n\nParameter \'char\' should be a one-character <str>'
-            raise ValueError(msg)
-        return True
-
-    def __eq__(self, pixel):
+    cpdef bint eq(self, object pixel):
         '''
             PURPOSE
             Confirms that the current 'Pixel_Fast' instance has the same
@@ -383,14 +355,14 @@ class Pixel_Fast:
             RETURNS
             <bool>
         '''
-        if not isinstance(pixel, Pixel_Fast) or self.color_t != pixel.color_t\
-           or self.color_b != pixel.color_b or self.style != pixel.style\
-           or self.char != pixel.char:
+        if not isinstance(pixel, Pixel_Fast) or self.color_t_obj.ne(pixel.color_t_obj)\
+           or self.color_b_obj.ne(pixel.color_b_obj) or self.style_obj.ne(pixel.style_obj)\
+           or self.char_str != pixel.char_str:
            return False
         else:
            return True
 
-    def __neq__(self, pixel):
+    cpdef bint ne(self, object pixel):
         '''
             PURPOSE
             Confirms that the current 'Pixel_Fast' instance has properties
@@ -399,4 +371,30 @@ class Pixel_Fast:
             RETURNS
             <bool>
         '''
-        return not self.__eq__(pixel)
+        return not self.eq(pixel)
+
+    '''COMPARATOR WRAPPERS'''
+
+    def __eq__(self, pixel):
+        '''
+            PURPOSE
+            Magic method wrapper for method eq().
+            Confirms that the current 'Pixel_Fast' instance has the same
+            properties as another instance
+
+            RETURNS
+            <bool>
+        '''
+        return self.eq(pixel)
+
+    def __ne__(self, pixel):
+        '''
+            PURPOSE
+            Magic method wrapper for method ne().
+            Confirms that the current 'Pixel_Fast' instance has properties
+            different to another instance
+
+            RETURNS
+            <bool>
+        '''
+        return self.ne(pixel)

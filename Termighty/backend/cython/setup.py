@@ -5,8 +5,8 @@ import numpy
 
 build_path = Path.cwd() / 'Termighty' / 'backend' / 'cython'
 
-modules = ['Color_Fast.pyx', 'Style_Fast.pyx']#, 'Grid_Fast.pyx',
-           # 'Pixel_Fast.pyx', 'Series_Fast.pyx', ]
+modules = ['Color_Fast.pyx', 'Style_Fast.pyx', 'Pixel_Fast.pyx']#,
+           # 'Grid_Fast.pyx']#, 'Series_Fast.pyx', ]
 
 for i,j in enumerate(modules):
     modules[i] = str(build_path / j)

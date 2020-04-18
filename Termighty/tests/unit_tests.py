@@ -1128,7 +1128,7 @@ def test_Pixel():
     T.start('color_t')
     try:
         pixel = Pixel(color_t = 'red')
-        assert pixel.color_t.name() == 'red'
+        assert pixel.color_t().name() == 'red'
         T.passed()
     except Exception as e:
         T.failed(e)
@@ -1137,7 +1137,7 @@ def test_Pixel():
     T.start('color_b')
     try:
         pixel = Pixel(color_b = 'red')
-        assert pixel.color_b.name() == 'red'
+        assert pixel.color_b().name() == 'red'
         T.passed()
     except Exception as e:
         T.failed(e)
@@ -1146,8 +1146,8 @@ def test_Pixel():
     T.start('style')
     try:
         pixel = Pixel(style = 'bold')
-        assert pixel.style.styles()[0] == 'bold'
-        assert len(pixel.style.styles()) == 1
+        assert pixel.style().styles()[0] == 'bold'
+        assert len(pixel.style().styles()) == 1
         T.passed()
     except Exception as e:
         T.failed(e)
@@ -1156,7 +1156,7 @@ def test_Pixel():
     T.start('char')
     try:
         pixel = Pixel(char = 'A')
-        assert pixel.char == 'A'
+        assert pixel.char() == 'A'
         T.passed()
     except Exception as e:
         T.failed(e)
@@ -1173,7 +1173,7 @@ def test_Pixel():
         try:
             pixel = Pixel()
             pixel.set_color_t(arg)
-            assert pixel.color_t == color
+            assert pixel.color_t() == color
             T.passed()
         except Exception as e:
             T.failed(e)
@@ -1205,7 +1205,7 @@ def test_Pixel():
         try:
             pixel = Pixel()
             pixel.set_color_b(arg)
-            assert pixel.color_b == color
+            assert pixel.color_b() == color
             T.passed()
         except Exception as e:
             T.failed(e)
@@ -1235,7 +1235,7 @@ def test_Pixel():
         try:
             pixel = Pixel()
             pixel.set_style(arg)
-            assert pixel.style == style
+            assert pixel.style() == style
             T.passed()
         except Exception as e:
             T.failed(e)
@@ -1262,7 +1262,7 @@ def test_Pixel():
         try:
             pixel = Pixel()
             pixel.set_char(arg)
-            assert pixel.char == arg
+            assert pixel.char() == arg
             T.passed()
         except Exception as e:
             T.failed(e)
@@ -1315,7 +1315,7 @@ def test_Pixel():
     T.start('color_t_seq')
     try:
         pixel = Pixel()
-        assert isinstance(pixel.color_t_seq, str)
+        assert isinstance(pixel.color_t_seq(), str)
         T.passed()
     except Exception as e:
         T.failed(e)
@@ -1324,7 +1324,7 @@ def test_Pixel():
     T.start('color_b_seq')
     try:
         pixel = Pixel()
-        assert isinstance(pixel.color_b_seq, str)
+        assert isinstance(pixel.color_b_seq(), str)
         T.passed()
     except Exception as e:
         T.failed(e)
@@ -1333,7 +1333,7 @@ def test_Pixel():
     T.start('style_seq')
     try:
         pixel = Pixel()
-        assert isinstance(pixel.style_seq, str)
+        assert isinstance(pixel.style_seq(), str)
         T.passed()
     except Exception as e:
         T.failed(e)
@@ -1342,7 +1342,7 @@ def test_Pixel():
     T.start('end_seq')
     try:
         pixel = Pixel()
-        assert isinstance(pixel.end_seq, str)
+        assert isinstance(pixel.end_seq(), str)
         T.passed()
     except Exception as e:
         T.failed(e)

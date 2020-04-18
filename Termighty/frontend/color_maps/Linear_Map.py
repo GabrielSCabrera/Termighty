@@ -17,8 +17,8 @@ class Linear_Map(Color_Map):
             color_1         <tuple> of 3 <int> values in range [0,255] OR
                             instance of 'Color_Fast' OR a <str> color label
         '''
-        color_0 = interpreters.get_color(color_0).RGB
-        color_1 = interpreters.get_color(color_1).RGB
+        color_0 = interpreters.get_color(color_0).RGB()
+        color_1 = interpreters.get_color(color_1).RGB()
 
         self.color_0 = color_0
         self.color_1 = color_1
