@@ -304,3 +304,22 @@ cdef class Style_Fast(object):
             <bool>
         '''
         return self.ne(style)
+
+    '''PICKLING'''
+
+    def __getstate__(self):
+        '''
+            PURPOSE
+            Returns the object's current state for pickling
+
+            RETURNS
+            <tuple> containing list of styles
+        '''
+        return tuple(self.styles())
+
+    def __setstate__(self, state):
+        '''
+            PURPOSE
+            Recreates an object from a pickled tuple
+        '''
+        self.__init__(*state)

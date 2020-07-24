@@ -229,8 +229,8 @@ cdef class Pixel_Fast(object):
             RETURNS
             <int>
         '''
-        ID = sum(map(hash, (self.color_t(), self.color_b(), self.style(), self.char())))
-        return int(ID)
+        ID = hash(map(hash, (self.color_t(), self.color_b(), self.style(), self.char())))
+        return ID
 
     '''ACCESSORS'''
 

@@ -702,12 +702,10 @@ def get_series():
     args = [(char_arrs[idx[n]], color) for n, color in enumerate(colors_b)]
 
     pool = Pool()
-    grids = list(map(step2, args))
-    # grids = pool.map(step2, args)
+    grids = pool.map(step2, args)
 
     char_arrs = end_text()
-    pool = Pool()
-    grids += list(map(step1, char_arrs))
+    # pool = Pool()
     # grids += pool.map(step1, char_arrs)
 
     grid = Grid.empty((ROWS, COLS))

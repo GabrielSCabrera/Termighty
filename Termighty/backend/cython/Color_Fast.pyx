@@ -472,3 +472,25 @@ cdef class Color_Fast(object):
             <bint>
         '''
         return self.ge(color)
+
+    '''PICKLING'''
+
+    def __getstate__(self):
+        '''
+            PURPOSE
+            Returns the object's current state for pickling
+
+            RETURNS
+            <tuple> with 3 RGB values and a color name
+        '''
+        return (self.R(), self.G(), self.B(), self.name())
+
+    def __setstate__(self, state):
+        '''
+            PURPOSE
+            Recreates an object from a pickled tuple
+        '''
+        name = None
+        if state[3] is not None:
+            name = state[3]
+        self.__init__((state[0], state[1], state[2]), name)

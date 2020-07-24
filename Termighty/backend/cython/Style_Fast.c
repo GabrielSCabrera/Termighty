@@ -2486,6 +2486,7 @@ static const char __pyx_k_bold[] = "bold";
 static const char __pyx_k_copy[] = "copy";
 static const char __pyx_k_data[] = "data";
 static const char __pyx_k_dict[] = "__dict__";
+static const char __pyx_k_init[] = "__init__";
 static const char __pyx_k_keys[] = "keys";
 static const char __pyx_k_main[] = "__main__";
 static const char __pyx_k_mode[] = "mode";
@@ -2699,6 +2700,7 @@ static PyObject *__pyx_n_s_hash___locals_genexpr;
 static PyObject *__pyx_n_s_id;
 static PyObject *__pyx_n_s_import;
 static PyObject *__pyx_n_s_index;
+static PyObject *__pyx_n_s_init;
 static PyObject *__pyx_n_s_int_to_styles;
 static PyObject *__pyx_n_s_int_types;
 static PyObject *__pyx_n_s_itemsize;
@@ -2789,6 +2791,8 @@ static PyObject *__pyx_pf_9Termighty_7backend_6cython_10Style_Fast_10Style_Fast_
 static PyObject *__pyx_pf_9Termighty_7backend_6cython_10Style_Fast_10Style_Fast_32ne(struct __pyx_obj_9Termighty_7backend_6cython_10Style_Fast_Style_Fast *__pyx_v_self, PyObject *__pyx_v_style); /* proto */
 static PyObject *__pyx_pf_9Termighty_7backend_6cython_10Style_Fast_10Style_Fast_34__eq__(struct __pyx_obj_9Termighty_7backend_6cython_10Style_Fast_Style_Fast *__pyx_v_self, PyObject *__pyx_v_style); /* proto */
 static PyObject *__pyx_pf_9Termighty_7backend_6cython_10Style_Fast_10Style_Fast_36__ne__(struct __pyx_obj_9Termighty_7backend_6cython_10Style_Fast_Style_Fast *__pyx_v_self, PyObject *__pyx_v_style); /* proto */
+static PyObject *__pyx_pf_9Termighty_7backend_6cython_10Style_Fast_10Style_Fast_38__getstate__(struct __pyx_obj_9Termighty_7backend_6cython_10Style_Fast_Style_Fast *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_9Termighty_7backend_6cython_10Style_Fast_10Style_Fast_40__setstate__(struct __pyx_obj_9Termighty_7backend_6cython_10Style_Fast_Style_Fast *__pyx_v_self, PyObject *__pyx_v_state); /* proto */
 static PyObject *__pyx_pf_9Termighty_7backend_6cython_10Style_Fast_10Style_Fast_8sequence___get__(struct __pyx_obj_9Termighty_7backend_6cython_10Style_Fast_Style_Fast *__pyx_v_self); /* proto */
 static int __pyx_pf_9Termighty_7backend_6cython_10Style_Fast_10Style_Fast_8sequence_2__set__(struct __pyx_obj_9Termighty_7backend_6cython_10Style_Fast_Style_Fast *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
 static int __pyx_pf_9Termighty_7backend_6cython_10Style_Fast_10Style_Fast_8sequence_4__del__(struct __pyx_obj_9Termighty_7backend_6cython_10Style_Fast_Style_Fast *__pyx_v_self); /* proto */
@@ -2800,8 +2804,8 @@ static int __pyx_pf_9Termighty_7backend_6cython_10Style_Fast_10Style_Fast_11styl
 static int __pyx_pf_9Termighty_7backend_6cython_10Style_Fast_10Style_Fast_11styles_list_4__del__(struct __pyx_obj_9Termighty_7backend_6cython_10Style_Fast_Style_Fast *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_9Termighty_7backend_6cython_10Style_Fast_10Style_Fast_3arr___get__(struct __pyx_obj_9Termighty_7backend_6cython_10Style_Fast_Style_Fast *__pyx_v_self); /* proto */
 static int __pyx_pf_9Termighty_7backend_6cython_10Style_Fast_10Style_Fast_3arr_2__set__(struct __pyx_obj_9Termighty_7backend_6cython_10Style_Fast_Style_Fast *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static PyObject *__pyx_pf_9Termighty_7backend_6cython_10Style_Fast_10Style_Fast_38__reduce_cython__(struct __pyx_obj_9Termighty_7backend_6cython_10Style_Fast_Style_Fast *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_9Termighty_7backend_6cython_10Style_Fast_10Style_Fast_40__setstate_cython__(struct __pyx_obj_9Termighty_7backend_6cython_10Style_Fast_Style_Fast *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_9Termighty_7backend_6cython_10Style_Fast_10Style_Fast_42__reduce_cython__(struct __pyx_obj_9Termighty_7backend_6cython_10Style_Fast_Style_Fast *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_9Termighty_7backend_6cython_10Style_Fast_10Style_Fast_44__setstate_cython__(struct __pyx_obj_9Termighty_7backend_6cython_10Style_Fast_Style_Fast *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_pf_9Termighty_7backend_6cython_10Style_Fast___pyx_unpickle_Style_Fast(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
 static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, Py_buffer *__pyx_v_info, int __pyx_v_flags); /* proto */
 static void __pyx_pf_5numpy_7ndarray_2__releasebuffer__(PyArrayObject *__pyx_v_self, Py_buffer *__pyx_v_info); /* proto */
@@ -6193,6 +6197,8 @@ static PyObject *__pyx_pf_9Termighty_7backend_6cython_10Style_Fast_10Style_Fast_
  *             <bool>
  *         '''
  *         return self.ne(style)             # <<<<<<<<<<<<<<
+ * 
+ *     '''PICKLING'''
  */
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_1 = __Pyx_PyBool_FromLong(((struct __pyx_vtabstruct_9Termighty_7backend_6cython_10Style_Fast_Style_Fast *)__pyx_v_self->__pyx_vtab)->ne(__pyx_v_self, __pyx_v_style, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 306, __pyx_L1_error)
@@ -6213,6 +6219,144 @@ static PyObject *__pyx_pf_9Termighty_7backend_6cython_10Style_Fast_10Style_Fast_
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_AddTraceback("Termighty.backend.cython.Style_Fast.Style_Fast.__ne__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "Termighty/backend/cython/Style_Fast.pyx":310
+ *     '''PICKLING'''
+ * 
+ *     def __getstate__(self):             # <<<<<<<<<<<<<<
+ *         '''
+ *             PURPOSE
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_9Termighty_7backend_6cython_10Style_Fast_10Style_Fast_39__getstate__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static char __pyx_doc_9Termighty_7backend_6cython_10Style_Fast_10Style_Fast_38__getstate__[] = "\n            PURPOSE\n            Returns the object's current state for pickling\n\n            RETURNS\n            <tuple> containing list of styles\n        ";
+static PyObject *__pyx_pw_9Termighty_7backend_6cython_10Style_Fast_10Style_Fast_39__getstate__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__getstate__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_9Termighty_7backend_6cython_10Style_Fast_10Style_Fast_38__getstate__(((struct __pyx_obj_9Termighty_7backend_6cython_10Style_Fast_Style_Fast *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_9Termighty_7backend_6cython_10Style_Fast_10Style_Fast_38__getstate__(struct __pyx_obj_9Termighty_7backend_6cython_10Style_Fast_Style_Fast *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  __Pyx_RefNannySetupContext("__getstate__", 0);
+
+  /* "Termighty/backend/cython/Style_Fast.pyx":318
+ *             <tuple> containing list of styles
+ *         '''
+ *         return tuple(self.styles())             # <<<<<<<<<<<<<<
+ * 
+ *     def __setstate__(self, state):
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = ((struct __pyx_vtabstruct_9Termighty_7backend_6cython_10Style_Fast_Style_Fast *)__pyx_v_self->__pyx_vtab)->styles(__pyx_v_self, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 318, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (unlikely(__pyx_t_1 == Py_None)) {
+    PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
+    __PYX_ERR(0, 318, __pyx_L1_error)
+  }
+  __pyx_t_2 = PyList_AsTuple(((PyObject*)__pyx_t_1)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 318, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_r = __pyx_t_2;
+  __pyx_t_2 = 0;
+  goto __pyx_L0;
+
+  /* "Termighty/backend/cython/Style_Fast.pyx":310
+ *     '''PICKLING'''
+ * 
+ *     def __getstate__(self):             # <<<<<<<<<<<<<<
+ *         '''
+ *             PURPOSE
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_AddTraceback("Termighty.backend.cython.Style_Fast.Style_Fast.__getstate__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "Termighty/backend/cython/Style_Fast.pyx":320
+ *         return tuple(self.styles())
+ * 
+ *     def __setstate__(self, state):             # <<<<<<<<<<<<<<
+ *         '''
+ *             PURPOSE
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_9Termighty_7backend_6cython_10Style_Fast_10Style_Fast_41__setstate__(PyObject *__pyx_v_self, PyObject *__pyx_v_state); /*proto*/
+static char __pyx_doc_9Termighty_7backend_6cython_10Style_Fast_10Style_Fast_40__setstate__[] = "\n            PURPOSE\n            Recreates an object from a pickled tuple\n        ";
+static PyObject *__pyx_pw_9Termighty_7backend_6cython_10Style_Fast_10Style_Fast_41__setstate__(PyObject *__pyx_v_self, PyObject *__pyx_v_state) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__setstate__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_9Termighty_7backend_6cython_10Style_Fast_10Style_Fast_40__setstate__(((struct __pyx_obj_9Termighty_7backend_6cython_10Style_Fast_Style_Fast *)__pyx_v_self), ((PyObject *)__pyx_v_state));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_9Termighty_7backend_6cython_10Style_Fast_10Style_Fast_40__setstate__(struct __pyx_obj_9Termighty_7backend_6cython_10Style_Fast_Style_Fast *__pyx_v_self, PyObject *__pyx_v_state) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  __Pyx_RefNannySetupContext("__setstate__", 0);
+
+  /* "Termighty/backend/cython/Style_Fast.pyx":325
+ *             Recreates an object from a pickled tuple
+ *         '''
+ *         self.__init__(*state)             # <<<<<<<<<<<<<<
+ */
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_init); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 325, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __Pyx_PySequence_Tuple(__pyx_v_state); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 325, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_2, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 325, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+
+  /* "Termighty/backend/cython/Style_Fast.pyx":320
+ *         return tuple(self.styles())
+ * 
+ *     def __setstate__(self, state):             # <<<<<<<<<<<<<<
+ *         '''
+ *             PURPOSE
+ */
+
+  /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_AddTraceback("Termighty.backend.cython.Style_Fast.Style_Fast.__setstate__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -6623,19 +6767,19 @@ static int __pyx_pf_9Termighty_7backend_6cython_10Style_Fast_10Style_Fast_3arr_2
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_9Termighty_7backend_6cython_10Style_Fast_10Style_Fast_39__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_9Termighty_7backend_6cython_10Style_Fast_10Style_Fast_39__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_9Termighty_7backend_6cython_10Style_Fast_10Style_Fast_43__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_9Termighty_7backend_6cython_10Style_Fast_10Style_Fast_43__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__reduce_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_9Termighty_7backend_6cython_10Style_Fast_10Style_Fast_38__reduce_cython__(((struct __pyx_obj_9Termighty_7backend_6cython_10Style_Fast_Style_Fast *)__pyx_v_self));
+  __pyx_r = __pyx_pf_9Termighty_7backend_6cython_10Style_Fast_10Style_Fast_42__reduce_cython__(((struct __pyx_obj_9Termighty_7backend_6cython_10Style_Fast_Style_Fast *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_9Termighty_7backend_6cython_10Style_Fast_10Style_Fast_38__reduce_cython__(struct __pyx_obj_9Termighty_7backend_6cython_10Style_Fast_Style_Fast *__pyx_v_self) {
+static PyObject *__pyx_pf_9Termighty_7backend_6cython_10Style_Fast_10Style_Fast_42__reduce_cython__(struct __pyx_obj_9Termighty_7backend_6cython_10Style_Fast_Style_Fast *__pyx_v_self) {
   PyObject *__pyx_v_state = 0;
   PyObject *__pyx_v__dict = 0;
   int __pyx_v_use_setstate;
@@ -6885,19 +7029,19 @@ static PyObject *__pyx_pf_9Termighty_7backend_6cython_10Style_Fast_10Style_Fast_
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_9Termighty_7backend_6cython_10Style_Fast_10Style_Fast_41__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
-static PyObject *__pyx_pw_9Termighty_7backend_6cython_10Style_Fast_10Style_Fast_41__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pw_9Termighty_7backend_6cython_10Style_Fast_10Style_Fast_45__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
+static PyObject *__pyx_pw_9Termighty_7backend_6cython_10Style_Fast_10Style_Fast_45__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__setstate_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_9Termighty_7backend_6cython_10Style_Fast_10Style_Fast_40__setstate_cython__(((struct __pyx_obj_9Termighty_7backend_6cython_10Style_Fast_Style_Fast *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
+  __pyx_r = __pyx_pf_9Termighty_7backend_6cython_10Style_Fast_10Style_Fast_44__setstate_cython__(((struct __pyx_obj_9Termighty_7backend_6cython_10Style_Fast_Style_Fast *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_9Termighty_7backend_6cython_10Style_Fast_10Style_Fast_40__setstate_cython__(struct __pyx_obj_9Termighty_7backend_6cython_10Style_Fast_Style_Fast *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_9Termighty_7backend_6cython_10Style_Fast_10Style_Fast_44__setstate_cython__(struct __pyx_obj_9Termighty_7backend_6cython_10Style_Fast_Style_Fast *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -22739,8 +22883,10 @@ static PyMethodDef __pyx_methods_9Termighty_7backend_6cython_10Style_Fast_Style_
   {"update", (PyCFunction)__pyx_pw_9Termighty_7backend_6cython_10Style_Fast_10Style_Fast_29update, METH_NOARGS, __pyx_doc_9Termighty_7backend_6cython_10Style_Fast_10Style_Fast_28update},
   {"eq", (PyCFunction)__pyx_pw_9Termighty_7backend_6cython_10Style_Fast_10Style_Fast_31eq, METH_O, __pyx_doc_9Termighty_7backend_6cython_10Style_Fast_10Style_Fast_30eq},
   {"ne", (PyCFunction)__pyx_pw_9Termighty_7backend_6cython_10Style_Fast_10Style_Fast_33ne, METH_O, __pyx_doc_9Termighty_7backend_6cython_10Style_Fast_10Style_Fast_32ne},
-  {"__reduce_cython__", (PyCFunction)__pyx_pw_9Termighty_7backend_6cython_10Style_Fast_10Style_Fast_39__reduce_cython__, METH_NOARGS, 0},
-  {"__setstate_cython__", (PyCFunction)__pyx_pw_9Termighty_7backend_6cython_10Style_Fast_10Style_Fast_41__setstate_cython__, METH_O, 0},
+  {"__getstate__", (PyCFunction)__pyx_pw_9Termighty_7backend_6cython_10Style_Fast_10Style_Fast_39__getstate__, METH_NOARGS, __pyx_doc_9Termighty_7backend_6cython_10Style_Fast_10Style_Fast_38__getstate__},
+  {"__setstate__", (PyCFunction)__pyx_pw_9Termighty_7backend_6cython_10Style_Fast_10Style_Fast_41__setstate__, METH_O, __pyx_doc_9Termighty_7backend_6cython_10Style_Fast_10Style_Fast_40__setstate__},
+  {"__reduce_cython__", (PyCFunction)__pyx_pw_9Termighty_7backend_6cython_10Style_Fast_10Style_Fast_43__reduce_cython__, METH_NOARGS, 0},
+  {"__setstate_cython__", (PyCFunction)__pyx_pw_9Termighty_7backend_6cython_10Style_Fast_10Style_Fast_45__setstate_cython__, METH_O, 0},
   {0, 0, 0, 0}
 };
 
@@ -24022,6 +24168,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_id, __pyx_k_id, sizeof(__pyx_k_id), 0, 0, 1, 1},
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
   {&__pyx_n_s_index, __pyx_k_index, sizeof(__pyx_k_index), 0, 0, 1, 1},
+  {&__pyx_n_s_init, __pyx_k_init, sizeof(__pyx_k_init), 0, 0, 1, 1},
   {&__pyx_n_s_int_to_styles, __pyx_k_int_to_styles, sizeof(__pyx_k_int_to_styles), 0, 0, 1, 1},
   {&__pyx_n_s_int_types, __pyx_k_int_types, sizeof(__pyx_k_int_types), 0, 0, 1, 1},
   {&__pyx_n_s_itemsize, __pyx_k_itemsize, sizeof(__pyx_k_itemsize), 0, 0, 1, 1},

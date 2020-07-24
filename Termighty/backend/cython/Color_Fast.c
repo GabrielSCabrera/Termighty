@@ -2488,6 +2488,7 @@ static const char __pyx_k_base[] = "base";
 static const char __pyx_k_bold[] = "bold";
 static const char __pyx_k_data[] = "data";
 static const char __pyx_k_dict[] = "__dict__";
+static const char __pyx_k_init[] = "__init__";
 static const char __pyx_k_keys[] = "keys";
 static const char __pyx_k_main[] = "__main__";
 static const char __pyx_k_mode[] = "mode";
@@ -2693,6 +2694,7 @@ static PyObject *__pyx_kp_s_got_differing_extents_in_dimensi;
 static PyObject *__pyx_n_s_gt;
 static PyObject *__pyx_n_s_id;
 static PyObject *__pyx_n_s_import;
+static PyObject *__pyx_n_s_init;
 static PyObject *__pyx_kp_u_is_unknown;
 static PyObject *__pyx_n_s_itemsize;
 static PyObject *__pyx_kp_s_itemsize_0_for_cython_array;
@@ -2798,13 +2800,15 @@ static PyObject *__pyx_pf_9Termighty_7backend_6cython_10Color_Fast_10Color_Fast_
 static PyObject *__pyx_pf_9Termighty_7backend_6cython_10Color_Fast_10Color_Fast_58__gt__(struct __pyx_obj_9Termighty_7backend_6cython_10Color_Fast_Color_Fast *__pyx_v_self, PyObject *__pyx_v_color); /* proto */
 static PyObject *__pyx_pf_9Termighty_7backend_6cython_10Color_Fast_10Color_Fast_60__le__(struct __pyx_obj_9Termighty_7backend_6cython_10Color_Fast_Color_Fast *__pyx_v_self, PyObject *__pyx_v_color); /* proto */
 static PyObject *__pyx_pf_9Termighty_7backend_6cython_10Color_Fast_10Color_Fast_62__ge__(struct __pyx_obj_9Termighty_7backend_6cython_10Color_Fast_Color_Fast *__pyx_v_self, PyObject *__pyx_v_color); /* proto */
+static PyObject *__pyx_pf_9Termighty_7backend_6cython_10Color_Fast_10Color_Fast_64__getstate__(struct __pyx_obj_9Termighty_7backend_6cython_10Color_Fast_Color_Fast *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_9Termighty_7backend_6cython_10Color_Fast_10Color_Fast_66__setstate__(struct __pyx_obj_9Termighty_7backend_6cython_10Color_Fast_Color_Fast *__pyx_v_self, PyObject *__pyx_v_state); /* proto */
 static PyObject *__pyx_pf_9Termighty_7backend_6cython_10Color_Fast_10Color_Fast_8name_str___get__(struct __pyx_obj_9Termighty_7backend_6cython_10Color_Fast_Color_Fast *__pyx_v_self); /* proto */
 static int __pyx_pf_9Termighty_7backend_6cython_10Color_Fast_10Color_Fast_8name_str_2__set__(struct __pyx_obj_9Termighty_7backend_6cython_10Color_Fast_Color_Fast *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
 static int __pyx_pf_9Termighty_7backend_6cython_10Color_Fast_10Color_Fast_8name_str_4__del__(struct __pyx_obj_9Termighty_7backend_6cython_10Color_Fast_Color_Fast *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_9Termighty_7backend_6cython_10Color_Fast_10Color_Fast_7RGB_arr___get__(struct __pyx_obj_9Termighty_7backend_6cython_10Color_Fast_Color_Fast *__pyx_v_self); /* proto */
 static int __pyx_pf_9Termighty_7backend_6cython_10Color_Fast_10Color_Fast_7RGB_arr_2__set__(struct __pyx_obj_9Termighty_7backend_6cython_10Color_Fast_Color_Fast *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static PyObject *__pyx_pf_9Termighty_7backend_6cython_10Color_Fast_10Color_Fast_64__reduce_cython__(struct __pyx_obj_9Termighty_7backend_6cython_10Color_Fast_Color_Fast *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_9Termighty_7backend_6cython_10Color_Fast_10Color_Fast_66__setstate_cython__(struct __pyx_obj_9Termighty_7backend_6cython_10Color_Fast_Color_Fast *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_9Termighty_7backend_6cython_10Color_Fast_10Color_Fast_68__reduce_cython__(struct __pyx_obj_9Termighty_7backend_6cython_10Color_Fast_Color_Fast *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_9Termighty_7backend_6cython_10Color_Fast_10Color_Fast_70__setstate_cython__(struct __pyx_obj_9Termighty_7backend_6cython_10Color_Fast_Color_Fast *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_pf_9Termighty_7backend_6cython_10Color_Fast___pyx_unpickle_Color_Fast(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
 static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, Py_buffer *__pyx_v_info, int __pyx_v_flags); /* proto */
 static void __pyx_pf_5numpy_7ndarray_2__releasebuffer__(PyArrayObject *__pyx_v_self, Py_buffer *__pyx_v_info); /* proto */
@@ -8856,6 +8860,8 @@ static PyObject *__pyx_pf_9Termighty_7backend_6cython_10Color_Fast_10Color_Fast_
  *             <bint>
  *         '''
  *         return self.ge(color)             # <<<<<<<<<<<<<<
+ * 
+ *     '''PICKLING'''
  */
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_1 = __Pyx_PyBool_FromLong(((struct __pyx_vtabstruct_9Termighty_7backend_6cython_10Color_Fast_Color_Fast *)__pyx_v_self->__pyx_vtab)->ge(__pyx_v_self, __pyx_v_color, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 474, __pyx_L1_error)
@@ -8878,6 +8884,276 @@ static PyObject *__pyx_pf_9Termighty_7backend_6cython_10Color_Fast_10Color_Fast_
   __Pyx_AddTraceback("Termighty.backend.cython.Color_Fast.Color_Fast.__ge__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "Termighty/backend/cython/Color_Fast.pyx":478
+ *     '''PICKLING'''
+ * 
+ *     def __getstate__(self):             # <<<<<<<<<<<<<<
+ *         '''
+ *             PURPOSE
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_9Termighty_7backend_6cython_10Color_Fast_10Color_Fast_65__getstate__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static char __pyx_doc_9Termighty_7backend_6cython_10Color_Fast_10Color_Fast_64__getstate__[] = "\n            PURPOSE\n            Returns the object's current state for pickling\n\n            RETURNS\n            <tuple> with 3 RGB values and a color name\n        ";
+static PyObject *__pyx_pw_9Termighty_7backend_6cython_10Color_Fast_10Color_Fast_65__getstate__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__getstate__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_9Termighty_7backend_6cython_10Color_Fast_10Color_Fast_64__getstate__(((struct __pyx_obj_9Termighty_7backend_6cython_10Color_Fast_Color_Fast *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_9Termighty_7backend_6cython_10Color_Fast_10Color_Fast_64__getstate__(struct __pyx_obj_9Termighty_7backend_6cython_10Color_Fast_Color_Fast *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  PyObject *__pyx_t_5 = NULL;
+  __Pyx_RefNannySetupContext("__getstate__", 0);
+
+  /* "Termighty/backend/cython/Color_Fast.pyx":486
+ *             <tuple> with 3 RGB values and a color name
+ *         '''
+ *         return (self.R(), self.G(), self.B(), self.name())             # <<<<<<<<<<<<<<
+ * 
+ *     def __setstate__(self, state):
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __Pyx_PyInt_From_int(((struct __pyx_vtabstruct_9Termighty_7backend_6cython_10Color_Fast_Color_Fast *)__pyx_v_self->__pyx_vtab)->R(__pyx_v_self, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 486, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __Pyx_PyInt_From_int(((struct __pyx_vtabstruct_9Termighty_7backend_6cython_10Color_Fast_Color_Fast *)__pyx_v_self->__pyx_vtab)->G(__pyx_v_self, 0)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 486, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = __Pyx_PyInt_From_int(((struct __pyx_vtabstruct_9Termighty_7backend_6cython_10Color_Fast_Color_Fast *)__pyx_v_self->__pyx_vtab)->B(__pyx_v_self, 0)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 486, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_4 = ((struct __pyx_vtabstruct_9Termighty_7backend_6cython_10Color_Fast_Color_Fast *)__pyx_v_self->__pyx_vtab)->name(__pyx_v_self, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 486, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_5 = PyTuple_New(4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 486, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_GIVEREF(__pyx_t_1);
+  PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_1);
+  __Pyx_GIVEREF(__pyx_t_2);
+  PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_2);
+  __Pyx_GIVEREF(__pyx_t_3);
+  PyTuple_SET_ITEM(__pyx_t_5, 2, __pyx_t_3);
+  __Pyx_GIVEREF(__pyx_t_4);
+  PyTuple_SET_ITEM(__pyx_t_5, 3, __pyx_t_4);
+  __pyx_t_1 = 0;
+  __pyx_t_2 = 0;
+  __pyx_t_3 = 0;
+  __pyx_t_4 = 0;
+  __pyx_r = __pyx_t_5;
+  __pyx_t_5 = 0;
+  goto __pyx_L0;
+
+  /* "Termighty/backend/cython/Color_Fast.pyx":478
+ *     '''PICKLING'''
+ * 
+ *     def __getstate__(self):             # <<<<<<<<<<<<<<
+ *         '''
+ *             PURPOSE
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_AddTraceback("Termighty.backend.cython.Color_Fast.Color_Fast.__getstate__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "Termighty/backend/cython/Color_Fast.pyx":488
+ *         return (self.R(), self.G(), self.B(), self.name())
+ * 
+ *     def __setstate__(self, state):             # <<<<<<<<<<<<<<
+ *         '''
+ *             PURPOSE
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_9Termighty_7backend_6cython_10Color_Fast_10Color_Fast_67__setstate__(PyObject *__pyx_v_self, PyObject *__pyx_v_state); /*proto*/
+static char __pyx_doc_9Termighty_7backend_6cython_10Color_Fast_10Color_Fast_66__setstate__[] = "\n            PURPOSE\n            Recreates an object from a pickled tuple\n        ";
+static PyObject *__pyx_pw_9Termighty_7backend_6cython_10Color_Fast_10Color_Fast_67__setstate__(PyObject *__pyx_v_self, PyObject *__pyx_v_state) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__setstate__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_9Termighty_7backend_6cython_10Color_Fast_10Color_Fast_66__setstate__(((struct __pyx_obj_9Termighty_7backend_6cython_10Color_Fast_Color_Fast *)__pyx_v_self), ((PyObject *)__pyx_v_state));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_9Termighty_7backend_6cython_10Color_Fast_10Color_Fast_66__setstate__(struct __pyx_obj_9Termighty_7backend_6cython_10Color_Fast_Color_Fast *__pyx_v_self, PyObject *__pyx_v_state) {
+  PyObject *__pyx_v_name = NULL;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_t_2;
+  int __pyx_t_3;
+  PyObject *__pyx_t_4 = NULL;
+  PyObject *__pyx_t_5 = NULL;
+  PyObject *__pyx_t_6 = NULL;
+  PyObject *__pyx_t_7 = NULL;
+  PyObject *__pyx_t_8 = NULL;
+  int __pyx_t_9;
+  __Pyx_RefNannySetupContext("__setstate__", 0);
+
+  /* "Termighty/backend/cython/Color_Fast.pyx":493
+ *             Recreates an object from a pickled tuple
+ *         '''
+ *         name = None             # <<<<<<<<<<<<<<
+ *         if state[3] is not None:
+ *             name = state[3]
+ */
+  __Pyx_INCREF(Py_None);
+  __pyx_v_name = Py_None;
+
+  /* "Termighty/backend/cython/Color_Fast.pyx":494
+ *         '''
+ *         name = None
+ *         if state[3] is not None:             # <<<<<<<<<<<<<<
+ *             name = state[3]
+ *         self.__init__((state[0], state[1], state[2]), name)
+ */
+  __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_state, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 494, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = (__pyx_t_1 != Py_None);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_3 = (__pyx_t_2 != 0);
+  if (__pyx_t_3) {
+
+    /* "Termighty/backend/cython/Color_Fast.pyx":495
+ *         name = None
+ *         if state[3] is not None:
+ *             name = state[3]             # <<<<<<<<<<<<<<
+ *         self.__init__((state[0], state[1], state[2]), name)
+ */
+    __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_state, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 495, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF_SET(__pyx_v_name, __pyx_t_1);
+    __pyx_t_1 = 0;
+
+    /* "Termighty/backend/cython/Color_Fast.pyx":494
+ *         '''
+ *         name = None
+ *         if state[3] is not None:             # <<<<<<<<<<<<<<
+ *             name = state[3]
+ *         self.__init__((state[0], state[1], state[2]), name)
+ */
+  }
+
+  /* "Termighty/backend/cython/Color_Fast.pyx":496
+ *         if state[3] is not None:
+ *             name = state[3]
+ *         self.__init__((state[0], state[1], state[2]), name)             # <<<<<<<<<<<<<<
+ */
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_init); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 496, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_state, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 496, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_6 = __Pyx_GetItemInt(__pyx_v_state, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 496, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __pyx_t_7 = __Pyx_GetItemInt(__pyx_v_state, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 496, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_7);
+  __pyx_t_8 = PyTuple_New(3); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 496, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_8);
+  __Pyx_GIVEREF(__pyx_t_5);
+  PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_5);
+  __Pyx_GIVEREF(__pyx_t_6);
+  PyTuple_SET_ITEM(__pyx_t_8, 1, __pyx_t_6);
+  __Pyx_GIVEREF(__pyx_t_7);
+  PyTuple_SET_ITEM(__pyx_t_8, 2, __pyx_t_7);
+  __pyx_t_5 = 0;
+  __pyx_t_6 = 0;
+  __pyx_t_7 = 0;
+  __pyx_t_7 = NULL;
+  __pyx_t_9 = 0;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
+    __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_4);
+    if (likely(__pyx_t_7)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+      __Pyx_INCREF(__pyx_t_7);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_4, function);
+      __pyx_t_9 = 1;
+    }
+  }
+  #if CYTHON_FAST_PYCALL
+  if (PyFunction_Check(__pyx_t_4)) {
+    PyObject *__pyx_temp[3] = {__pyx_t_7, __pyx_t_8, __pyx_v_name};
+    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 496, __pyx_L1_error)
+    __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+  } else
+  #endif
+  #if CYTHON_FAST_PYCCALL
+  if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
+    PyObject *__pyx_temp[3] = {__pyx_t_7, __pyx_t_8, __pyx_v_name};
+    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 496, __pyx_L1_error)
+    __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+  } else
+  #endif
+  {
+    __pyx_t_6 = PyTuple_New(2+__pyx_t_9); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 496, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    if (__pyx_t_7) {
+      __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_7); __pyx_t_7 = NULL;
+    }
+    __Pyx_GIVEREF(__pyx_t_8);
+    PyTuple_SET_ITEM(__pyx_t_6, 0+__pyx_t_9, __pyx_t_8);
+    __Pyx_INCREF(__pyx_v_name);
+    __Pyx_GIVEREF(__pyx_v_name);
+    PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_9, __pyx_v_name);
+    __pyx_t_8 = 0;
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 496, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  }
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "Termighty/backend/cython/Color_Fast.pyx":488
+ *         return (self.R(), self.G(), self.B(), self.name())
+ * 
+ *     def __setstate__(self, state):             # <<<<<<<<<<<<<<
+ *         '''
+ *             PURPOSE
+ */
+
+  /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_XDECREF(__pyx_t_6);
+  __Pyx_XDECREF(__pyx_t_7);
+  __Pyx_XDECREF(__pyx_t_8);
+  __Pyx_AddTraceback("Termighty.backend.cython.Color_Fast.Color_Fast.__setstate__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XDECREF(__pyx_v_name);
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
@@ -9076,19 +9352,19 @@ static int __pyx_pf_9Termighty_7backend_6cython_10Color_Fast_10Color_Fast_7RGB_a
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_9Termighty_7backend_6cython_10Color_Fast_10Color_Fast_65__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyObject *__pyx_pw_9Termighty_7backend_6cython_10Color_Fast_10Color_Fast_65__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyObject *__pyx_pw_9Termighty_7backend_6cython_10Color_Fast_10Color_Fast_69__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_9Termighty_7backend_6cython_10Color_Fast_10Color_Fast_69__reduce_cython__(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__reduce_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_9Termighty_7backend_6cython_10Color_Fast_10Color_Fast_64__reduce_cython__(((struct __pyx_obj_9Termighty_7backend_6cython_10Color_Fast_Color_Fast *)__pyx_v_self));
+  __pyx_r = __pyx_pf_9Termighty_7backend_6cython_10Color_Fast_10Color_Fast_68__reduce_cython__(((struct __pyx_obj_9Termighty_7backend_6cython_10Color_Fast_Color_Fast *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_9Termighty_7backend_6cython_10Color_Fast_10Color_Fast_64__reduce_cython__(struct __pyx_obj_9Termighty_7backend_6cython_10Color_Fast_Color_Fast *__pyx_v_self) {
+static PyObject *__pyx_pf_9Termighty_7backend_6cython_10Color_Fast_10Color_Fast_68__reduce_cython__(struct __pyx_obj_9Termighty_7backend_6cython_10Color_Fast_Color_Fast *__pyx_v_self) {
   PyObject *__pyx_v_state = 0;
   PyObject *__pyx_v__dict = 0;
   int __pyx_v_use_setstate;
@@ -9314,19 +9590,19 @@ static PyObject *__pyx_pf_9Termighty_7backend_6cython_10Color_Fast_10Color_Fast_
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_9Termighty_7backend_6cython_10Color_Fast_10Color_Fast_67__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
-static PyObject *__pyx_pw_9Termighty_7backend_6cython_10Color_Fast_10Color_Fast_67__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pw_9Termighty_7backend_6cython_10Color_Fast_10Color_Fast_71__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state); /*proto*/
+static PyObject *__pyx_pw_9Termighty_7backend_6cython_10Color_Fast_10Color_Fast_71__setstate_cython__(PyObject *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__setstate_cython__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_9Termighty_7backend_6cython_10Color_Fast_10Color_Fast_66__setstate_cython__(((struct __pyx_obj_9Termighty_7backend_6cython_10Color_Fast_Color_Fast *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
+  __pyx_r = __pyx_pf_9Termighty_7backend_6cython_10Color_Fast_10Color_Fast_70__setstate_cython__(((struct __pyx_obj_9Termighty_7backend_6cython_10Color_Fast_Color_Fast *)__pyx_v_self), ((PyObject *)__pyx_v___pyx_state));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_9Termighty_7backend_6cython_10Color_Fast_10Color_Fast_66__setstate_cython__(struct __pyx_obj_9Termighty_7backend_6cython_10Color_Fast_Color_Fast *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_9Termighty_7backend_6cython_10Color_Fast_10Color_Fast_70__setstate_cython__(struct __pyx_obj_9Termighty_7backend_6cython_10Color_Fast_Color_Fast *__pyx_v_self, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -25110,8 +25386,10 @@ static PyMethodDef __pyx_methods_9Termighty_7backend_6cython_10Color_Fast_Color_
   {"gt", (PyCFunction)__pyx_pw_9Termighty_7backend_6cython_10Color_Fast_10Color_Fast_47gt, METH_O, __pyx_doc_9Termighty_7backend_6cython_10Color_Fast_10Color_Fast_46gt},
   {"le", (PyCFunction)__pyx_pw_9Termighty_7backend_6cython_10Color_Fast_10Color_Fast_49le, METH_O, __pyx_doc_9Termighty_7backend_6cython_10Color_Fast_10Color_Fast_48le},
   {"ge", (PyCFunction)__pyx_pw_9Termighty_7backend_6cython_10Color_Fast_10Color_Fast_51ge, METH_O, __pyx_doc_9Termighty_7backend_6cython_10Color_Fast_10Color_Fast_50ge},
-  {"__reduce_cython__", (PyCFunction)__pyx_pw_9Termighty_7backend_6cython_10Color_Fast_10Color_Fast_65__reduce_cython__, METH_NOARGS, 0},
-  {"__setstate_cython__", (PyCFunction)__pyx_pw_9Termighty_7backend_6cython_10Color_Fast_10Color_Fast_67__setstate_cython__, METH_O, 0},
+  {"__getstate__", (PyCFunction)__pyx_pw_9Termighty_7backend_6cython_10Color_Fast_10Color_Fast_65__getstate__, METH_NOARGS, __pyx_doc_9Termighty_7backend_6cython_10Color_Fast_10Color_Fast_64__getstate__},
+  {"__setstate__", (PyCFunction)__pyx_pw_9Termighty_7backend_6cython_10Color_Fast_10Color_Fast_67__setstate__, METH_O, __pyx_doc_9Termighty_7backend_6cython_10Color_Fast_10Color_Fast_66__setstate__},
+  {"__reduce_cython__", (PyCFunction)__pyx_pw_9Termighty_7backend_6cython_10Color_Fast_10Color_Fast_69__reduce_cython__, METH_NOARGS, 0},
+  {"__setstate_cython__", (PyCFunction)__pyx_pw_9Termighty_7backend_6cython_10Color_Fast_10Color_Fast_71__setstate_cython__, METH_O, 0},
   {0, 0, 0, 0}
 };
 
@@ -26556,6 +26834,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_gt, __pyx_k_gt, sizeof(__pyx_k_gt), 0, 0, 1, 1},
   {&__pyx_n_s_id, __pyx_k_id, sizeof(__pyx_k_id), 0, 0, 1, 1},
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
+  {&__pyx_n_s_init, __pyx_k_init, sizeof(__pyx_k_init), 0, 0, 1, 1},
   {&__pyx_kp_u_is_unknown, __pyx_k_is_unknown, sizeof(__pyx_k_is_unknown), 0, 1, 0, 0},
   {&__pyx_n_s_itemsize, __pyx_k_itemsize, sizeof(__pyx_k_itemsize), 0, 0, 1, 1},
   {&__pyx_kp_s_itemsize_0_for_cython_array, __pyx_k_itemsize_0_for_cython_array, sizeof(__pyx_k_itemsize_0_for_cython_array), 0, 0, 1, 0},

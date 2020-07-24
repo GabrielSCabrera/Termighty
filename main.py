@@ -113,7 +113,7 @@ def procedure_plot():
             def __call__(self, x, y, t):
                 return eval(fxn)
 
-    color_map = tm.Linear_Map('teal', 'violet')
+    color_map = tm.Linear_Map('fuchsia', 'aquamarine')
     plot = Plot((24,80), (x_min, x_max), (y_min, y_max), color_map)
     print(plot.__str__() + '\033[m')
 

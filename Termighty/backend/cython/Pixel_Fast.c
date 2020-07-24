@@ -2325,7 +2325,6 @@ int __pyx_module_is_main_Termighty__backend__cython__Pixel_Fast = 0;
 
 /* Implementation of 'Termighty.backend.cython.Pixel_Fast' */
 static PyObject *__pyx_builtin_chr;
-static PyObject *__pyx_builtin_sum;
 static PyObject *__pyx_builtin_map;
 static PyObject *__pyx_builtin_range;
 static PyObject *__pyx_builtin_ValueError;
@@ -2359,7 +2358,6 @@ static const char __pyx_k_esc[] = "esc";
 static const char __pyx_k_map[] = "map";
 static const char __pyx_k_new[] = "__new__";
 static const char __pyx_k_obj[] = "obj";
-static const char __pyx_k_sum[] = "sum";
 static const char __pyx_k_38_2[] = "38;2;";
 static const char __pyx_k_48_2[] = "48;2;";
 static const char __pyx_k_Char[] = "), Char('";
@@ -2656,7 +2654,6 @@ static PyObject *__pyx_n_s_style_obj;
 static PyObject *__pyx_n_s_style_seq;
 static PyObject *__pyx_n_s_styles;
 static PyObject *__pyx_n_s_styles_list;
-static PyObject *__pyx_n_s_sum;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_n_s_uint64;
 static PyObject *__pyx_kp_s_unable_to_allocate_array_data;
@@ -5108,7 +5105,7 @@ static Py_hash_t __pyx_pw_9Termighty_7backend_6cython_10Pixel_Fast_10Pixel_Fast_
 }
 
 static Py_hash_t __pyx_pf_9Termighty_7backend_6cython_10Pixel_Fast_10Pixel_Fast_20__hash__(struct __pyx_obj_9Termighty_7backend_6cython_10Pixel_Fast_Pixel_Fast *__pyx_v_self) {
-  PyObject *__pyx_v_ID = NULL;
+  Py_hash_t __pyx_v_ID;
   Py_hash_t __pyx_r;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -5123,8 +5120,8 @@ static Py_hash_t __pyx_pf_9Termighty_7backend_6cython_10Pixel_Fast_10Pixel_Fast_
   /* "Termighty/backend/cython/Pixel_Fast.pyx":232
  *             <int>
  *         '''
- *         ID = sum(map(hash, (self.color_t(), self.color_b(), self.style(), self.char())))             # <<<<<<<<<<<<<<
- *         return int(ID)
+ *         ID = hash(map(hash, (self.color_t(), self.color_b(), self.style(), self.char())))             # <<<<<<<<<<<<<<
+ *         return ID
  * 
  */
   __pyx_t_1 = __Pyx_GetBuiltinName(__pyx_n_s_hash); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 232, __pyx_L1_error)
@@ -5162,24 +5159,18 @@ static Py_hash_t __pyx_pf_9Termighty_7backend_6cython_10Pixel_Fast_10Pixel_Fast_
   __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_map, __pyx_t_5, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 232, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_builtin_sum, __pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 232, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_7 = PyObject_Hash(__pyx_t_6); if (unlikely(__pyx_t_7 == ((Py_hash_t)-1))) __PYX_ERR(0, 232, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_v_ID = __pyx_t_5;
-  __pyx_t_5 = 0;
+  __pyx_v_ID = __pyx_t_7;
 
   /* "Termighty/backend/cython/Pixel_Fast.pyx":233
  *         '''
- *         ID = sum(map(hash, (self.color_t(), self.color_b(), self.style(), self.char())))
- *         return int(ID)             # <<<<<<<<<<<<<<
+ *         ID = hash(map(hash, (self.color_t(), self.color_b(), self.style(), self.char())))
+ *         return ID             # <<<<<<<<<<<<<<
  * 
  *     '''ACCESSORS'''
  */
-  __pyx_t_5 = __Pyx_PyNumber_Int(__pyx_v_ID); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 233, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_7 = __Pyx_PyInt_AsHash_t(__pyx_t_5); if (unlikely((__pyx_t_7 == (Py_hash_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 233, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_r = __pyx_t_7;
+  __pyx_r = __pyx_v_ID;
   goto __pyx_L0;
 
   /* "Termighty/backend/cython/Pixel_Fast.pyx":223
@@ -5201,7 +5192,6 @@ static Py_hash_t __pyx_pf_9Termighty_7backend_6cython_10Pixel_Fast_10Pixel_Fast_
   __Pyx_AddTraceback("Termighty.backend.cython.Pixel_Fast.Pixel_Fast.__hash__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
-  __Pyx_XDECREF(__pyx_v_ID);
   if (unlikely(__pyx_r == -1) && !PyErr_Occurred()) __pyx_r = -2;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
@@ -25086,7 +25076,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_style_seq, __pyx_k_style_seq, sizeof(__pyx_k_style_seq), 0, 0, 1, 1},
   {&__pyx_n_s_styles, __pyx_k_styles, sizeof(__pyx_k_styles), 0, 0, 1, 1},
   {&__pyx_n_s_styles_list, __pyx_k_styles_list, sizeof(__pyx_k_styles_list), 0, 0, 1, 1},
-  {&__pyx_n_s_sum, __pyx_k_sum, sizeof(__pyx_k_sum), 0, 0, 1, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
   {&__pyx_n_s_uint64, __pyx_k_uint64, sizeof(__pyx_k_uint64), 0, 0, 1, 1},
   {&__pyx_kp_s_unable_to_allocate_array_data, __pyx_k_unable_to_allocate_array_data, sizeof(__pyx_k_unable_to_allocate_array_data), 0, 0, 1, 0},
@@ -25099,7 +25088,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
 };
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
   __pyx_builtin_chr = __Pyx_GetBuiltinName(__pyx_n_s_chr); if (!__pyx_builtin_chr) __PYX_ERR(0, 91, __pyx_L1_error)
-  __pyx_builtin_sum = __Pyx_GetBuiltinName(__pyx_n_s_sum); if (!__pyx_builtin_sum) __PYX_ERR(0, 232, __pyx_L1_error)
   __pyx_builtin_map = __Pyx_GetBuiltinName(__pyx_n_s_map); if (!__pyx_builtin_map) __PYX_ERR(0, 232, __pyx_L1_error)
   __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 327, __pyx_L1_error)
   __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(3, 272, __pyx_L1_error)
