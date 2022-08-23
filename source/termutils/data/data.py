@@ -3,6 +3,7 @@ import importlib.resources
 import json
 import os
 
+
 class Data:
 
     with importlib.resources.open_text("termutils.data", "keymaps.json") as infile:
@@ -12,7 +13,7 @@ class Data:
     if os.name == "nt":
         keymaps = keymaps["windows"]
         # Encoding the dictionary keys using the OEM-standard.
-        keymaps = {codecs.escape_decode(key)[0]:value for key, value in keymaps.items()}
+        keymaps = {codecs.escape_decode(key)[0]: value for key, value in keymaps.items()}
     else:
         keymaps = keymaps["linux"]
 

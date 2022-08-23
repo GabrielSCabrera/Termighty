@@ -1,55 +1,11 @@
 # Program Data
-data_directory = ".livemenu"
-outputs_directory = "LiveMenu"
-
-# Terminal Properties
-term_rows = 24
-term_cols = 80
-term_fd = 0
-term_settings = [
-    1280,
-    5,
-    191,
-    35387,
-    15,
-    15,
-    [
-        b"\x03",
-        b"\x1c",
-        b"\x7f",
-        b"\x15",
-        b"\x04",
-        b"\x00",
-        b"\x01",
-        b"\x00",
-        b"\x11",
-        b"\x13",
-        b"\x1a",
-        b"\x00",
-        b"\x12",
-        b"\x0f",
-        b"\x17",
-        b"\x16",
-        b"\x00",
-        b"\x00",
-        b"\x00",
-        b"\x00",
-        b"\x00",
-        b"\x00",
-        b"\x00",
-        b"\x00",
-        b"\x00",
-        b"\x00",
-        b"\x00",
-        b"\x00",
-        b"\x00",
-        b"\x00",
-        b"\x00",
-        b"\x00",
-    ],
-]
+data_directory: str = ".livemenu"
+outputs_directory: str = "LiveMenu"
 
 # Style Properties
-background_color = "navy blue"
-foreground_color = "ghost white"
-style = "default"
+background_color: str = "navy blue"
+foreground_color: str = "ghost white"
+style: str = "default"
+
+# ANSI Commands
+clear_screen: str = "\033[2J\033[3J\033[f"
