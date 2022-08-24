@@ -1,9 +1,10 @@
 from typing import Optional, Union
 
 import numpy as np
+import string
 
 from termutils.data import Data
-from termutils.utils import text as textutils
+from termutils.obj.term import Term
 from termutils.obj.color import Color
 from termutils.config import defaults
 
@@ -19,10 +20,10 @@ class Widget:
 
     def __init__(
         self,
-        y0: int,
-        x0: int,
-        y1: int,
-        x1: int,
+        row_start: int,
+        column_start: int,
+        row_end: int,
+        column_end: int,
         background: Optional[Union[str, Color]] = None,
         foreground: Optional[Union[str, Color]] = None,
         style: Optional[str] = None,
@@ -31,23 +32,103 @@ class Widget:
         Returns a new instance of class `Widget`.  Shouldn't normally be instantiated directly, but inherited.
         """
         # `Widget`, or the name of the subclass that inherits `Widget`.
+
+        self._size: int = (row_end - row_start) * (column_end - column_start)
+        self._shape: tuple[int, int] = (row_end - row_start, column_end - column_start)
+
+        background, foreground, style = self._check_arguments(background, foreground, style)
+
+        self._init_attributes(row_start, column_start, row_end, column_end, background, foreground, style)
+
+        self.__call__("")
+
+
+    """MAGIC METHODS"""
+
+    def __call__(self, text: str) -> None:
+        """
+        Modifies the current state of the widget by replacing its contents with the given text.
+        """
+        if not isinstance(text, str):
+            msg: str = f"\n\nArgument `text` in calling of {self._type} instance must be of <class 'str'>."
+            raise TypeError(msg)
+
+        text:list[str,...] = text.split("\n")
+        text:list[str,...] = [row.strip() for row in text]
+        if self._wrap:
+            pass
+        self._text_prep(text)
+        self.set_view(0,0)
+
+    def _text_prep(self, text: list[str, ...], align="left"):
+        """ """
+        rows = len(text)
+        columns = max(len(row) for row in text)
+
+        if align == "left":
+            pad_char = "<"
+        elif align == "right":
+            pad_char = ">"
+        elif align == "center":
+            pad_char = "^"
+
+        text = [f"{line:{pad_char}{columns}}" for line in text]
+        text = [line.ljust(columns + self._shape[1]) for line in text]
+        vert_pad = [" "*(columns + self._shape[1])]*self._shape[0]
+        text = text + vert_pad
+
+        self._text_grid = np.array([list(row) for row in text])
+        self._text_shape: tuple[int, int] = (rows, columns)
+        self._text_size: int = rows*columns
+
+    def wrap():
+        """ """
+        self._wrap = True
+
+    """PRIVATE METHODS"""
+
+    def _init_attributes(
+        self,
+        row_start: int,
+        column_start: int,
+        row_end: int,
+        column_end: int,
+        background: Color,
+        foreground: Color,
+        style: str,
+    ):
+        """ """
+        self._wrap = False
+
+        self._row_start: int = row_start
+        self._row_end: int = row_end
+        self._column_start: int = column_start
+        self._column_end: int = column_end
+
+        self._back_fmt: str = "48;2;{};{};{}".format(*background._rgb)
+        self._fore_fmt: str = "38;2;{};{};{}".format(*foreground._rgb)
+
+        self._style_fmt: str = f"{Data.styles[style.lower()]};"
+        self._style: str = style
+
+        self.ANSI_format: str = f"\033[{self._style_fmt}{self._fore_fmt};{self._back_fmt}m"
+
+        row_idx: np.ndarray = np.arange(0, self._shape[0], 1, dtype=np.int64)
+        column_idx: np.ndarray = np.arange(0, self._shape[1], 1, dtype=np.int64)
+        Y, X = np.meshgrid(column_idx, row_idx)
+        Y, X = Y[:, :, np.newaxis], X[:, :, np.newaxis]
+        self._indices: np.ndarray = np.concatenate([X, Y], axis=2)
+
+    def _check_arguments(
+        self, background: Union[str, Color], foreground: Union[str, Color], style: str
+    ) -> tuple[Color, Color, str]:
+        """
+        Perform checks making sure that the initialization arguments are correctly set up.
+        """
         self._cls_name: str = self.__class__.__name__
         self._type: str = f"<class '{self._cls_name}'>"
 
-        for i, j in zip((y1, y0, x1, x0), ("y1", "y0", "x1", "x0")):
-            if i != int(i) or i < 0:
-                msg: str = f"\n\nArgument `{j}` in the instantiation of {self._type} must be a positive integer."
-                raise ValueError(msg)
-
-        self._y0: int = y0
-        self._y1: int = y1
-        self._x0: int = x0
-        self._x1: int = x1
-
-        self._size: int = (y1 - y0) * (x1 - x0)
-        self._shape: tuple[int, int] = (y1 - y0, x1 - x0)
-
-        for i, j in zip(self._shape, (("y1", "y0"), ("x1", "x0"))):
+        for i, j in zip(self._shape, (("row_end", "row_start"), ("column_end", "column_start"))):
             if i <= 0:
                 msg: str = (
                     f"\n\nArgument `{j[0]}` must be larger than argument `{j[1]}` in the instantiation of {self._type}."
@@ -67,7 +148,6 @@ class Widget:
                 f"`{background}`."
             )
             raise ValueError(msg)
-        self._back_fmt: str = "48;2;{};{};{}".format(*background._rgb)
 
         if foreground is None:
             foreground: Color = defaults.foreground_color
@@ -82,7 +162,6 @@ class Widget:
                 f"`{foreground}`."
             )
             raise ValueError(msg)
-        self._fore_fmt: str = "38;2;{};{};{}".format(*foreground._rgb)
 
         if style is None:
             style: str = defaults.style
@@ -94,79 +173,15 @@ class Widget:
             )
             raise ValueError(msg)
 
-        self._style_fmt: str = f"{Data.styles[style.lower()]};"
-        self._style: str = style
+        return background, foreground, style
 
-        self.ANSI_format: str = f"\033[{self._style_fmt}{self._fore_fmt};{self._back_fmt}m"
-
-        row_idx: np.ndarray = np.arange(0, self._shape[0], 1, dtype=np.int64)
-        column_idx: np.ndarray = np.arange(0, self._shape[1], 1, dtype=np.int64)
-        Y, X = np.meshgrid(row_idx, column_idx)
-        Y, X = Y[:, :, np.newaxis], X[:, :, np.newaxis]
-        self._indices: np.ndarray = np.concatenate([X, Y], axis=2)
-
-        self.__call__("")
-
-    """MAGIC METHODS"""
-
-    def __call__(self, text: str, fmt_spec: str = "<") -> None:
-        """
-        Sets the current state of the widget to the given text.
-        """
-        if not isinstance(text, str):
-            msg: str = f"\n\nAttribute `text` in calling of {self._type} instance must be of <class 'str'>."
-            raise TypeError(msg)
-
-        rows: list = []
-        split_text: list[str, ...] = text.split("\n")
-        max_len: int = max(len(line) for line in split_text)
-        max_len: int = max(self._shape[1], max_len)
-
-        if fmt_spec == "c":
-            for i in split_text:
-                row: str = f"{i:^{self._shape[1]}}"
-                rows.append(f"{row:<{max_len}}")
-        else:
-            for i in split_text:
-                rows.append(f"{i:{fmt_spec}{max_len}}")
-
-            for _ in range(self._shape[0] - len(rows)):
-                rows.append(f"{' ':{fmt_spec}{max_len}}")
-
-        self._text: str = text
-        self._rows: list[str, ...] = rows
-        self._text_shape: tuple[int, int] = (len(rows), max_len)
-        self._text_size: int = len(rows) * max_len
-
-        self._view: np.ndarray = np.zeros(2, dtype=np.int64)
-
-        row_idx: np.ndarray = np.arange(0, self._text_shape[0], 1, dtype=np.int64)
-        column_idx: np.ndarray = np.arange(0, self._text_shape[1], 1, dtype=np.int64)
-        Y, X = np.meshgrid(row_idx, column_idx)
-        Y, X = Y[:, :, np.newaxis], X[:, :, np.newaxis]
-        self._text_indices: np.ndarray = np.concatenate([X, Y], axis=2)
-
-    """PROPERTIES"""
-
-    @property
-    def lines(self) -> list[list[str, ...], ...]:
-        """
-        Returns the current view of the text: this is dependent on the text dimensions and shape of the widget, as well
-        as the current view state.
-
-        The returned list will contain equidistant strings, each exactly as long as the widget's width.
-        """
-        return self._lines
-
-    """PRIVATE METHODS"""
-
-    def _set_view(self, row: int, column: int) -> None:
+    def _set_view(self) -> None:
         """
         Backend for method `set_view`.
         """
-        row: int = max(0, min(row, max(0, self._text_shape[0] - self._shape[0]-1)))
-        column: int = max(0, min(column, max(0, self._text_shape[1] - self._shape[1]-1)))
-        self._view: np.ndarray = self._text_indices[row, column]
+        row=min(self._origin[0], self._text_shape[0])
+        column=min(self._origin[1], self._text_shape[1])
+        self._view: np.ndarray = self._text_grid[row:row+self._shape[0], column:column+self._shape[1]]
 
     """PUBLIC METHODS"""
 
@@ -213,9 +228,10 @@ class Widget:
             if not isinstance(i, (int, float)) or i != int(i):
                 msg: str = f"\n\nAttribute `{j}` in method `set_view` of a {self._type} instance must be an integer."
                 raise TypeError(msg)
-        self._set_view(row=row, column=column)
+        self._origin = (row, column)
+        self._set_view()
 
-    def write(self, ellipsis: bool = False) -> None:
+    def write(self) -> None:
         """
         Writes the string to its designated coordinates with the view taken
         into account.
@@ -223,24 +239,12 @@ class Widget:
         # Saving the cursor position
         print("\0337", end="")
 
-        row_start: int = self._view[0]
-        row_stop: int = self._view[0] + self._shape[0]
-        column_start: int = self._view[1]
-        column_stop: int = self._view[1] + self._shape[1]
-
-        for i, row_idx in enumerate(range(row_start, row_stop)):
-            textutils.cursor_to(self._y0 + i, self._x0)
-            if ellipsis:
-                row: str = self._rows[row_idx]
-                if row[column_stop:].strip() != "":
-                    row: str = row[column_start : column_stop - 1] + "…"
-                else:
-                    row: str = row[column_start:column_stop]
-                row: str = f"{self.ANSI_format}{row}\033[m"
-                print(row, end="", flush=True)
-            else:
-                row: str = f"{self.ANSI_format}{self._rows[row_idx][column_start:column_stop]}\033[m"
-                print(row, end="", flush=True)
+        for m, line in enumerate(self._view):
+            row = self._row_start + m + 1
+            for n, char in enumerate(line):
+                column = self._column_start + n + 1
+                char = f"{self.ANSI_format}{char}\033[m"
+                Term.print_at(row, column, char)
 
         # Restoring the cursor position
         print("\0338", end="")

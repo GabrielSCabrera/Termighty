@@ -16,14 +16,14 @@ class Term:
         os.system("cls" if os.name == "nt" else "clear")
 
     @classmethod
-    def print_at(cls, column: int, line: int, string: str):
+    def print_at(cls, line: int, column: int, string: str):
         """
         Print the given `string` starting at the given `line` and `column`.
         """
-        print(f"\x1b7\x1b[{column};{line}f{string}\x1b8", end="", flush=True)
+        print(f"\x1b7\x1b[{line};{column}f{string}\x1b8", end="", flush=True)
 
     @classmethod
-    def cursor_at(cls, column: int, line: int):
+    def cursor_at(cls, line: int, column: int):
         """
         Move the cursor to the given `line` and `column`.
         """
