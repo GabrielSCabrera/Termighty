@@ -180,13 +180,16 @@ class TextBox:
         while self._active:
             if self._terminal_size != (terminal_size := System.terminal_size):
                 self._terminal_size = terminal_size
-                self._set_shape()
-                self._set_view()
-                self._text_prep()
-                self._term.clear_now()
-            
+                # Repeat the reset process three times in order to account for lag in the terminal as it is resized.
+                # Two iterations usually is enough, but three seems to always prevent issues.
+                for i in range(3):
+                    time.sleep(0.01)
+                    self._set_shape()
+                    self._set_view()
+                    self._text_prep()
+
             if self._new_view:
-                self._new_view: bool = False 
+                self._new_view: bool = False
                 self.write()
             time.sleep(dt)
 
@@ -253,14 +256,14 @@ class TextBox:
         """
         Scrolls the current view right by the designated number of columns.
         """
-        self._position: tuple[int, int] = (self._view[0], self._view[1] + columns) 
+        self._position: tuple[int, int] = (self._view[0], self._view[1] + columns)
         self._set_view()
 
     def scroll_up(self, rows: int = 1) -> None:
         """
         Scrolls the current view up by the designated number of rows.
         """
-        self._position: tuple[int, int] = (self._view[0] - rows, self._view[1]) 
+        self._position: tuple[int, int] = (self._view[0] - rows, self._view[1])
         self._set_view()
 
     def set_view(self, row: int, column: int) -> None:
