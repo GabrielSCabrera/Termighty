@@ -49,6 +49,7 @@ class TextBox:
         self._init_attributes(row_start, column_start, row_end, column_end, background, foreground, style)
 
         self._active = False
+        self._new_view = False
 
         self.__call__("")
 
@@ -68,7 +69,6 @@ class TextBox:
         self._text = text
         self._text_prep()
         self._set_view()
-        self._old_view = self._view.copy()
 
     def _text_prep(self, align="left"):
         """ """
@@ -184,7 +184,10 @@ class TextBox:
                 self._set_view()
                 self._text_prep()
                 self._term.clear_now()
-            self.write()
+            
+            if self._new_view:
+                self._new_view: bool = False 
+                self.write()
             time.sleep(dt)
 
     def _set_shape(self) -> None:
@@ -221,10 +224,11 @@ class TextBox:
         row = max(min(self._position[0] + self._shape[0], self._text_shape[0]), 0)
         column = max(min(self._position[1] + self._shape[1], self._text_shape[1]), 0)
         self._view: np.ndarray = self._text_grid[row : row + self._shape[0], column : column + self._shape[1]]
+        self._new_view: bool = True
 
     """PUBLIC METHODS"""
 
-    def run(self, dt: float = 0.01):
+    def run(self, dt: float = 0.005):
         """
         Activates a thread that runs the method self._run_thread.
         """
@@ -235,25 +239,29 @@ class TextBox:
         """
         Scrolls the current view down by the designated number of rows.
         """
-        self._set_view(row=self._view[0] + rows, column=self._view[1])
+        self._position: tuple[int, int] = (self._view[0] + rows, self._view[1])
+        self._set_view()
 
     def scroll_left(self, columns: int = 1) -> None:
         """
         Scrolls the current view left by the designated number of columns.
         """
-        self._set_view(row=self._view[0], column=self._view[1] - columns)
+        self._position: tuple[int, int] = (self._view[0], self._view[1] - columns)
+        self._set_view()
 
     def scroll_right(self, columns: int = 1) -> None:
         """
         Scrolls the current view right by the designated number of columns.
         """
-        self._set_view(row=self._view[0], column=self._view[1] + columns)
+        self._position: tuple[int, int] = (self._view[0], self._view[1] + columns) 
+        self._set_view()
 
     def scroll_up(self, rows: int = 1) -> None:
         """
         Scrolls the current view up by the designated number of rows.
         """
-        self._set_view(row=self._view[0] - rows, column=self._view[1])
+        self._position: tuple[int, int] = (self._view[0] - rows, self._view[1]) 
+        self._set_view()
 
     def set_view(self, row: int, column: int) -> None:
         """
@@ -266,9 +274,9 @@ class TextBox:
         representing the upper left part of the view into the text.
 
         If we were to run set_view(row=0, column=10), then the TextBox would instead display "trangers t". Or if we run
-        set_view(row=1, column=-15), we would get "les and so".
+        set_view(row=1, column=15), we would get "les and so".
 
-        Locks the view such that it never exceeds the text's total boundary.
+        The view may exceed the text's boundary, as it is automatically padded.
         """
         self._position = (row, column)
         self._set_view()
