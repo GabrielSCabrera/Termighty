@@ -1,4 +1,5 @@
-import os
+import sys
+import threading
 
 
 class Term:
@@ -6,65 +7,120 @@ class Term:
     A collection of commands that can be used to make modifications to the terminal state.
     """
 
-    cursor_active = True
+    _flush_lock = threading.Lock()
 
-    @classmethod
-    def clear(cls):
+    def __init__(self) -> None:
         """
-        Cross-platform terminal clear command.
+        While class Term could theoretically consist only of classmethods, it is instanced to allow for the existence of
+        multiple buffers that each can be flushed and appended independently of others.
         """
-        os.system("cls" if os.name == "nt" else "clear")
+        self._buffer = []
 
-    @classmethod
-    def print_at(cls, line: int, column: int, string: str):
+    def clear(self) -> None:
         """
-        Print the given `string` starting at the given `line` and `column`.
+        Cross-platform terminal clear command (appends to the buffer).
         """
-        print(f"\x1b7\x1b[{line};{column}f{string}\x1b8", end="", flush=True)
+        self._buffer.append("\033[2J\033[3J\033[f")
 
-    @classmethod
-    def cursor_at(cls, line: int, column: int):
+    def clear_now(self) -> None:
         """
-        Move the cursor to the given `line` and `column`.
+        Cross-platform terminal clear command -- clears immediately (bypasses the buffer).
         """
-        print(f"\033[{line};{column}H", end="", flush=True)
+        with self.__class__._flush_lock:
+            sys.stdout.write("\033[2J\033[3J\033[f")
+            sys.stdout.flush()
 
-    @classmethod
-    def cursor_hide(cls):
+    def cursor_hide(self) -> None:
         """
-        Make the cursor invisible.
+        Make the cursor invisible (appends to the buffer).
         """
-        print("\033[?25l", end="", flush=True)
-        cls.cursor_active = False
+        self._buffer.append("\033[?25l")
 
-    @classmethod
-    def cursor_load(cls):
+    def cursor_hide_now(self) -> None:
         """
-        Loads the cursor position -- save it first by calling `cursor_save`.
+        Make the cursor invisible immediately (bypasses the buffer).
         """
-        print("\0338", end="", flush=True)
+        with self.__class__._flush_lock:
+            sys.stdout.write("\033[?25l")
+            sys.stdout.flush()
 
-    @classmethod
-    def cursor_save(cls):
+    def cursor_load(self) -> None:
         """
-        Save the cursor position -- reload it by calling `cursor_load`.
+        Loads the cursor position (appends to the buffer) -- save it first by calling `cursor_save`.
         """
-        print("\0337", end="", flush=True)
+        self._buffer.append("\0338")
 
-    @classmethod
-    def cursor_show(cls):
+    def cursor_load_now(self) -> None:
         """
-        Make the cursor visible.
+        Loads the cursor position immediately (bypasses the buffer) -- save it first by calling `cursor_save_now`.
         """
-        print("\033[?25h", end="", flush=True)
-        cls.cursor_active = True
+        with self.__class__._flush_lock:
+            sys.stdout.write("\0338")
+            sys.stdout.flush()
 
-    @classmethod
-    def cursor_toggle(cls):
+    def cursor_move(self, line: int, column: int) -> None:
         """
-        If the cursor is visible, make it invisible.  If it is invisible, make it visible.
+        Move the cursor to the given `line` and `column` (appends to the buffer).
         """
-        if cls.cursor_active:
-            print("\033[?25h", end="", flush=True)
-        else:
-            print("\033[?25l", end="", flush=True)
+        self._buffer.append(f"\033[{line};{column}H")
+
+    def cursor_move_now(self, line: int, column: int) -> None:
+        """
+        Move the cursor to the given `line` and `column` immediately (bypasses the buffer).
+        """
+        with self.__class__._flush_lock:
+            sys.stdout.write(f"\033[{line};{column}H")
+            sys.stdout.flush()
+
+    def cursor_save(self) -> None:
+        """
+        Save the cursor position (appends to the buffer) -- reload it by calling `cursor_load`.
+        """
+        self._buffer.append("\0337")
+
+    def cursor_save_now(self) -> None:
+        """
+        Save the cursor position immediately (bypasses the buffer) -- reload it by calling `cursor_load_now`.
+        """
+        with self.__class__._flush_lock:
+            sys.stdout.write("\0337")
+            sys.stdout.flush()
+
+    def cursor_show(self) -> None:
+        """
+        Make the cursor visible (appends to the buffer).
+        """
+        self._buffer.append("\033[?25h")
+
+    def cursor_show_now(self) -> None:
+        """
+        Make the cursor visible immediately (bypasses the buffer).
+        """
+        with self.__class__._flush_lock:
+            sys.stdout.write("\033[?25h")
+            sys.stdout.flush()
+
+    def flush(self) -> None:
+        """
+        Flush the entire buffer to the terminal. Removes whatever is flushed from the buffer; if something is appended
+        to the buffer while the flushing occurs, does not remove that element from the buffer.
+        """
+        with self.__class__._flush_lock:
+            current_buffer_state = self._buffer.copy()
+            sys.stdout.write("".join(current_buffer_state))
+            sys.stdout.flush()
+            for i in range(len(current_buffer_state)):
+                self._buffer.pop(0)
+
+    def write(self, string: str) -> None:
+        """
+        Write the given `string` wherever the cursor is currently positioned to the buffer (appends to the buffer).
+        """
+        self._buffer.append(f"{string}")
+
+    def write_at(self, line: int, column: int, string: str) -> None:
+        """
+        Write the given `string` starting at the designated `line` and `column` coordinates to the buffer.  ANSI uses a
+        one-based indexing system, but this class instead uses a zero-based indexing system.
+        """
+        self._buffer.append(f"\x1b[{line+1};{column+1}f{string}")

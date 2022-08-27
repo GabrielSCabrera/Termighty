@@ -1,25 +1,19 @@
-from termutils.data import Data
-from typing import Callable, Optional, Union
-import threading
-import warnings
-import shutil
-import time
-import sys
 import os
-
+import sys
+from termutils.data.system import System
+from termutils.data import Data
+import threading
+import time
+from typing import Callable, Union
 
 # If the OS is Windows, uses msvcrt to read inputs from the terminal.
-try:
+if System.os == "Windows":
     import msvcrt
 
-    _OS_mode = "WINDOWS"
-
 # If the OS is Linux-based, uses termios and tty to read inputs from the terminal.
-except ImportError:
+elif System.os == "Linux":
     import termios
     import tty
-
-    _OS_mode = "LINUX"
 
 
 class LiveMenu:
@@ -105,12 +99,12 @@ class LiveMenu:
     """DYNAMICALLY SELECT CLASSMETHODS BY OS"""
 
     # If the OS is Windows, use _getch_windows as backend for _getch, and _raw_windows as backend for _raw.
-    if _OS_mode == "WINDOWS":
+    if System.os == "Windows":
         _getch: classmethod = _getch_windows
         _raw: classmethod = _raw_windows
     # If the OS is Linux, use _getch_linux as backend for _getch, and _raw_linux as backend for _raw.
     # Additionally, save the terminal's old tty attributes for when raw mode is deactivated.
-    elif _OS_mode == "LINUX":
+    elif System.os == "Linux":
         _getch: classmethod = _getch_linux
         _raw: classmethod = _raw_linux
         _fd: str = sys.stdin.fileno()
@@ -124,27 +118,6 @@ class LiveMenu:
         Returns True if the current instance is active. False otherwise.
         """
         return LiveMenu._active
-
-    @property
-    def columns(self) -> int:
-        """
-        Returns the display width (number of columns).
-        """
-        return self.terminal_size[0]
-
-    @property
-    def lines(self) -> int:
-        """
-        Returns the display height (number of lines).
-        """
-        return self.terminal_size[1]
-
-    @property
-    def terminal_size(self) -> tuple[int, int]:
-        """
-        Returns the terminal dimensions.
-        """
-        return tuple(shutil.get_terminal_size())
 
     """MAGIC METHODS"""
 
@@ -195,14 +168,6 @@ class LiveMenu:
             if isinstance(char, str):
                 self._key_history.append(char)
 
-    def _terminal_monitor(self) -> None:
-        """
-        A loop that keeps track of terminal statistics, such as its dimensions (given by shutil.get_terminal_size).
-        """
-        while LiveMenu._active:
-            self._terminal_size: os.terminal_size = shutil.get_terminal_size()
-            time.sleep(self._sleep_time)
-
     def _writer(self) -> None:
         """
         Must be inherited before instantiation, and _writer must be overwritten.  The overwritten _writer must contain
@@ -230,7 +195,6 @@ class LiveMenu:
             LiveMenu._active: bool = True
 
             thread_listener: threading.Thread = threading.Thread(target=self._listener, daemon=True)
-            thread_terminal_monitor: threading.Thread = threading.Thread(target=self._terminal_monitor, daemon=True)
             thread_writer: threading.Thread = threading.Thread(target=self._writer, daemon=True)
 
             self._raw(True)
@@ -238,7 +202,6 @@ class LiveMenu:
             try:
                 print(f"\033[2J\033[3J\033[f", end="", flush=True)
                 thread_listener.start()
-                thread_terminal_monitor.start()
                 thread_writer.start()
 
                 while LiveMenu._active:

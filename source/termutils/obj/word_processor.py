@@ -1,9 +1,9 @@
-from termutils.obj.live_menu import LiveMenu
+from termutils.obj.text_box import TextBox
 import textwrap
 import time
 
 
-class WordProcessor(LiveMenu):
+class WordProcessor(TextBox):
     def __init__(self, dt: float = 0.01, tab_len: int = 4):
         """
         Creates an instance of TextEditor.  Supports usage of the default listener provided by class LiveMenu.

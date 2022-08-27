@@ -18,7 +18,7 @@ class String(UserString):
         foreground: Optional[Union[Color, str]] = None,
         background: Optional[Union[Color, str]] = None,
         style: Optional[str] = None,
-    ):
+    ) -> None:
         """
         Creates an instance of class `String`.
 
@@ -33,14 +33,14 @@ class String(UserString):
 
     """MAGIC METHODS"""
 
-    def __add__(self, *args, **kwargs):
+    def __add__(self, *args, **kwargs) -> "String":
         """
         Wrapper for `UserString` method `__add__`.
         """
         new_str: str = super().__add__(*args, **kwargs)
         return self.__class__(new_str, self._fore, self._back, self._style)
 
-    def __format__(self, spec: str):
+    def __format__(self, spec: str) -> str:
         """
         Formats the given string using the desired spec.
         """
@@ -56,26 +56,26 @@ class String(UserString):
 
     def __getitem__(self, *args, **kwargs) -> None:
         """
-        Replace the data string's elements at the given indices.
+        Extract the data string's elements at the given indices.
         """
         new_str: str = super().__getitem__(*args, **kwargs)
         return self.__class__(new_str, self._fore, self._back, self._style)
 
-    def __iter__(self):
+    def __iter__(self) -> "String":
         """
         Iterates through each element of the current `String` instance.
         """
         self._iter_idx: int = -1
         return self
 
-    def __mul__(self, *args, **kwargs):
+    def __mul__(self, *args, **kwargs) -> "String":
         """
         Wrapper for `UserString` method `__mul__`.
         """
         new_str: str = super().__mul__(*args, **kwargs)
         return self.__class__(new_str, self._fore, self._back, self._style)
 
-    def __next__(self):
+    def __next__(self) -> "String":
         """
         See method `__iter__`.
         """
@@ -85,20 +85,20 @@ class String(UserString):
         else:
             return self.__getitem__(self._iter_idx)
 
-    def __radd__(self, *args, **kwargs):
+    def __radd__(self, *args, **kwargs) -> "String":
         """
         Wrapper for `UserString` method `__radd__`.
         """
         new_str: str = super().__add__(*args, **kwargs)
         return self.__class__(new_str, self._fore, self._back, self._style)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """
         Returns a printable string using the given color.
         """
         return self.__str__()
 
-    def __rmul__(self, *args, **kwargs):
+    def __rmul__(self, *args, **kwargs) -> "String":
         """
         Wrapper for `UserString` method `__mul__`.
         """
@@ -115,7 +115,7 @@ class String(UserString):
         else:
             self.data: str = string
 
-    def __str__(self):
+    def __str__(self) -> str:
         """
         Returns a printable string using the given color.
         """
@@ -146,6 +146,13 @@ class String(UserString):
         return self._fore.copy()
 
     @property
+    def string(self) -> str:
+        """
+        Returns the uncolored and unformatted text currently assigned to this String instance.
+        """
+        return self.data
+
+    @property
     def style(self) -> str:
         """
         Returns the text style associated with the current instance.
@@ -155,7 +162,7 @@ class String(UserString):
     """SETTER METHODS"""
 
     @background.setter
-    def background(self, color: Optional[Union[Color, str]] = None):
+    def background(self, color: Optional[Union[Color, str]] = None) -> None:
         """
         Sets the background color to a new value.
         """
@@ -177,7 +184,7 @@ class String(UserString):
         self._back_str: str = temp
 
     @foreground.setter
-    def foreground(self, color: Optional[Union[Color, str]] = None):
+    def foreground(self, color: Optional[Union[Color, str]] = None) -> None:
         """
         Sets the foreground color to a new value.
         """
@@ -197,6 +204,13 @@ class String(UserString):
             temp: str = f"{esc};{color._rgb[0]:d};{color._rgb[1]:d};" f"{color._rgb[2]:d}"
         self._fore: Color = color
         self._fore_str: str = temp
+
+    @string.setter
+    def string(self, data: str) -> None:
+        """
+        Overwrites the uncolored and unformatted text currently assigned to this String instance.
+        """
+        self.data = data
 
     @style.setter
     def style(self, style: Optional[str] = None) -> None:
@@ -219,77 +233,77 @@ class String(UserString):
 
     """PUBLIC METHODS"""
 
-    def capitalize(self, *args, **kwargs):
+    def capitalize(self, *args, **kwargs) -> "String":
         """
         Wrapper for `UserString` method `capitalize`.
         """
         new_str: str = super().capitalize(*args, **kwargs)
         return self.__class__(new_str, self._fore, self._back, self._style)
 
-    def casefold(self, *args, **kwargs):
+    def casefold(self, *args, **kwargs) -> "String":
         """
         Wrapper for `UserString` method `casefold`.
         """
         new_str: str = super().casefold(*args, **kwargs)
         return self.__class__(new_str, self._fore, self._back, self._style)
 
-    def center(self, *args, **kwargs):
+    def center(self, *args, **kwargs) -> "String":
         """
         Wrapper for `UserString` method `center`.
         """
         new_str: str = super().center(*args, **kwargs)
         return self.__class__(new_str, self._fore, self._back, self._style)
 
-    def expandtabs(self, *args, **kwargs):
+    def expandtabs(self, *args, **kwargs) -> "String":
         """
         Wrapper for `UserString` method `expandtabs`.
         """
         new_str: str = super().expandtabs(*args, **kwargs)
         return self.__class__(new_str, self._fore, self._back, self._style)
 
-    def format(self, *args, **kwargs):
+    def format(self, *args, **kwargs) -> "String":
         """
         Wrapper for `UserString` method `format`.
         """
         new_str: str = super().format(*args, **kwargs)
         return self.__class__(new_str, self._fore, self._back, self._style)
 
-    def format_map(self, *args, **kwargs):
+    def format_map(self, *args, **kwargs) -> "String":
         """
         Wrapper for `UserString` method `format_map`.
         """
         new_str: str = super().format_map(*args, **kwargs)
         return self.__class__(new_str, self._fore, self._back, self._style)
 
-    def join(self, *args, **kwargs):
+    def join(self, *args, **kwargs) -> "String":
         """
         Wrapper for `UserString` method `join`.
         """
         new_str: str = super().join(*args, **kwargs)
         return self.__class__(new_str, self._fore, self._back, self._style)
 
-    def ljust(self, *args, **kwargs):
+    def ljust(self, *args, **kwargs) -> "String":
         """
         Wrapper for `UserString` method `ljust`.
         """
         new_str: str = super().ljust(*args, **kwargs)
         return self.__class__(new_str, self._fore, self._back, self._style)
 
-    def lower(self, *args, **kwargs):
+    def lower(self, *args, **kwargs) -> "String":
         """
         Wrapper for `UserString` method `lower`.
         """
         new_str: str = super().lower(*args, **kwargs)
         return self.__class__(new_str, self._fore, self._back, self._style)
 
-    def lstrip(self, *args, **kwargs):
+    def lstrip(self, *args, **kwargs) -> "String":
         """
         Wrapper for `UserString` method `lstrip`.
         """
         new_str: str = super().lstrip(*args, **kwargs)
         return self.__class__(new_str, self._fore, self._back, self._style)
 
-    def partition(self, *args, **kwargs):
+    def partition(self, *args, **kwargs) -> list["String", ...]:
         """
         Wrapper for `UserString` method `partition`.
         """
@@ -298,35 +312,35 @@ class String(UserString):
             new_list.append(self.__class__(new_str, self._fore, self._back, self._style))
         return tuple(new_list)
 
-    def removeprefix(self, *args, **kwargs):
+    def removeprefix(self, *args, **kwargs) -> "String":
         """
         Wrapper for `UserString` method `removeprefix`.
         """
         new_str: str = super().removeprefix(*args, **kwargs)
         return self.__class__(new_str, self._fore, self._back, self._style)
 
-    def removesuffix(self, *args, **kwargs):
+    def removesuffix(self, *args, **kwargs) -> "String":
         """
         Wrapper for `UserString` method `removesuffix`.
         """
         new_str: str = super().removesuffix(*args, **kwargs)
         return self.__class__(new_str, self._fore, self._back, self._style)
 
-    def replace(self, *args, **kwargs):
+    def replace(self, *args, **kwargs) -> "String":
         """
         Wrapper for `UserString` method `replace`.
         """
         new_str: str = super().replace(*args, **kwargs)
         return self.__class__(new_str, self._fore, self._back, self._style)
 
-    def rjust(self, *args, **kwargs):
+    def rjust(self, *args, **kwargs) -> "String":
         """
         Wrapper for `UserString` method `rjust`.
         """
         new_str: str = super().rjust(*args, **kwargs)
         return self.__class__(new_str, self._fore, self._back, self._style)
 
-    def rpartition(self, *args, **kwargs):
+    def rpartition(self, *args, **kwargs) -> "String":
         """
         Wrapper for `UserString` method `rpartition`.
         """
@@ -335,7 +349,7 @@ class String(UserString):
             new_list.append(self.__class__(new_str, self._fore, self._back, self._style))
         return tuple(new_list)
 
-    def rsplit(self, *args, **kwargs):
+    def rsplit(self, *args, **kwargs) -> "String":
         """
         Wrapper for `UserString` method `rsplit`.
         """
@@ -344,14 +358,14 @@ class String(UserString):
             new_list.append(self.__class__(new_str, self._fore, self._back, self._style))
         return new_list
 
-    def rstrip(self, *args, **kwargs):
+    def rstrip(self, *args, **kwargs) -> "String":
         """
         Wrapper for `UserString` method `rstrip`.
         """
         new_str: str = super().rstrip(*args, **kwargs)
         return self.__class__(new_str, self._fore, self._back, self._style)
 
-    def split(self, *args, **kwargs):
+    def split(self, *args, **kwargs) -> list["String", ...]:
         """
         Wrapper for `UserString` method `split`.
         """
@@ -360,7 +374,7 @@ class String(UserString):
             new_list.append(self.__class__(new_str, self._fore, self._back, self._style))
         return new_list
 
-    def splitlines(self, *args, **kwargs):
+    def splitlines(self, *args, **kwargs) -> list["String", ...]:
         """
         Wrapper for `UserString` method `splitlines`.
         """
@@ -369,42 +383,42 @@ class String(UserString):
             new_list.append(self.__class__(new_str, self._fore, self._back, self._style))
         return new_list
 
-    def strip(self, *args, **kwargs):
+    def strip(self, *args, **kwargs) -> "String":
         """
         Wrapper for `UserString` method `strip`.
         """
         new_str: str = super().strip(*args, **kwargs)
         return self.__class__(new_str, self._fore, self._back, self._style)
 
-    def swapcase(self, *args, **kwargs):
+    def swapcase(self, *args, **kwargs) -> "String":
         """
         Wrapper for `UserString` method `swapcase`.
         """
         new_str: str = super().swapcase(*args, **kwargs)
         return self.__class__(new_str, self._fore, self._back, self._style)
 
-    def title(self, *args, **kwargs):
+    def title(self, *args, **kwargs) -> "String":
         """
         Wrapper for `UserString` method `title`.
         """
         new_str: str = super().title(*args, **kwargs)
         return self.__class__(new_str, self._fore, self._back, self._style)
 
-    def translate(self, *args, **kwargs):
+    def translate(self, *args, **kwargs) -> "String":
         """
         Wrapper for `UserString` method `translate`.
         """
         new_str: str = super().translate(*args, **kwargs)
         return self.__class__(new_str, self._fore, self._back, self._style)
 
-    def upper(self, *args, **kwargs):
+    def upper(self, *args, **kwargs) -> "String":
         """
         Wrapper for `UserString` method `upper`.
         """
         new_str: str = super().upper(*args, **kwargs)
         return self.__class__(new_str, self._fore, self._back, self._style)
 
-    def zfill(self, *args, **kwargs):
+    def zfill(self, *args, **kwargs) -> "String":
         """
         Wrapper for `UserString` method `zfill`.
         """

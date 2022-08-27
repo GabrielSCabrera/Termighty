@@ -1,15 +1,16 @@
-from typing import Optional, Union
-
 import numpy as np
 import string
-
-from termutils.data import Data
-from termutils.obj.term import Term
-from termutils.obj.color import Color
 from termutils.config import defaults
+from termutils.data import Data
+from termutils.data.system import System
+from termutils.obj.color import Color
+from termutils.obj.term import Term
+import threading
+import time
+from typing import Optional, Union
 
 
-class Widget:
+class TextBox:
 
     """
     Base class for rectangular shapes (that may or may not contain text) that display on the terminal. Used to simplify
@@ -29,41 +30,50 @@ class Widget:
         style: Optional[str] = None,
     ):
         """
-        Returns a new instance of class `Widget`.  Shouldn't normally be instantiated directly, but inherited.
+        Returns a new instance of class `TextBox` at the specified coordinates.  If negative coordinates are given, they
+        will be set dynamically relative to the size of the terminal; a thread will loop in the background
         """
-        # `Widget`, or the name of the subclass that inherits `Widget`.
+        self._term = Term()
 
-        self._size: int = (row_end - row_start) * (column_end - column_start)
-        self._shape: tuple[int, int] = (row_end - row_start, column_end - column_start)
+        self._ref_row_start = row_start
+        self._ref_column_start = column_start
+        self._ref_row_end = row_end
+        self._ref_column_end = column_end
+
+        self._terminal_size = System.terminal_size
+
+        self._set_shape()
 
         background, foreground, style = self._check_arguments(background, foreground, style)
 
         self._init_attributes(row_start, column_start, row_end, column_end, background, foreground, style)
 
-        self.__call__("")
+        self._active = False
 
+        self.__call__("")
 
     """MAGIC METHODS"""
 
     def __call__(self, text: str) -> None:
         """
-        Modifies the current state of the widget by replacing its contents with the given text.
+        Modifies the current state of the TextBox by replacing its contents with the given text.
         """
         if not isinstance(text, str):
             msg: str = f"\n\nArgument `text` in calling of {self._type} instance must be of <class 'str'>."
             raise TypeError(msg)
 
-        text:list[str,...] = text.split("\n")
-        text:list[str,...] = [row.strip() for row in text]
-        if self._wrap:
-            pass
-        self._text_prep(text)
-        self.set_view(0,0)
+        text: list[str, ...] = text.split("\n")
+        text: list[str, ...] = [row.strip() for row in text]
 
-    def _text_prep(self, text: list[str, ...], align="left"):
+        self._text = text
+        self._text_prep()
+        self._set_view()
+        self._old_view = self._view.copy()
+
+    def _text_prep(self, align="left"):
         """ """
-        rows = len(text)
-        columns = max(len(row) for row in text)
+        rows = len(self._text)
+        columns = max(len(row) for row in self._text)
 
         if align == "left":
             pad_char = "<"
@@ -72,18 +82,15 @@ class Widget:
         elif align == "center":
             pad_char = "^"
 
-        text = [f"{line:{pad_char}{columns}}" for line in text]
+        vertical_pad = [" " * (columns + 2 * self._shape[1])] * self._shape[0]
+        text = [f"{line:{pad_char}{columns}}" for line in self._text]
         text = [line.ljust(columns + self._shape[1]) for line in text]
-        vert_pad = [" "*(columns + self._shape[1])]*self._shape[0]
-        text = text + vert_pad
+        text = [line.rjust(columns + 2 * self._shape[1]) for line in text]
+        text = vertical_pad + text + vertical_pad
 
         self._text_grid = np.array([list(row) for row in text])
-        self._text_shape: tuple[int, int] = (rows, columns)
-        self._text_size: int = rows*columns
-
-    def wrap():
-        """ """
-        self._wrap = True
+        self._text_shape: tuple[int, int] = self._text_grid.shape
+        self._text_size: int = self._text_grid.size
 
     """PRIVATE METHODS"""
 
@@ -98,13 +105,6 @@ class Widget:
         style: str,
     ):
         """ """
-        self._wrap = False
-
-        self._row_start: int = row_start
-        self._row_end: int = row_end
-        self._column_start: int = column_start
-        self._column_end: int = column_end
-
         self._back_fmt: str = "48;2;{};{};{}".format(*background._rgb)
         self._fore_fmt: str = "38;2;{};{};{}".format(*foreground._rgb)
 
@@ -113,11 +113,7 @@ class Widget:
 
         self.ANSI_format: str = f"\033[{self._style_fmt}{self._fore_fmt};{self._back_fmt}m"
 
-        row_idx: np.ndarray = np.arange(0, self._shape[0], 1, dtype=np.int64)
-        column_idx: np.ndarray = np.arange(0, self._shape[1], 1, dtype=np.int64)
-        Y, X = np.meshgrid(column_idx, row_idx)
-        Y, X = Y[:, :, np.newaxis], X[:, :, np.newaxis]
-        self._indices: np.ndarray = np.concatenate([X, Y], axis=2)
+        self._position = (0, 0)
 
     def _check_arguments(
         self, background: Union[str, Color], foreground: Union[str, Color], style: str
@@ -175,15 +171,65 @@ class Widget:
 
         return background, foreground, style
 
+    def _run_thread(self, dt: float) -> None:
+        """
+        Keeps updating the window every set number of seconds (given by `dt`) and accounts for changes in the terminal
+        size (useful when dealing with relative coordinates on initializiation).
+        """
+        self._active = True
+        while self._active:
+            if self._terminal_size != (terminal_size := System.terminal_size):
+                self._terminal_size = terminal_size
+                self._set_shape()
+                self._set_view()
+                self._text_prep()
+                self._term.clear_now()
+            self.write()
+            time.sleep(dt)
+
+    def _set_shape(self) -> None:
+        """
+        Sets the size of the text box to those given by the user at instantiation.  If the terminal size is smaller than
+        the text box size, will decrease the text box size to make it fit in the terminal.  Also accounts for negative
+        size instantiation values; if a value is negative, it is subtracted from the terminal size (from the axis in
+        question).
+        """
+        self._row_start = self._ref_row_start
+        self._column_start = self._ref_column_start
+        self._row_end = self._ref_row_end
+        self._column_end = self._ref_column_end
+
+        if self._row_start < 0:
+            self._row_start = self._terminal_size[0] + self._row_start + 1
+
+        if self._row_end < 0:
+            self._row_end = self._terminal_size[0] + self._row_end + 1
+
+        if self._column_start < 0:
+            self._column_start = self._terminal_size[1] + self._column_start + 1
+
+        if self._column_end < 0:
+            self._column_end = self._terminal_size[1] + self._column_end + 1
+
+        self._shape: tuple[int, int] = (self._row_end - self._row_start, self._column_end - self._column_start)
+        self._size: int = self._shape[0] * self._shape[1]
+
     def _set_view(self) -> None:
         """
         Backend for method `set_view`.
         """
-        row=min(self._origin[0], self._text_shape[0])
-        column=min(self._origin[1], self._text_shape[1])
-        self._view: np.ndarray = self._text_grid[row:row+self._shape[0], column:column+self._shape[1]]
+        row = max(min(self._position[0] + self._shape[0], self._text_shape[0]), 0)
+        column = max(min(self._position[1] + self._shape[1], self._text_shape[1]), 0)
+        self._view: np.ndarray = self._text_grid[row : row + self._shape[0], column : column + self._shape[1]]
 
     """PUBLIC METHODS"""
+
+    def run(self, dt: float = 0.01):
+        """
+        Activates a thread that runs the method self._run_thread.
+        """
+        thread = threading.Thread(target=self._run_thread, args=(dt,), daemon=True)
+        thread.start()
 
     def scroll_down(self, rows: int = 1) -> None:
         """
@@ -211,7 +257,7 @@ class Widget:
 
     def set_view(self, row: int, column: int) -> None:
         """
-        Sets the current view on the text to the given coordinates. For example, given a widget with shape
+        Sets the current view on the text to the given coordinates. For example, given a TextBox with shape
         (rows=1, columns=10) the string
 
                         "We're no strangers to love\nYou know the rules and so do I"
@@ -219,32 +265,27 @@ class Widget:
         would by default only display: "We're no s".  By default, the view is set to (row=0, column=0), the values
         representing the upper left part of the view into the text.
 
-        If we were to run set_view(row=0, column=10), then the widget would instead display "trangers t". Or if we run
+        If we were to run set_view(row=0, column=10), then the TextBox would instead display "trangers t". Or if we run
         set_view(row=1, column=-15), we would get "les and so".
 
         Locks the view such that it never exceeds the text's total boundary.
         """
-        for i, j in zip((row, column), ("row", "column")):
-            if not isinstance(i, (int, float)) or i != int(i):
-                msg: str = f"\n\nAttribute `{j}` in method `set_view` of a {self._type} instance must be an integer."
-                raise TypeError(msg)
-        self._origin = (row, column)
+        self._position = (row, column)
         self._set_view()
 
     def write(self) -> None:
         """
-        Writes the string to its designated coordinates with the view taken
-        into account.
+        Writes the text to its designated coordinates with the view taken into account.
         """
         # Saving the cursor position
-        print("\0337", end="")
-
+        self._term.cursor_save()
         for m, line in enumerate(self._view):
-            row = self._row_start + m + 1
+            row = self._row_start + m
             for n, char in enumerate(line):
-                column = self._column_start + n + 1
+                column = self._column_start + n
                 char = f"{self.ANSI_format}{char}\033[m"
-                Term.print_at(row, column, char)
-
+                self._term.write_at(row, column, char)
         # Restoring the cursor position
-        print("\0338", end="")
+        self._term.cursor_load()
+        # Flushing the results to the terminal
+        self._term.flush()

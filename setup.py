@@ -13,7 +13,7 @@ setup(
     packages=find_packages(where="source"),
     package_dir={"": "source"},
     include_package_data=True,
-    package_data={"": ["data/*.json"]},
+    package_data={"": ["data/*.json", "config.ini"]},
     version="0.0.1",
     description="Cross-Platform Terminal Coloring, Formatting, and Management Utilities.",
     author="Gabriel S. Cabrera",
