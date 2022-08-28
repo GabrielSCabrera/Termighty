@@ -2,6 +2,7 @@ import codecs
 import importlib.resources
 import json
 import os
+from termutils.data.system import System
 
 
 class Data:
@@ -10,11 +11,11 @@ class Data:
         keymaps = json.load(infile)
 
     # Loads a set of keymaps depending on the current OS in use.
-    if os.name == "nt":
+    if System.os == "Windows":
         keymaps = keymaps["windows"]
         # Encoding the dictionary keys using the OEM-standard.
         keymaps = {codecs.escape_decode(key)[0]: value for key, value in keymaps.items()}
-    else:
+    elif System.os == "Linux":
         keymaps = keymaps["linux"]
 
     with importlib.resources.open_text("termutils.data", "rgb.json") as infile:

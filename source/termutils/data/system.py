@@ -19,6 +19,11 @@ class System:
         warnings.warn("TermUtils is untested for Java platform, but will attempt to run in Linux mode.")
         os = "Linux"
 
+    if os == "Windows":
+        escape_code_encoding = "oem"
+    elif os == "Linux":
+        escape_code_encoding = "utf"
+
     @classmethod
     def track_terminal_shape(cls):
         while True:

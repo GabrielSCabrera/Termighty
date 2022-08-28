@@ -14,7 +14,7 @@ class TextBox:
 
     """
     Base class for rectangular shapes (that may or may not contain text) that display on the terminal. Used to simplify
-    & standardize more complex objects. Should normally be inherited.
+    & standardize more complex objects.
     """
 
     """CONSTRUCTOR"""
@@ -235,7 +235,7 @@ class TextBox:
         """
         Activates a thread that runs the method self._run_thread.
         """
-        thread = threading.Thread(target=self._run_thread, args=(dt,), daemon=True)
+        thread = threading.Thread(target=self._run_thread, args=(dt,), daemon=False)
         thread.start()
 
     def scroll_down(self, rows: int = 1) -> None:
