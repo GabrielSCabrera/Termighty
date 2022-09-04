@@ -65,13 +65,13 @@ class WordProcessor(TextBox):
         """
         # If the cursor is at position (0,0), backspace has no effect, so make no changes to the text.
         if self._cursor_position == (0, 0):
-            return self._raw_text, (0,0)
+            return self._raw_text, (0, 0)
         # If the cursor is at position (N,0), backspace appends line N to line N-1.
         elif self._cursor_position[1] == 0:
             new_text = [self._raw_text[self._cursor_position[0] - 1] + self._raw_text[self._cursor_position[0]]]
             if self._cursor_position[0] > 1:
                 new_text = self._raw_text[: self._cursor_position[0] - 1] + new_text
-            new_cursor_position = (self._cursor_position[0]-1, len(self._raw_text[self._cursor_position[0]]))
+            new_cursor_position = (self._cursor_position[0] - 1, len(self._raw_text[self._cursor_position[0]]))
         # If the cursor is at position (M,N), backspace removes character (M,N-1).
         else:
             new_text = [
@@ -80,10 +80,10 @@ class WordProcessor(TextBox):
             ]
             if self._cursor_position[0] > 0:
                 new_text = self._raw_text[: self._cursor_position[0]] + new_text
-            new_cursor_position = (self._cursor_position[0], self._cursor_position[1]-1)
+            new_cursor_position = (self._cursor_position[0], self._cursor_position[1] - 1)
 
         if self._cursor_position[0] < len(self._raw_text) - 1:
-            new_text += self._raw_text[self._cursor_position[0] + 1:]
+            new_text += self._raw_text[self._cursor_position[0] + 1 :]
 
         return new_text, new_cursor_position
 
