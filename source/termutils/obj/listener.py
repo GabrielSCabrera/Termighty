@@ -16,25 +16,28 @@ elif System.os == "Linux":
     import tty
 
 
-class ListenerIterator:
+class GetchIterator:
     """
     Iiterates over the Listener's history starting at the provided index, and continuously yields all new additions to
     the history until the Listener is stopped.  Designed to be used in a for-loop.
     """
 
-    def __init__(self, idx: int = 0):
+    def __init__(self, idx: Optional[int] = None):
         """ """
         self._idx = idx
         self._start_idx = idx
 
     def __iter__(self):
         """ """
-        self._idx = self._start_idx
+        if self._idx == None:
+            self._idx = len(Listener._history)
+        else:
+            self._idx = self._start_idx
         return self
 
     def __next__(self):
         """ """
-        while Listener._active:
+        while Listener._active and not System.kill_all:
             if self._idx < len(Listener._history):
                 self._idx += 1
                 return Listener._history[self._idx - 1]
@@ -85,7 +88,7 @@ class Listener:
         """
         repeat: bool = True
         escape_code: bytes = b""
-        while repeat:
+        while repeat and not System.kill_all:
             escape_code += msvcrt.getch()
             repeat: bool = msvcrt.kbhit()
         return escape_code
@@ -104,15 +107,18 @@ class Listener:
     def _listener(cls) -> None:
         """
         An input source for the `writer` callable, as seen in method `set_writer.`  Updates the global variable
-        `input_state` by appending the latest keypress to it.
+        `input_state` by appending the latest keypress to it (interpreted by data/keymaps).
 
         Expects `_raw_mode` to be True, implying the terminal will read user inputs immediately without echoing to the
         terminal.
+
+        To kill all running threads, hold key `ESC` for a few seconds, or hit it as many times in a row as the value
+        given in cls._escape_hits -- be sure not to press any other keys in between or the kill process is interrupted.
         """
         # If this reaches the value given to `cls._escape_hits`, will trigger the `Kill` command.
         escape_hitcount: int = 0
         # While the Listener is active, run the listener loop.
-        while Listener._active:
+        while Listener._active and not System.kill_all:
 
             # Get an escape code from the getch method.
             escape_code: str = cls._getch()
@@ -130,7 +136,9 @@ class Listener:
                 else:
                     cls._history.append("Kill")
                     Listener._active = False
-                    break
+                    System.kill_all = True
+                    exit()
+
             # If the character is not `Esc`, and `escape_hitcount` is greater than 0, set `escape_hitcount` to zero.
             elif escape_hitcount > 0:
                 escape_hitcount = 0
@@ -141,11 +149,20 @@ class Listener:
 
     @classmethod
     def _listener_raw(cls) -> None:
-        """ """
+        """
+        An input source for the `writer` callable, as seen in method `set_writer.`  Updates the global variable
+        `input_state` by appending the latest keypress to it (as an ANSI escape sequence or character).
+
+        Expects `_raw_mode` to be True, implying the terminal will read user inputs immediately without echoing to the
+        terminal.
+
+        To kill all running threads, hold key `ESC` for a few seconds, or hit it as many times in a row as the value
+        given in cls._escape_hits -- be sure not to press any other keys in between or the kill process is interrupted.
+        """
         # If this reaches the value given to `cls._escape_hits`, will trigger the `Kill` command.
         escape_hitcount: int = 0
         # While the Listener is active, run the listener loop.
-        while Listener._active:
+        while Listener._active and not System.kill_all:
             # Get a character or command from the selected getch method.
             escape_code: bytes = cls._getch()
             # Check if the escape code for `Esc` is returned.
@@ -156,7 +173,8 @@ class Listener:
                 # If increment `escape_hitcount`. has reached its limit, send the `Kill` command and break.
                 else:
                     Listener._active = False
-                    break
+                    System.kill_all = True
+                    exit()
 
             cls._history.append(escape_code)
 
@@ -181,9 +199,9 @@ class Listener:
     """PUBLIC METHODS"""
 
     @classmethod
-    def looper(cls, idx: Optional[int] = 0, keytest: bool = False) -> ListenerIterator:
+    def getch_iterator(cls, idx: Optional[int] = None, keytest: bool = False) -> GetchIterator:
         """ """
-        return ListenerIterator(idx=idx)
+        return GetchIterator(idx=idx)
 
     @classmethod
     def start(cls, raw: bool = False) -> None:

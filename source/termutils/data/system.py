@@ -24,13 +24,16 @@ class System:
     elif os == "Linux":
         escape_code_encoding = "utf"
 
+    # If set to true, stops all processes.
+    kill_all = False
+
     @classmethod
     def track_terminal_shape(cls):
-        while True:
+        while not cls.kill_all:
             if (terminal_size := tuple(shutil.get_terminal_size())[::-1]) != cls.terminal_size:
                 cls.terminal_size: tuple[int, int] = terminal_size
             time.sleep(0.05)
 
 
-track_terminal_shape_thread = threading.Thread(target=System.track_terminal_shape, daemon=True)
+track_terminal_shape_thread = threading.Thread(target=System.track_terminal_shape, daemon=False)
 track_terminal_shape_thread.start()

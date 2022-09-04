@@ -4,7 +4,7 @@ import time
 
 term = Term()
 term.clear(flush=True)
-term.cursor_hide(flush = True)
+term.cursor_hide(flush=True)
 text_box_1 = TextBox(0, 0, -5, -10)
 text_box_2 = TextBox(0, -10, -5, -1, background="red", foreground="blue")
 text_box_3 = TextBox(-5, 0, -1, -10, background="green", foreground="black")
@@ -90,5 +90,5 @@ thread3.start()
 thread4.start()
 
 time.sleep(25)
-term.clear(flush = True)
-term.cursor_show(flush = True)
+term.clear(flush=True)
+term.cursor_show(flush=True)

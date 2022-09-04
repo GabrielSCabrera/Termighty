@@ -40,6 +40,7 @@ class TextBox:
         self._ref_row_end = row_end
         self._ref_column_end = column_end
 
+        # Terminal dimensions (rows, columns).
         self._terminal_size = System.terminal_size
 
         self._set_shape()
@@ -177,7 +178,7 @@ class TextBox:
         size (useful when dealing with relative coordinates on initializiation).
         """
         self._active = True
-        while self._active:
+        while self._active and not System.kill_all:
             if self._terminal_size != (terminal_size := System.terminal_size):
                 self._terminal_size = terminal_size
                 # Repeat the reset process three times in order to account for lag in the terminal as it is resized.
@@ -231,12 +232,17 @@ class TextBox:
 
     """PUBLIC METHODS"""
 
-    def run(self, dt: float = 0.005):
+    def start(self, dt: float = 0.005):
         """
         Activates a thread that runs the method self._run_thread.
         """
-        thread = threading.Thread(target=self._run_thread, args=(dt,), daemon=False)
-        thread.start()
+        self._thread = threading.Thread(target=self._run_thread, args=(dt,), daemon=False)
+        self._thread.start()
+
+    def stop(self):
+        """ """
+        self._active = False
+        self._thread.join()
 
     def scroll_down(self, rows: int = 1) -> None:
         """
