@@ -23,7 +23,7 @@ class Color:
     ) -> str:
         """
         Return a terminal-printable color chart – must set exactly ONE of the parameters `r`, `g`, and `b` to a value in
-        range 0 to 255.  The others must remain set to None.
+        range [0, 255].  The others must remain set to None.
 
         Argument `term_width` should be a positive nonzero integer.
         """
@@ -69,7 +69,7 @@ class Color:
     @classmethod
     def list_colors(cls, sort_by="step") -> str:
         """
-        Returns a list of all available colors and their names.
+        Returns a list of all available colors (as viewable ANSI escape sequences) and their names.
         """
         out: str = "\nList of Available Colors\n\n"
         colors: list["Color"] = [cls(j, i) for i, j in Data.colors.items()]
@@ -109,7 +109,7 @@ class Color:
             idx = np.argsort(rgb_vals)
             for i in idx:
                 sorted_list.append(colors[i])
-            colors: list["Color"] = sorted_list
+            colors: list["Color", ...] = sorted_list
 
         elif sort_by.lower() != "alpha":
 
@@ -133,13 +133,13 @@ class Color:
         """
         To initialize a `Color` instance using a color name; only succeeds if the name is found in '/data/rgb.json'
         """
-        if not cls.is_color(name):
+        if not cls.is_color(name.lower()):
             error_message: str = (
                 f"\n\nAttempt to pass unknown color `{name}` to argument `name` in classmethod `Color.palette`.  Use "
                 f"a known color (see classmethod Color.list_colors()).\n"
             )
             raise ValueError(error_message)
-        return cls(Data.colors[name], name)
+        return cls(Data.colors[name.lower()], name.title())
 
     @property
     def sample(self) -> str:

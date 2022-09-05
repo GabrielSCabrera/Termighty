@@ -1,3 +1,4 @@
+import collections.abc
 import numpy as np
 import string
 from termutils.config import defaults
@@ -31,7 +32,8 @@ class TextBox:
     ):
         """
         Returns a new instance of class `TextBox` at the specified coordinates.  If negative coordinates are given, they
-        will be set dynamically relative to the size of the terminal; a thread will loop in the background
+        will be set dynamically relative to the size of the terminal; a thread will loop in the background keeping
+        track of the terminal dimensions and resizing the text box if its coordinates are dynamic.
         """
         self._term = Term()
 
@@ -106,18 +108,24 @@ class TextBox:
         style: str,
     ):
         """ """
-        self._back_fmt: str = "48;2;{};{};{}".format(*background._rgb)
-        self._fore_fmt: str = "38;2;{};{};{}".format(*foreground._rgb)
+        self._background = background
+        self._foreground = foreground
+        self._style = style
 
-        self._style_fmt: str = f"{Data.styles[style.lower()]};"
-        self._style: str = style
+        self._back_fmt: str = "48;2;{};{};{}".format(*self._background._rgb)
+        self._fore_fmt: str = "38;2;{};{};{}".format(*self._foreground._rgb)
+        self._style_fmt: str = f"{Data.styles[self._style.lower()]};"
 
         self.ANSI_format: str = f"\033[{self._style_fmt}{self._fore_fmt};{self._back_fmt}m"
 
         self._position = (0, 0)
 
     def _check_arguments(
-        self, background: Union[str, Color], foreground: Union[str, Color], style: str
+        self,
+        background: Union[str, Color, tuple[int, int, int]],
+        foreground: Union[str, Color, tuple[int, int, int]],
+        style: str,
+        argnames: tuple[str, str, str] = ("background", "foreground", "style"),
     ) -> tuple[Color, Color, str]:
         """
         Perform checks making sure that the initialization arguments are correctly set up.
@@ -132,41 +140,49 @@ class TextBox:
                 )
                 raise ValueError(msg)
 
+        color_error_msg: str = (
+            f"\n\nArgument `{{}}` in instantiation of {self._type} is invalid! Cannot recognize the  user-provided "
+            f"color: `{{}}` -- valid options are:\n"
+            f"\n* The name of a known color (<class 'str'>) -- hint: print `termutils.Color.list_colors()`,"
+            f"\n* A sequence containing 3 integers in range [0, 255],"
+            f"\n* An instance of <class 'Color'>.\n"
+        )
+
         if background is None:
             background: Color = defaults.background_color
         if isinstance(background, str):
             background: Color = Color.palette(background)
-        elif isinstance(background, (tuple, list, np.ndarray)):
-            background: Color = Color(background)
+        elif (
+            isinstance(background, collections.abc.Sequence)
+            and len(background) == 3
+            and all([(0 <= i <= 255 and isinstance(i, int)) for i in background])
+        ):
+            background: Color = Color(*background)
         elif not isinstance(background, Color):
-            msg: str = (
-                f"\n\nArgument `background` in instantiation of {self._type} must be a valid color as an instance of "
-                f"<class 'str'>, or an instance of <class 'Color'>.\n\nCannot recognize the user-provided color: "
-                f"`{background}`."
-            )
-            raise ValueError(msg)
+            color_error_msg.format(argnames[0], background)
+            raise ValueError(color_error_msg)
 
         if foreground is None:
             foreground: Color = defaults.foreground_color
         if isinstance(foreground, str):
             foreground: Color = Color.palette(foreground)
-        elif isinstance(foreground, (tuple, list, np.ndarray)):
-            foreground: Color = Color(foreground)
+        elif (
+            isinstance(foreground, collections.abc.Sequence)
+            and len(foreground) == 3
+            and all([(0 <= i <= 255 and isinstance(i, int)) for i in foreground])
+        ):
+            foreground: Color = Color(*foreground)
         elif not isinstance(foreground, Color):
-            msg: str = (
-                f"\n\nArgument `foreground` in instantiation of {self._type} must be a valid color as an instance of "
-                f"<class 'str'>, or an instance of <class 'Color'>.\n\nCannot recognize the user-provided color: "
-                f"`{foreground}`."
-            )
-            raise ValueError(msg)
+            color_error_msg.format(argnames[1], foreground)
+            raise ValueError(color_error_msg)
 
         if style is None:
             style: str = defaults.style
         elif style.lower() not in Data.styles.keys():
             styles_str: str = ", ".join(Data.styles.keys())
             msg: str = (
-                f"\n\nArgument `style` received an unknown option `{style}` in constructor for {self._type}.  Use one "
-                f"of the following styles: {styles_str}.\n"
+                f"\n\nArgument `{argnames[2]}` received an unknown option `{style}` in constructor for {self._type}. "
+                f"Use one of the following styles: {styles_str}.\n"
             )
             raise ValueError(msg)
 
@@ -239,7 +255,7 @@ class TextBox:
         self._thread = threading.Thread(target=self._run_thread, args=(dt,), daemon=False)
         self._thread.start()
 
-    def stop(self):
+    def stop(self) -> None:
         """ """
         self._active = False
         self._thread.join()

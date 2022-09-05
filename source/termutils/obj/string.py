@@ -1,6 +1,8 @@
 from collections import UserString
 from termutils.obj.color import Color
+from termutils.data.data import Data
 from typing import Optional, Union
+import numpy as np
 
 
 class String(UserString):
@@ -9,6 +11,24 @@ class String(UserString):
     methods.  These allow for custom text and background colors, as well as text styles.  Most methods for <class 'str'>
     function, such as string.partition(), string.strip(), etc.
     """
+
+    """CLASS METHODS"""
+
+    @classmethod
+    def list_styles(self) -> str:
+        """
+        Returns a list of all available styles (as viewable ANSI escape sequences) and their names.
+        """
+        out: str = "\nList of Available Styles (may differ based on OS/terminal)\n\n\n"
+        style_str: str = "\033[{}mSAMPLE text\033[m\t{}"
+
+        style_keys = list(Data.styles.keys())
+        style_values = list(Data.styles.values())
+
+        for i in np.argsort(style_keys):
+            out += f"{style_str.format(style_values[i], style_keys[i])}\n\n"
+
+        return out
 
     """CONSTRUCTOR"""
 
