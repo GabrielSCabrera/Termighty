@@ -1,4 +1,4 @@
-from termutils import TextBox, Term
+from termutils import TextBox, Term, Listener
 import threading
 import time
 
@@ -9,17 +9,16 @@ text_box_1 = TextBox(0, 0, -5, -10)
 text_box_2 = TextBox(0, -10, -5, -1, background="red", foreground="blue")
 text_box_3 = TextBox(-5, 0, -1, -10, background="green", foreground="black")
 text_box_4 = TextBox(-5, -10, -1, -1, background="yellow", foreground="black")
-text = """
-"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam,
-eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam
-voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione
-voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci
-velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut
-enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi
-consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur,
-vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"
-"""
-text = text.strip()
+text = [
+    "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam,",
+    "eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam",
+    "voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione",
+    "voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci",
+    "velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut",
+    "enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi",
+    "consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur,",
+    "vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?",
+]
 text_2 = text[:2]
 text_3 = text[:2]
 lowest_sleep = 0.01
@@ -27,10 +26,12 @@ highest_sleep = 0.3
 exponent = 0.1
 N = 5
 
+Listener.start()
+
 
 def text_box_anim(text_box, text, lowest_sleep, highest_sleep, exponent):
-    text_box.run()
-    text_len = len(text.strip().split("\n")[0])
+    text_box.start()
+    text_len = len(text[0])
     coeff = (lowest_sleep - highest_sleep) / ((text_len + 1) ** exponent)
     text_box(text)
     while True:
@@ -89,6 +90,5 @@ thread2.start()
 thread3.start()
 thread4.start()
 
-time.sleep(25)
 term.clear(flush=True)
 term.cursor_show(flush=True)

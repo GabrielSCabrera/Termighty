@@ -54,20 +54,19 @@ class TextBox:
         self._active = False
         self._new_view = False
 
-        self.__call__("")
+        self.__call__([""])
 
     """MAGIC METHODS"""
 
-    def __call__(self, text: str) -> None:
+    def __call__(self, text: list[str, ...]) -> None:
         """
-        Modifies the current state of the TextBox by replacing its contents with the given text.
+        Modifies the current state of the TextBox by replacing its contents with the given lines of text.
         """
-        if not isinstance(text, str):
-            msg: str = f"\n\nArgument `text` in calling of {self._type} instance must be of <class 'str'>."
+        if not isinstance(text, list) and any(not isinstance(i, str) for i in text):
+            msg: str = (
+                f"\n\nArgument `text` in calling of {self._type} instance must be a list containing <class 'str'>."
+            )
             raise TypeError(msg)
-
-        text: list[str, ...] = text.split("\n")
-        text: list[str, ...] = [row.strip() for row in text]
 
         self._text = text
         self._text_prep()

@@ -26,7 +26,7 @@ class Term:
         Play the terminal bell sound.
         """
         string = "\a"
-        if flush:
+        if not flush:
             self._buffer.append(string)
         else:
             self.flush_string(string)
@@ -36,7 +36,7 @@ class Term:
         Cross-platform terminal clear command (appends to the buffer).
         """
         string = "\033[2J\033[3J\033[f"
-        if flush:
+        if not flush:
             self._buffer.append(string)
         else:
             self.flush_string(string)
@@ -46,7 +46,7 @@ class Term:
         Moves the cursor down by the designated number of rows `N`.
         """
         string = f"\033[{N}B"
-        if flush:
+        if not flush:
             self._buffer.append(string)
         else:
             self.flush_string(string)
@@ -56,7 +56,7 @@ class Term:
         Make the cursor invisible (appends to the buffer).
         """
         string = "\033[?25l"
-        if flush:
+        if not flush:
             self._buffer.append(string)
         else:
             self.flush_string(string)
@@ -66,7 +66,7 @@ class Term:
         Moves the cursor left by the designated number of columns `N`.
         """
         string = f"\033[{N}D"
-        if flush:
+        if not flush:
             self._buffer.append(string)
         else:
             self.flush_string(string)
@@ -76,7 +76,7 @@ class Term:
         Loads the cursor position (appends to the buffer) -- save it first by calling `cursor_save`.
         """
         string = "\0338"
-        if flush:
+        if not flush:
             self._buffer.append(string)
         else:
             self.flush_string(string)
@@ -85,8 +85,8 @@ class Term:
         """
         Move the cursor to the given `line` and `column` (appends to the buffer).
         """
-        string = f"\033[{line};{column}H"
-        if flush:
+        string = f"\033[{line};{column+1}H"
+        if not flush:
             self._buffer.append(string)
         else:
             self.flush_string(string)
@@ -96,7 +96,7 @@ class Term:
         Moves the cursor right by the designated number of columns `N`.
         """
         string = f"\033[{N}C"
-        if flush:
+        if not flush:
             self._buffer.append(string)
         else:
             self.flush_string(string)
@@ -106,7 +106,7 @@ class Term:
         Save the cursor position (appends to the buffer) -- reload it by calling `cursor_load`.
         """
         string = "\0337"
-        if flush:
+        if not flush:
             self._buffer.append(string)
         else:
             self.flush_string(string)
@@ -116,7 +116,7 @@ class Term:
         Make the cursor visible (appends to the buffer).
         """
         string = "\033[?25h"
-        if flush:
+        if not flush:
             self._buffer.append(string)
         else:
             self.flush_string(string)
@@ -126,12 +126,12 @@ class Term:
         Moves the cursor up by the designated number of rows `N`.
         """
         string = f"\033[{N}A"
-        if flush:
+        if not flush:
             self._buffer.append(string)
         else:
             self.flush_string(string)
 
-    def flush(self, flush: bool = False) -> None:
+    def flush(self) -> None:
         """
         Flush the entire buffer to the terminal. Removes whatever is flushed from the buffer; if something is appended
         to the buffer while the flushing occurs, does not remove that element from the buffer.
@@ -143,7 +143,7 @@ class Term:
             for i in range(len(current_buffer_state)):
                 self._buffer.pop(0)
 
-    def flush_string(self, string: str, flush: bool = False) -> None:
+    def flush_string(self, string: str) -> None:
         """
         Writes and flushes the given string to the terminal.
         """

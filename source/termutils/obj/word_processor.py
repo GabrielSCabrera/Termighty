@@ -1,4 +1,5 @@
 from termutils.obj.text_box import TextBox
+from termutils.obj.term import Term
 from termutils.obj.color import Color
 from termutils.obj.listener import Listener
 import textwrap
@@ -79,16 +80,22 @@ class WordProcessor(TextBox):
         if self._cursor_position[0] > 0:
             new_text = self._raw_text[: self._cursor_position[0]] + new_text
 
+        new_cursor_position = (self._cursor_position[0], self._cursor_position[1] + 1)
+
+        return new_text, new_cursor_position
+
     def _delete(self) -> tuple[list[str, ...], tuple[int, int]]:
         """
         Performs a delete operation on the given list of characters, taking cursor position into account.
         """
+        new_cursor_position = self._cursor_position
+
         # If the cursor is at the end of the text, delete has no effect, so make no changes to the text.
         if self._cursor_position == (len(self._raw_text) - 1, len(self._raw_text[-1])):
-            return self._raw_text, cursor_position
+            new_text = self._raw_text
 
         # If the cursor is at the end of line N, delete appends line N+1 to line N.
-        elif self._cursor_position[1] == len(self._raw_text[cursor_position[0]]):
+        elif self._cursor_position[1] == len(self._raw_text[self._cursor_position[0]]):
             new_text = [self._raw_text[self._cursor_position[0]] + self._raw_text[self._cursor_position[0] + 1]]
 
             if self._cursor_position[0] < len(self._raw_text) - 1:
@@ -107,7 +114,7 @@ class WordProcessor(TextBox):
         if self._cursor_position[0] > 0:
             new_text = self._raw_text[: self._cursor_position[0]] + new_text
 
-        return new_text, cursor_position
+        return new_text, new_cursor_position
 
     def _ctrl_delete(self) -> tuple[list[str, ...], tuple[int, int]]:
         """
@@ -121,7 +128,8 @@ class WordProcessor(TextBox):
         """
         # If the cursor is at position (0,0), backspace has no effect, so make no changes to the text.
         if self._cursor_position == (0, 0):
-            return self._raw_text, (0, 0)
+            new_text = self._raw_text
+            new_cursor_position = self._cursor_position
         # If the cursor is at position (N,0), backspace appends line N to line N-1.
         elif self._cursor_position[1] == 0:
             new_text = [self._raw_text[self._cursor_position[0] - 1] + self._raw_text[self._cursor_position[0]]]
@@ -174,13 +182,19 @@ class WordProcessor(TextBox):
         Takes the current text and modifies it using the given key input.
         """
         if key == "Backspace":
-            text = self._backspace()
+            new_text, new_cursor_position = self._backspace()
         elif key == "Delete":
-            text = self._delete()
+            new_text, new_cursor_position = self._delete()
+        elif key == "Space":
+            new_text, new_cursor_position = self._add_char(" ")
         elif len(key) == 1:
-            text = self._add_char(key)
+            new_text, new_cursor_position = self._add_char(key)
+        else:
+            new_text, new_cursor_position = self._text, self._cursor_position
 
-        self.__call__(text)
+        self._cursor_position = new_cursor_position
+        self._term.cursor_move(*self._cursor_position, flush=True)
+        self.__call__(new_text)
 
     def start(self):
         """
@@ -190,6 +204,7 @@ class WordProcessor(TextBox):
         These inputs are accessed via the superclass attribute `LiveMenu._input_state` and are processed in an
         infinite loop until broken.
         """
+        super().start()
         getch_iterator = Listener.getch_iterator()
         for key in getch_iterator:
             self._process_key(key)
