@@ -2,6 +2,7 @@ import os
 import sys
 from termutils.data.system import System
 from termutils.data import Data
+from termutils.obj.term import Term
 import threading
 import time
 from typing import Callable, Optional, Union
@@ -135,9 +136,8 @@ class Listener:
                 # If increment `escape_hitcount`. has reached its limit, send the `Kill` command and break.
                 else:
                     cls._history.append("Kill")
-                    Listener._active = False
                     System.kill_all = True
-                    exit()
+                    cls.stop()
 
             # If the character is not `Esc`, and `escape_hitcount` is greater than 0, set `escape_hitcount` to zero.
             elif escape_hitcount > 0:
@@ -172,9 +172,9 @@ class Listener:
                     escape_hitcount += 1
                 # If increment `escape_hitcount`. has reached its limit, send the `Kill` command and break.
                 else:
-                    Listener._active = False
+                    cls._history.append("Kill")
                     System.kill_all = True
-                    exit()
+                    cls.stop()
 
             cls._history.append(escape_code)
 
@@ -213,9 +213,9 @@ class Listener:
             Listener._active: bool = True
 
             if raw:
-                thread_listener: threading.Thread = threading.Thread(target=cls._listener_raw, daemon=True)
+                thread_listener: threading.Thread = threading.Thread(target=cls._listener_raw, daemon=False)
             else:
-                thread_listener: threading.Thread = threading.Thread(target=cls._listener, daemon=True)
+                thread_listener: threading.Thread = threading.Thread(target=cls._listener, daemon=False)
 
             cls._raw_mode(True)
 
@@ -235,7 +235,7 @@ class Listener:
         cls._raw_mode(False)
         Listener._active: bool = False
         Listener._history = []
-        print(f"\033[2J\033[3J\033[f", end="", flush=True)
+        Term().clear(flush=True)
 
     """DYNAMICALLY SELECT CLASSMETHODS BY OS"""
 

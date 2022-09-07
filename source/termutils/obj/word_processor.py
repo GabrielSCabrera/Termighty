@@ -38,6 +38,10 @@ class WordProcessor(TextBox):
         """
         Creates an instance of TextEditor.  Supports usage of the default listener provided by class LiveMenu.
         """
+        self._cursor_position = (0, 0)
+        self._wrap_text = wrap_text
+        self._line_numbers = show_line_numbers
+
         super().__init__(row_start, column_start, row_end, column_end, background, foreground, style)
 
         if cursor_background is None:
@@ -53,17 +57,6 @@ class WordProcessor(TextBox):
         self._cursor_background = cursor_background
         self._cursor_foreground = cursor_foreground
         self._cursor_style = cursor_style
-
-        self._cursor_position = (0, 0)
-        self._wrap_text = wrap_text
-        self._line_numbers = show_line_numbers
-
-    def __call__(self, text: str) -> None:
-        """
-        Force the text box to display whatever string is passed into argument `text`.
-        """
-        self._raw_text = text
-        super().__call__(text)
 
     def _add_char(self, char: str) -> tuple[list[str, ...], tuple[int, int]]:
         """
@@ -182,19 +175,33 @@ class WordProcessor(TextBox):
         Takes the current text and modifies it using the given key input.
         """
         if key == "Backspace":
-            new_text, new_cursor_position = self._backspace()
+            self._raw_text, self._cursor_position = self._backspace()
         elif key == "Delete":
-            new_text, new_cursor_position = self._delete()
+            self._raw_text, self._cursor_position = self._delete()
         elif key == "Space":
-            new_text, new_cursor_position = self._add_char(" ")
+            self._raw_text, self._cursor_position = self._add_char(" ")
         elif len(key) == 1:
-            new_text, new_cursor_position = self._add_char(key)
+            self._raw_text, self._cursor_position = self._add_char(key)
         else:
-            new_text, new_cursor_position = self._text, self._cursor_position
+            self._raw_text, self._cursor_position = self._text, self._cursor_position
 
-        self._cursor_position = new_cursor_position
-        self._term.cursor_move(*self._cursor_position, flush=True)
-        self.__call__(new_text)
+        self.__call__(self._raw_text)
+
+    def _set_view(self) -> None:
+        """
+        Backend for method `set_view`.
+        """
+        super()._set_view()
+        cursor_abs_position = (
+            self._cursor_position[0] + self._row_start,
+            self._cursor_position[1] + self._column_start,
+        )
+        self._term.cursor_move(*cursor_abs_position, flush=True)
+        #
+        # row = max(min(self._cursor_position[0] + self._shape[0], self._text_shape[0]), 0)
+        # column = max(min(self._cursor_position[1] + self._shape[1], self._text_shape[1]), 0)
+        # self._view: np.ndarray = self._text_grid[row : row + self._shape[0], column : column + self._shape[1]]
+        # self._new_view: bool = True
 
     def start(self):
         """
@@ -205,6 +212,7 @@ class WordProcessor(TextBox):
         infinite loop until broken.
         """
         super().start()
+        self._raw_text = self._text
         getch_iterator = Listener.getch_iterator()
         for key in getch_iterator:
             self._process_key(key)

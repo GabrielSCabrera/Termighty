@@ -1,4 +1,4 @@
-from termutils import TextBox, Term, Listener
+from termutils import TextBox, Term, Listener, System
 import threading
 import time
 
@@ -90,5 +90,5 @@ thread2.start()
 thread3.start()
 thread4.start()
 
-term.clear(flush=True)
 term.cursor_show(flush=True)
+term.clear(flush=True)

@@ -55,7 +55,7 @@ class Term:
         """
         Make the cursor invisible (appends to the buffer).
         """
-        string = "\033[?25l"
+        string = "\033[?25h"
         if not flush:
             self._buffer.append(string)
         else:
@@ -85,7 +85,7 @@ class Term:
         """
         Move the cursor to the given `line` and `column` (appends to the buffer).
         """
-        string = f"\033[{line};{column+1}H"
+        string = f"\033[{line+1};{column+1}H"
         if not flush:
             self._buffer.append(string)
         else:
@@ -115,7 +115,7 @@ class Term:
         """
         Make the cursor visible (appends to the buffer).
         """
-        string = "\033[?25h"
+        string = "\033[?25l"
         if not flush:
             self._buffer.append(string)
         else:

@@ -35,5 +35,5 @@ class System:
             time.sleep(0.05)
 
 
-track_terminal_shape_thread = threading.Thread(target=System.track_terminal_shape, daemon=True)
+track_terminal_shape_thread = threading.Thread(target=System.track_terminal_shape, daemon=False)
 track_terminal_shape_thread.start()
