@@ -55,7 +55,7 @@ class Term:
         """
         Make the cursor invisible (appends to the buffer).
         """
-        string = "\033[?25h"
+        string = "\033[?25l"
         if not flush:
             self._buffer.append(string)
         else:
@@ -115,7 +115,7 @@ class Term:
         """
         Make the cursor visible (appends to the buffer).
         """
-        string = "\033[?25l"
+        string = "\033[?25h"
         if not flush:
             self._buffer.append(string)
         else:

@@ -38,6 +38,7 @@ def text_box_anim(text_box, text, lowest_sleep, highest_sleep, exponent):
         for i in range(-text_len - 1, text_len + 1):
             text_box.set_view(0, i)
             time.sleep(coeff * abs(i) ** exponent + highest_sleep)
+    term.cursor_show(flush=True)
 
 
 thread1 = threading.Thread(
@@ -89,6 +90,3 @@ thread1.start()
 thread2.start()
 thread3.start()
 thread4.start()
-
-term.cursor_show(flush=True)
-term.clear(flush=True)
