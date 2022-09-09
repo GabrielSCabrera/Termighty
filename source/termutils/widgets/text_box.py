@@ -36,7 +36,7 @@ class TextBox:
         """
         Return a new instance of class `TextBox` at the specified coordinates.  If negative coordinates are given, they
         will be set dynamically relative to the size of the terminal; a thread will loop in the background keeping
-        track of the terminal dimensions and resizing the text box if its coordinates are dynamic.
+        track of the terminal dimensions and resizing the TextBox if its coordinates are dynamic.
         """
         self._term = Term()
 
@@ -64,7 +64,10 @@ class TextBox:
 
     def __call__(self, text: Union[str, list[str, ...]]) -> None:
         """
-        Modify the current state of the TextBox by replacing its contents with the given lines of text.
+        Modify the current state of the TextBox by replacing its contents with the given text. Accepts a single string,
+        or a list of strings -- if a list is given, will place each element in its own row within the TextBox.
+
+        Does not support the use of strings containing ANSI escape sequences!
         """
         if isinstance(text, str):
             text = [text]
@@ -80,7 +83,13 @@ class TextBox:
         self._set_view()
 
     def _text_prep(self):
-        """ """
+        """
+        Justify the raw text given to the __call__ method such that all lines of text are equally-sized, and wide enough
+        to allow for the view of the text to be moved left, right, up, and down, until the text is just out of view.
+
+        Takes the `self._align` attribute into account, aligning the text either to the left, right, or center of the
+        TextBox.
+        """
         rows = len(self._text)
         columns = max(len(row) for row in self._text)
 
@@ -112,8 +121,14 @@ class TextBox:
         background: Color,
         foreground: Color,
         style: str,
+        position: tuple[int, int] = None,
     ):
-        """ """
+        """
+        Prepare all the required instance attributes, such as colors, style, and the resulting ANSI sequences that will
+        be used to correctly display the text with these colors and styles.
+
+        Also initializes the window view, set to (0,0) by default.
+        """
         self._background = background
         self._foreground = foreground
         self._style = style
@@ -124,7 +139,10 @@ class TextBox:
 
         self.ANSI_format: str = f"\033[{self._style_fmt}{self._fore_fmt};{self._back_fmt}m"
 
-        self._position = (0, 0)
+        if position is None:
+            position = (0, 0)
+
+        self._position = position
 
     def _check_arguments(
         self,
@@ -135,6 +153,9 @@ class TextBox:
     ) -> tuple[Color, Color, str]:
         """
         Perform checks making sure that the initialization arguments are correctly set up.
+        * Confirm that the TextBox dimensions are correctly set up (start < end),
+        * Confirm that the given background & foreground colors are valid,
+        * Confirm that the given style is valid.
         """
         self._type: str = f"<class '{self.__class__.__name__}'>"
 
@@ -221,8 +242,8 @@ class TextBox:
 
     def _set_shape(self) -> None:
         """
-        Set the size of the text box to those given by the user at instantiation.  If the terminal size is smaller than
-        the text box size, will decrease the text box size to make it fit in the terminal.  Also accounts for negative
+        Set the size of the TextBox to those given by the user at instantiation.  If the terminal size is smaller than
+        the TextBox size, will decrease the TextBox size to make it fit in the terminal.  Also accounts for negative
         size instantiation values; if a value is negative, it is subtracted from the terminal size (from the axis in
         question).
         """
@@ -248,7 +269,8 @@ class TextBox:
 
     def _set_view(self) -> None:
         """
-        Backend for method `set_view`.
+        Backend for method `set_view` -- limits the view to prevent out of bounds errors by using commands `min` and
+        `max` with the TextBox dimensions.
         """
         row = max(min(self._position[0] + self._shape[0], self._text_shape[0]), 0)
         column = max(min(self._position[1] + self._shape[1], self._text_shape[1]), 0)
@@ -279,7 +301,9 @@ class TextBox:
         self._thread.start()
 
     def stop(self) -> None:
-        """ """
+        """
+        Kill the active thread.
+        """
         self._active = False
         self._thread.join()
 
@@ -333,15 +357,18 @@ class TextBox:
         """
         Write the text to its designated coordinates with the view taken into account.
         """
-        # Saving the cursor position
+        # Saving the cursor position.
         self._term.cursor_save()
+        # Iterate through each row of the text.
         for m, line in enumerate(self._view):
             row = self._row_start + m
+            # Iterate through each column in the current row of the text.
             for n, char in enumerate(line):
                 column = self._column_start + n
                 char = f"{self.ANSI_format}{char}\033[m"
-                self._term.write_at(row, column, char)
-        # Restoring the cursor position
+                # Write to the buffer, without flushing to the terminal.
+                self._term.write_at(row, column, char, flush=False)
+        # Restoring the cursor position.
         self._term.cursor_load()
-        # Flushing the results to the terminal
+        # Flushing the results to the terminal.  Waiting to flush improves efficienty significantly.
         self._term.flush()

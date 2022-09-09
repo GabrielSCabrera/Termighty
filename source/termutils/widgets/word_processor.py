@@ -35,33 +35,43 @@ class WordProcessor(TextBox):
         background: Union[str, Color, tuple[int, int, int]] = None,
         foreground: Union[str, Color, tuple[int, int, int]] = None,
         style: Optional[str] = None,
-        cursor_background: Union[str, Color, tuple[int, int, int]] = None,
-        cursor_foreground: Union[str, Color, tuple[int, int, int]] = None,
-        cursor_style: Optional[str] = None,
+        select_background: Union[str, Color, tuple[int, int, int]] = None,
+        select_foreground: Union[str, Color, tuple[int, int, int]] = None,
+        select_style: Optional[str] = None,
+        cursor_position: Optional[tuple[int, int]] = None,
     ):
         """
-        Creates an instance of TextEditor.  Supports usage of the default listener provided by class LiveMenu.
+        Creates an instance of WordProcessor, and initializes its attributes and those of its inherited `TextBox`.
         """
-        self._cursor_position = (0, 0)
+        # The default position of the cursor.
+        if cursor_position is None:
+            cursor_position = (0, 0)
+        self._cursor_position = cursor_position
+        # Whether the text should wrap to the next line if a line exceeds the width of the underlying TextBox.
         self._wrap_text = wrap_text
+        # Whether line numbers should be displayed on the left side of the text.
         self._line_numbers = show_line_numbers
+        # Whether the WordProcessor should be locked and all inputs ignored.
         self._frozen = False
 
         super().__init__(row_start, column_start, row_end, column_end, background, foreground, style)
 
-        if cursor_background is None:
-            cursor_background = self._background.negative()
+        # If the background color of selected text is not explicitly given, uses the negative of the TextBox background.
+        if select_background is None:
+            select_background = self._background.negative()
 
-        if cursor_foreground is None:
-            cursor_foreground = self._foreground.negative()
+        # If the foreground color of selected text is not explicitly given, uses the negative of the TextBox foreground.
+        if select_foreground is None:
+            select_foreground = self._foreground.negative()
 
-        cursor_background, cursor_foreground, cursor_style = self._check_arguments(
-            cursor_background, cursor_foreground, cursor_style
+        # Confirming that the style, background color, and foreground color of selected text are valid.
+        select_background, select_foreground, select_style = self._check_arguments(
+            select_background, select_foreground, select_style
         )
 
-        self._cursor_background = cursor_background
-        self._cursor_foreground = cursor_foreground
-        self._cursor_style = cursor_style
+        self._select_background = select_background
+        self._select_foreground = select_foreground
+        self._select_style = select_style
 
     def _run_getch_thread(self) -> None:
         """
@@ -105,9 +115,14 @@ class WordProcessor(TextBox):
         self._thread.start()
 
     def freeze(self):
-        """ """
+        """
+        Freeze the WordProcessor -- the `getch_iterator` in method `_run_getch_thread` will continue to run, but it will
+        not act on the inputs and leave the window unchanged.
+        """
         self._frozen = True
 
     def unfreeze(self):
-        """ """
+        """
+        Unfreeze the WordProcessor and reopen it to getch inputs.
+        """
         self._frozen = False

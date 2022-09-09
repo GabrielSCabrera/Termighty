@@ -218,7 +218,6 @@ class String(UserString):
         self._back: Color = color
         self._back_str: str = temp
 
-
     @foreground.setter
     def foreground(self, color: Optional[Union[str, Color, tuple[int, int, int]]] = None) -> None:
         """

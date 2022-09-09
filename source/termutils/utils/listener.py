@@ -27,12 +27,17 @@ class GetchIterator:
     """
 
     def __init__(self, idx: Optional[int] = None):
-        """ """
+        """
+        Prepare the indices for the iteration, if they are given.
+        """
         self._idx = idx
         self._start_idx = idx
 
     def __iter__(self):
-        """ """
+        """
+        If the start index is not given, set it to the current length of the Listener history, in order to start the
+        iterator on its last getch inputs. Otherwise, use the given `idx`.
+        """
         if self._idx == None:
             self._idx = len(Listener._history)
         else:
@@ -40,7 +45,9 @@ class GetchIterator:
         return self
 
     def __next__(self):
-        """ """
+        """
+        Every time a new input is detected by the Listener and appended to its history, return it.
+        """
         while Listener._active and not System.kill_all:
             if self._idx < len(Listener._history):
                 self._idx += 1
