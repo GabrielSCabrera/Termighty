@@ -34,7 +34,7 @@ class TextBox:
         style: Optional[str] = None,
     ):
         """
-        Returns a new instance of class `TextBox` at the specified coordinates.  If negative coordinates are given, they
+        Return a new instance of class `TextBox` at the specified coordinates.  If negative coordinates are given, they
         will be set dynamically relative to the size of the terminal; a thread will loop in the background keeping
         track of the terminal dimensions and resizing the text box if its coordinates are dynamic.
         """
@@ -64,7 +64,7 @@ class TextBox:
 
     def __call__(self, text: Union[str, list[str, ...]]) -> None:
         """
-        Modifies the current state of the TextBox by replacing its contents with the given lines of text.
+        Modify the current state of the TextBox by replacing its contents with the given lines of text.
         """
         if isinstance(text, str):
             text = [text]
@@ -136,8 +136,7 @@ class TextBox:
         """
         Perform checks making sure that the initialization arguments are correctly set up.
         """
-        self._cls_name: str = self.__class__.__name__
-        self._type: str = f"<class '{self._cls_name}'>"
+        self._type: str = f"<class '{self.__class__.__name__}'>"
 
         for i, j in zip(self._shape, (("row_end", "row_start"), ("column_end", "column_start"))):
             if i <= 0:
@@ -148,7 +147,7 @@ class TextBox:
                 raise ValueError(msg)
 
         color_error_msg: str = (
-            f"\n\nArgument `{{}}` in instantiation of {self._type} is invalid! Cannot recognize the  user-provided "
+            f"\n\nArgument `{{}}` in instantiation of {self._type} is invalid! Cannot recognize the user-provided "
             f"color: `{{}}` -- valid options are:\n"
             f"\n* The name of a known color (<class 'str'>) -- hint: print `termutils.Color.list_colors()`,"
             f"\n* A sequence containing 3 integers in range [0, 255],"
@@ -200,8 +199,8 @@ class TextBox:
 
     def _run_thread(self, dt: float) -> None:
         """
-        Keeps updating the window every set number of seconds (given by `dt`) and accounts for changes in the terminal
-        size (useful when dealing with relative coordinates on initializiation).
+        Keep updating the window every `dt` seconds, and account for changes in the terminal size (useful when dealing
+        with relative coordinates on initializiation).
         """
         self._active = True
         while self._active and not System.kill_all:
@@ -222,7 +221,7 @@ class TextBox:
 
     def _set_shape(self) -> None:
         """
-        Sets the size of the text box to those given by the user at instantiation.  If the terminal size is smaller than
+        Set the size of the text box to those given by the user at instantiation.  If the terminal size is smaller than
         the text box size, will decrease the text box size to make it fit in the terminal.  Also accounts for negative
         size instantiation values; if a value is negative, it is subtracted from the terminal size (from the axis in
         question).
@@ -274,7 +273,7 @@ class TextBox:
 
     def start(self, dt: float = 0.005):
         """
-        Activates a thread that runs the method self._run_thread.
+        Activate a thread that runs the method self._run_thread.
         """
         self._thread = threading.Thread(target=self._run_thread, args=(dt,), daemon=False)
         self._thread.start()
@@ -286,36 +285,36 @@ class TextBox:
 
     def scroll_down(self, rows: int = 1) -> None:
         """
-        Scrolls the current view down by the designated number of rows.
+        Scroll the current view down by the designated number of rows.
         """
         self._position: tuple[int, int] = (self._view[0] + rows, self._view[1])
         self._set_view()
 
     def scroll_left(self, columns: int = 1) -> None:
         """
-        Scrolls the current view left by the designated number of columns.
+        Scroll the current view left by the designated number of columns.
         """
         self._position: tuple[int, int] = (self._view[0], self._view[1] - columns)
         self._set_view()
 
     def scroll_right(self, columns: int = 1) -> None:
         """
-        Scrolls the current view right by the designated number of columns.
+        Scroll the current view right by the designated number of columns.
         """
         self._position: tuple[int, int] = (self._view[0], self._view[1] + columns)
         self._set_view()
 
     def scroll_up(self, rows: int = 1) -> None:
         """
-        Scrolls the current view up by the designated number of rows.
+        Scroll the current view up by the designated number of rows.
         """
         self._position: tuple[int, int] = (self._view[0] - rows, self._view[1])
         self._set_view()
 
     def set_view(self, row: int, column: int) -> None:
         """
-        Sets the current view on the text to the given coordinates. For example, given a TextBox with shape
-        (rows=1, columns=10) the string
+        Set the current view on the text to the given coordinates. For example, given a TextBox with shape (rows=1,
+        columns=10) the string
 
                         "We're no strangers to love\nYou know the rules and so do I"
 
@@ -332,7 +331,7 @@ class TextBox:
 
     def write(self) -> None:
         """
-        Writes the text to its designated coordinates with the view taken into account.
+        Write the text to its designated coordinates with the view taken into account.
         """
         # Saving the cursor position
         self._term.cursor_save()

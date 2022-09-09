@@ -43,7 +43,7 @@ class Term:
 
     def cursor_down(self, N: int = 1, flush: bool = False) -> None:
         """
-        Moves the cursor down by the designated number of rows `N`.
+        Move the cursor down by the designated number of rows `N`.
         """
         string = f"\033[{N}B"
         if not flush:
@@ -63,7 +63,7 @@ class Term:
 
     def cursor_left(self, N: int = 1, flush: bool = False) -> None:
         """
-        Moves the cursor left by the designated number of columns `N`.
+        Move the cursor left by the designated number of columns `N`.
         """
         string = f"\033[{N}D"
         if not flush:
@@ -73,7 +73,7 @@ class Term:
 
     def cursor_load(self, flush: bool = False) -> None:
         """
-        Loads the cursor position (appends to the buffer) -- save it first by calling `cursor_save`.
+        Load the cursor position (appends to the buffer) -- save it first by calling `cursor_save`.
         """
         string = "\0338"
         if not flush:
@@ -93,7 +93,7 @@ class Term:
 
     def cursor_right(self, N: int = 1, flush: bool = False) -> None:
         """
-        Moves the cursor right by the designated number of columns `N`.
+        Move the cursor right by the designated number of columns `N`.
         """
         string = f"\033[{N}C"
         if not flush:
@@ -123,7 +123,7 @@ class Term:
 
     def cursor_up(self, N: int = 1, flush: bool = False) -> None:
         """
-        Moves the cursor up by the designated number of rows `N`.
+        Move the cursor up by the designated number of rows `N`.
         """
         string = f"\033[{N}A"
         if not flush:
@@ -133,7 +133,7 @@ class Term:
 
     def flush(self) -> None:
         """
-        Flush the entire buffer to the terminal. Removes whatever is flushed from the buffer; if something is appended
+        Flush the entire buffer to the terminal. Remove whatever is flushed from the buffer; if something is appended
         to the buffer while the flushing occurs, does not remove that element from the buffer.
         """
         with self.__class__._flush_lock:
@@ -145,7 +145,7 @@ class Term:
 
     def flush_string(self, string: str) -> None:
         """
-        Writes and flushes the given string to the terminal.
+        Write and flushes the given string to the terminal.
         """
         with self.__class__._flush_lock:
             sys.stdout.write(string)

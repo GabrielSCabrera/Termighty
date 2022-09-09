@@ -1,5 +1,7 @@
+import collections.abc
 from collections import UserString
 from termutils.obj.color import Color
+from termutils.settings.config import Config
 from termutils.settings.data import Data
 from typing import Optional, Union
 
@@ -23,8 +25,8 @@ class String(UserString):
         out: str = "\nList of Available Styles (may differ based on OS/terminal)\n\n\n"
         style_str: str = "\033[{}mSAMPLE text\033[m\t{}"
 
-        style_keys = list(Data.styles.keys())
-        style_values = list(Data.styles.values())
+        style_keys: list[str, ...] = list(Data.styles.keys())
+        style_values: list[str, ...] = list(Data.styles.values())
 
         for i in np.argsort(style_keys):
             out += f"{style_str.format(style_values[i], style_keys[i])}\n\n"
@@ -36,8 +38,8 @@ class String(UserString):
     def __init__(
         self,
         string: str,
-        foreground: Optional[Union[Color, str]] = None,
-        background: Optional[Union[Color, str]] = None,
+        foreground: Optional[Union[str, Color, tuple[int, int, int]]] = None,
+        background: Optional[Union[str, Color, tuple[int, int, int]]] = None,
         style: Optional[str] = None,
     ) -> None:
         """
@@ -182,48 +184,74 @@ class String(UserString):
     """SETTER METHODS"""
 
     @background.setter
-    def background(self, color: Optional[Union[Color, str]] = None) -> None:
+    def background(self, color: Optional[Union[str, Color, tuple[int, int, int]]] = None) -> None:
         """
         Set the background color to a new value.
         """
-        esc: str = "48;2"
         if color is None:
-            temp: str = esc
-        else:
-            if not isinstance(color, Color):
-                if not Color._is_color(color):
-                    msg = (
-                        f"\n\nAttempt to pass unknown color `{color}` to argument `color` in `set_background` for "
-                        f"<class 'String'>. Use a known color (see classmethod Color.list_colors()) or an instance "
-                        f"of <class 'Color'>.\n"
-                    )
-                    System.kill_all = True
-                    raise ValueError(msg)
-                color: Color = Color.palette(color)
-            temp = f"{esc};{color._rgb[0]:d};{color._rgb[1]:d};" f"{color._rgb[2]:d}"
+            color: Color = Config.background_color
+        if isinstance(color, str):
+            color: Color = Color.palette(color)
+        elif (
+            isinstance(color, collections.abc.Sequence)
+            and len(color) == 3
+            and all([(0 <= i <= 255 and isinstance(i, int)) for i in color])
+        ):
+            color: Color = Color(*color)
+        elif not isinstance(color, Color):
+            self._type: str = f"<class '{self.__class__.__name__}'>"
+
+            error_msg: str = (
+                f"\n\nInvalid value given to attribute `background` in instance of {self._type}! Cannot recognize the "
+                f"user-provided color: `{color}` -- valid options are:\n"
+                f"\n* The name of a known color (<class 'str'>) -- hint: print `termutils.Color.list_colors()`,"
+                f"\n* A sequence containing 3 integers in range [0, 255],"
+                f"\n* An instance of <class 'Color'>.\n"
+            )
+
+            color_error_msg.format(argnames[0], color)
+            System.kill_all = True
+            raise ValueError(error_msg)
+
+        esc: str = "48;2"
+        temp: str = f"{esc};{color._rgb[0]:d};{color._rgb[1]:d};" f"{color._rgb[2]:d}"
         self._back: Color = color
         self._back_str: str = temp
 
+
     @foreground.setter
-    def foreground(self, color: Optional[Union[Color, str]] = None) -> None:
+    def foreground(self, color: Optional[Union[str, Color, tuple[int, int, int]]] = None) -> None:
         """
         Set the foreground color to a new value.
         """
-        esc: str = "38;2"
+
         if color is None:
-            temp: str = esc
-        else:
-            if not isinstance(color, Color):
-                if not Color._is_color(color):
-                    msg = (
-                        f"\n\nAttempt to pass unknown color `{color}` to argument `color` in `set_foreground` for "
-                        f"<class 'String'>. Use a known color (see classmethod Color.list_colors()) or an instance "
-                        f"of <class 'Color'>.\n"
-                    )
-                    System.kill_all = True
-                    raise ValueError(msg)
-                color: Color = Color.palette(color)
-            temp: str = f"{esc};{color._rgb[0]:d};{color._rgb[1]:d};" f"{color._rgb[2]:d}"
+            color: Color = Config.foreground_color
+        if isinstance(color, str):
+            color: Color = Color.palette(color)
+        elif (
+            isinstance(color, collections.abc.Sequence)
+            and len(color) == 3
+            and all([(0 <= i <= 255 and isinstance(i, int)) for i in color])
+        ):
+            color: Color = Color(*color)
+        elif not isinstance(color, Color):
+            self._type: str = f"<class '{self.__class__.__name__}'>"
+
+            error_msg: str = (
+                f"\n\nInvalid value given to attribute `foreground` in instance of {self._type}! Cannot recognize the "
+                f"user-provided color: `{color}` -- valid options are:\n"
+                f"\n* The name of a known color (<class 'str'>) -- hint: print `termutils.Color.list_colors()`,"
+                f"\n* A sequence containing 3 integers in range [0, 255],"
+                f"\n* An instance of <class 'Color'>.\n"
+            )
+
+            color_error_msg.format(argnames[0], color)
+            System.kill_all = True
+            raise ValueError(error_msg)
+
+        esc: str = "38;2"
+        temp: str = f"{esc};{color._rgb[0]:d};{color._rgb[1]:d};" f"{color._rgb[2]:d}"
         self._fore: Color = color
         self._fore_str: str = temp
 
@@ -243,9 +271,9 @@ class String(UserString):
             self._style_str: str = ""
         elif style not in Data.styles.keys():
             styles_str: str = ", ".join(Data.styles.keys())
-            msg = (
-                f"\n\nAttempt to pass unknown key `{style}` to argument `style` in constructor for <class 'String'>. "
-                f"Use one of the following styles: {styles_str}.\n"
+            error_msg: str = (
+                f"\n\nInvalid value given to attribute `style` in instance of {self._type}! Cannot recognize the "
+                f"user-provided style: `{style}` -- valid options are: {styles_str}\n"
             )
             System.kill_all = True
             raise ValueError(msg)
