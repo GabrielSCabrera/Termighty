@@ -1,7 +1,8 @@
 from collections import UserString
 from termutils.obj.color import Color
-from termutils.data.data import Data
+from termutils.settings.data import Data
 from typing import Optional, Union
+
 import numpy as np
 
 
@@ -17,7 +18,7 @@ class String(UserString):
     @classmethod
     def list_styles(self) -> str:
         """
-        Returns a list of all available styles (as viewable ANSI escape sequences) and their names.
+        Return a list of all available styles (as viewable ANSI escape sequences) and their names.
         """
         out: str = "\nList of Available Styles (may differ based on OS/terminal)\n\n\n"
         style_str: str = "\033[{}mSAMPLE text\033[m\t{}"
@@ -40,10 +41,9 @@ class String(UserString):
         style: Optional[str] = None,
     ) -> None:
         """
-        Creates an instance of class `String`.
+        Create an instance of class `String`.
 
-        Argument `color` should be a known color in /data/rgb.json or an instance of <class 'Color'>.
-
+        Argument `color` should be a known color in /data/rgb.json, or an instance of <class 'Color'>.
         Argument `style` should be a known style in /data/styles.json.
         """
         super().__init__(string)
@@ -62,7 +62,7 @@ class String(UserString):
 
     def __format__(self, spec: str) -> str:
         """
-        Formats the given string using the desired spec.
+        Format the given string using the desired spec.
         """
         out: str = (
             # Foreground
@@ -83,7 +83,7 @@ class String(UserString):
 
     def __iter__(self) -> "String":
         """
-        Iterates through each element of the current `String` instance.
+        Iterate through each element of the current `String` instance.
         """
         self._iter_idx: int = -1
         return self
@@ -114,7 +114,7 @@ class String(UserString):
 
     def __repr__(self) -> str:
         """
-        Returns a printable string using the given color.
+        Return a printable string using the given color.
         """
         return self.__str__()
 
@@ -127,7 +127,7 @@ class String(UserString):
 
     def __set__(self, string: Union["String", str]) -> None:
         """
-        Changes the current String's text, or replaces the instance completely, depending on the given type of argument
+        Change the current String's text, or replace the instance completely, depending on the given type of argument
         `string`.
         """
         if isinstance(string, "String"):
@@ -137,7 +137,7 @@ class String(UserString):
 
     def __str__(self) -> str:
         """
-        Returns a printable string using the given color.
+        Return a printable string using the given color.
         """
         out: str = (
             # Foreground
@@ -154,28 +154,28 @@ class String(UserString):
     @property
     def background(self) -> Color:
         """
-        Returns the `Color` instance assigned to the current background.
+        Return the `Color` instance assigned to the current background.
         """
         return self._back.copy()
 
     @property
     def foreground(self) -> Color:
         """
-        Returns the `Color` instance assigned to the current foreground.
+        Return the `Color` instance assigned to the current foreground.
         """
         return self._fore.copy()
 
     @property
     def string(self) -> str:
         """
-        Returns the uncolored and unformatted text currently assigned to this String instance.
+        Return the uncolored and unformatted text currently assigned to this String instance.
         """
         return self.data
 
     @property
     def style(self) -> str:
         """
-        Returns the text style associated with the current instance.
+        Return the text style associated with the current instance.
         """
         return self._style
 
@@ -184,7 +184,7 @@ class String(UserString):
     @background.setter
     def background(self, color: Optional[Union[Color, str]] = None) -> None:
         """
-        Sets the background color to a new value.
+        Set the background color to a new value.
         """
         esc: str = "48;2"
         if color is None:
@@ -197,6 +197,7 @@ class String(UserString):
                         f"<class 'String'>. Use a known color (see classmethod Color.list_colors()) or an instance "
                         f"of <class 'Color'>.\n"
                     )
+                    System.kill_all = True
                     raise ValueError(msg)
                 color: Color = Color.palette(color)
             temp = f"{esc};{color._rgb[0]:d};{color._rgb[1]:d};" f"{color._rgb[2]:d}"
@@ -206,7 +207,7 @@ class String(UserString):
     @foreground.setter
     def foreground(self, color: Optional[Union[Color, str]] = None) -> None:
         """
-        Sets the foreground color to a new value.
+        Set the foreground color to a new value.
         """
         esc: str = "38;2"
         if color is None:
@@ -219,6 +220,7 @@ class String(UserString):
                         f"<class 'String'>. Use a known color (see classmethod Color.list_colors()) or an instance "
                         f"of <class 'Color'>.\n"
                     )
+                    System.kill_all = True
                     raise ValueError(msg)
                 color: Color = Color.palette(color)
             temp: str = f"{esc};{color._rgb[0]:d};{color._rgb[1]:d};" f"{color._rgb[2]:d}"
@@ -228,14 +230,14 @@ class String(UserString):
     @string.setter
     def string(self, data: str) -> None:
         """
-        Overwrites the uncolored and unformatted text currently assigned to this String instance.
+        Overwrite the uncolored and unformatted text currently assigned to this String instance.
         """
         self.data = data
 
     @style.setter
     def style(self, style: Optional[str] = None) -> None:
         """
-        Sets the style to a new value.
+        Set the style to a new value.
         """
         if style is None:
             self._style_str: str = ""
@@ -245,6 +247,7 @@ class String(UserString):
                 f"\n\nAttempt to pass unknown key `{style}` to argument `style` in constructor for <class 'String'>. "
                 f"Use one of the following styles: {styles_str}.\n"
             )
+            System.kill_all = True
             raise ValueError(msg)
         else:
             style: str = style.lower()

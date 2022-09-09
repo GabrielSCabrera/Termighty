@@ -1,4 +1,5 @@
-from termutils.data import Data
+from termutils.settings.data import Data
+from termutils.settings.system import System
 from typing import Optional, Sequence
 
 import numpy as np
@@ -41,6 +42,7 @@ class Color:
                 f"\n\nArguments `r`, `g`, and `b` in Color.chart cannot be assigned simultaneously.  Only one argument "
                 f"can take a value; the others should be `None`.\n"
             )
+            System.kill_all = True
             raise ValueError(error_message)
 
         step: int = 256 // term_width + 1
@@ -62,14 +64,14 @@ class Color:
     @classmethod
     def is_color(cls, name: str) -> bool:
         """
-        Returns True if /data/rgb.json contains the given string.
+        Return True if /data/rgb.json contains the given string.
         """
         return name in Data.colors.keys()
 
     @classmethod
     def list_colors(cls, sort_by="step") -> str:
         """
-        Returns a list of all available colors (as viewable ANSI escape sequences) and their names.
+        Return a string containing a list of all available colors (as viewable ANSI escape sequences) and their names.
         """
         out: str = "\nList of Available Colors\n\n"
         colors: list["Color"] = [cls(j, i) for i, j in Data.colors.items()]
@@ -118,6 +120,7 @@ class Color:
                 f"(default), `alpha` for alphabetical sorting, `rgb` for sorting by color, or `light` for sorting by "
                 f"color lightness."
             )
+            System.kill_all = True
             raise ValueError(error_message)
 
         for color in colors:
@@ -131,20 +134,21 @@ class Color:
     @classmethod
     def palette(cls, name: str) -> "Color":
         """
-        To initialize a `Color` instance using a color name; only succeeds if the name is found in '/data/rgb.json'
+        Initialize a `Color` instance using a color name; only succeeds if the name is found in '/data/rgb.json'
         """
         if not cls.is_color(name.lower()):
             error_message: str = (
                 f"\n\nAttempt to pass unknown color `{name}` to argument `name` in classmethod `Color.palette`.  Use "
                 f"a known color (see classmethod Color.list_colors()).\n"
             )
+            System.kill_all = True
             raise ValueError(error_message)
         return cls(Data.colors[name.lower()], name.title())
 
     @property
     def sample(self) -> str:
         """
-        Returns a color sample in the form of a printable string.
+        Return a color sample in the form of a printable string.
         """
         out: str = f"\033[48;2;{self._rgb[0]:d};{self._rgb[1]:d};{self._rgb[2]:d}m " f"\033[m"
         return out
@@ -153,18 +157,21 @@ class Color:
 
     def __init__(self, rgb: Sequence[int], name: str = "Unnamed Color") -> None:
         """
-        Returns a new instance of class `Color`.  Argument `rgb` should be a sequence containing three integers in range
+        Return a new instance of class `Color`.  Argument `rgb` should be a sequence containing three integers in range
         0-255.
         """
+        # Creating a np.ndarray of zeros that will contain the rgb values as three 8-bit unsigned integers.
         self._rgb: np.ndarray = np.zeros(3, np.uint8)
+        # Set the RGB value using the `rgb` property setter.
         self.rgb = rgb
+        # Set the name using the `name` property setter.
         self.name = name
 
     """MAGIC METHODS"""
 
     def __add__(self, color: "Color") -> "Color":
         """
-        To add colors together by summing over their RGB values.  Values greater than 255 are set to 255.
+        Add colors together by summing over their RGB values.  Values greater than 255 are set to 255.
         """
         rgb: np.ndarray = self._rgb.astype(np.int64) + color._rgb.astype(np.int64)
         rgb[rgb > 255] = 255
@@ -172,7 +179,7 @@ class Color:
 
     def __call__(self, s: str) -> str:
         """
-        Returns the given string `s`, but with the text colored using the current instance's RGB values.  Escape codes
+        Return the given string `s`, but with the text colored using the current instance's RGB values.  Escape codes
         are unsupported, use at your own risk.
         """
         out: str = f"\033[38;2;{self._rgb[0]:d};{self._rgb[1]:d};{self._rgb[2]:d}m" f"{s}\033[m"
@@ -180,20 +187,20 @@ class Color:
 
     def __hash__(self) -> int:
         """
-        To return a unique hash for the rgb values of a `Color` instance.
+        Return a unique hash for the rgb values of the current `Color` instance.
         """
         return hash(f"{self._rgb[0]:03d}{self._rgb[1]:03d}{self._rgb[2]:03d}")
 
     def __repr__(self) -> str:
         """
-        Returns a color sample that is machine-readable
+        Return a color sample from the current instance that is machine-readable
         """
         out: str = f"Color({self._rgb[0]:03d} {self._rgb[1]:03d} {self._rgb[2]:03d})"
         return out
 
     def __str__(self) -> str:
         """
-        Returns the color name, RGB value, and a sample of the color.
+        Return the current instance's color name, RGB value, and a sample of the color.
         """
         out: str = (
             f"Color Name – {self._name.title()}\n"
@@ -205,7 +212,7 @@ class Color:
 
     def __sub__(self, color: "Color") -> "Color":
         """
-        To subtract colors from each other by subtracting their RGB values. Values less than 0 are set to 0.
+        Subtract colors from each other by subtracting their RGB values. Values less than 0 are set to 0.
         """
         rgb: np.ndarray = self._rgb.astype(np.int64) - color._rgb.astype(np.int64)
         rgb[rgb < 0] = 0
@@ -216,35 +223,35 @@ class Color:
     @property
     def b(self) -> int:
         """
-        Returns an instance's blue RGB value.
+        Return current instance's blue RGB value.
         """
         return int(self._rgb[2])
 
     @property
     def g(self) -> int:
         """
-        Returns an instance's green RGB value.
+        Return current instance's green RGB value.
         """
         return int(self._rgb[1])
 
     @property
     def name(self) -> str:
         """
-        Returns an instance's color name.
+        Return current instance's color name.
         """
         return self._name
 
     @property
     def r(self) -> int:
         """
-        Returns an instance's red RGB value.
+        Return current instance's red RGB value.
         """
         return int(self._rgb[0])
 
     @property
     def rgb(self) -> tuple[int, int, int]:
         """
-        Returns an instance's RGB values.
+        Return current instance's RGB values.
         """
         return (int(self._rgb[0]), int(self._rgb[1]), int(self._rgb[2]))
 
@@ -253,36 +260,36 @@ class Color:
     @b.setter
     def b(self, b: int) -> None:
         """
-        To set the blue color in the rgb array to a new value.  Expects an integer in range 0 to 255.
+        Set the blue channel in the rgb array to a new value.  Expects an integer in range 0 to 255.
         """
         self._rgb[2] = b
 
     @g.setter
     def g(self, g: int) -> None:
         """
-        To set the green color in the rgb array to a new value.  Expects an integer in range 0 to 255.
+        Set the green channel in the rgb array to a new value.  Expects an integer in range 0 to 255.
         """
         self._rgb[1] = g
 
     @name.setter
     def name(self, name: str) -> None:
         """
-        To rename the `Color` instance
+        Rename the `Color` instance
         """
         self._name: str = name
 
     @r.setter
     def r(self, r: int) -> None:
         """
-        To set the red color in the rgb array to a new value.  Expects an integer in range 0 to 255.
+        Set the red channel in the rgb array to a new value.  Expects an integer in range 0 to 255.
         """
         self._rgb[0] = r
 
     @rgb.setter
     def rgb(self, rgb: Sequence[int]) -> None:
         """
-        To reset the rgb values of the `Color` instance. Argument `rgb` should be a sequence containing three integers
-        in range 0-255.
+        Reset the rgb values of the `Color` instance. Argument `rgb` should be a sequence containing three integers in
+        the range [0,255].
         """
         for i in range(3):
             self._rgb[i] = rgb[i]
@@ -291,19 +298,19 @@ class Color:
 
     def brightness(self) -> int:
         """
-        Returns the mean of the RGB values.
+        Return the mean of the RGB values.
         """
         return int(np.mean(self._rgb))
 
     def copy(self) -> "Color":
         """
-        Returns a deep copy of the current instance
+        Return a deep copy of the current instance.
         """
         return self.__class__(self._rgb, self._name)
 
     def hsv(self) -> tuple[float, float, float]:
         """
-        Returns the current color in HSV form.
+        Return the color of the current instance in HSV form.
         """
         rgb: np.ndarray = self._rgb.astype(np.float64) / 255
         add: tuple[int, int, int] = (360, 120, 240)
@@ -329,9 +336,10 @@ class Color:
 
     def lightness(self, weighted: bool = True) -> float:
         """
-        Returns the norm of the RGB vector as fraction of 255.  Should return a float in the range 0 to 1.
+        Return the norm of the RGB vector as fraction of 255.  Should return a float in the range 0 to 1.
 
-        If weighted, will multiply the squares of R, G, and B with 0.299, 0.587, and 0.114, respectively.
+        If weighted, multiply the squares of the `R`, `G`, and `B` color channels by 0.299, 0.587, and 0.114,
+        respectively.
 
         Source of weights: http://alienryderflex.com/hsp.html
         """
@@ -343,7 +351,7 @@ class Color:
 
     def negative(self) -> "Color":
         """
-        Returns the color negative of the current instance, which is the element-wise difference (255-R, 255-G, 255-B),
+        Return the color negative of the current instance, which is the element-wise difference (255-R, 255-G, 255-B),
         where `R`, `G`, and `B` are the current instance's color channels.
         """
         rgb: np.ndarray = np.full(3, 255, dtype=np.uint8)

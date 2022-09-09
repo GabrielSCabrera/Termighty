@@ -1,4 +1,4 @@
-from . import config
+from . import settings
 from .obj import *
-from .data import *
-from . import utils
+from .utils import *
+from .widgets import *

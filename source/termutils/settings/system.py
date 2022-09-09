@@ -7,6 +7,10 @@ import warnings
 
 
 class System:
+    """
+    Used to keep track of the terminal dimensions, and detect the current OS. Also contains the `kill_all` class
+    attribute, which is by default set to `False`.  If it is set to `True`, all active termutils threads will be killed.
+    """
 
     terminal_size: tuple[int, int] = tuple(shutil.get_terminal_size())[::-1]
     os = platform.system()
@@ -35,5 +39,5 @@ class System:
             time.sleep(0.05)
 
 
-track_terminal_shape_thread = threading.Thread(target=System.track_terminal_shape, daemon=False)
+track_terminal_shape_thread = threading.Thread(target=System.track_terminal_shape, daemon=True)
 track_terminal_shape_thread.start()

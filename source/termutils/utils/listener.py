@@ -1,10 +1,13 @@
 import os
 import sys
-from termutils.data.system import System
-from termutils.data import Data
-from termutils.obj.term import Term
+
+from termutils.settings.data import Data
+from termutils.settings.system import System
+from termutils.utils.term import Term
+
 import threading
 import time
+
 from typing import Callable, Optional, Union
 
 # If the OS is Windows, uses msvcrt to read inputs from the terminal.
@@ -19,7 +22,7 @@ elif System.os == "Linux":
 
 class GetchIterator:
     """
-    Iiterates over the Listener's history starting at the provided index, and continuously yields all new additions to
+    Iterate over the Listener's history starting at the provided index, and continuously yields all new additions to
     the history until the Listener is stopped.  Designed to be used in a for-loop.
     """
 
@@ -70,7 +73,7 @@ class Listener:
     @classmethod
     def _getch_linux(cls) -> bytes:
         """
-        Listens for keyboard input, and returns a string with a key name (such as `a`, `Z`, or `Backspace`).
+        Listen for keyboard input, and return a string with a key name (such as `a`, `Z`, or `Backspace`).
 
         Expects `_raw_mode` to be True, implying the terminal will read user inputs immediately without echoing to the
         terminal.
@@ -83,7 +86,7 @@ class Listener:
     @classmethod
     def _getch_windows(cls) -> bytes:
         """
-        Listens for keyboard input, and returns a string with a key name (such as `a`, `Z`, or `Backspace`).
+        Listen for keyboard input, and return a string with a key name (such as `a`, `Z`, or `Backspace`).
 
         Functions exclusively in Windows.
         """
@@ -181,7 +184,7 @@ class Listener:
     @classmethod
     def _raw_mode_linux(cls, state: bool) -> None:
         """
-        Sets the terminal to raw mode if True, or to echo mode if False
+        Set the terminal to raw mode if True, or to echo mode if False
         """
         if state:
             tty.setraw(sys.stdin.fileno())
@@ -206,7 +209,7 @@ class Listener:
     @classmethod
     def start(cls, raw: bool = False) -> None:
         """
-        Activates the Listener session.  If `raw` is set to True, will not interpret the escape codes input by the user,
+        Activate the Listener session.  If `raw` is set to True, will not interpret the escape codes input by the user,
         and simply append the raw escape code bytes to the history.
         """
         if not Listener._active:
@@ -223,6 +226,7 @@ class Listener:
                 thread_listener.start()
             except Exception as e:
                 cls._raw_mode(False)
+                System.kill_all = True
                 raise Exception(e)
 
             cls._raw_mode(False)
@@ -230,7 +234,7 @@ class Listener:
     @classmethod
     def stop(cls) -> None:
         """
-        Deactivates the Listener session.
+        Deactivate the Listener session.
         """
         cls._raw_mode(False)
         Listener._active: bool = False

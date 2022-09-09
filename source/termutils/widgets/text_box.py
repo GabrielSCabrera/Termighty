@@ -1,13 +1,16 @@
 import collections.abc
 import numpy as np
 import string
-from termutils.config import defaults
-from termutils.data import Data
-from termutils.data.system import System
+
 from termutils.obj.color import Color
-from termutils.obj.term import Term
+from termutils.settings.config import Config
+from termutils.settings.data import Data
+from termutils.settings.system import System
+from termutils.utils.term import Term
+
 import threading
 import time
+
 from typing import Optional, Union
 
 
@@ -42,6 +45,9 @@ class TextBox:
         self._ref_row_end = row_end
         self._ref_column_end = column_end
 
+        # Text alignment set to "left" by default. "right" and "center" are other alternatives.
+        self._align = "left"
+
         # Terminal dimensions (rows, columns).
         self._terminal_size = System.terminal_size
 
@@ -54,38 +60,39 @@ class TextBox:
         self._active = False
         self._new_view = False
 
-        self.__call__([""])
-
     """MAGIC METHODS"""
 
-    def __call__(self, text: list[str, ...]) -> None:
+    def __call__(self, text: Union[str, list[str, ...]]) -> None:
         """
         Modifies the current state of the TextBox by replacing its contents with the given lines of text.
         """
-        if not isinstance(text, list) and any(not isinstance(i, str) for i in text):
+        if isinstance(text, str):
+            text = [text]
+        elif not isinstance(text, list) and any(not isinstance(i, str) for i in text):
             msg: str = (
                 f"\n\nArgument `text` in calling of {self._type} instance must be a list containing <class 'str'>."
             )
+            System.kill_all = True
             raise TypeError(msg)
 
         self._text = text
         self._text_prep()
         self._set_view()
 
-    def _text_prep(self, align="left"):
+    def _text_prep(self):
         """ """
         rows = len(self._text)
         columns = max(len(row) for row in self._text)
 
-        if align == "left":
+        if self._align == "left":
             pad_char = "<"
-        elif align == "right":
+        elif self._align == "right":
             pad_char = ">"
-        elif align == "center":
+        elif self._align == "center":
             pad_char = "^"
 
         vertical_pad = [" " * (columns + 2 * self._shape[1])] * self._shape[0]
-        text = [f"{line:{pad_char}{columns}}" for line in self._text]
+        text = [f"{line:{pad_char}{self._shape[1]}s}" for line in self._text]
         text = [line.ljust(columns + self._shape[1]) for line in text]
         text = [line.rjust(columns + 2 * self._shape[1]) for line in text]
         text = vertical_pad + text + vertical_pad
@@ -137,6 +144,7 @@ class TextBox:
                 msg: str = (
                     f"\n\nArgument `{j[0]}` must be larger than argument `{j[1]}` in the instantiation of {self._type}."
                 )
+                System.kill_all = True
                 raise ValueError(msg)
 
         color_error_msg: str = (
@@ -148,7 +156,7 @@ class TextBox:
         )
 
         if background is None:
-            background: Color = defaults.background_color
+            background: Color = Config.background_color
         if isinstance(background, str):
             background: Color = Color.palette(background)
         elif (
@@ -159,10 +167,11 @@ class TextBox:
             background: Color = Color(*background)
         elif not isinstance(background, Color):
             color_error_msg.format(argnames[0], background)
+            System.kill_all = True
             raise ValueError(color_error_msg)
 
         if foreground is None:
-            foreground: Color = defaults.foreground_color
+            foreground: Color = Config.foreground_color
         if isinstance(foreground, str):
             foreground: Color = Color.palette(foreground)
         elif (
@@ -173,16 +182,18 @@ class TextBox:
             foreground: Color = Color(*foreground)
         elif not isinstance(foreground, Color):
             color_error_msg.format(argnames[1], foreground)
+            System.kill_all = True
             raise ValueError(color_error_msg)
 
         if style is None:
-            style: str = defaults.style
+            style: str = Config.style
         elif style.lower() not in Data.styles.keys():
             styles_str: str = ", ".join(Data.styles.keys())
             msg: str = (
                 f"\n\nArgument `{argnames[2]}` received an unknown option `{style}` in constructor for {self._type}. "
                 f"Use one of the following styles: {styles_str}.\n"
             )
+            System.kill_all = True
             raise ValueError(msg)
 
         return background, foreground, style
@@ -246,6 +257,20 @@ class TextBox:
         self._new_view: bool = True
 
     """PUBLIC METHODS"""
+
+    def align(self, mode: str) -> None:
+        """
+        Set the TextBox text alignment mode.  Set to "left" by default, but can also be set to "right" or "center".
+        """
+        if (mode := mode.lower()) not in ["left", "right", "center"]:
+            error_message = (
+                f'Invalid text alignment option selected in TextBox method `align`.  Valid options are "left", '
+                f'"right", or "center".'
+            )
+            System.kill_all = True
+            raise ValueError(error_message)
+
+        self._align = mode
 
     def start(self, dt: float = 0.005):
         """
