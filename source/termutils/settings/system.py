@@ -18,14 +18,12 @@ class System:
     # If the operating system is Darwin (macOS) then will warn the user that it is untested, and default to Linux mode.
     if os == "Darwin":
         warnings.warn("TermUtils is untested for Darwin (macOS) platform, but will attempt to run in Linux mode.")
-        os = "Linux"
     elif os == "Java":
         warnings.warn("TermUtils is untested for Java platform, but will attempt to run in Linux mode.")
-        os = "Linux"
 
     if os == "Windows":
         escape_code_encoding = "oem"
-    elif os == "Linux":
+    else:
         escape_code_encoding = "utf"
 
     # If set to true, stops all processes.

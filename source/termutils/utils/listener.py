@@ -15,7 +15,7 @@ if System.os == "Windows":
     import msvcrt
 
 # If the OS is Linux-based, uses termios and tty to read inputs from the terminal.
-elif System.os == "Linux":
+else:
     import termios
     import tty
 
@@ -256,7 +256,7 @@ class Listener:
         _raw_mode: classmethod = _raw_mode_windows
     # If the OS is Linux, use _getch_linux as backend for _getch, and _raw_mode_linux as backend for _raw.
     # Additionally, save the terminal's old tty attributes for when raw mode is deactivated.
-    elif System.os == "Linux":
+    else:
         _getch: classmethod = _getch_linux
         _raw_mode: classmethod = _raw_mode_linux
         _fd: str = sys.stdin.fileno()
