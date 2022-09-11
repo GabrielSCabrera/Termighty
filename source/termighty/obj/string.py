@@ -1,8 +1,8 @@
 import collections.abc
 from collections import UserString
-from termutils.obj.color import Color
-from termutils.settings.config import Config
-from termutils.settings.data import Data
+from termighty.obj.color import Color
+from termighty.settings.config import Config
+from termighty.settings.data import Data
 from typing import Optional, Union
 
 import numpy as np
@@ -204,7 +204,7 @@ class String(UserString):
             error_msg: str = (
                 f"\n\nInvalid value given to attribute `background` in instance of {self._type}! Cannot recognize the "
                 f"user-provided color: `{color}` -- valid options are:\n"
-                f"\n* The name of a known color (<class 'str'>) -- hint: print `termutils.Color.list_colors()`,"
+                f"\n* The name of a known color (<class 'str'>) -- hint: print `termighty.Color.list_colors()`,"
                 f"\n* A sequence containing 3 integers in range [0, 255],"
                 f"\n* An instance of <class 'Color'>.\n"
             )
@@ -240,7 +240,7 @@ class String(UserString):
             error_msg: str = (
                 f"\n\nInvalid value given to attribute `foreground` in instance of {self._type}! Cannot recognize the "
                 f"user-provided color: `{color}` -- valid options are:\n"
-                f"\n* The name of a known color (<class 'str'>) -- hint: print `termutils.Color.list_colors()`,"
+                f"\n* The name of a known color (<class 'str'>) -- hint: print `termighty.Color.list_colors()`,"
                 f"\n* A sequence containing 3 integers in range [0, 255],"
                 f"\n* An instance of <class 'Color'>.\n"
             )

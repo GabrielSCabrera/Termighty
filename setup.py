@@ -2,9 +2,9 @@ from setuptools import setup, find_packages
 
 dependencies = ("numpy",)
 
-url = "https://github.com/GabrielSCabrera"
+url = "https://github.com/GabrielSCabrera/Termighty"
 setup(
-    name="TermUtils",
+    name="Termighty",
     packages=find_packages(where="source"),
     package_dir={"": "source"},
     include_package_data=True,

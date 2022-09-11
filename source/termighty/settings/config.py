@@ -7,7 +7,7 @@ class Config:
     Dataclass that contains the program settings as given in `config.ini`.
     """
 
-    with importlib.resources.open_text("termutils", "config.ini") as infile:
+    with importlib.resources.open_text("termighty", "config.ini") as infile:
         parser = configparser.ConfigParser()
         parser.readfp(infile)
 

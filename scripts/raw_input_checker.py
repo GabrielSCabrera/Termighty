@@ -1,4 +1,4 @@
-from termutils import Listener, Term
+from termighty import Listener, Term
 
 Listener.start(raw=True)
 getch_iterator = Listener.getch_iterator()

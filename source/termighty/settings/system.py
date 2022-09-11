@@ -9,7 +9,7 @@ import warnings
 class System:
     """
     Used to keep track of the terminal dimensions, and detect the current OS. Also contains the `kill_all` class
-    attribute, which is by default set to `False`.  If it is set to `True`, all active termutils threads will be killed.
+    attribute, which is by default set to `False`.  If it is set to `True`, all active termighty threads will be killed.
     """
 
     terminal_size: tuple[int, int] = tuple(shutil.get_terminal_size())[::-1]
@@ -17,9 +17,9 @@ class System:
 
     # If the operating system is Darwin (macOS) then will warn the user that it is untested, and default to Linux mode.
     if os == "Darwin":
-        warnings.warn("TermUtils is untested for Darwin (macOS) platform, but will attempt to run in Linux mode.")
+        warnings.warn("Termighty is untested for Darwin (macOS) platform, but will attempt to run in Linux mode.")
     elif os == "Java":
-        warnings.warn("TermUtils is untested for Java platform, but will attempt to run in Linux mode.")
+        warnings.warn("Termighty is untested for Java platform, but will attempt to run in Linux mode.")
 
     if os == "Windows":
         escape_code_encoding = "oem"

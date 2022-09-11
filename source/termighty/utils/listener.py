@@ -1,9 +1,9 @@
 import os
 import sys
 
-from termutils.settings.data import Data
-from termutils.settings.system import System
-from termutils.utils.term import Term
+from termighty.settings.data import Data
+from termighty.settings.system import System
+from termighty.utils.term import Term
 
 import threading
 import time

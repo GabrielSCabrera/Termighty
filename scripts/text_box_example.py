@@ -1,4 +1,4 @@
-from termutils import TextBox, Term, Listener, System
+from termighty import TextBox, Term, Listener, System
 import threading
 import time
 

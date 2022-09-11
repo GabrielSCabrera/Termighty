@@ -1,3 +1,3 @@
-from termutils import String
+from termighty import String
 
 print(String.list_styles())

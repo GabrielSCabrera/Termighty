@@ -1,10 +1,10 @@
-from termutils.obj.color import Color
-from termutils.settings.data import Data
-from termutils.settings.system import System
-from termutils.utils.listener import Listener
-from termutils.utils.key_processor import KeyProcessor
-from termutils.utils.term import Term
-from termutils.widgets.text_box import TextBox
+from termighty.obj.color import Color
+from termighty.settings.data import Data
+from termighty.settings.system import System
+from termighty.utils.listener import Listener
+from termighty.utils.key_processor import KeyProcessor
+from termighty.utils.term import Term
+from termighty.widgets.text_box import TextBox
 
 import textwrap
 import threading

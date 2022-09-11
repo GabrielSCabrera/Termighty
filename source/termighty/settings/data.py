@@ -1,7 +1,7 @@
 import codecs
 import importlib.resources
 import json
-from termutils.settings.system import System
+from termighty.settings.system import System
 
 
 class Data:
@@ -10,7 +10,7 @@ class Data:
     color names, and access ANSI codes for string styles.
     """
 
-    with importlib.resources.open_text("termutils.data", "keymaps.json") as infile:
+    with importlib.resources.open_text("termighty.data", "keymaps.json") as infile:
         keymaps = json.load(infile)
 
     # Loads a set of keymaps depending on the current OS in use.
@@ -21,8 +21,8 @@ class Data:
     else:
         keymaps = keymaps["linux"]
 
-    with importlib.resources.open_text("termutils.data", "rgb.json") as infile:
+    with importlib.resources.open_text("termighty.data", "rgb.json") as infile:
         colors = json.load(infile)
 
-    with importlib.resources.open_text("termutils.data", "styles.json") as infile:
+    with importlib.resources.open_text("termighty.data", "styles.json") as infile:
         styles = json.load(infile)

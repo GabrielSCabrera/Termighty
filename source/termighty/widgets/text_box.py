@@ -2,11 +2,11 @@ import collections.abc
 import numpy as np
 import string
 
-from termutils.obj.color import Color
-from termutils.settings.config import Config
-from termutils.settings.data import Data
-from termutils.settings.system import System
-from termutils.utils.term import Term
+from termighty.obj.color import Color
+from termighty.settings.config import Config
+from termighty.settings.data import Data
+from termighty.settings.system import System
+from termighty.utils.term import Term
 
 import threading
 import time
@@ -166,7 +166,7 @@ class TextBox:
         color_error_msg: str = (
             f"\n\nArgument `{{}}` in instantiation of {self._type} is invalid! Cannot recognize the user-provided "
             f"color: `{{}}` -- valid options are:\n"
-            f"\n* The name of a known color (<class 'str'>) -- hint: print `termutils.Color.list_colors()`,"
+            f"\n* The name of a known color (<class 'str'>) -- hint: print `termighty.Color.list_colors()`,"
             f"\n* A sequence containing 3 integers in range [0, 255],"
             f"\n* An instance of <class 'Color'>.\n"
         )

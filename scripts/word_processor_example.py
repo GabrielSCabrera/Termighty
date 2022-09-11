@@ -1,4 +1,4 @@
-from termutils import TextBox, Term, Listener, WordProcessor
+from termighty import TextBox, Term, Listener, WordProcessor
 import time
 
 term = Term()

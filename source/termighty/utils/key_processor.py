@@ -1,4 +1,4 @@
-from termutils.settings.config import Config
+from termighty.settings.config import Config
 
 
 class KeyProcessor:
