@@ -55,7 +55,7 @@ class TextBox:
 
         background, foreground, style = self._check_arguments(background, foreground, style)
 
-        self._init_attributes(row_start, column_start, row_end, column_end, background, foreground, style)
+        self._init_attributes(background, foreground, style)
 
         self._active = False
         self._new_view = False
@@ -114,10 +114,6 @@ class TextBox:
 
     def _init_attributes(
         self,
-        row_start: int,
-        column_start: int,
-        row_end: int,
-        column_end: int,
         background: Color,
         foreground: Color,
         style: str,
@@ -137,7 +133,7 @@ class TextBox:
         self._fore_fmt: str = "38;2;{};{};{}".format(*self._foreground._rgb)
         self._style_fmt: str = f"{Data.styles[self._style.lower()]};"
 
-        self.ANSI_format: str = f"\033[{self._style_fmt}{self._fore_fmt};{self._back_fmt}m"
+        self._ANSI_format: str = f"\033[{self._style_fmt}{self._fore_fmt};{self._back_fmt}m"
 
         if position is None:
             position = (0, 0)
@@ -366,7 +362,7 @@ class TextBox:
             # Iterate through each column in the current row of the text.
             for n, char in enumerate(line):
                 column = self._column_start + n
-                char = f"{self.ANSI_format}{char}\033[m"
+                char = f"{self._ANSI_format}{char}\033[m"
                 # Write to the buffer, without flushing to the terminal.
                 self._term.write_at(row, column, char, flush=False)
         # Restoring the cursor position.

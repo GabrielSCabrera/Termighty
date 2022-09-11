@@ -7,6 +7,78 @@ class KeyProcessor:
     """
 
     @classmethod
+    def key_alt_arrow_down(
+        cls, raw_text: list[str, ...], cursor_position: tuple[int, int], selected: list[tuple[int, int], ...]
+    ) -> tuple[tuple[int, int], list[tuple[int, int], ...]]:
+        """
+        Perform the actions of method `key_arrow_down` and also adds all the characters between the current cursor
+        position and new cursor position to the list of currently selected keys if they aren't already in the list. If
+        they are already in the list, deselects the given characters, removing them from the list.
+        """
+        new_cursor_position = cls.key_arrow_down(raw_text=raw_text, cursor_position=cursor_position)
+        selected = cls.select_range(
+            raw_text=raw_text,
+            cursor_position=cursor_position,
+            new_cursor_position=new_cursor_position,
+            selected=selected,
+        )
+        return new_cursor_position, selected
+
+    @classmethod
+    def key_alt_arrow_left(
+        cls, raw_text: list[str, ...], cursor_position: tuple[int, int], selected: list[tuple[int, int], ...]
+    ) -> tuple[tuple[int, int], list[tuple[int, int], ...]]:
+        """
+        Perform the actions of method `key_arrow_left` and also adds the character to the left of the cursor to the list
+        of currently selected keys if it isn't already in the list.  If it is already in the list, deselects the given
+        character, removing it from the list.
+        """
+        new_cursor_position = cls.key_arrow_left(raw_text=raw_text, cursor_position=cursor_position)
+        selected = cls.select_range(
+            raw_text=raw_text,
+            cursor_position=cursor_position,
+            new_cursor_position=new_cursor_position,
+            selected=selected,
+        )
+        return new_cursor_position, selected
+
+    @classmethod
+    def key_alt_arrow_right(
+        cls, raw_text: list[str, ...], cursor_position: tuple[int, int], selected: list[tuple[int, int], ...]
+    ) -> tuple[tuple[int, int], list[tuple[int, int], ...]]:
+        """
+        Perform the actions of method `key_arrow_right` and also adds the character to the right of the cursor to the
+        list of currently selected keys if it isn't already in the list.  If it is already in the list, deselects the
+        given character, removing it from the list.
+        """
+        new_cursor_position = cls.key_arrow_right(raw_text=raw_text, cursor_position=cursor_position)
+        selected = cls.select_range(
+            raw_text=raw_text,
+            cursor_position=cursor_position,
+            new_cursor_position=new_cursor_position,
+            selected=selected,
+        )
+        return new_cursor_position, selected
+
+    @classmethod
+    def key_alt_arrow_up(
+        cls, raw_text: list[str, ...], cursor_position: tuple[int, int], selected: list[tuple[int, int], ...]
+    ) -> tuple[tuple[int, int], list[tuple[int, int], ...]]:
+        """
+        Perform the actions of method `key_arrow_up` and also adds all the characters between the current cursor
+        position and new cursor position to the list of currently selected keys if they aren't already in the list. If
+        they are already in the list, deselects the given characters, removing them from the list.
+        """
+        new_cursor_position = cls.key_arrow_up(raw_text=raw_text, cursor_position=cursor_position)
+        selected = cls.select_range(
+            raw_text=raw_text,
+            cursor_position=cursor_position,
+            new_cursor_position=new_cursor_position,
+            selected=selected,
+        )
+        return new_cursor_position, selected
+
+    @classmethod
     def key_arrow_down(cls, raw_text: list[str, ...], cursor_position: tuple[int, int]) -> tuple[int, int]:
         """
         Move the cursor down by one line, unless it is positioned at the last line of the text.
@@ -68,7 +140,7 @@ class KeyProcessor:
 
     @classmethod
     def key_backspace(
-        cls, raw_text: list[str, ...], cursor_position: tuple[int, int]
+        cls, raw_text: list[str, ...], cursor_position: tuple[int, int], selected: list[tuple[int, int], ...]
     ) -> tuple[list[str, ...], tuple[int, int]]:
         """
         Remove the character to the left of the current cursor position.  Moot if the cursor is positioned at the first
@@ -94,7 +166,7 @@ class KeyProcessor:
 
     @classmethod
     def key_char(
-        cls, raw_text: list[str, ...], cursor_position: tuple[int, int], char: str
+        cls, raw_text: list[str, ...], cursor_position: tuple[int, int], selected: list[tuple[int, int], ...], char: str
     ) -> tuple[list[str, ...], tuple[int, int]]:
         """
         Add a character at the designated cursor position.
@@ -186,7 +258,9 @@ class KeyProcessor:
         """
 
     @classmethod
-    def key_delete(cls, raw_text: list[str, ...], cursor_position: tuple[int, int]) -> list[str, ...]:
+    def key_delete(
+        cls, raw_text: list[str, ...], cursor_position: tuple[int, int], selected: list[tuple[int, int], ...]
+    ) -> tuple[list[str, ...]]:
         """
         Remove the character to the right of the current cursor position.  Moot if the cursor is positioned at the last
         line & column of the text.
@@ -220,7 +294,7 @@ class KeyProcessor:
 
     @classmethod
     def key_enter(
-        cls, raw_text: list[str, ...], cursor_position: tuple[int, int]
+        cls, raw_text: list[str, ...], cursor_position: tuple[int, int], selected: list[tuple[int, int], ...]
     ) -> tuple[list[str, ...], tuple[int, int]]:
         """
         If the cursor is at the last column, create a new empty line below the current line and move the cursor there.
@@ -244,8 +318,8 @@ class KeyProcessor:
 
     @classmethod
     def key_tab(
-        cls, raw_text: list[str, ...], cursor_position: tuple[int, int]
-    ) -> tuple[list[str, ...], tuple[int, int]]:
+        cls, raw_text: list[str, ...], cursor_position: tuple[int, int], selected: list[tuple[int, int], ...]
+    ) -> tuple[list[str, ...], tuple[int, int], list[tuple[int, int], ...]]:
         """
         Given a cursor column position P, and a tab length L, adds N spaces starting at P, such that,
             N = L * (P // L) + L,
@@ -258,10 +332,12 @@ class KeyProcessor:
 
         new_cursor_position = (row, new_col)
 
-        return new_text, new_cursor_position
+        return new_text, new_cursor_position, selected
 
     @classmethod
-    def process_key(cls, raw_text: list[str, ...], cursor_position: tuple[int, int], key: str) -> None:
+    def process_key(
+        cls, raw_text: list[str, ...], cursor_position: tuple[int, int], selected: list[tuple[int, int], ...], key: str
+    ) -> tuple[bool, list[str, ...], tuple[int, int], list[tuple[int, int], ...]]:
         """
         Take the current text and cursor position, and modify them using the given key input.
         """
@@ -271,68 +347,165 @@ class KeyProcessor:
                 raw_text, cursor_position = cls.key_backspace(
                     raw_text,
                     cursor_position,
+                    selected,
                 )
+                selected = []
             case "Delete":
                 raw_text = cls.key_delete(
                     raw_text,
                     cursor_position,
+                    selected,
                 )
+                selected = []
             case "Space":
-                raw_text, cursor_position = cls.key_char(raw_text, cursor_position, " ")
+                raw_text, cursor_position = cls.key_char(raw_text, cursor_position, selected, " ")
             case "Enter":
                 raw_text, cursor_position = cls.key_enter(
                     raw_text,
                     cursor_position,
+                    selected,
                 )
             case "Left":
                 cursor_position = cls.key_arrow_left(
                     raw_text,
                     cursor_position,
                 )
+                selected = []
             case "Right":
                 cursor_position = cls.key_arrow_right(
                     raw_text,
                     cursor_position,
                 )
+                selected = []
             case "Up":
                 cursor_position = cls.key_arrow_up(
                     raw_text,
                     cursor_position,
                 )
+                selected = []
             case "Down":
                 cursor_position = cls.key_arrow_down(
                     raw_text,
                     cursor_position,
+                )
+                selected = []
+            case "Alt-Left":
+                cursor_position, selected = cls.key_alt_arrow_left(
+                    raw_text,
+                    cursor_position,
+                    selected,
+                )
+            case "Alt-Right":
+                cursor_position, selected = cls.key_alt_arrow_right(
+                    raw_text,
+                    cursor_position,
+                    selected,
+                )
+            case "Alt-Up":
+                cursor_position, selected = cls.key_alt_arrow_up(
+                    raw_text,
+                    cursor_position,
+                    selected,
+                )
+            case "Alt-Down":
+                cursor_position, selected = cls.key_alt_arrow_down(
+                    raw_text,
+                    cursor_position,
+                    selected,
                 )
             case "Ctrl-Left":
                 cursor_position = cls.key_ctrl_left(
                     raw_text,
                     cursor_position,
                 )
+                selected = []
             case "Ctrl-Right":
                 cursor_position = cls.key_ctrl_right(
                     raw_text,
                     cursor_position,
                 )
+                selected = []
             case "Home":
                 cursor_position = cls.key_home(
                     raw_text,
                     cursor_position,
                 )
+                selected = []
             case "End":
                 cursor_position = cls.key_end(
                     raw_text,
                     cursor_position,
                 )
+                selected = []
             case "Tab":
-                raw_text, cursor_position = cls.key_tab(
+                raw_text, cursor_position, selected = cls.key_tab(
                     raw_text,
                     cursor_position,
+                    selected,
                 )
             case other:
                 if len(key) == 1:
-                    raw_text, cursor_position = cls.key_char(raw_text, cursor_position, key)
+                    raw_text, cursor_position = cls.key_char(raw_text, cursor_position, selected, key)
+                    selected = []
                 else:
                     call = False
 
-        return call, raw_text, cursor_position
+        return call, raw_text, cursor_position, selected
+
+    @classmethod
+    def select_range(
+        cls,
+        raw_text: list[str, ...],
+        cursor_position: tuple[int, int],
+        new_cursor_position: tuple[int, int],
+        selected: list[tuple[int, int], ...],
+    ) -> list[tuple[int, int], ...]:
+        """
+        Determine which coordinates should be added and/or removed from the list of selected keys based on the movement
+        of the cursor.
+        """
+        position_range = []
+        row_start = cursor_position[0]
+        row_stop = new_cursor_position[0]
+
+        if row_start == row_stop:
+            reversed = cursor_position[1] > new_cursor_position[1]
+        else:
+            reversed = row_start > row_stop
+
+        if reversed:
+            step = -1
+            row_stop -= 1
+        else:
+            step = 1
+            row_stop += 1
+
+        rows = range(row_start, row_stop, step)[::step]
+        for row in rows:
+            if reversed:
+                column_start = len(raw_text[row]) - 1
+                column_stop = -1
+                if row == rows[-1]:
+                    column_start = min(cursor_position[1], len(raw_text[row])) - 1
+                if row == rows[0]:
+                    column_stop = new_cursor_position[1] - 1
+            else:
+                column_start = 0
+                column_stop = len(raw_text[row])
+                if row == rows[0]:
+                    column_start = cursor_position[1]
+                if row == rows[-1]:
+                    column_stop = min(new_cursor_position[1], len(raw_text[row]))
+
+            columns = range(column_start, column_stop, step)[::step]
+
+            for column in columns:
+                position_range.append((row, column))
+
+        for position in position_range:
+            if position not in selected:
+                selected.append(position)
+            else:
+                selected.remove(position)
+
+        return selected

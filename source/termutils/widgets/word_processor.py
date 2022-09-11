@@ -1,9 +1,10 @@
 from termutils.obj.color import Color
-from termutils.widgets.text_box import TextBox
+from termutils.settings.data import Data
 from termutils.settings.system import System
 from termutils.utils.listener import Listener
 from termutils.utils.key_processor import KeyProcessor
 from termutils.utils.term import Term
+from termutils.widgets.text_box import TextBox
 
 import textwrap
 import threading
@@ -21,7 +22,7 @@ class WordProcessor(TextBox):
     * Ctrl-arrow key to move the cursor to the beginning/end of words,
     * Alt-arrow to select text,
     * Deletion of selected text,
-    * Copying of selected text.
+    * Copying & pasting of selected text.
     """
 
     def __init__(
@@ -45,7 +46,7 @@ class WordProcessor(TextBox):
         """
         Creates an instance of WordProcessor, and initializes its attributes and those of its inherited `TextBox`.
         """
-        # Set the default position of the cursor.
+        # Set the default position of the cursor to (0, 0).
         if cursor_position is None:
             cursor_position = (0, 0)
         self._cursor_position = cursor_position
@@ -58,6 +59,7 @@ class WordProcessor(TextBox):
         # Whether the WordProcessor should be locked and all inputs ignored.
         self._frozen = False
 
+        # Performing the initialization of the TextBox base class.
         super().__init__(row_start, column_start, row_end, column_end, background, foreground, style)
 
         # If the background color of selected text is not explicitly given, uses the negative of the TextBox background.
@@ -73,18 +75,39 @@ class WordProcessor(TextBox):
             select_background, select_foreground, select_style
         )
 
-        self._select_background = select_background
-        self._select_foreground = select_foreground
-        self._select_style = select_style
-
         # If the scroll buffer values are not explicitely defined, changes as the terminal is resized.
         self._dynamic_scroll_buffer = (vertical_scroll_buffer is None, horizontal_scroll_buffer is None)
         # Distances to the TextBox edges before scrolling is initiated (vertical, horizontal).
         self._scroll_buffer = (vertical_scroll_buffer, horizontal_scroll_buffer)
-
         # Set the initial dynamic scroll buffers values.
         self._set_scroll_buffer()
 
+        # Prepare the color and style settings for selected text.
+        self._init_select_attributes(select_background, select_foreground, select_style)
+
+    def _init_select_attributes(
+        self,
+        select_background: Color,
+        select_foreground: Color,
+        select_style: str,
+        selected: Optional[list[tuple[int, int], ...]] = None,
+    ):
+        """
+        Prepare all the instance attributes for selected text, such as colors, style, and the resulting ANSI sequences
+        that will be used to correctly display the text with these colors and styles.
+
+        Also initializes the coordinate list of selected text, set to an empty list by default.
+        """
+        self._select_background = select_background
+        self._select_foreground = select_foreground
+        self._select_style = select_style
+
+        self._select_back_fmt: str = "48;2;{};{};{}".format(*self._select_background._rgb)
+        self._select_fore_fmt: str = "38;2;{};{};{}".format(*self._select_foreground._rgb)
+        self._select_style_fmt: str = f"{Data.styles[self._select_style.lower()]};"
+
+        self._select_ANSI_format: str = f"\033[{self._select_style_fmt}{self._select_fore_fmt};{self._select_back_fmt}m"
+        self._selected = selected if selected is not None else []
 
     def _run_getch_thread(self) -> None:
         """
@@ -96,8 +119,8 @@ class WordProcessor(TextBox):
 
         for key in getch_iterator:
             if not self._frozen:
-                call, self._raw_text, self._cursor_position = KeyProcessor.process_key(
-                    raw_text=self._raw_text, cursor_position=self._cursor_position, key=key
+                call, self._raw_text, self._cursor_position, self._selected = KeyProcessor.process_key(
+                    raw_text=self._raw_text, cursor_position=self._cursor_position, selected=self._selected, key=key
                 )
                 if call:
                     self.__call__(self._raw_text)
@@ -154,6 +177,10 @@ class WordProcessor(TextBox):
                 col + self._column_start - self._origin[1],
             )
 
+        self._selected_processed = [
+            (position[0] + self._row_start - self._origin[0], position[1] + self._column_start - self._origin[1])
+            for position in self._selected
+        ]
         self._prev_cursor_position = self._cursor_position
         self._term.cursor_move(*cursor_position, flush=True)
         super()._set_view()
@@ -183,3 +210,27 @@ class WordProcessor(TextBox):
         Unfreeze the WordProcessor and reopen it to getch inputs.
         """
         self._frozen = False
+
+    def write(self) -> None:
+        """
+        Write the text to its designated coordinates with the view taken into account.
+        """
+        # Saving the cursor position.
+        self._term.cursor_save()
+        # Iterate through each row of the text.
+        for m, line in enumerate(self._view):
+            row = self._row_start + m
+            # Iterate through each column in the current row of the text.
+            for n, char in enumerate(line):
+                column = self._column_start + n
+                position = (row, column)
+                if position in self._selected_processed:
+                    char = f"{self._select_ANSI_format}{char}\033[m"
+                else:
+                    char = f"{self._ANSI_format}{char}\033[m"
+                # Write to the buffer, without flushing to the terminal.
+                self._term.write_at(row, column, char, flush=False)
+        # Restoring the cursor position.
+        self._term.cursor_load()
+        # Flushing the results to the terminal.  Waiting to flush improves efficienty significantly.
+        self._term.flush()
