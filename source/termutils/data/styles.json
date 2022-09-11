@@ -1,0 +1,13 @@
+{
+    "default":0,
+    "bold":1,
+    "faint":2,
+    "italic":3,
+    "underline":4,
+    "slow blink":5,
+    "rapid blink":6,
+    "crossed out":9,
+    "framed":51,
+    "encircled":52,
+    "overlined":53
+}
