@@ -30,7 +30,7 @@ class WordProcessor(TextBox):
         column_start: int,
         row_end: int,
         column_end: int,
-        wrap_text: bool = True,
+        wrap_text: bool = False,
         show_line_numbers: bool = False,
         background: Union[str, Color, tuple[int, int, int]] = None,
         foreground: Union[str, Color, tuple[int, int, int]] = None,
@@ -39,14 +39,18 @@ class WordProcessor(TextBox):
         select_foreground: Union[str, Color, tuple[int, int, int]] = None,
         select_style: Optional[str] = None,
         cursor_position: Optional[tuple[int, int]] = None,
+        vertical_scroll_buffer: Optional[int] = None,
+        horizontal_scroll_buffer: Optional[int] = None,
     ):
         """
         Creates an instance of WordProcessor, and initializes its attributes and those of its inherited `TextBox`.
         """
-        # The default position of the cursor.
+        # Set the default position of the cursor.
         if cursor_position is None:
             cursor_position = (0, 0)
         self._cursor_position = cursor_position
+        # To keep track of changes to the cursor position, store the previous position (updated by method `_set_view`).
+        self._prev_cursor_position = self._cursor_position
         # Whether the text should wrap to the next line if a line exceeds the width of the underlying TextBox.
         self._wrap_text = wrap_text
         # Whether line numbers should be displayed on the left side of the text.
@@ -73,6 +77,15 @@ class WordProcessor(TextBox):
         self._select_foreground = select_foreground
         self._select_style = select_style
 
+        # If the scroll buffer values are not explicitely defined, changes as the terminal is resized.
+        self._dynamic_scroll_buffer = (vertical_scroll_buffer is None, horizontal_scroll_buffer is None)
+        # Distances to the TextBox edges before scrolling is initiated (vertical, horizontal).
+        self._scroll_buffer = (vertical_scroll_buffer, horizontal_scroll_buffer)
+
+        # Set the initial dynamic scroll buffers values.
+        self._set_scroll_buffer()
+
+
     def _run_getch_thread(self) -> None:
         """
         Keeps updating the window every set number of seconds (given by `dt`) and accounts for changes in the terminal
@@ -89,17 +102,61 @@ class WordProcessor(TextBox):
                 if call:
                     self.__call__(self._raw_text)
 
+    def _set_scroll_buffer(self) -> None:
+        """
+        If the vertical and/or horizontal scroll buffers are dynamic, changes them based on the current terminal
+        dimensions.
+        """
+        scroll_buffer = [self._scroll_buffer[0], self._scroll_buffer[1]]
+
+        # How close (in rows) the cursor must get to the top or bottom of the TextBox before scrolling vertically.
+        if self._dynamic_scroll_buffer[0]:
+            scroll_buffer[0] = max(self._shape[0] // 10, 2)
+
+        # How close (in columns) the cursor must get to the left or right TextBox edge before scrolling horizontally.
+        if self._dynamic_scroll_buffer[1]:
+            scroll_buffer[1] = max(self._shape[1] // 10, 4)
+
+        self._scroll_buffer = (scroll_buffer[0], scroll_buffer[1])
+
     def _set_view(self) -> None:
         """
         Backend for method `set_view`.
         """
-        super()._set_view()
         row, col = self._cursor_position
-        cursor_abs_position = (
-            row + self._row_start,
-            col + self._column_start,
+        row_prev, col_prev = self._prev_cursor_position
+
+        if row_prev != row:
+            self._origin = (self._origin[0], 0)
+
+        cursor_position = (
+            row + self._row_start - self._origin[0],
+            col + self._column_start - self._origin[1],
         )
-        self._term.cursor_move(*cursor_abs_position, flush=True)
+
+        self._set_scroll_buffer()
+
+        if not self._wrap_text:
+            # Vertically scrolls the view of the text based on the cursor position.
+            if (diff := cursor_position[0] - self._shape[0] + self._scroll_buffer[0]) >= 0:
+                self._origin = (self._origin[0] + diff, self._origin[1])
+            elif (diff := cursor_position[0] - self._scroll_buffer[0]) < 0:
+                self._origin = (max(0, self._origin[0] + diff), self._origin[1])
+
+            # Horizontally scrolls the view of the text based on the cursor position.
+            if (diff := cursor_position[1] - self._shape[1] + self._scroll_buffer[1]) >= 0:
+                self._origin = (self._origin[0], self._origin[1] + diff)
+            elif (diff := cursor_position[1] - self._scroll_buffer[1]) < 0:
+                self._origin = (self._origin[0], max(0, self._origin[1] + diff))
+
+            cursor_position = (
+                row + self._row_start - self._origin[0],
+                col + self._column_start - self._origin[1],
+            )
+
+        self._prev_cursor_position = self._cursor_position
+        self._term.cursor_move(*cursor_position, flush=True)
+        super()._set_view()
 
     def start(self):
         """

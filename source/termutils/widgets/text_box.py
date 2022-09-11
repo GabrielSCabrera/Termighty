@@ -142,7 +142,7 @@ class TextBox:
         if position is None:
             position = (0, 0)
 
-        self._position = position
+        self._origin = position
 
     def _check_arguments(
         self,
@@ -221,10 +221,11 @@ class TextBox:
     def _run_thread(self, dt: float) -> None:
         """
         Keep updating the window every `dt` seconds, and account for changes in the terminal size (useful when dealing
-        with relative coordinates on initializiation).
+        with relative coordinates on initialization).
         """
         self._active = True
         while self._active and not System.kill_all:
+            # Reformat the contents of the TextBox due to a change in terminal dimensions.
             if self._terminal_size != (terminal_size := System.terminal_size):
                 self._terminal_size = terminal_size
                 # Repeat the reset process three times in order to account for lag in the terminal as it is resized.
@@ -272,8 +273,8 @@ class TextBox:
         Backend for method `set_view` -- limits the view to prevent out of bounds errors by using commands `min` and
         `max` with the TextBox dimensions.
         """
-        row = max(min(self._position[0] + self._shape[0], self._text_shape[0]), 0)
-        column = max(min(self._position[1] + self._shape[1], self._text_shape[1]), 0)
+        row = max(min(self._origin[0] + self._shape[0], self._text_shape[0]), 0)
+        column = max(min(self._origin[1] + self._shape[1], self._text_shape[1]), 0)
         self._view: np.ndarray = self._text_grid[row : row + self._shape[0], column : column + self._shape[1]]
         self._new_view: bool = True
 
@@ -311,31 +312,31 @@ class TextBox:
         """
         Scroll the current view down by the designated number of rows.
         """
-        self._position: tuple[int, int] = (self._view[0] + rows, self._view[1])
+        self._origin: tuple[int, int] = (self._view[0] + rows, self._view[1])
         self._set_view()
 
     def scroll_left(self, columns: int = 1) -> None:
         """
         Scroll the current view left by the designated number of columns.
         """
-        self._position: tuple[int, int] = (self._view[0], self._view[1] - columns)
+        self._origin: tuple[int, int] = (self._view[0], self._view[1] - columns)
         self._set_view()
 
     def scroll_right(self, columns: int = 1) -> None:
         """
         Scroll the current view right by the designated number of columns.
         """
-        self._position: tuple[int, int] = (self._view[0], self._view[1] + columns)
+        self._origin: tuple[int, int] = (self._view[0], self._view[1] + columns)
         self._set_view()
 
     def scroll_up(self, rows: int = 1) -> None:
         """
         Scroll the current view up by the designated number of rows.
         """
-        self._position: tuple[int, int] = (self._view[0] - rows, self._view[1])
+        self._origin: tuple[int, int] = (self._view[0] - rows, self._view[1])
         self._set_view()
 
-    def set_view(self, row: int, column: int) -> None:
+    def set_view(self, row: Optional[int] = 0, column: Optional[int] = 0) -> None:
         """
         Set the current view on the text to the given coordinates. For example, given a TextBox with shape (rows=1,
         columns=10) the string
@@ -350,7 +351,7 @@ class TextBox:
 
         The view may exceed the text's boundary, as it is automatically padded.
         """
-        self._position = (row, column)
+        self._origin = (row, column)
         self._set_view()
 
     def write(self) -> None:
