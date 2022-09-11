@@ -1,0 +1,4767 @@
+{
+    "absolute zero":[
+        0,
+        71,
+        186
+    ],
+    "acid green":[
+        175,
+        191,
+        25
+    ],
+    "aero":[
+        124,
+        186,
+        232
+    ],
+    "aero blue":[
+        201,
+        255,
+        229
+    ],
+    "african violet":[
+        178,
+        132,
+        191
+    ],
+    "air superiority blue":[
+        114,
+        160,
+        193
+    ],
+    "alabaster":[
+        237,
+        234,
+        224
+    ],
+    "alice blue":[
+        239,
+        247,
+        255
+    ],
+    "alloy orange":[
+        196,
+        96,
+        15
+    ],
+    "almond":[
+        239,
+        221,
+        204
+    ],
+    "amaranth":[
+        229,
+        43,
+        79
+    ],
+    "amaranth [m&p]":[
+        158,
+        43,
+        104
+    ],
+    "amaranth pink":[
+        242,
+        155,
+        186
+    ],
+    "amaranth purple":[
+        170,
+        38,
+        79
+    ],
+    "amaranth red":[
+        211,
+        33,
+        45
+    ],
+    "amazon":[
+        58,
+        122,
+        86
+    ],
+    "amber":[
+        255,
+        191,
+        0
+    ],
+    "amber [sae/ece]":[
+        255,
+        124,
+        0
+    ],
+    "amethyst":[
+        153,
+        102,
+        204
+    ],
+    "android green":[
+        163,
+        198,
+        56
+    ],
+    "antique brass":[
+        204,
+        147,
+        117
+    ],
+    "antique bronze":[
+        102,
+        91,
+        30
+    ],
+    "antique fuchsia":[
+        145,
+        91,
+        130
+    ],
+    "antique ruby":[
+        132,
+        28,
+        45
+    ],
+    "antique white":[
+        249,
+        234,
+        214
+    ],
+    "ao [english]":[
+        0,
+        127,
+        0
+    ],
+    "apple green":[
+        140,
+        181,
+        0
+    ],
+    "apricot":[
+        249,
+        206,
+        175
+    ],
+    "aqua":[
+        0,
+        255,
+        255
+    ],
+    "aquamarine":[
+        127,
+        255,
+        211
+    ],
+    "arctic lime":[
+        209,
+        255,
+        20
+    ],
+    "army green":[
+        73,
+        84,
+        33
+    ],
+    "artichoke":[
+        142,
+        150,
+        119
+    ],
+    "arylide yellow":[
+        232,
+        214,
+        107
+    ],
+    "ash gray":[
+        178,
+        191,
+        181
+    ],
+    "asparagus":[
+        135,
+        168,
+        107
+    ],
+    "atomic tangerine":[
+        255,
+        153,
+        102
+    ],
+    "auburn":[
+        165,
+        40,
+        40
+    ],
+    "aureolin":[
+        252,
+        237,
+        0
+    ],
+    "avocado":[
+        86,
+        130,
+        2
+    ],
+    "azure":[
+        0,
+        127,
+        255
+    ],
+    "azure [x11/web color]":[
+        239,
+        255,
+        255
+    ],
+    "baby blue":[
+        137,
+        206,
+        239
+    ],
+    "baby blue eyes":[
+        160,
+        201,
+        242
+    ],
+    "baby pink":[
+        244,
+        193,
+        193
+    ],
+    "baby powder":[
+        255,
+        255,
+        249
+    ],
+    "baker-miller pink":[
+        255,
+        145,
+        175
+    ],
+    "banana mania":[
+        249,
+        232,
+        181
+    ],
+    "barbie pink":[
+        216,
+        22,
+        132
+    ],
+    "barn red":[
+        124,
+        10,
+        2
+    ],
+    "battleship grey":[
+        132,
+        132,
+        130
+    ],
+    "beau blue":[
+        188,
+        211,
+        229
+    ],
+    "beaver":[
+        158,
+        130,
+        112
+    ],
+    "beige":[
+        244,
+        244,
+        219
+    ],
+    "b'dazzled blue":[
+        45,
+        89,
+        147
+    ],
+    "big dip o’ruby":[
+        155,
+        38,
+        66
+    ],
+    "bisque":[
+        255,
+        226,
+        196
+    ],
+    "bistre":[
+        61,
+        43,
+        30
+    ],
+    "bistre brown":[
+        150,
+        112,
+        22
+    ],
+    "bitter lemon":[
+        201,
+        224,
+        12
+    ],
+    "bitter lime":[
+        191,
+        255,
+        0
+    ],
+    "bittersweet":[
+        255,
+        112,
+        94
+    ],
+    "bittersweet shimmer":[
+        191,
+        79,
+        81
+    ],
+    "black":[
+        0,
+        0,
+        0
+    ],
+    "black bean":[
+        61,
+        12,
+        2
+    ],
+    "black chocolate":[
+        28,
+        22,
+        17
+    ],
+    "black coffee":[
+        58,
+        45,
+        45
+    ],
+    "black coral":[
+        84,
+        96,
+        112
+    ],
+    "black olive":[
+        58,
+        61,
+        53
+    ],
+    "black shadows":[
+        191,
+        175,
+        178
+    ],
+    "blanched almond":[
+        255,
+        234,
+        204
+    ],
+    "blast-off bronze":[
+        165,
+        112,
+        99
+    ],
+    "bleu de france":[
+        48,
+        140,
+        232
+    ],
+    "blizzard blue":[
+        170,
+        229,
+        237
+    ],
+    "blond":[
+        249,
+        239,
+        191
+    ],
+    "blood red":[
+        102,
+        0,
+        0
+    ],
+    "blue":[
+        0,
+        0,
+        255
+    ],
+    "blue [crayola]":[
+        30,
+        117,
+        255
+    ],
+    "blue [munsell]":[
+        0,
+        147,
+        175
+    ],
+    "blue [ncs]":[
+        0,
+        135,
+        188
+    ],
+    "blue [pantone]":[
+        0,
+        22,
+        168
+    ],
+    "blue [pigment]":[
+        51,
+        51,
+        153
+    ],
+    "blue [ryb]":[
+        2,
+        71,
+        255
+    ],
+    "blue bell":[
+        163,
+        163,
+        209
+    ],
+    "blue-gray":[
+        102,
+        153,
+        204
+    ],
+    "blue-green":[
+        12,
+        153,
+        186
+    ],
+    "blue-green [color wheel]":[
+        5,
+        79,
+        63
+    ],
+    "blue jeans":[
+        91,
+        173,
+        237
+    ],
+    "blue sapphire":[
+        17,
+        96,
+        127
+    ],
+    "blue-violet":[
+        137,
+        43,
+        226
+    ],
+    "blue-violet [crayola]":[
+        114,
+        102,
+        188
+    ],
+    "blue-violet [color wheel]":[
+        76,
+        25,
+        127
+    ],
+    "blue yonder":[
+        79,
+        114,
+        165
+    ],
+    "bluetiful":[
+        61,
+        104,
+        232
+    ],
+    "blush":[
+        221,
+        91,
+        130
+    ],
+    "bole":[
+        119,
+        68,
+        58
+    ],
+    "bone":[
+        226,
+        216,
+        201
+    ],
+    "bottle green":[
+        0,
+        107,
+        79
+    ],
+    "brandy":[
+        135,
+        63,
+        63
+    ],
+    "brick red":[
+        204,
+        63,
+        84
+    ],
+    "bright green":[
+        102,
+        255,
+        0
+    ],
+    "bright lilac":[
+        216,
+        145,
+        239
+    ],
+    "bright maroon":[
+        193,
+        33,
+        71
+    ],
+    "bright navy blue":[
+        25,
+        114,
+        209
+    ],
+    "bright yellow [crayola]":[
+        255,
+        170,
+        28
+    ],
+    "brilliant rose":[
+        255,
+        84,
+        163
+    ],
+    "brink pink":[
+        249,
+        96,
+        127
+    ],
+    "british racing green":[
+        0,
+        66,
+        38
+    ],
+    "bronze":[
+        204,
+        127,
+        51
+    ],
+    "brown":[
+        135,
+        84,
+        10
+    ],
+    "brown sugar":[
+        175,
+        109,
+        76
+    ],
+    "brunswick green":[
+        28,
+        76,
+        61
+    ],
+    "bud green":[
+        122,
+        181,
+        96
+    ],
+    "buff":[
+        239,
+        219,
+        130
+    ],
+    "burgundy":[
+        127,
+        0,
+        33
+    ],
+    "burlywood":[
+        221,
+        183,
+        135
+    ],
+    "burnished brown":[
+        160,
+        122,
+        114
+    ],
+    "burnt orange":[
+        204,
+        84,
+        0
+    ],
+    "burnt sienna":[
+        232,
+        114,
+        81
+    ],
+    "burnt umber":[
+        137,
+        51,
+        35
+    ],
+    "byzantine":[
+        188,
+        51,
+        163
+    ],
+    "byzantium":[
+        112,
+        40,
+        99
+    ],
+    "cadet":[
+        84,
+        104,
+        114
+    ],
+    "cadet blue":[
+        94,
+        158,
+        160
+    ],
+    "cadet blue [crayola]":[
+        168,
+        178,
+        193
+    ],
+    "cadet grey":[
+        145,
+        163,
+        175
+    ],
+    "cadmium green":[
+        0,
+        107,
+        61
+    ],
+    "cadmium orange":[
+        237,
+        135,
+        45
+    ],
+    "cadmium red":[
+        226,
+        0,
+        33
+    ],
+    "cadmium yellow":[
+        255,
+        244,
+        0
+    ],
+    "café au lait":[
+        165,
+        122,
+        91
+    ],
+    "café noir":[
+        73,
+        53,
+        33
+    ],
+    "cambridge blue":[
+        163,
+        193,
+        173
+    ],
+    "camel":[
+        193,
+        153,
+        107
+    ],
+    "cameo pink":[
+        239,
+        186,
+        204
+    ],
+    "canary":[
+        255,
+        255,
+        153
+    ],
+    "canary yellow":[
+        255,
+        239,
+        0
+    ],
+    "candy apple red":[
+        255,
+        7,
+        0
+    ],
+    "candy pink":[
+        226,
+        112,
+        122
+    ],
+    "capri":[
+        0,
+        191,
+        255
+    ],
+    "caput mortuum":[
+        89,
+        38,
+        33
+    ],
+    "cardinal":[
+        196,
+        30,
+        58
+    ],
+    "caribbean green":[
+        0,
+        204,
+        153
+    ],
+    "carmine":[
+        150,
+        0,
+        22
+    ],
+    "carmine [m&p]":[
+        214,
+        0,
+        63
+    ],
+    "carnation pink":[
+        255,
+        165,
+        201
+    ],
+    "carnelian":[
+        178,
+        28,
+        28
+    ],
+    "carolina blue":[
+        86,
+        160,
+        211
+    ],
+    "carrot orange":[
+        237,
+        145,
+        33
+    ],
+    "castleton green":[
+        0,
+        86,
+        63
+    ],
+    "catawba":[
+        112,
+        53,
+        66
+    ],
+    "cedar chest":[
+        201,
+        89,
+        73
+    ],
+    "celadon":[
+        170,
+        224,
+        175
+    ],
+    "celadon blue":[
+        0,
+        122,
+        165
+    ],
+    "celadon green":[
+        45,
+        132,
+        124
+    ],
+    "celeste":[
+        178,
+        255,
+        255
+    ],
+    "celtic blue":[
+        35,
+        107,
+        206
+    ],
+    "cerise":[
+        221,
+        48,
+        99
+    ],
+    "cerulean":[
+        0,
+        122,
+        165
+    ],
+    "cerulean blue":[
+        40,
+        81,
+        191
+    ],
+    "cerulean frost":[
+        109,
+        155,
+        193
+    ],
+    "cerulean [crayola]":[
+        28,
+        170,
+        214
+    ],
+    "cg blue":[
+        0,
+        122,
+        165
+    ],
+    "cg red":[
+        224,
+        61,
+        48
+    ],
+    "champagne":[
+        247,
+        232,
+        206
+    ],
+    "champagne pink":[
+        242,
+        221,
+        206
+    ],
+    "charcoal":[
+        53,
+        68,
+        79
+    ],
+    "charleston green":[
+        35,
+        43,
+        43
+    ],
+    "charm pink":[
+        229,
+        142,
+        170
+    ],
+    "chartreuse [traditional]":[
+        221,
+        255,
+        0
+    ],
+    "chartreuse [web]":[
+        127,
+        255,
+        0
+    ],
+    "cherry blossom pink":[
+        255,
+        183,
+        196
+    ],
+    "chestnut":[
+        147,
+        68,
+        53
+    ],
+    "china pink":[
+        221,
+        112,
+        160
+    ],
+    "china rose":[
+        168,
+        81,
+        109
+    ],
+    "chinese red":[
+        170,
+        56,
+        30
+    ],
+    "chinese violet":[
+        132,
+        96,
+        135
+    ],
+    "chinese yellow":[
+        255,
+        178,
+        0
+    ],
+    "chocolate [traditional]":[
+        122,
+        63,
+        0
+    ],
+    "chocolate [web]":[
+        209,
+        104,
+        30
+    ],
+    "chrome yellow":[
+        255,
+        165,
+        0
+    ],
+    "cinereous":[
+        153,
+        130,
+        122
+    ],
+    "cinnabar":[
+        226,
+        66,
+        51
+    ],
+    "cinnamon satin":[
+        204,
+        96,
+        124
+    ],
+    "citrine":[
+        226,
+        209,
+        10
+    ],
+    "citron":[
+        158,
+        168,
+        30
+    ],
+    "claret":[
+        127,
+        22,
+        51
+    ],
+    "cobalt blue":[
+        0,
+        71,
+        170
+    ],
+    "cocoa brown":[
+        209,
+        104,
+        30
+    ],
+    "coffee":[
+        112,
+        79,
+        56
+    ],
+    "columbia blue":[
+        186,
+        216,
+        234
+    ],
+    "congo pink":[
+        247,
+        130,
+        119
+    ],
+    "cool grey":[
+        140,
+        145,
+        170
+    ],
+    "copper":[
+        183,
+        114,
+        51
+    ],
+    "copper [crayola]":[
+        216,
+        137,
+        102
+    ],
+    "copper penny":[
+        173,
+        112,
+        104
+    ],
+    "copper red":[
+        204,
+        109,
+        81
+    ],
+    "copper rose":[
+        153,
+        102,
+        102
+    ],
+    "coquelicot":[
+        255,
+        56,
+        0
+    ],
+    "coral":[
+        255,
+        127,
+        79
+    ],
+    "coral pink":[
+        247,
+        130,
+        119
+    ],
+    "cordovan":[
+        137,
+        63,
+        68
+    ],
+    "corn":[
+        249,
+        237,
+        91
+    ],
+    "cornflower blue":[
+        99,
+        147,
+        237
+    ],
+    "cornsilk":[
+        255,
+        247,
+        219
+    ],
+    "cosmic cobalt":[
+        45,
+        45,
+        135
+    ],
+    "cosmic latte":[
+        255,
+        247,
+        232
+    ],
+    "coyote brown":[
+        130,
+        96,
+        61
+    ],
+    "cotton candy":[
+        255,
+        188,
+        216
+    ],
+    "cream":[
+        255,
+        252,
+        209
+    ],
+    "crimson":[
+        219,
+        20,
+        61
+    ],
+    "crimson [ua]":[
+        158,
+        28,
+        51
+    ],
+    "cultured":[
+        244,
+        244,
+        244
+    ],
+    "cyan":[
+        0,
+        255,
+        255
+    ],
+    "cyan [process]":[
+        0,
+        183,
+        234
+    ],
+    "cyber grape":[
+        89,
+        66,
+        124
+    ],
+    "cyber yellow":[
+        255,
+        211,
+        0
+    ],
+    "cyclamen":[
+        244,
+        112,
+        160
+    ],
+    "dark blue-gray":[
+        102,
+        102,
+        153
+    ],
+    "dark brown":[
+        102,
+        66,
+        33
+    ],
+    "dark byzantium":[
+        91,
+        56,
+        84
+    ],
+    "dark cornflower blue":[
+        38,
+        66,
+        140
+    ],
+    "dark cyan":[
+        0,
+        140,
+        140
+    ],
+    "dark electric blue":[
+        84,
+        104,
+        119
+    ],
+    "dark goldenrod":[
+        183,
+        135,
+        10
+    ],
+    "dark green":[
+        0,
+        51,
+        33
+    ],
+    "dark green [x11]":[
+        0,
+        99,
+        0
+    ],
+    "dark jungle green":[
+        25,
+        35,
+        33
+    ],
+    "dark khaki":[
+        188,
+        183,
+        107
+    ],
+    "dark lava":[
+        71,
+        61,
+        51
+    ],
+    "dark liver":[
+        84,
+        73,
+        79
+    ],
+    "dark liver [horses]":[
+        84,
+        61,
+        56
+    ],
+    "dark magenta":[
+        140,
+        0,
+        140
+    ],
+    "dark moss green":[
+        73,
+        91,
+        35
+    ],
+    "dark olive green":[
+        84,
+        107,
+        45
+    ],
+    "dark orange":[
+        255,
+        140,
+        0
+    ],
+    "dark orchid":[
+        153,
+        51,
+        204
+    ],
+    "dark pastel green":[
+        2,
+        191,
+        61
+    ],
+    "dark purple":[
+        48,
+        25,
+        51
+    ],
+    "dark red":[
+        140,
+        0,
+        0
+    ],
+    "dark salmon":[
+        232,
+        150,
+        122
+    ],
+    "dark sea green":[
+        142,
+        188,
+        142
+    ],
+    "dark sienna":[
+        61,
+        20,
+        20
+    ],
+    "dark sky blue":[
+        140,
+        191,
+        214
+    ],
+    "dark slate blue":[
+        71,
+        61,
+        140
+    ],
+    "dark slate gray":[
+        45,
+        79,
+        79
+    ],
+    "dark spring green":[
+        22,
+        114,
+        68
+    ],
+    "dark turquoise":[
+        0,
+        206,
+        209
+    ],
+    "dark violet":[
+        147,
+        0,
+        211
+    ],
+    "dartmouth green":[
+        0,
+        112,
+        61
+    ],
+    "davy's grey":[
+        84,
+        84,
+        84
+    ],
+    "deep cerise":[
+        216,
+        51,
+        135
+    ],
+    "deep champagne":[
+        249,
+        214,
+        165
+    ],
+    "deep chestnut":[
+        186,
+        79,
+        71
+    ],
+    "deep jungle green":[
+        0,
+        73,
+        73
+    ],
+    "deep pink":[
+        255,
+        20,
+        147
+    ],
+    "deep saffron":[
+        255,
+        153,
+        51
+    ],
+    "deep sky blue":[
+        0,
+        191,
+        255
+    ],
+    "deep space sparkle":[
+        73,
+        99,
+        107
+    ],
+    "deep taupe":[
+        124,
+        94,
+        96
+    ],
+    "denim":[
+        20,
+        96,
+        188
+    ],
+    "denim blue":[
+        33,
+        66,
+        181
+    ],
+    "desert":[
+        193,
+        153,
+        107
+    ],
+    "desert sand":[
+        237,
+        201,
+        175
+    ],
+    "dim gray":[
+        104,
+        104,
+        104
+    ],
+    "dodger blue":[
+        30,
+        142,
+        255
+    ],
+    "dogwood rose":[
+        214,
+        22,
+        104
+    ],
+    "drab":[
+        150,
+        112,
+        22
+    ],
+    "duke blue":[
+        0,
+        0,
+        155
+    ],
+    "dutch white":[
+        239,
+        221,
+        186
+    ],
+    "earth yellow":[
+        224,
+        168,
+        94
+    ],
+    "ebony":[
+        84,
+        91,
+        79
+    ],
+    "ecru":[
+        193,
+        178,
+        127
+    ],
+    "eerie black":[
+        28,
+        28,
+        28
+    ],
+    "eggplant":[
+        96,
+        63,
+        81
+    ],
+    "eggshell":[
+        239,
+        234,
+        214
+    ],
+    "egyptian blue":[
+        15,
+        51,
+        165
+    ],
+    "electric blue":[
+        124,
+        249,
+        255
+    ],
+    "electric green":[
+        0,
+        255,
+        0
+    ],
+    "electric indigo":[
+        112,
+        0,
+        255
+    ],
+    "electric lime":[
+        204,
+        255,
+        0
+    ],
+    "electric purple":[
+        191,
+        0,
+        255
+    ],
+    "electric violet":[
+        142,
+        0,
+        255
+    ],
+    "emerald":[
+        79,
+        198,
+        119
+    ],
+    "eminence":[
+        107,
+        48,
+        130
+    ],
+    "english green":[
+        28,
+        76,
+        61
+    ],
+    "english lavender":[
+        181,
+        130,
+        147
+    ],
+    "english red":[
+        170,
+        73,
+        81
+    ],
+    "english vermillion":[
+        204,
+        71,
+        73
+    ],
+    "english violet":[
+        86,
+        61,
+        91
+    ],
+    "erin":[
+        0,
+        255,
+        63
+    ],
+    "eton blue":[
+        150,
+        198,
+        163
+    ],
+    "fallow":[
+        193,
+        153,
+        107
+    ],
+    "falu red":[
+        127,
+        22,
+        22
+    ],
+    "fandango":[
+        181,
+        51,
+        137
+    ],
+    "fandango pink":[
+        221,
+        81,
+        132
+    ],
+    "fashion fuchsia":[
+        244,
+        0,
+        160
+    ],
+    "fawn":[
+        229,
+        170,
+        112
+    ],
+    "feldgrau":[
+        76,
+        91,
+        84
+    ],
+    "fern green":[
+        79,
+        119,
+        66
+    ],
+    "field drab":[
+        107,
+        84,
+        30
+    ],
+    "fiery rose":[
+        255,
+        84,
+        112
+    ],
+    "firebrick":[
+        178,
+        33,
+        33
+    ],
+    "fire engine red":[
+        206,
+        33,
+        40
+    ],
+    "fire opal":[
+        232,
+        91,
+        73
+    ],
+    "flame":[
+        226,
+        89,
+        33
+    ],
+    "flax":[
+        237,
+        219,
+        130
+    ],
+    "flickr blue":[
+        33,
+        107,
+        214
+    ],
+    "flickr pink":[
+        249,
+        0,
+        130
+    ],
+    "flirt":[
+        163,
+        0,
+        109
+    ],
+    "floral white":[
+        255,
+        249,
+        239
+    ],
+    "fluorescent blue":[
+        20,
+        244,
+        237
+    ],
+    "forest green [crayola]":[
+        94,
+        165,
+        119
+    ],
+    "forest green [traditional]":[
+        0,
+        68,
+        33
+    ],
+    "forest green [web]":[
+        33,
+        140,
+        33
+    ],
+    "french beige":[
+        165,
+        122,
+        91
+    ],
+    "french bistre":[
+        132,
+        109,
+        76
+    ],
+    "french blue":[
+        0,
+        114,
+        186
+    ],
+    "french fuchsia":[
+        252,
+        63,
+        145
+    ],
+    "french lilac":[
+        135,
+        96,
+        142
+    ],
+    "french lime":[
+        158,
+        252,
+        56
+    ],
+    "french mauve":[
+        211,
+        114,
+        211
+    ],
+    "french pink":[
+        252,
+        107,
+        158
+    ],
+    "french raspberry":[
+        198,
+        43,
+        71
+    ],
+    "french rose":[
+        244,
+        73,
+        137
+    ],
+    "french sky blue":[
+        119,
+        181,
+        255
+    ],
+    "french violet":[
+        135,
+        5,
+        206
+    ],
+    "frostbite":[
+        232,
+        53,
+        165
+    ],
+    "fuchsia":[
+        255,
+        0,
+        255
+    ],
+    "fuchsia [crayola]":[
+        193,
+        84,
+        193
+    ],
+    "fuchsia purple":[
+        204,
+        56,
+        122
+    ],
+    "fuchsia rose":[
+        198,
+        66,
+        117
+    ],
+    "fulvous":[
+        226,
+        132,
+        0
+    ],
+    "fuzzy wuzzy":[
+        135,
+        66,
+        30
+    ],
+    "gainsboro":[
+        219,
+        219,
+        219
+    ],
+    "gamboge":[
+        226,
+        155,
+        15
+    ],
+    "generic viridian":[
+        0,
+        127,
+        102
+    ],
+    "ghost white":[
+        247,
+        247,
+        255
+    ],
+    "glaucous":[
+        96,
+        130,
+        181
+    ],
+    "glossy grape":[
+        170,
+        145,
+        178
+    ],
+    "go green":[
+        0,
+        170,
+        102
+    ],
+    "gold":[
+        165,
+        124,
+        0
+    ],
+    "gold [metallic]":[
+        211,
+        175,
+        56
+    ],
+    "gold [web] [golden]":[
+        255,
+        214,
+        0
+    ],
+    "gold [crayola]":[
+        229,
+        191,
+        137
+    ],
+    "gold fusion":[
+        132,
+        117,
+        79
+    ],
+    "golden brown":[
+        153,
+        102,
+        20
+    ],
+    "golden poppy":[
+        252,
+        193,
+        0
+    ],
+    "golden yellow":[
+        255,
+        221,
+        0
+    ],
+    "goldenrod":[
+        216,
+        165,
+        33
+    ],
+    "granite gray":[
+        102,
+        102,
+        102
+    ],
+    "granny smith apple":[
+        168,
+        226,
+        160
+    ],
+    "gray [web]":[
+        127,
+        127,
+        127
+    ],
+    "gray [x11 gray]":[
+        191,
+        191,
+        191
+    ],
+    "green":[
+        0,
+        255,
+        0
+    ],
+    "green [crayola]":[
+        28,
+        170,
+        119
+    ],
+    "green [web]":[
+        0,
+        127,
+        0
+    ],
+    "green [munsell]":[
+        0,
+        168,
+        119
+    ],
+    "green [ncs]":[
+        0,
+        158,
+        107
+    ],
+    "green [pantone]":[
+        0,
+        173,
+        66
+    ],
+    "green [pigment]":[
+        0,
+        165,
+        79
+    ],
+    "green [ryb]":[
+        102,
+        175,
+        51
+    ],
+    "green-blue":[
+        17,
+        99,
+        181
+    ],
+    "green-blue [crayola]":[
+        40,
+        135,
+        198
+    ],
+    "green-cyan":[
+        0,
+        153,
+        102
+    ],
+    "green lizard":[
+        165,
+        244,
+        51
+    ],
+    "green sheen":[
+        109,
+        173,
+        160
+    ],
+    "green-yellow":[
+        173,
+        255,
+        45
+    ],
+    "green-yellow [crayola]":[
+        239,
+        232,
+        145
+    ],
+    "grullo":[
+        168,
+        153,
+        135
+    ],
+    "gunmetal":[
+        40,
+        51,
+        56
+    ],
+    "han blue":[
+        68,
+        107,
+        206
+    ],
+    "han purple":[
+        81,
+        22,
+        249
+    ],
+    "hansa yellow":[
+        232,
+        214,
+        107
+    ],
+    "harlequin":[
+        63,
+        255,
+        0
+    ],
+    "harvest gold":[
+        216,
+        145,
+        0
+    ],
+    "heat wave":[
+        255,
+        122,
+        0
+    ],
+    "heliotrope":[
+        221,
+        114,
+        255
+    ],
+    "heliotrope gray":[
+        170,
+        153,
+        168
+    ],
+    "hollywood cerise":[
+        244,
+        0,
+        160
+    ],
+    "honeydew":[
+        239,
+        255,
+        239
+    ],
+    "honolulu blue":[
+        0,
+        109,
+        175
+    ],
+    "hooker's green":[
+        73,
+        119,
+        107
+    ],
+    "hot magenta":[
+        255,
+        28,
+        206
+    ],
+    "hot pink":[
+        255,
+        104,
+        181
+    ],
+    "hunter green":[
+        53,
+        94,
+        58
+    ],
+    "iceberg":[
+        112,
+        165,
+        209
+    ],
+    "icterine":[
+        252,
+        247,
+        94
+    ],
+    "illuminating emerald":[
+        48,
+        145,
+        119
+    ],
+    "imperial red":[
+        237,
+        40,
+        56
+    ],
+    "inchworm":[
+        178,
+        237,
+        91
+    ],
+    "independence":[
+        76,
+        81,
+        109
+    ],
+    "india green":[
+        17,
+        135,
+        7
+    ],
+    "indian red":[
+        204,
+        91,
+        91
+    ],
+    "indian yellow":[
+        226,
+        168,
+        86
+    ],
+    "indigo":[
+        73,
+        0,
+        130
+    ],
+    "indigo dye":[
+        0,
+        63,
+        107
+    ],
+    "international klein blue":[
+        0,
+        45,
+        165
+    ],
+    "international orange [aerospace]":[
+        255,
+        79,
+        0
+    ],
+    "international orange [engineering]":[
+        186,
+        22,
+        12
+    ],
+    "international orange [golden gate bridge]":[
+        191,
+        53,
+        43
+    ],
+    "iris":[
+        89,
+        79,
+        206
+    ],
+    "irresistible":[
+        178,
+        68,
+        107
+    ],
+    "isabelline":[
+        244,
+        239,
+        237
+    ],
+    "italian sky blue":[
+        178,
+        255,
+        255
+    ],
+    "ivory":[
+        255,
+        255,
+        239
+    ],
+    "jade":[
+        0,
+        168,
+        107
+    ],
+    "jasmine":[
+        247,
+        221,
+        124
+    ],
+    "jazzberry jam":[
+        165,
+        10,
+        94
+    ],
+    "jet":[
+        51,
+        51,
+        51
+    ],
+    "jonquil":[
+        244,
+        201,
+        22
+    ],
+    "june bud":[
+        188,
+        216,
+        86
+    ],
+    "jungle green":[
+        40,
+        170,
+        135
+    ],
+    "kelly green":[
+        76,
+        186,
+        22
+    ],
+    "keppel":[
+        58,
+        175,
+        158
+    ],
+    "key lime":[
+        232,
+        244,
+        140
+    ],
+    "khaki [web]":[
+        193,
+        175,
+        145
+    ],
+    "khaki [x11] [light khaki]":[
+        239,
+        229,
+        140
+    ],
+    "kobe":[
+        135,
+        45,
+        22
+    ],
+    "kobi":[
+        232,
+        158,
+        196
+    ],
+    "kobicha":[
+        107,
+        68,
+        35
+    ],
+    "kombu green":[
+        53,
+        66,
+        48
+    ],
+    "ksu purple":[
+        79,
+        38,
+        130
+    ],
+    "languid lavender":[
+        214,
+        201,
+        221
+    ],
+    "lapis lazuli":[
+        38,
+        96,
+        155
+    ],
+    "laser lemon":[
+        255,
+        255,
+        102
+    ],
+    "laurel green":[
+        168,
+        186,
+        158
+    ],
+    "lava":[
+        206,
+        15,
+        33
+    ],
+    "lavender [floral]":[
+        181,
+        124,
+        219
+    ],
+    "lavender [web]":[
+        229,
+        229,
+        249
+    ],
+    "lavender blue":[
+        204,
+        204,
+        255
+    ],
+    "lavender blush":[
+        255,
+        239,
+        244
+    ],
+    "lavender gray":[
+        196,
+        193,
+        209
+    ],
+    "lawn green":[
+        124,
+        252,
+        0
+    ],
+    "lemon":[
+        255,
+        247,
+        0
+    ],
+    "lemon chiffon":[
+        255,
+        249,
+        204
+    ],
+    "lemon curry":[
+        204,
+        160,
+        28
+    ],
+    "lemon glacier":[
+        252,
+        255,
+        0
+    ],
+    "lemon meringue":[
+        244,
+        234,
+        191
+    ],
+    "lemon yellow":[
+        255,
+        244,
+        79
+    ],
+    "lemon yellow [crayola]":[
+        255,
+        255,
+        158
+    ],
+    "liberty":[
+        84,
+        89,
+        165
+    ],
+    "light blue":[
+        173,
+        216,
+        229
+    ],
+    "light coral":[
+        239,
+        127,
+        127
+    ],
+    "light cornflower blue":[
+        147,
+        204,
+        234
+    ],
+    "light cyan":[
+        224,
+        255,
+        255
+    ],
+    "light french beige":[
+        198,
+        173,
+        127
+    ],
+    "light goldenrod yellow":[
+        249,
+        249,
+        209
+    ],
+    "light gray":[
+        211,
+        211,
+        211
+    ],
+    "light green":[
+        142,
+        237,
+        142
+    ],
+    "light orange":[
+        255,
+        216,
+        175
+    ],
+    "light periwinkle":[
+        196,
+        204,
+        224
+    ],
+    "light pink":[
+        255,
+        181,
+        193
+    ],
+    "light salmon":[
+        255,
+        160,
+        122
+    ],
+    "light sea green":[
+        33,
+        178,
+        170
+    ],
+    "light sky blue":[
+        135,
+        206,
+        249
+    ],
+    "light slate gray":[
+        119,
+        135,
+        153
+    ],
+    "light steel blue":[
+        175,
+        196,
+        221
+    ],
+    "light yellow":[
+        255,
+        255,
+        224
+    ],
+    "lilac":[
+        198,
+        163,
+        198
+    ],
+    "lilac luster":[
+        173,
+        153,
+        170
+    ],
+    "lime [color wheel]":[
+        191,
+        255,
+        0
+    ],
+    "lime [web] [x11 green]":[
+        0,
+        255,
+        0
+    ],
+    "lime green":[
+        51,
+        204,
+        51
+    ],
+    "lincoln green":[
+        25,
+        89,
+        5
+    ],
+    "linen":[
+        249,
+        239,
+        229
+    ],
+    "lion":[
+        193,
+        153,
+        107
+    ],
+    "liseran purple":[
+        221,
+        112,
+        160
+    ],
+    "little boy blue":[
+        107,
+        160,
+        219
+    ],
+    "liver":[
+        102,
+        76,
+        71
+    ],
+    "liver [dogs]":[
+        183,
+        109,
+        40
+    ],
+    "liver [organ]":[
+        107,
+        45,
+        30
+    ],
+    "liver chestnut":[
+        153,
+        114,
+        86
+    ],
+    "livid":[
+        102,
+        153,
+        204
+    ],
+    "macaroni and cheese":[
+        255,
+        188,
+        135
+    ],
+    "madder lake":[
+        204,
+        51,
+        53
+    ],
+    "magenta":[
+        255,
+        0,
+        255
+    ],
+    "magenta [crayola]":[
+        244,
+        84,
+        165
+    ],
+    "magenta [dye]":[
+        201,
+        30,
+        122
+    ],
+    "magenta [pantone]":[
+        209,
+        63,
+        124
+    ],
+    "magenta [process]":[
+        255,
+        0,
+        142
+    ],
+    "magenta haze":[
+        158,
+        68,
+        117
+    ],
+    "magic mint":[
+        170,
+        239,
+        209
+    ],
+    "magnolia":[
+        242,
+        232,
+        214
+    ],
+    "mahogany":[
+        191,
+        63,
+        0
+    ],
+    "maize":[
+        249,
+        237,
+        91
+    ],
+    "maize [crayola]":[
+        242,
+        198,
+        73
+    ],
+    "majorelle blue":[
+        96,
+        79,
+        219
+    ],
+    "malachite":[
+        10,
+        216,
+        81
+    ],
+    "manatee":[
+        150,
+        153,
+        170
+    ],
+    "mandarin":[
+        242,
+        122,
+        71
+    ],
+    "mango":[
+        252,
+        191,
+        2
+    ],
+    "mango tango":[
+        255,
+        130,
+        66
+    ],
+    "mantis":[
+        114,
+        193,
+        102
+    ],
+    "mardi gras":[
+        135,
+        0,
+        132
+    ],
+    "marigold":[
+        234,
+        163,
+        33
+    ],
+    "maroon [crayola]":[
+        193,
+        33,
+        71
+    ],
+    "maroon [web]":[
+        127,
+        0,
+        0
+    ],
+    "maroon [x11]":[
+        175,
+        48,
+        96
+    ],
+    "mauve":[
+        224,
+        175,
+        255
+    ],
+    "mauve taupe":[
+        145,
+        94,
+        109
+    ],
+    "mauvelous":[
+        239,
+        153,
+        170
+    ],
+    "maximum blue":[
+        71,
+        170,
+        204
+    ],
+    "maximum blue green":[
+        48,
+        191,
+        191
+    ],
+    "maximum blue purple":[
+        170,
+        170,
+        229
+    ],
+    "maximum green":[
+        94,
+        140,
+        48
+    ],
+    "maximum green yellow":[
+        216,
+        229,
+        79
+    ],
+    "maximum purple":[
+        114,
+        51,
+        127
+    ],
+    "maximum red":[
+        216,
+        33,
+        33
+    ],
+    "maximum red purple":[
+        165,
+        58,
+        119
+    ],
+    "maximum yellow":[
+        249,
+        249,
+        56
+    ],
+    "maximum yellow red":[
+        242,
+        186,
+        73
+    ],
+    "may green":[
+        76,
+        145,
+        63
+    ],
+    "maya blue":[
+        114,
+        193,
+        249
+    ],
+    "medium aquamarine":[
+        102,
+        221,
+        170
+    ],
+    "medium blue":[
+        0,
+        0,
+        204
+    ],
+    "medium candy apple red":[
+        226,
+        5,
+        43
+    ],
+    "medium carmine":[
+        175,
+        63,
+        53
+    ],
+    "medium champagne":[
+        242,
+        229,
+        170
+    ],
+    "medium orchid":[
+        186,
+        84,
+        211
+    ],
+    "medium purple":[
+        147,
+        112,
+        219
+    ],
+    "medium sea green":[
+        61,
+        178,
+        112
+    ],
+    "medium slate blue":[
+        122,
+        104,
+        237
+    ],
+    "medium spring green":[
+        0,
+        249,
+        153
+    ],
+    "medium turquoise":[
+        71,
+        209,
+        204
+    ],
+    "medium violet-red":[
+        198,
+        20,
+        132
+    ],
+    "mellow apricot":[
+        247,
+        183,
+        119
+    ],
+    "mellow yellow":[
+        247,
+        221,
+        124
+    ],
+    "melon":[
+        255,
+        186,
+        173
+    ],
+    "metallic gold":[
+        211,
+        175,
+        56
+    ],
+    "metallic seaweed":[
+        10,
+        124,
+        140
+    ],
+    "metallic sunburst":[
+        155,
+        124,
+        56
+    ],
+    "mexican pink":[
+        226,
+        0,
+        124
+    ],
+    "middle blue":[
+        124,
+        211,
+        229
+    ],
+    "middle blue green":[
+        140,
+        216,
+        204
+    ],
+    "middle blue purple":[
+        140,
+        114,
+        191
+    ],
+    "middle grey":[
+        140,
+        135,
+        127
+    ],
+    "middle green":[
+        76,
+        140,
+        86
+    ],
+    "middle green yellow":[
+        170,
+        191,
+        96
+    ],
+    "middle purple":[
+        216,
+        130,
+        181
+    ],
+    "middle red":[
+        229,
+        142,
+        114
+    ],
+    "middle red purple":[
+        165,
+        84,
+        84
+    ],
+    "middle yellow":[
+        255,
+        234,
+        0
+    ],
+    "middle yellow red":[
+        237,
+        175,
+        117
+    ],
+    "midnight":[
+        112,
+        38,
+        112
+    ],
+    "midnight blue":[
+        25,
+        25,
+        112
+    ],
+    "midnight green [eagle green]":[
+        0,
+        73,
+        84
+    ],
+    "mikado yellow":[
+        255,
+        196,
+        12
+    ],
+    "mimi pink":[
+        255,
+        216,
+        232
+    ],
+    "mindaro":[
+        226,
+        249,
+        135
+    ],
+    "ming":[
+        53,
+        114,
+        124
+    ],
+    "minion yellow":[
+        244,
+        219,
+        79
+    ],
+    "mint":[
+        61,
+        181,
+        137
+    ],
+    "mint cream":[
+        244,
+        255,
+        249
+    ],
+    "mint green":[
+        153,
+        255,
+        153
+    ],
+    "misty moss":[
+        186,
+        181,
+        119
+    ],
+    "misty rose":[
+        255,
+        226,
+        224
+    ],
+    "mode beige":[
+        150,
+        112,
+        22
+    ],
+    "morning blue":[
+        140,
+        163,
+        153
+    ],
+    "moss green":[
+        137,
+        153,
+        91
+    ],
+    "mountain meadow":[
+        48,
+        186,
+        142
+    ],
+    "mountbatten pink":[
+        153,
+        122,
+        140
+    ],
+    "msu green":[
+        22,
+        68,
+        58
+    ],
+    "mulberry":[
+        196,
+        73,
+        140
+    ],
+    "mulberry [crayola]":[
+        198,
+        79,
+        155
+    ],
+    "mustard":[
+        255,
+        219,
+        89
+    ],
+    "myrtle green":[
+        48,
+        119,
+        114
+    ],
+    "mystic":[
+        214,
+        81,
+        130
+    ],
+    "mystic maroon":[
+        173,
+        66,
+        119
+    ],
+    "nadeshiko pink":[
+        244,
+        173,
+        198
+    ],
+    "naples yellow":[
+        249,
+        216,
+        94
+    ],
+    "navajo white":[
+        255,
+        221,
+        173
+    ],
+    "navy blue":[
+        0,
+        0,
+        127
+    ],
+    "navy blue [crayola]":[
+        25,
+        114,
+        209
+    ],
+    "neon blue":[
+        68,
+        102,
+        255
+    ],
+    "neon green":[
+        56,
+        255,
+        20
+    ],
+    "new york pink":[
+        214,
+        130,
+        127
+    ],
+    "nickel":[
+        114,
+        114,
+        114
+    ],
+    "non-photo blue":[
+        163,
+        221,
+        237
+    ],
+    "nyanza":[
+        232,
+        255,
+        219
+    ],
+    "ocean blue":[
+        79,
+        66,
+        181
+    ],
+    "ocean green":[
+        71,
+        191,
+        145
+    ],
+    "ochre":[
+        204,
+        119,
+        33
+    ],
+    "old burgundy":[
+        66,
+        48,
+        45
+    ],
+    "old gold":[
+        206,
+        181,
+        58
+    ],
+    "old lace":[
+        252,
+        244,
+        229
+    ],
+    "old lavender":[
+        119,
+        104,
+        119
+    ],
+    "old mauve":[
+        102,
+        48,
+        71
+    ],
+    "old rose":[
+        191,
+        127,
+        130
+    ],
+    "old silver":[
+        132,
+        132,
+        130
+    ],
+    "olive":[
+        127,
+        127,
+        0
+    ],
+    "olive drab []":[
+        107,
+        142,
+        35
+    ],
+    "olive drab":[
+        61,
+        51,
+        30
+    ],
+    "olive green":[
+        181,
+        178,
+        91
+    ],
+    "olivine":[
+        153,
+        186,
+        114
+    ],
+    "onyx":[
+        53,
+        56,
+        56
+    ],
+    "opal":[
+        168,
+        193,
+        188
+    ],
+    "opera mauve":[
+        183,
+        132,
+        165
+    ],
+    "orange":[
+        255,
+        127,
+        0
+    ],
+    "orange [crayola]":[
+        255,
+        117,
+        56
+    ],
+    "orange [pantone]":[
+        255,
+        89,
+        0
+    ],
+    "orange [web]":[
+        255,
+        165,
+        0
+    ],
+    "orange peel":[
+        255,
+        158,
+        0
+    ],
+    "orange-red":[
+        255,
+        104,
+        30
+    ],
+    "orange-red [crayola]":[
+        255,
+        84,
+        73
+    ],
+    "orange soda":[
+        249,
+        91,
+        61
+    ],
+    "orange-yellow":[
+        244,
+        188,
+        30
+    ],
+    "orange-yellow [crayola]":[
+        247,
+        214,
+        104
+    ],
+    "orchid":[
+        216,
+        112,
+        214
+    ],
+    "orchid pink":[
+        242,
+        188,
+        204
+    ],
+    "orchid [crayola]":[
+        226,
+        155,
+        209
+    ],
+    "outer space [crayola]":[
+        45,
+        56,
+        58
+    ],
+    "outrageous orange":[
+        255,
+        109,
+        73
+    ],
+    "oxblood":[
+        127,
+        0,
+        33
+    ],
+    "oxford blue":[
+        0,
+        33,
+        71
+    ],
+    "ou crimson red":[
+        132,
+        22,
+        22
+    ],
+    "pacific blue":[
+        28,
+        168,
+        201
+    ],
+    "pakistan green":[
+        0,
+        102,
+        0
+    ],
+    "palatinate purple":[
+        104,
+        40,
+        96
+    ],
+    "pale aqua":[
+        188,
+        211,
+        229
+    ],
+    "pale cerulean":[
+        155,
+        196,
+        226
+    ],
+    "pale pink":[
+        249,
+        216,
+        221
+    ],
+    "pale purple [pantone]":[
+        249,
+        229,
+        249
+    ],
+    "pale silver":[
+        201,
+        191,
+        186
+    ],
+    "pale spring bud":[
+        237,
+        234,
+        188
+    ],
+    "pansy purple":[
+        119,
+        22,
+        73
+    ],
+    "paolo veronese green":[
+        0,
+        155,
+        124
+    ],
+    "papaya whip":[
+        255,
+        239,
+        214
+    ],
+    "paradise pink":[
+        229,
+        61,
+        96
+    ],
+    "paris green":[
+        79,
+        198,
+        119
+    ],
+    "pastel pink":[
+        221,
+        165,
+        163
+    ],
+    "patriarch":[
+        127,
+        0,
+        127
+    ],
+    "payne's grey":[
+        84,
+        104,
+        119
+    ],
+    "peach":[
+        255,
+        229,
+        181
+    ],
+    "peach [crayola]":[
+        255,
+        204,
+        163
+    ],
+    "peach puff":[
+        255,
+        216,
+        186
+    ],
+    "pear":[
+        209,
+        226,
+        48
+    ],
+    "pearly purple":[
+        183,
+        104,
+        163
+    ],
+    "periwinkle":[
+        204,
+        204,
+        255
+    ],
+    "periwinkle [crayola]":[
+        193,
+        204,
+        229
+    ],
+    "permanent geranium lake":[
+        224,
+        43,
+        43
+    ],
+    "persian blue":[
+        28,
+        56,
+        186
+    ],
+    "persian green":[
+        0,
+        165,
+        147
+    ],
+    "persian indigo":[
+        51,
+        17,
+        122
+    ],
+    "persian orange":[
+        216,
+        142,
+        89
+    ],
+    "persian pink":[
+        247,
+        127,
+        191
+    ],
+    "persian plum":[
+        112,
+        28,
+        28
+    ],
+    "persian red":[
+        204,
+        51,
+        51
+    ],
+    "persian rose":[
+        255,
+        40,
+        163
+    ],
+    "persimmon":[
+        237,
+        89,
+        0
+    ],
+    "pewter blue":[
+        140,
+        168,
+        183
+    ],
+    "phlox":[
+        221,
+        0,
+        255
+    ],
+    "phthalo blue":[
+        0,
+        15,
+        137
+    ],
+    "phthalo green":[
+        17,
+        53,
+        35
+    ],
+    "picotee blue":[
+        45,
+        38,
+        135
+    ],
+    "pictorial carmine":[
+        193,
+        10,
+        79
+    ],
+    "piggy pink":[
+        252,
+        221,
+        229
+    ],
+    "pine green":[
+        0,
+        119,
+        112
+    ],
+    "pine tree":[
+        40,
+        45,
+        35
+    ],
+    "pink":[
+        255,
+        191,
+        204
+    ],
+    "pink [pantone]":[
+        214,
+        71,
+        147
+    ],
+    "pink flamingo":[
+        252,
+        114,
+        252
+    ],
+    "pink lace":[
+        255,
+        221,
+        244
+    ],
+    "pink lavender":[
+        216,
+        178,
+        209
+    ],
+    "pink sherbet":[
+        247,
+        142,
+        165
+    ],
+    "pistachio":[
+        147,
+        196,
+        114
+    ],
+    "platinum":[
+        229,
+        226,
+        226
+    ],
+    "plum":[
+        142,
+        68,
+        132
+    ],
+    "plum [web]":[
+        221,
+        160,
+        221
+    ],
+    "plump purple":[
+        89,
+        68,
+        178
+    ],
+    "polished pine":[
+        91,
+        163,
+        147
+    ],
+    "pomp and power":[
+        135,
+        96,
+        142
+    ],
+    "popstar":[
+        191,
+        79,
+        96
+    ],
+    "portland orange":[
+        255,
+        89,
+        53
+    ],
+    "powder blue":[
+        175,
+        224,
+        229
+    ],
+    "princeton orange":[
+        244,
+        127,
+        38
+    ],
+    "prune":[
+        112,
+        28,
+        28
+    ],
+    "prussian blue":[
+        0,
+        48,
+        84
+    ],
+    "psychedelic purple":[
+        221,
+        0,
+        255
+    ],
+    "puce":[
+        204,
+        135,
+        153
+    ],
+    "pullman brown [ups brown]":[
+        99,
+        63,
+        22
+    ],
+    "pumpkin":[
+        255,
+        117,
+        22
+    ],
+    "purple":[
+        96,
+        0,
+        127
+    ],
+    "purple [web]":[
+        127,
+        0,
+        127
+    ],
+    "purple [munsell]":[
+        158,
+        0,
+        196
+    ],
+    "purple [x11]":[
+        160,
+        33,
+        239
+    ],
+    "purple mountain majesty":[
+        150,
+        119,
+        181
+    ],
+    "purple navy":[
+        79,
+        81,
+        127
+    ],
+    "purple pizzazz":[
+        255,
+        79,
+        216
+    ],
+    "purple plum":[
+        155,
+        81,
+        181
+    ],
+    "purpureus":[
+        153,
+        79,
+        173
+    ],
+    "queen blue":[
+        66,
+        107,
+        147
+    ],
+    "queen pink":[
+        232,
+        204,
+        214
+    ],
+    "quick silver":[
+        165,
+        165,
+        165
+    ],
+    "quinacridone magenta":[
+        142,
+        58,
+        89
+    ],
+    "radical red":[
+        255,
+        53,
+        94
+    ],
+    "raisin black":[
+        35,
+        33,
+        35
+    ],
+    "rajah":[
+        249,
+        170,
+        96
+    ],
+    "raspberry":[
+        226,
+        10,
+        91
+    ],
+    "raspberry glace":[
+        145,
+        94,
+        109
+    ],
+    "raspberry rose":[
+        178,
+        68,
+        107
+    ],
+    "raw sienna":[
+        214,
+        137,
+        89
+    ],
+    "raw umber":[
+        130,
+        102,
+        68
+    ],
+    "razzle dazzle rose":[
+        255,
+        51,
+        204
+    ],
+    "razzmatazz":[
+        226,
+        38,
+        107
+    ],
+    "razzmic berry":[
+        140,
+        79,
+        132
+    ],
+    "rebecca purple":[
+        102,
+        51,
+        153
+    ],
+    "red":[
+        255,
+        0,
+        0
+    ],
+    "red [crayola]":[
+        237,
+        33,
+        76
+    ],
+    "red [munsell]":[
+        242,
+        0,
+        61
+    ],
+    "red [ncs]":[
+        196,
+        2,
+        51
+    ],
+    "red [pantone]":[
+        237,
+        40,
+        56
+    ],
+    "red [pigment]":[
+        237,
+        28,
+        35
+    ],
+    "red [ryb]":[
+        255,
+        38,
+        17
+    ],
+    "red-orange":[
+        255,
+        84,
+        73
+    ],
+    "red-orange [crayola]":[
+        255,
+        104,
+        30
+    ],
+    "red-orange [color wheel]":[
+        255,
+        68,
+        0
+    ],
+    "red-purple":[
+        226,
+        0,
+        119
+    ],
+    "red salsa":[
+        252,
+        58,
+        73
+    ],
+    "red-violet":[
+        198,
+        20,
+        132
+    ],
+    "red-violet [crayola]":[
+        191,
+        68,
+        142
+    ],
+    "red-violet [color wheel]":[
+        145,
+        43,
+        61
+    ],
+    "redwood":[
+        163,
+        89,
+        81
+    ],
+    "resolution blue":[
+        0,
+        35,
+        135
+    ],
+    "rhythm":[
+        119,
+        117,
+        150
+    ],
+    "rich black":[
+        0,
+        63,
+        63
+    ],
+    "rich black [fogra29]":[
+        0,
+        10,
+        17
+    ],
+    "rich black [fogra39]":[
+        0,
+        2,
+        2
+    ],
+    "rifle green":[
+        68,
+        76,
+        56
+    ],
+    "robin egg blue":[
+        0,
+        204,
+        204
+    ],
+    "rocket metallic":[
+        137,
+        127,
+        127
+    ],
+    "roman silver":[
+        130,
+        137,
+        150
+    ],
+    "rose":[
+        255,
+        0,
+        127
+    ],
+    "rose bonbon":[
+        249,
+        66,
+        158
+    ],
+    "rose dust":[
+        158,
+        94,
+        112
+    ],
+    "rose ebony":[
+        102,
+        71,
+        68
+    ],
+    "rose madder":[
+        226,
+        38,
+        53
+    ],
+    "rose pink":[
+        255,
+        102,
+        204
+    ],
+    "rose quartz":[
+        170,
+        153,
+        168
+    ],
+    "rose red":[
+        193,
+        30,
+        86
+    ],
+    "rose taupe":[
+        142,
+        91,
+        91
+    ],
+    "rose vale":[
+        170,
+        79,
+        81
+    ],
+    "rosewood":[
+        102,
+        0,
+        10
+    ],
+    "rosso corsa":[
+        211,
+        0,
+        0
+    ],
+    "rosy brown":[
+        188,
+        142,
+        142
+    ],
+    "royal blue [dark]":[
+        0,
+        35,
+        102
+    ],
+    "royal blue [light]":[
+        63,
+        104,
+        224
+    ],
+    "royal purple":[
+        119,
+        81,
+        168
+    ],
+    "royal yellow":[
+        249,
+        216,
+        94
+    ],
+    "ruber":[
+        206,
+        68,
+        117
+    ],
+    "rubine red":[
+        209,
+        0,
+        86
+    ],
+    "ruby":[
+        224,
+        17,
+        94
+    ],
+    "ruby red":[
+        155,
+        17,
+        30
+    ],
+    "rufous":[
+        168,
+        28,
+        7
+    ],
+    "russet":[
+        127,
+        68,
+        28
+    ],
+    "russian green":[
+        102,
+        145,
+        102
+    ],
+    "russian violet":[
+        51,
+        22,
+        76
+    ],
+    "rust":[
+        183,
+        63,
+        12
+    ],
+    "rusty red":[
+        216,
+        43,
+        66
+    ],
+    "sacramento state green":[
+        5,
+        56,
+        38
+    ],
+    "saddle brown":[
+        140,
+        68,
+        17
+    ],
+    "safety orange":[
+        255,
+        119,
+        0
+    ],
+    "safety orange [blaze orange]":[
+        255,
+        102,
+        0
+    ],
+    "safety yellow":[
+        237,
+        209,
+        2
+    ],
+    "saffron":[
+        244,
+        196,
+        48
+    ],
+    "sage":[
+        188,
+        183,
+        137
+    ],
+    "st. patrick's blue":[
+        35,
+        40,
+        122
+    ],
+    "salmon":[
+        249,
+        127,
+        114
+    ],
+    "salmon pink":[
+        255,
+        145,
+        163
+    ],
+    "sand":[
+        193,
+        178,
+        127
+    ],
+    "sand dune":[
+        150,
+        112,
+        22
+    ],
+    "sandy brown":[
+        244,
+        163,
+        96
+    ],
+    "sap green":[
+        79,
+        124,
+        40
+    ],
+    "sapphire":[
+        15,
+        81,
+        186
+    ],
+    "sapphire blue":[
+        0,
+        102,
+        165
+    ],
+    "sapphire [crayola]":[
+        45,
+        91,
+        160
+    ],
+    "satin sheen gold":[
+        204,
+        160,
+        53
+    ],
+    "scarlet":[
+        255,
+        35,
+        0
+    ],
+    "schauss pink":[
+        255,
+        145,
+        175
+    ],
+    "school bus yellow":[
+        255,
+        216,
+        0
+    ],
+    "screamin' green":[
+        102,
+        255,
+        102
+    ],
+    "sea green":[
+        45,
+        140,
+        86
+    ],
+    "sea green [crayola]":[
+        0,
+        255,
+        204
+    ],
+    "seal brown":[
+        51,
+        20,
+        20
+    ],
+    "seashell":[
+        255,
+        244,
+        237
+    ],
+    "selective yellow":[
+        255,
+        186,
+        0
+    ],
+    "sepia":[
+        112,
+        66,
+        20
+    ],
+    "shadow":[
+        137,
+        119,
+        91
+    ],
+    "shadow blue":[
+        119,
+        140,
+        165
+    ],
+    "shamrock green":[
+        0,
+        158,
+        96
+    ],
+    "sheen green":[
+        142,
+        211,
+        0
+    ],
+    "shimmering blush":[
+        216,
+        135,
+        147
+    ],
+    "shiny shamrock":[
+        94,
+        165,
+        119
+    ],
+    "shocking pink":[
+        252,
+        15,
+        191
+    ],
+    "shocking pink [crayola]":[
+        255,
+        112,
+        255
+    ],
+    "sienna":[
+        135,
+        45,
+        22
+    ],
+    "silver":[
+        191,
+        191,
+        191
+    ],
+    "silver [crayola]":[
+        201,
+        191,
+        186
+    ],
+    "silver [metallic]":[
+        170,
+        168,
+        173
+    ],
+    "silver chalice":[
+        170,
+        170,
+        170
+    ],
+    "silver pink":[
+        196,
+        173,
+        173
+    ],
+    "silver sand":[
+        191,
+        193,
+        193
+    ],
+    "sinopia":[
+        204,
+        63,
+        10
+    ],
+    "sizzling red":[
+        255,
+        56,
+        84
+    ],
+    "sizzling sunrise":[
+        255,
+        219,
+        0
+    ],
+    "skobeloff":[
+        0,
+        114,
+        114
+    ],
+    "sky blue":[
+        135,
+        206,
+        234
+    ],
+    "sky blue [crayola]":[
+        117,
+        214,
+        234
+    ],
+    "sky magenta":[
+        206,
+        112,
+        175
+    ],
+    "slate blue":[
+        107,
+        89,
+        204
+    ],
+    "slate gray":[
+        112,
+        127,
+        142
+    ],
+    "slimy green":[
+        40,
+        150,
+        22
+    ],
+    "smitten":[
+        198,
+        63,
+        135
+    ],
+    "smoky black":[
+        15,
+        12,
+        7
+    ],
+    "snow":[
+        255,
+        249,
+        249
+    ],
+    "solid pink":[
+        137,
+        56,
+        66
+    ],
+    "sonic silver":[
+        117,
+        117,
+        117
+    ],
+    "space cadet":[
+        28,
+        40,
+        81
+    ],
+    "spanish bistre":[
+        127,
+        117,
+        51
+    ],
+    "spanish blue":[
+        0,
+        112,
+        183
+    ],
+    "spanish carmine":[
+        209,
+        0,
+        71
+    ],
+    "spanish gray":[
+        153,
+        153,
+        153
+    ],
+    "spanish green":[
+        0,
+        145,
+        79
+    ],
+    "spanish orange":[
+        232,
+        96,
+        0
+    ],
+    "spanish pink":[
+        247,
+        191,
+        191
+    ],
+    "spanish red":[
+        229,
+        0,
+        38
+    ],
+    "spanish sky blue":[
+        0,
+        255,
+        255
+    ],
+    "spanish violet":[
+        76,
+        40,
+        130
+    ],
+    "spanish viridian":[
+        0,
+        127,
+        91
+    ],
+    "spring bud":[
+        165,
+        252,
+        0
+    ],
+    "spring frost":[
+        135,
+        255,
+        40
+    ],
+    "spring green":[
+        0,
+        255,
+        127
+    ],
+    "spring green [crayola]":[
+        237,
+        234,
+        188
+    ],
+    "star command blue":[
+        0,
+        122,
+        183
+    ],
+    "steel blue":[
+        68,
+        130,
+        181
+    ],
+    "steel pink":[
+        204,
+        51,
+        204
+    ],
+    "steel teal":[
+        94,
+        137,
+        140
+    ],
+    "stil de grain yellow":[
+        249,
+        216,
+        94
+    ],
+    "straw":[
+        226,
+        216,
+        112
+    ],
+    "sugar plum":[
+        145,
+        79,
+        117
+    ],
+    "sunglow":[
+        255,
+        204,
+        51
+    ],
+    "sunray":[
+        226,
+        170,
+        86
+    ],
+    "sunset":[
+        249,
+        214,
+        165
+    ],
+    "super pink":[
+        206,
+        107,
+        168
+    ],
+    "sweet brown":[
+        168,
+        56,
+        48
+    ],
+    "tan":[
+        209,
+        181,
+        140
+    ],
+    "tan [crayola]":[
+        216,
+        153,
+        107
+    ],
+    "tangerine":[
+        242,
+        132,
+        0
+    ],
+    "tango pink":[
+        226,
+        112,
+        122
+    ],
+    "tart orange":[
+        249,
+        76,
+        68
+    ],
+    "taupe":[
+        71,
+        61,
+        51
+    ],
+    "taupe gray":[
+        140,
+        132,
+        137
+    ],
+    "tea green":[
+        209,
+        239,
+        191
+    ],
+    "tea rose":[
+        244,
+        193,
+        193
+    ],
+    "teal":[
+        0,
+        127,
+        127
+    ],
+    "teal blue":[
+        53,
+        117,
+        135
+    ],
+    "telemagenta":[
+        206,
+        51,
+        117
+    ],
+    "tenné [tawny]":[
+        204,
+        86,
+        0
+    ],
+    "terra cotta":[
+        226,
+        114,
+        91
+    ],
+    "thistle":[
+        216,
+        191,
+        216
+    ],
+    "thulian pink":[
+        221,
+        112,
+        160
+    ],
+    "tickle me pink":[
+        252,
+        137,
+        170
+    ],
+    "tiffany blue":[
+        10,
+        186,
+        181
+    ],
+    "timberwolf":[
+        219,
+        214,
+        209
+    ],
+    "titanium yellow":[
+        237,
+        229,
+        0
+    ],
+    "tomato":[
+        255,
+        99,
+        71
+    ],
+    "tropical rainforest":[
+        0,
+        117,
+        94
+    ],
+    "true blue":[
+        0,
+        114,
+        206
+    ],
+    "trypan blue":[
+        28,
+        5,
+        178
+    ],
+    "tufts blue":[
+        61,
+        142,
+        221
+    ],
+    "tumbleweed":[
+        221,
+        170,
+        135
+    ],
+    "turquoise":[
+        63,
+        224,
+        209
+    ],
+    "turquoise blue":[
+        0,
+        255,
+        239
+    ],
+    "turquoise green":[
+        160,
+        214,
+        181
+    ],
+    "turtle green":[
+        137,
+        153,
+        91
+    ],
+    "tuscan":[
+        249,
+        214,
+        165
+    ],
+    "tuscan brown":[
+        112,
+        79,
+        56
+    ],
+    "tuscan red":[
+        124,
+        71,
+        71
+    ],
+    "tuscan tan":[
+        165,
+        122,
+        91
+    ],
+    "tuscany":[
+        191,
+        153,
+        153
+    ],
+    "twilight lavender":[
+        137,
+        73,
+        107
+    ],
+    "tyrian purple":[
+        102,
+        2,
+        61
+    ],
+    "ua blue":[
+        0,
+        51,
+        170
+    ],
+    "ua red":[
+        216,
+        0,
+        76
+    ],
+    "ultramarine":[
+        17,
+        10,
+        142
+    ],
+    "ultramarine blue":[
+        63,
+        102,
+        244
+    ],
+    "ultra pink":[
+        255,
+        112,
+        255
+    ],
+    "ultra red":[
+        252,
+        107,
+        132
+    ],
+    "umber":[
+        99,
+        81,
+        71
+    ],
+    "unbleached silk":[
+        255,
+        221,
+        201
+    ],
+    "united nations blue":[
+        91,
+        145,
+        229
+    ],
+    "unmellow yellow":[
+        255,
+        255,
+        102
+    ],
+    "up forest green":[
+        0,
+        68,
+        33
+    ],
+    "up maroon":[
+        122,
+        17,
+        17
+    ],
+    "upsdell red":[
+        173,
+        33,
+        40
+    ],
+    "uranian blue":[
+        175,
+        219,
+        244
+    ],
+    "usafa blue":[
+        0,
+        79,
+        153
+    ],
+    "van dyke brown":[
+        102,
+        66,
+        40
+    ],
+    "vanilla":[
+        242,
+        229,
+        170
+    ],
+    "vanilla ice":[
+        242,
+        142,
+        168
+    ],
+    "vegas gold":[
+        196,
+        178,
+        89
+    ],
+    "venetian red":[
+        198,
+        7,
+        20
+    ],
+    "verdigris":[
+        66,
+        178,
+        173
+    ],
+    "vermilion":[
+        226,
+        66,
+        51
+    ],
+    "veronica":[
+        160,
+        33,
+        239
+    ],
+    "violet":[
+        142,
+        0,
+        255
+    ],
+    "violet [color wheel]":[
+        127,
+        0,
+        255
+    ],
+    "violet [crayola]":[
+        150,
+        61,
+        127
+    ],
+    "violet [ryb]":[
+        135,
+        0,
+        175
+    ],
+    "violet [web]":[
+        237,
+        130,
+        237
+    ],
+    "violet-blue":[
+        51,
+        73,
+        178
+    ],
+    "violet-blue [crayola]":[
+        117,
+        109,
+        198
+    ],
+    "violet-red":[
+        247,
+        84,
+        147
+    ],
+    "viridian":[
+        63,
+        130,
+        109
+    ],
+    "viridian green":[
+        0,
+        150,
+        153
+    ],
+    "vivid burgundy":[
+        158,
+        28,
+        53
+    ],
+    "vivid sky blue":[
+        0,
+        204,
+        255
+    ],
+    "vivid tangerine":[
+        255,
+        160,
+        137
+    ],
+    "vivid violet":[
+        158,
+        0,
+        255
+    ],
+    "volt":[
+        204,
+        255,
+        0
+    ],
+    "warm black":[
+        0,
+        66,
+        66
+    ],
+    "wheat":[
+        244,
+        221,
+        178
+    ],
+    "white":[
+        255,
+        255,
+        255
+    ],
+    "wild blue yonder":[
+        163,
+        173,
+        209
+    ],
+    "wild orchid":[
+        211,
+        112,
+        163
+    ],
+    "wild strawberry":[
+        255,
+        66,
+        163
+    ],
+    "wild watermelon":[
+        252,
+        107,
+        132
+    ],
+    "windsor tan":[
+        165,
+        84,
+        2
+    ],
+    "wine":[
+        114,
+        45,
+        56
+    ],
+    "wine dregs":[
+        102,
+        48,
+        71
+    ],
+    "winter sky":[
+        255,
+        0,
+        124
+    ],
+    "wintergreen dream":[
+        86,
+        135,
+        124
+    ],
+    "wisteria":[
+        201,
+        160,
+        219
+    ],
+    "wood brown":[
+        193,
+        153,
+        107
+    ],
+    "xanthic":[
+        237,
+        237,
+        10
+    ],
+    "xanadu":[
+        114,
+        135,
+        119
+    ],
+    "yale blue":[
+        15,
+        76,
+        145
+    ],
+    "yellow":[
+        255,
+        255,
+        0
+    ],
+    "yellow [crayola]":[
+        252,
+        232,
+        130
+    ],
+    "yellow [munsell]":[
+        239,
+        204,
+        0
+    ],
+    "yellow [ncs]":[
+        255,
+        211,
+        0
+    ],
+    "yellow [pantone]":[
+        255,
+        221,
+        0
+    ],
+    "yellow [process]":[
+        255,
+        239,
+        0
+    ],
+    "yellow [ryb]":[
+        255,
+        255,
+        51
+    ],
+    "yellow-green":[
+        153,
+        204,
+        51
+    ],
+    "yellow-green [crayola]":[
+        196,
+        226,
+        132
+    ],
+    "yellow-green [color wheel]":[
+        48,
+        178,
+        25
+    ],
+    "yellow orange":[
+        255,
+        173,
+        66
+    ],
+    "yellow orange [color wheel]":[
+        255,
+        147,
+        5
+    ],
+    "yellow sunshine":[
+        255,
+        247,
+        0
+    ],
+    "yinmn blue":[
+        45,
+        79,
+        142
+    ],
+    "zaffre":[
+        0,
+        20,
+        168
+    ],
+    "zomp":[
+        56,
+        165,
+        142
+    ]
+}

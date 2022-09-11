@@ -1,1 +1,0 @@
-#from .Painter import Painter
