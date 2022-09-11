@@ -1,15 +1,10 @@
 from setuptools import setup, find_packages
 
-dependencies = ("numpy", "matplotlib", "seaborn", "numba")
-
-# packages = ["", "apps", "config", "obj", "utils"]
-# for n, package in enumerate(packages):
-#     packages[n] = "termutils." + package
+dependencies = ("numpy",)
 
 url = "https://github.com/GabrielSCabrera"
 setup(
     name="TermUtils",
-    # packages=packages,
     packages=find_packages(where="source"),
     package_dir={"": "source"},
     include_package_data=True,

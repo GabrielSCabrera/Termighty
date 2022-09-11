@@ -7,9 +7,6 @@ verify_ssl = true
 
 [packages]
 numpy = "*"
-matplotlib = "*"
-seaborn = "*"
-numba = "*"
 
 [requires]
 python_version = "3.10"
