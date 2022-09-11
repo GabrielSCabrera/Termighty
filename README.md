@@ -21,3 +21,5 @@ In the terminal
 3. Enter the command `make` to install Termighty in pip3 development mode.
 4. (OPTIONAL) Run `make test` to run all unit tests & confirm that there are zero errors.
 5. (OPTIONAL) Run `make logo` to view the Termighty logo, which confirms terminal compatibility.
+
+THIS VERSION IS DEPRECATED; FUNCTIONALITY IS NO LONGER SUPPORTED.
