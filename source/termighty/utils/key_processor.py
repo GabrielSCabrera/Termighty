@@ -503,6 +503,7 @@ class KeyProcessor:
                 selected = []
             case "Space":
                 raw_text, cursor_position = cls.key_char(raw_text, cursor_position, selected, " ")
+                selected = []
             case "Enter":
                 raw_text, cursor_position = cls.key_enter(raw_text, cursor_position, selected)
                 selected = []
