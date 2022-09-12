@@ -276,25 +276,23 @@ class KeyProcessor:
             row_max = max(row, row if not selected else selected[-1][0])
 
             indent = 0
-            if row > 1:
-                subsequent = raw_text[row_max + 1 :]
-                for indent_row in subsequent:
-                    if indent_row.strip() != "":
-                        indent = len(indent_row) - len(indent_row.lstrip())
+            for indent_row in raw_text[row_max + 1 :]:
+                if indent_row.strip():
+                    indent = len(indent_row) - len(indent_row.lstrip())
+                    break
 
             pad = " " * indent
             indent_rows = [pad + indent_rows.strip() for indent_rows in raw_text[row_min : row_max + 1]]
             new_text = raw_text[:row_min] + [raw_text[row_max + 1]] + indent_rows + raw_text[row_max + 2 :]
 
+            diffs = {idx: indent - (len(raw_text[idx]) - len(raw_text[idx].lstrip())) for idx in selected_rows}
             if selected:
                 new_selected = []
-                diffs = {idx: indent - (len(raw_text[idx]) - len(raw_text[idx].lstrip())) for idx in selected_rows}
                 for position in selected:
                     new_selected.append((position[0] + 1, position[1] + diffs[position[0]]))
-                new_cursor_position = (cursor_position[0] + 1, cursor_position[1] + diffs[cursor_position[0]])
             else:
-                new_cursor_position = (cursor_position[0] + 1, cursor_position[1])
                 new_selected = selected
+            new_cursor_position = (cursor_position[0] + 1, cursor_position[1] + diffs[cursor_position[0]])
 
         return new_text, new_cursor_position, new_selected
 
@@ -365,25 +363,23 @@ class KeyProcessor:
             row_max = max(row, row if not selected else selected[-1][0])
 
             indent = 0
-            if row > 1:
-                preceeding = raw_text[: row_min - 1][::-1]
-                for indent_row in preceeding:
-                    if indent_row.strip() != "":
-                        indent = len(indent_row) - len(indent_row.lstrip())
+            for indent_row in raw_text[: row_min - 1][::-1]:
+                if indent_row.strip():
+                    indent = len(indent_row) - len(indent_row.lstrip())
+                    break
 
             pad = " " * indent
             indent_rows = [pad + indent_rows.strip() for indent_rows in raw_text[row_min : row_max + 1]]
             new_text = raw_text[: row_min - 1] + indent_rows + [raw_text[row_min - 1]] + raw_text[row_max + 1 :]
 
+            diffs = {idx: indent - (len(raw_text[idx]) - len(raw_text[idx].lstrip())) for idx in selected_rows}
             if selected:
                 new_selected = []
-                diffs = {idx: indent - (len(raw_text[idx]) - len(raw_text[idx].lstrip())) for idx in selected_rows}
                 for position in selected:
                     new_selected.append((position[0] - 1, position[1] + diffs[position[0]]))
-                new_cursor_position = (cursor_position[0] - 1, cursor_position[1] + diffs[cursor_position[0]])
             else:
-                new_cursor_position = (cursor_position[0] - 1, cursor_position[1])
                 new_selected = selected
+            new_cursor_position = (cursor_position[0] - 1, cursor_position[1] + diffs[cursor_position[0]])
 
         return new_text, new_cursor_position, new_selected
 
