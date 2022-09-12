@@ -53,7 +53,7 @@ class GetchIterator:
                 self._idx += 1
                 return Listener._history[self._idx - 1]
             else:
-                time.sleep(0.05)
+                time.sleep(0.01)
         raise StopIteration
 
 
