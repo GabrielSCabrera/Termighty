@@ -13,7 +13,7 @@ import time
 from typing import Optional, Union
 
 
-class WordProcessor(TextBox):
+class TextEditor(TextBox):
     """
     A subclass of `TextBox` that uses class `Listener` to detect keyboard inputs, and emulate a fully-functional word
     processor.  Supported advanced functions include:
@@ -44,7 +44,7 @@ class WordProcessor(TextBox):
         horizontal_scroll_buffer: Optional[int] = None,
     ):
         """
-        Creates an instance of WordProcessor, and initializes its attributes and those of its inherited `TextBox`.
+        Creates an instance of TextEditor, and initializes its attributes and those of its inherited `TextBox`.
         """
         # Set the default position of the cursor to (0, 0).
         if cursor_position is None:
@@ -56,7 +56,7 @@ class WordProcessor(TextBox):
         self._wrap_text = wrap_text
         # Whether line numbers should be displayed on the left side of the text.
         self._line_numbers = show_line_numbers
-        # Whether the WordProcessor should be locked and all inputs ignored.
+        # Whether the TextEditor should be locked and all inputs ignored.
         self._frozen = False
 
         # Performing the initialization of the TextBox base class.
@@ -200,14 +200,14 @@ class WordProcessor(TextBox):
 
     def freeze(self):
         """
-        Freeze the WordProcessor -- the `getch_iterator` in method `_run_getch_thread` will continue to run, but it will
+        Freeze the TextEditor -- the `getch_iterator` in method `_run_getch_thread` will continue to run, but it will
         not act on the inputs and leave the window unchanged.
         """
         self._frozen = True
 
     def unfreeze(self):
         """
-        Unfreeze the WordProcessor and reopen it to getch inputs.
+        Unfreeze the TextEditor and reopen it to getch inputs.
         """
         self._frozen = False
 
