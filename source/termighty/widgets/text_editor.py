@@ -117,6 +117,7 @@ class TextEditor(TextBox):
         self._raw_text = self._text
         getch_iterator = Listener.getch_iterator()
 
+        self._term.cursor_show(flush=True)
         for key in getch_iterator:
             if not self._frozen:
                 call, self._raw_text, self._cursor_position, self._selected = KeyProcessor.process_key(

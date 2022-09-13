@@ -9,7 +9,6 @@ class Data:
     Dataclass that contains all the package data.  Can be used to decode ANSI escape sequences, get RGB values from
     color names, and access ANSI codes for string styles.
     """
-
     with importlib.resources.open_text("termighty.data", "keymaps.json") as infile:
         keymaps = json.load(infile)
 
