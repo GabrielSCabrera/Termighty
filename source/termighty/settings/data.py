@@ -16,10 +16,10 @@ class Data:
     # Loads a set of keymaps depending on the current OS in use.
     if System.os == "Windows":
         keymaps = keymaps["windows"]
-        # Encoding the dictionary keys using the OEM-standard.
-        keymaps = {codecs.escape_decode(key)[0]: value for key, value in keymaps.items()}
     else:
         keymaps = keymaps["linux"]
+    # Encoding the dictionary keys using the OEM-standard.
+    keymaps = {codecs.escape_decode(key)[0]: value for key, value in keymaps.items()}
 
     with importlib.resources.open_text("termighty.data", "rgb.json") as infile:
         colors = json.load(infile)

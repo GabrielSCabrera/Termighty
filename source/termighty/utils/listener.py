@@ -87,7 +87,7 @@ class Listener:
 
         Functions exclusively in Linux.
         """
-        escape_code: str = os.read(1, 10).decode("utf8")
+        escape_code: str = os.read(1, 10)
         return escape_code
 
     @classmethod
@@ -195,6 +195,8 @@ class Listener:
         """
         if state:
             tty.setraw(sys.stdin.fileno())
+            # tty.setcbreak(sys.stdin.fileno())
+
         elif not state:
             termios.tcsetattr(cls._fd, termios.TCSADRAIN, cls._old_settings)
         cls._raw: bool = state
@@ -236,7 +238,6 @@ class Listener:
                 System.kill_all = True
                 raise Exception(e)
 
-            cls._raw_mode(False)
 
     @classmethod
     def stop(cls) -> None:
