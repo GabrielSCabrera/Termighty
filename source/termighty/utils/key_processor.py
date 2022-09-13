@@ -79,6 +79,82 @@ class KeyProcessor:
         return new_cursor_position, selected
 
     @classmethod
+    def key_alt_end(
+        cls, raw_text: list[str, ...], cursor_position: tuple[int, int], selected: list[tuple[int, int], ...]
+    ) -> tuple[tuple[int, int], list[tuple[int, int], ...]]:
+        """
+        Perform the actions of method `key_end` and toggle selection of the characters following the current cursor
+        position.
+        """
+        new_cursor_position = cls.key_end(raw_text=raw_text, cursor_position=cursor_position)
+        new_selected = cls.select_range(
+            raw_text=raw_text,
+            cursor_position=cursor_position,
+            new_cursor_position=new_cursor_position,
+            selected=selected,
+        )
+        return new_cursor_position, new_selected
+
+    @classmethod
+    def key_alt_home(
+        cls, raw_text: list[str, ...], cursor_position: tuple[int, int], selected: list[tuple[int, int], ...]
+    ) -> tuple[tuple[int, int], list[tuple[int, int], ...]]:
+        """
+        Perform the actions of method `key_home` and toggle selection of the characters preceeding the current cursor
+        position.
+        """
+        new_cursor_position = cls.key_home(raw_text=raw_text, cursor_position=cursor_position)
+        new_selected = cls.select_range(
+            raw_text=raw_text,
+            cursor_position=cursor_position,
+            new_cursor_position=new_cursor_position,
+            selected=selected,
+        )
+        return new_cursor_position, new_selected
+
+    @classmethod
+    def key_alt_pgdn(
+        cls,
+        raw_text: list[str, ...],
+        cursor_position: tuple[int, int],
+        selected: list[tuple[int, int], ...],
+        shape: tuple[int, int],
+    ) -> tuple[tuple[int, int], list[tuple[int, int], ...]]:
+        """
+        Perform the actions of method `key_pgdn` and toggle selection of the characters following the current cursor
+        position.
+        """
+        new_cursor_position = cls.key_pgdn(raw_text=raw_text, cursor_position=cursor_position, shape=shape)
+        new_selected = cls.select_range(
+            raw_text=raw_text,
+            cursor_position=cursor_position,
+            new_cursor_position=new_cursor_position,
+            selected=selected,
+        )
+        return new_cursor_position, new_selected
+
+    @classmethod
+    def key_alt_pgup(
+        cls,
+        raw_text: list[str, ...],
+        cursor_position: tuple[int, int],
+        selected: list[tuple[int, int], ...],
+        shape: tuple[int, int],
+    ) -> tuple[tuple[int, int], list[tuple[int, int], ...]]:
+        """
+        Perform the actions of method `key_pgup` and toggle selection of the characters preceeding the current cursor
+        position.
+        """
+        new_cursor_position = cls.key_pgup(raw_text=raw_text, cursor_position=cursor_position, shape=shape)
+        new_selected = cls.select_range(
+            raw_text=raw_text,
+            cursor_position=cursor_position,
+            new_cursor_position=new_cursor_position,
+            selected=selected,
+        )
+        return new_cursor_position, new_selected
+
+    @classmethod
     def key_arrow_down(
         cls, raw_text: list[str, ...], cursor_position: tuple[int, int], selected: list[tuple[int, int], ...]
     ) -> tuple[int, int]:
@@ -238,21 +314,57 @@ class KeyProcessor:
 
     @classmethod
     def key_ctrl_backspace(
-        cls, raw_text: list[str, ...], cursor_position: tuple[int, int]
+        cls, raw_text: list[str, ...], cursor_position: tuple[int, int], selected: list[tuple[int, int], ...]
     ) -> tuple[list[str, ...], tuple[int, int]]:
         """
-        Performs a ctrl-backspace on the given list of characters, using the context attached to them (see docstring in
-        cls._process_key).
+        Deletes all whitespace to the left of the current cursor position, as well as the first preceeding word.
+
+        Works over multiple lines if need be.
         """
+        new_cursor_position = cls.key_ctrl_left(raw_text=raw_text, cursor_position=cursor_position)
+        selected = cls.select_range(
+            raw_text=raw_text,
+            cursor_position=cursor_position,
+            new_cursor_position=new_cursor_position,
+            selected=selected,
+        )
+        new_text, new_cursor_position = cls.key_backspace(
+            raw_text=raw_text, cursor_position=new_cursor_position, selected=selected
+        )
+
+        for i in range(new_cursor_position[0] - cursor_position[0]):
+            new_text, new_cursor_position = cls.key_delete(
+                raw_text=new_text, cursor_position=new_cursor_position, selected=[]
+            )
+
+        return new_text, new_cursor_position
 
     @classmethod
     def key_ctrl_delete(
-        cls, raw_text: list[str, ...], cursor_position: tuple[int, int]
+        cls, raw_text: list[str, ...], cursor_position: tuple[int, int], selected: list[tuple[int, int], ...]
     ) -> tuple[list[str, ...], tuple[int, int]]:
         """
-        Performs a ctrl-delete on the given list of characters, using the context attached to them (see docstring in
-        cls._process_key).
+        Deletes all whitespace to the right of the current cursor position, as well as the first word that follows.
+
+        Works over multiple lines if need be.
         """
+        new_cursor_position = cls.key_ctrl_right(raw_text=raw_text, cursor_position=cursor_position)
+        selected = cls.select_range(
+            raw_text=raw_text,
+            cursor_position=cursor_position,
+            new_cursor_position=new_cursor_position,
+            selected=selected,
+        )
+        new_text, new_cursor_position = cls.key_delete(
+            raw_text=raw_text, cursor_position=new_cursor_position, selected=selected
+        )
+
+        for i in range(new_cursor_position[0] - cursor_position[0]):
+            new_text, new_cursor_position = cls.key_backspace(
+                raw_text=new_text, cursor_position=new_cursor_position, selected=[]
+            )
+
+        return new_text, new_cursor_position
 
     @classmethod
     def key_ctrl_down(
@@ -297,6 +409,22 @@ class KeyProcessor:
         return new_text, new_cursor_position, new_selected
 
     @classmethod
+    def key_ctrl_end(cls, raw_text: list[str, ...]) -> tuple[int, int]:
+        """
+        Moves the cursor to the position right after the last character of the entire text.
+        """
+        new_cursor_position = (max(0, len(raw_text) - 1), max(0, len(raw_text[-1])))
+        return new_cursor_position
+
+    @classmethod
+    def key_ctrl_home(cls) -> tuple[int, int]:
+        """
+        Moves the cursor to the first character of the entire text -- i.e. position (0,0).
+        """
+        new_cursor_position = (0, 0)
+        return new_cursor_position
+
+    @classmethod
     def key_ctrl_left(
         cls, raw_text: list[str, ...], cursor_position: tuple[int, int]
     ) -> tuple[list[str, ...], tuple[int, int]]:
@@ -305,15 +433,20 @@ class KeyProcessor:
         regardless of which row contains the preceeding word.
         """
         row, col = cursor_position
+
         if cursor_position == (0, 0):
             new_cursor_position = cursor_position
         else:
+
             if len(raw_text[row][:col].lstrip()) == 0:
-                col = len(raw_text[row - 1].rstrip())
+                col = len(raw_text[row - 1])
                 row -= 1
 
-            new_col = raw_text[row].rfind(" ", 0, col - 1) + 1
-            new_cursor_position = (row, new_col if new_col >= 0 else 0)
+            if row < 0:
+                new_cursor_position = (0, 0)
+            else:
+                new_col = raw_text[row][:col].rstrip().rfind(" ") + 1
+                new_cursor_position = (row, new_col if new_col >= 0 else 0)
 
         return new_cursor_position
 
@@ -414,11 +547,17 @@ class KeyProcessor:
         return new_text, new_cursor_position
 
     @classmethod
-    def key_end(cls, raw_text: list[str, ...], cursor_position: tuple[int, int]) -> tuple[int, int]:
+    def key_end(
+        cls, raw_text: list[str, ...], cursor_position: tuple[int, int], selected: list[tuple[int, int], ...]
+    ) -> tuple[int, int]:
         """
         Move the cursor to the end of the current row, if it isn't already there.
         """
-        row, col = cursor_position
+        if not selected:
+            row, col = cursor_position
+        else:
+            row, col = selected[-1]
+
         new_cursor_position = (row, len(raw_text[row]))
         return new_cursor_position
 
@@ -448,12 +587,78 @@ class KeyProcessor:
         return new_text, new_cursor_position
 
     @classmethod
-    def key_home(cls, raw_text: list[str, ...], cursor_position: tuple[int, int]) -> tuple[int, int]:
+    def key_home(
+        cls, raw_text: list[str, ...], cursor_position: tuple[int, int], selected: list[tuple[int, int], ...]
+    ) -> tuple[int, int]:
         """
         Move the cursor to the beginning of the current row, if it isn't already there.
+
+        If the row is indented, and the cursor is positioned further than the first non-whitespace character, the row is
+        considered to be starting after the indentation.  If the cursor is placed at the beginning of the non-whitespace
+        characters, then it will move to the absolute beginning of the line.
+        """
+        if not selected:
+            row, col = cursor_position
+        else:
+            row, col = selected[-1]
+
+        indent = len(raw_text[row]) - len(raw_text[row].lstrip())
+        if col > indent:
+            new_cursor_position = (row, indent)
+        else:
+            new_cursor_position = (row, 0)
+        return new_cursor_position
+
+    @classmethod
+    def key_pgdn(
+        cls,
+        raw_text: list[str, ...],
+        cursor_position: tuple[int, int],
+        shape: tuple[int, int],
+    ) -> tuple[int, int]:
+        """
+        Move the cursor down by one page, unless it is positioned at or it first reaches the last row of the text. One
+        page is defined as the current height of the textbox.
+
+        If the current row is longer than the new one, move the cursor to the position of the last character in the new
+        row, otherwise leave the cursor column position unchanged.
+
+        If some text is selected, considers the cursor to be at the end of the selection.
         """
         row, col = cursor_position
-        new_cursor_position = (row, 0)
+
+        if row == len(raw_text) - 1:
+            new_cursor_position = cursor_position
+        else:
+            new_row = min(row + shape[0], len(raw_text) - 1)
+            new_col = min(col, len(raw_text[new_row]))
+            new_cursor_position = (new_row, new_col)
+        return new_cursor_position
+
+    @classmethod
+    def key_pgup(
+        cls,
+        raw_text: list[str, ...],
+        cursor_position: tuple[int, int],
+        shape: tuple[int, int],
+    ) -> tuple[int, int]:
+        """
+        Move the cursor up by one page, unless it is positioned at or it first reaches the first row of the text. One
+        page is defined as the current height of the textbox.
+
+        If the current row is longer than the new one, move the cursor to the position of the last character in the new
+        row, otherwise leave the cursor column position unchanged.
+
+        If some text is selected, considers the cursor to be at the end of the selection.
+        """
+        row, col = cursor_position
+
+        if row == 0:
+            new_cursor_position = cursor_position
+        else:
+            new_row = max(row - shape[0], 0)
+            new_col = min(col, len(raw_text[new_row]))
+            new_cursor_position = (new_row, new_col)
         return new_cursor_position
 
     @classmethod
@@ -461,21 +666,43 @@ class KeyProcessor:
         cls, raw_text: list[str, ...], cursor_position: tuple[int, int], selected: list[tuple[int, int], ...]
     ) -> tuple[list[str, ...], tuple[int, int], list[tuple[int, int], ...]]:
         """
-        Given a cursor column position P, and a tab length L, adds N spaces starting at P, such that,
+        If the nearest non-empty row above the cursor has a larger indentation than the current row, sets the current
+        row's indentation to that of the specified row.
+
+        Otherwise, given a cursor column position P, and a tab length L, adds N spaces starting at P, such that,
             N = L * (P // L) + L,
         where // represents integer division.
-        If some text is selected, simply prepends a number of spaces equal to the tab-length to all rows that have one
-        or more selected characters.
+
+        Finally, if some text is selected, simply prepends a number of spaces equal to the tab-length to all rows that
+        have one or more selected characters.
         """
+        row, col = cursor_position
         if selected:
-            rows = set(position[0] for position in selected)
+            rows = set([row] + [position[0] for position in selected])
             new_text = [" " * Config.tab_length + row if n in rows else row for n, row in enumerate(raw_text)]
             selected = [(row, column + Config.tab_length) for row, column in selected]
 
             new_cursor_position = (cursor_position[0], cursor_position[1] + Config.tab_length)
-        else:
-            row, col = cursor_position
 
+        elif col <= (current_indent := len(raw_text[row]) - len(raw_text[row].lstrip())):
+            indent = 0
+            for indent_row in raw_text[:row][::-1]:
+                if indent_row.strip():
+                    indent = len(indent_row) - len(indent_row.lstrip())
+                    break
+
+            if current_indent < indent:
+                new_col = indent
+            else:
+                new_col = Config.tab_length * (col // Config.tab_length) + Config.tab_length
+
+            N_spaces = new_col - col
+            new_text = (
+                raw_text[:row] + [raw_text[row][:col] + " " * N_spaces + raw_text[row][col:]] + raw_text[row + 1 :]
+            )
+            new_cursor_position = (row, new_col)
+
+        else:
             new_col = Config.tab_length * (col // Config.tab_length) + Config.tab_length
             N_spaces = new_col - col
             new_text = (
@@ -488,68 +715,242 @@ class KeyProcessor:
 
     @classmethod
     def process_key(
-        cls, raw_text: list[str, ...], cursor_position: tuple[int, int], selected: list[tuple[int, int], ...], key: str
+        cls,
+        raw_text: list[str, ...],
+        cursor_position: tuple[int, int],
+        selected: list[tuple[int, int], ...],
+        shape: tuple[int, int],
+        key: str,
     ) -> tuple[bool, list[str, ...], tuple[int, int], list[tuple[int, int], ...]]:
         """
         Take the current text and cursor position, and modify them using the given key input.
         """
+        # By default, the text will be updated.  Is set to False if a key without a binding is detected.
         call = True
+
+        # Keybindings map to classmethods
         match key:
-            case "Backspace":
-                raw_text, cursor_position = cls.key_backspace(raw_text, cursor_position, selected)
-                selected = []
-            case "Delete" | "Keypad-Delete":
-                raw_text, cursor_position = cls.key_delete(raw_text, cursor_position, selected)
-                selected = []
-            case "Space":
-                raw_text, cursor_position = cls.key_char(raw_text, cursor_position, selected, " ")
-                selected = []
-            case "Enter":
-                raw_text, cursor_position = cls.key_enter(raw_text, cursor_position, selected)
-                selected = []
+
+            # Arrow Keys (To move the cursor).
+
             case "Left" | "Keypad-Left":
-                cursor_position = cls.key_arrow_left(raw_text, cursor_position, selected)
+                cursor_position = cls.key_arrow_left(
+                    raw_text=raw_text,
+                    cursor_position=cursor_position,
+                    selected=selected,
+                )
                 selected = []
             case "Right" | "Keypad-Right":
-                cursor_position = cls.key_arrow_right(raw_text, cursor_position, selected)
+                cursor_position = cls.key_arrow_right(
+                    raw_text=raw_text,
+                    cursor_position=cursor_position,
+                    selected=selected,
+                )
                 selected = []
             case "Up" | "Keypad-Up":
-                cursor_position = cls.key_arrow_up(raw_text, cursor_position, selected)
+                cursor_position = cls.key_arrow_up(
+                    raw_text=raw_text,
+                    cursor_position=cursor_position,
+                    selected=selected,
+                )
                 selected = []
             case "Down" | "Keypad-Down":
-                cursor_position = cls.key_arrow_down(raw_text, cursor_position, selected)
+                cursor_position = cls.key_arrow_down(
+                    raw_text=raw_text,
+                    cursor_position=cursor_position,
+                    selected=selected,
+                )
                 selected = []
+
+            # Arrow Keys (With ALT modifier for text selection).
+
             case "Alt-Left":
-                cursor_position, selected = cls.key_alt_arrow_left(raw_text, cursor_position, selected)
+                cursor_position, selected = cls.key_alt_arrow_left(
+                    raw_text=raw_text,
+                    cursor_position=cursor_position,
+                    selected=selected,
+                )
             case "Alt-Right":
-                cursor_position, selected = cls.key_alt_arrow_right(raw_text, cursor_position, selected)
+                cursor_position, selected = cls.key_alt_arrow_right(
+                    raw_text=raw_text,
+                    cursor_position=cursor_position,
+                    selected=selected,
+                )
             case "Alt-Up":
-                cursor_position, selected = cls.key_alt_arrow_up(raw_text, cursor_position, selected)
+                cursor_position, selected = cls.key_alt_arrow_up(
+                    raw_text=raw_text,
+                    cursor_position=cursor_position,
+                    selected=selected,
+                )
             case "Alt-Down":
-                cursor_position, selected = cls.key_alt_arrow_down(raw_text, cursor_position, selected)
-            case "Ctrl-Left":
-                cursor_position = cls.key_ctrl_left(raw_text, cursor_position)
+                cursor_position, selected = cls.key_alt_arrow_down(
+                    raw_text=raw_text,
+                    cursor_position=cursor_position,
+                    selected=selected,
+                )
+
+            # Arrow Keys (With CTRL modifier for movement over words or swapping rows).
+
+            case "Ctrl-Left" | "Ctrl-Keypad-Left":
+                cursor_position = cls.key_ctrl_left(
+                    raw_text=raw_text,
+                    cursor_position=cursor_position,
+                )
                 selected = []
-            case "Ctrl-Right":
-                cursor_position = cls.key_ctrl_right(raw_text, cursor_position)
+            case "Ctrl-Right" | "Ctrl-Keypad-Right":
+                cursor_position = cls.key_ctrl_right(
+                    raw_text=raw_text,
+                    cursor_position=cursor_position,
+                )
                 selected = []
-            case "Ctrl-Up":
-                raw_text, cursor_position, selected = cls.key_ctrl_up(raw_text, cursor_position, selected)
-            case "Ctrl-Down":
-                raw_text, cursor_position, selected = cls.key_ctrl_down(raw_text, cursor_position, selected)
-            case "Home" | "Keypad-Home":
-                cursor_position = cls.key_home(raw_text, cursor_position)
+            case "Ctrl-Up" | "Ctrl-Keypad-Up":
+                raw_text, cursor_position, selected = cls.key_ctrl_up(
+                    raw_text=raw_text,
+                    cursor_position=cursor_position,
+                    selected=selected,
+                )
+            case "Ctrl-Down" | "Ctrl-Keypad-Down":
+                raw_text, cursor_position, selected = cls.key_ctrl_down(
+                    raw_text=raw_text,
+                    cursor_position=cursor_position,
+                    selected=selected,
+                )
+
+            # Character deletion.
+
+            case "Backspace":
+                raw_text, cursor_position = cls.key_backspace(
+                    raw_text=raw_text,
+                    cursor_position=cursor_position,
+                    selected=selected,
+                )
                 selected = []
-            case "End" | "Keypad-End":
-                cursor_position = cls.key_end(raw_text, cursor_position)
+
+            case "Ctrl-Backspace" | "Ctrl-Keypad-Backspace":
+                raw_text, cursor_position = cls.key_ctrl_backspace(
+                    raw_text=raw_text,
+                    cursor_position=cursor_position,
+                    selected=selected,
+                )
+                selected = []
+
+            case "Ctrl-Delete" | "Ctrl-Keypad-Delete":
+                raw_text, cursor_position = cls.key_ctrl_delete(
+                    raw_text=raw_text,
+                    cursor_position=cursor_position,
+                    selected=selected,
+                )
+                selected = []
+
+            case "Delete" | "Keypad-Delete":
+                raw_text, cursor_position = cls.key_delete(
+                    raw_text=raw_text,
+                    cursor_position=cursor_position,
+                    selected=selected,
+                )
+                selected = []
+
+            # Adding newlines or whitespace.
+
+            case "Enter":
+                raw_text, cursor_position = cls.key_enter(
+                    raw_text=raw_text,
+                    cursor_position=cursor_position,
+                    selected=selected,
+                )
+                selected = []
+            case "Space":
+                raw_text, cursor_position = cls.key_char(
+                    raw_text=raw_text,
+                    cursor_position=cursor_position,
+                    selected=selected,
+                    char=" ",
+                )
                 selected = []
             case "Tab":
-                raw_text, cursor_position, selected = cls.key_tab(raw_text, cursor_position, selected)
+                raw_text, cursor_position, selected = cls.key_tab(
+                    raw_text=raw_text,
+                    cursor_position=cursor_position,
+                    selected=selected,
+                )
+
+            # Cursor movement shortcuts.
+
+            case "Ctrl-End":
+                cursor_position = cls.key_ctrl_end(raw_text=raw_text)
+            case "Ctrl-Home":
+                cursor_position = cls.key_ctrl_home()
+            case "End" | "Keypad-End":
+                cursor_position = cls.key_end(
+                    raw_text=raw_text,
+                    cursor_position=cursor_position,
+                    selected=selected,
+                )
+                selected = []
+            case "Home" | "Keypad-Home":
+                cursor_position = cls.key_home(
+                    raw_text=raw_text,
+                    cursor_position=cursor_position,
+                    selected=selected,
+                )
+                selected = []
+            case "PgDn":
+                cursor_position = cls.key_pgdn(
+                    raw_text=raw_text,
+                    cursor_position=cursor_position,
+                    shape=shape,
+                )
+                selected = []
+            case "PgUp":
+                cursor_position = cls.key_pgup(
+                    raw_text=raw_text,
+                    cursor_position=cursor_position,
+                    shape=shape,
+                )
+                selected = []
+
+            # Character selection shortcuts.
+
+            case "Alt-End":
+                cursor_position, selected = cls.key_alt_end(
+                    raw_text=raw_text,
+                    cursor_position=cursor_position,
+                    selected=selected,
+                )
+            case "Alt-Home":
+                cursor_position, selected = cls.key_alt_home(
+                    raw_text=raw_text,
+                    cursor_position=cursor_position,
+                    selected=selected,
+                )
+            case "Alt-PgDn":
+                cursor_position, selected = cls.key_alt_pgdn(
+                    raw_text=raw_text,
+                    cursor_position=cursor_position,
+                    selected=selected,
+                    shape=shape,
+                )
+            case "Alt-PgUp":
+                cursor_position, selected = cls.key_alt_pgup(
+                    raw_text=raw_text,
+                    cursor_position=cursor_position,
+                    selected=selected,
+                    shape=shape,
+                )
+
+            # Characters or unbound inputs.
+
             case other:
                 if len(key) == 1:
-                    raw_text, cursor_position = cls.key_char(raw_text, cursor_position, selected, key)
+                    raw_text, cursor_position = cls.key_char(
+                        raw_text=raw_text,
+                        cursor_position=cursor_position,
+                        selected=selected,
+                        char=key,
+                    )
                     selected = []
                 else:
+                    # No binding detected, so no changes should be made.
                     call = False
 
         return call, raw_text, cursor_position, selected

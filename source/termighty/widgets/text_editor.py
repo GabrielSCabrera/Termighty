@@ -121,7 +121,11 @@ class TextEditor(TextBox):
         for key in getch_iterator:
             if not self._frozen:
                 call, self._raw_text, self._cursor_position, self._selected = KeyProcessor.process_key(
-                    raw_text=self._raw_text, cursor_position=self._cursor_position, selected=self._selected, key=key
+                    raw_text=self._raw_text,
+                    cursor_position=self._cursor_position,
+                    selected=self._selected,
+                    shape=self._shape,
+                    key=key,
                 )
                 if call:
                     self.__call__(self._raw_text)

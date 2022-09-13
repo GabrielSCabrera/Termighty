@@ -238,7 +238,6 @@ class Listener:
                 System.kill_all = True
                 raise Exception(e)
 
-
     @classmethod
     def stop(cls) -> None:
         """
