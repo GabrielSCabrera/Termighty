@@ -19,9 +19,7 @@ class Term:
         If the `flush` parameter is set to True however, then the buffer is bypassed and the command outputs immediately
         to the terminal.
         """
-        self._text_buffer_grid = {}
-        self._text_buffer = []
-        self._cursor_buffer = []
+        self._buffer = []
 
     def bell(self, flush: bool = False) -> None:
         """
@@ -29,7 +27,7 @@ class Term:
         """
         string = "\a"
         if not flush:
-            self._text_buffer.append(string)
+            self._buffer.append(string)
         else:
             self.flush_string(string)
 
@@ -39,29 +37,19 @@ class Term:
         """
         string = "\033[2J\033[3J\033[f"
         if not flush:
-            self._text_buffer.append(string)
-            # There is no need to keep the prior buffer elements as they will be cleared anyways.
-            for i in range(len(buffer))[::-1]:
-                self._text_buffer.pop(i)
+            self._buffer.append(string)
         else:
             self.flush_string(string)
 
-    def _compile_buffer(self):
+    def cursor_down(self, N: int = 1, flush: bool = False) -> None:
         """
-        Prepares the buffer for flushing -- improves efficiency by avoiding printing over a specific position more than
-        once.
+        Move the cursor down by the designated number of rows `N`.
         """
-
-
-    # def cursor_down(self, N: int = 1, flush: bool = False) -> None:
-    #     """
-    #     Move the cursor down by the designated number of rows `N`.
-    #     """
-    #     string = f"\033[{N}B"
-    #     if not flush:
-    #         self._text_buffer.append(string)
-    #     else:
-    #         self.flush_string(string)
+        string = f"\033[{N}B"
+        if not flush:
+            self._buffer.append(string)
+        else:
+            self.flush_string(string)
 
     def cursor_hide(self, flush: bool = False) -> None:
         """
@@ -69,19 +57,19 @@ class Term:
         """
         string = "\033[?25l"
         if not flush:
-            self._text_buffer.append(string)
+            self._buffer.append(string)
         else:
             self.flush_string(string)
 
-    # def cursor_left(self, N: int = 1, flush: bool = False) -> None:
-    #     """
-    #     Move the cursor left by the designated number of columns `N`.
-    #     """
-    #     string = f"\033[{N}D"
-    #     if not flush:
-    #         self._text_buffer.append(string)
-    #     else:
-    #         self.flush_string(string)
+    def cursor_left(self, N: int = 1, flush: bool = False) -> None:
+        """
+        Move the cursor left by the designated number of columns `N`.
+        """
+        string = f"\033[{N}D"
+        if not flush:
+            self._buffer.append(string)
+        else:
+            self.flush_string(string)
 
     def cursor_load(self, flush: bool = False) -> None:
         """
@@ -89,7 +77,7 @@ class Term:
         """
         string = "\0338"
         if not flush:
-            self._text_buffer.append(string)
+            self._buffer.append(string)
         else:
             self.flush_string(string)
 
@@ -99,19 +87,19 @@ class Term:
         """
         string = f"\033[{line+1};{column+1}H"
         if not flush:
-            self._text_buffer.append(string)
+            self._buffer.append(string)
         else:
             self.flush_string(string)
 
-    # def cursor_right(self, N: int = 1, flush: bool = False) -> None:
-    #     """
-    #     Move the cursor right by the designated number of columns `N`.
-    #     """
-    #     string = f"\033[{N}C"
-    #     if not flush:
-    #         self._text_buffer.append(string)
-    #     else:
-    #         self.flush_string(string)
+    def cursor_right(self, N: int = 1, flush: bool = False) -> None:
+        """
+        Move the cursor right by the designated number of columns `N`.
+        """
+        string = f"\033[{N}C"
+        if not flush:
+            self._buffer.append(string)
+        else:
+            self.flush_string(string)
 
     def cursor_save(self, flush: bool = False) -> None:
         """
@@ -119,7 +107,7 @@ class Term:
         """
         string = "\0337"
         if not flush:
-            self._text_buffer.append(string)
+            self._buffer.append(string)
         else:
             self.flush_string(string)
 
@@ -129,19 +117,19 @@ class Term:
         """
         string = "\033[?25h"
         if not flush:
-            self._text_buffer.append(string)
+            self._buffer.append(string)
         else:
             self.flush_string(string)
 
-    # def cursor_up(self, N: int = 1, flush: bool = False) -> None:
-    #     """
-    #     Move the cursor up by the designated number of rows `N`.
-    #     """
-    #     string = f"\033[{N}A"
-    #     if not flush:
-    #         self._text_buffer.append(string)
-    #     else:
-    #         self.flush_string(string)
+    def cursor_up(self, N: int = 1, flush: bool = False) -> None:
+        """
+        Move the cursor up by the designated number of rows `N`.
+        """
+        string = f"\033[{N}A"
+        if not flush:
+            self._buffer.append(string)
+        else:
+            self.flush_string(string)
 
     def flush(self) -> None:
         """
@@ -149,12 +137,11 @@ class Term:
         to the buffer while the flushing occurs, does not remove that element from the buffer.
         """
         with self.__class__._flush_lock:
-            buffer = self._compile_buffer()
-            current_buffer_state = self._text_buffer.copy()
+            current_buffer_state = self._buffer.copy()
             sys.stdout.write("".join(current_buffer_state))
             sys.stdout.flush()
             for i in range(len(current_buffer_state)):
-                self._text_buffer.pop(0)
+                self._buffer.pop(0)
 
     def flush_string(self, string: str) -> None:
         """
@@ -164,22 +151,15 @@ class Term:
             sys.stdout.write(string)
             sys.stdout.flush()
 
-    # def write(self, string: str, flush: bool = False) -> None:
-    #     """
-    #     Write the given `string` wherever the cursor is currently positioned to the buffer (appends to the buffer).
-    #     """
-    #     if not flush:
-    #         self._text_buffer.append(f"{string}")
-    #     else:
-    #         self.flush_string(string)
+    def write(self, string: str, flush: bool = False) -> None:
+        """
+        Write the given `string` wherever the cursor is currently positioned to the buffer (appends to the buffer).
+        """
+        self._buffer.append(f"{string}")
 
-    def write(self, line: int, column: int, string: str, flush: bool = False) -> None:
+    def write_at(self, line: int, column: int, string: str, flush: bool = False) -> None:
         """
         Write the given `string` starting at the designated `line` and `column` coordinates to the buffer.  ANSI uses a
         one-based indexing system, but this class instead uses a zero-based indexing system.
         """
-        if not flush:
-            self._text_buffer.append(f"\x1b[{line+1};{column+1}f{string}")
-            # self._text_buffer_grid[line+1][column+1] = string
-        else:
-            self.flush_string(f"\x1b[{line+1};{column+1}f{string}")
+        self._buffer.append(f"\x1b[{line+1};{column+1}f{string}")

@@ -1,3 +1,5 @@
+import numpy as np
+
 from termighty.obj.color import Color
 from termighty.settings.data import Data
 from termighty.settings.system import System
@@ -32,7 +34,7 @@ class TextEditor(TextBox):
         row_end: int,
         column_end: int,
         wrap_text: bool = False,
-        show_line_numbers: bool = False,
+        line_numbers: bool = False,
         background: Union[str, Color, tuple[int, int, int]] = None,
         foreground: Union[str, Color, tuple[int, int, int]] = None,
         style: Optional[str] = None,
@@ -52,15 +54,22 @@ class TextEditor(TextBox):
         self._cursor_position = cursor_position
         # To keep track of changes to the cursor position, store the previous position (updated by method `_set_view`).
         self._prev_cursor_position = self._cursor_position
-        # Whether the text should wrap to the next line if a line exceeds the width of the underlying TextBox.
-        self._wrap_text = wrap_text
-        # Whether line numbers should be displayed on the left side of the text.
-        self._line_numbers = show_line_numbers
         # Whether the TextEditor should be locked and all inputs ignored.
         self._frozen = False
+        # Whether line numbers should be displayed on the left side of the text.
+        self._line_numbers = line_numbers
 
         # Performing the initialization of the TextBox base class.
-        super().__init__(row_start, column_start, row_end, column_end, background, foreground, style)
+        super().__init__(
+            row_start=row_start,
+            column_start=column_start,
+            row_end=row_end,
+            column_end=column_end,
+            wrap_text=wrap_text,
+            background=background,
+            foreground=foreground,
+            style=style,
+        )
 
         # If the background color of selected text is not explicitly given, uses the negative of the TextBox background.
         if select_background is None:
@@ -128,7 +137,10 @@ class TextEditor(TextBox):
                     key=key,
                 )
                 if call:
-                    self.__call__(self._raw_text)
+                    if self._wrap_text:
+                        self.__call__([i for i in self._raw_text for j in textwrap.wrap(i, self._shape[1])])
+                    else:
+                        self.__call__(self._raw_text)
 
     def _set_scroll_buffer(self) -> None:
         """
@@ -164,7 +176,15 @@ class TextEditor(TextBox):
 
         self._set_scroll_buffer()
 
-        if not self._wrap_text:
+        # Number of columns reserved for displaying line numbers -- accounts for the number of lines in the text.
+        if self._line_numbers:
+            w = int(np.log10(len(self._text))) + 3
+        else:
+            w=0
+
+        if self._wrap_text:
+            pass
+        else:
             # Vertically scrolls the view of the text based on the cursor position.
             if (diff := cursor_position[0] - self._shape[0] + self._scroll_buffer[0]) >= 0:
                 self._origin = (self._origin[0] + diff, self._origin[1])
@@ -179,7 +199,7 @@ class TextEditor(TextBox):
 
             cursor_position = (
                 row + self._row_start - self._origin[0],
-                col + self._column_start - self._origin[1],
+                col + self._column_start - self._origin[1] + w,
             )
 
         self._selected_processed = [
@@ -220,22 +240,37 @@ class TextEditor(TextBox):
         """
         Write the text to its designated coordinates with the view taken into account.
         """
-        # Saving the cursor position.
+        # Saving the cursor position, as it will move during printing.
         self._term.cursor_save()
+        # Hiding the cursor, otherwise it might jump around the terminal.
+        self._term.cursor_hide()
+        # Number of columns reserved for displaying line numbers -- accounts for the number of lines in the text.
+        if self._line_numbers:
+            w = int(np.log10(len(self._text))) + 2
+        else:
+            w = -1
         # Iterate through each row of the text.
         for m, line in enumerate(self._view):
             row = self._row_start + m
+            if self._line_numbers:
+                if m < len(self._text):
+                    number = str(m+1)
+                else:
+                    number = " "
+                line = np.concatenate([np.array(list(f"{number:>{w}s}│"), dtype="<U1"), line])
             # Iterate through each column in the current row of the text.
             for n, char in enumerate(line):
                 column = self._column_start + n
-                position = (row, column)
+                position = (row, column-w-1)
                 if position in self._selected_processed:
                     char = f"{self._select_ANSI_format}{char}\033[m"
                 else:
                     char = f"{self._ANSI_format}{char}\033[m"
                 # Write to the buffer, without flushing to the terminal.
-                self._term.write_at(row, column, char, flush=False)
-        # Restoring the cursor position.
+                self._term.write(row, column, char, flush=False)
+        # Restoring the cursor position to its intended location.
         self._term.cursor_load()
+        # Restoring the cursor after all the characters will have been printed.
+        self._term.cursor_show()
         # Flushing the results to the terminal.  Waiting to flush improves efficienty significantly.
         self._term.flush()

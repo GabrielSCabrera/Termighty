@@ -29,6 +29,7 @@ class TextBox:
         column_start: int,
         row_end: int,
         column_end: int,
+        wrap_text: bool = False,
         background: Optional[Union[str, Color]] = None,
         foreground: Optional[Union[str, Color]] = None,
         style: Optional[str] = None,
@@ -45,6 +46,8 @@ class TextBox:
         self._ref_row_end = row_end
         self._ref_column_end = column_end
 
+        # Whether the text should wrap to the next line if a line exceeds the width of the underlying TextBox.
+        self._wrap_text = wrap_text
         # Text alignment set to "left" by default. "right" and "center" are other alternatives.
         self._align = "left"
 
@@ -53,9 +56,9 @@ class TextBox:
 
         self._set_shape()
 
-        background, foreground, style = self._check_arguments(background, foreground, style)
+        background, foreground, style = self._check_arguments(background=background, foreground=foreground, style=style)
 
-        self._init_attributes(background, foreground, style)
+        self._init_attributes(background=background, foreground=foreground, style=style)
 
         self._active = False
         self._new_view = False
@@ -271,6 +274,7 @@ class TextBox:
         """
         row = max(min(self._origin[0] + self._shape[0], self._text_shape[0]), 0)
         column = max(min(self._origin[1] + self._shape[1], self._text_shape[1]), 0)
+
         self._view: np.ndarray = self._text_grid[row : row + self._shape[0], column : column + self._shape[1]]
         self._new_view: bool = True
 
@@ -364,7 +368,7 @@ class TextBox:
                 column = self._column_start + n
                 char = f"{self._ANSI_format}{char}\033[m"
                 # Write to the buffer, without flushing to the terminal.
-                self._term.write_at(row, column, char, flush=False)
+                self._term.write(row, column, char, flush=False)
         # Restoring the cursor position.
         self._term.cursor_load()
         # Flushing the results to the terminal.  Waiting to flush improves efficienty significantly.

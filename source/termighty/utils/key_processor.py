@@ -86,7 +86,7 @@ class KeyProcessor:
         Perform the actions of method `key_end` and toggle selection of the characters following the current cursor
         position.
         """
-        new_cursor_position = cls.key_end(raw_text=raw_text, cursor_position=cursor_position)
+        new_cursor_position = cls.key_end(raw_text=raw_text, cursor_position=cursor_position, selected=selected)
         new_selected = cls.select_range(
             raw_text=raw_text,
             cursor_position=cursor_position,
@@ -103,7 +103,7 @@ class KeyProcessor:
         Perform the actions of method `key_home` and toggle selection of the characters preceeding the current cursor
         position.
         """
-        new_cursor_position = cls.key_home(raw_text=raw_text, cursor_position=cursor_position)
+        new_cursor_position = cls.key_home(raw_text=raw_text, cursor_position=cursor_position, selected=selected)
         new_selected = cls.select_range(
             raw_text=raw_text,
             cursor_position=cursor_position,
