@@ -1,6 +1,7 @@
 import numpy as np
 
 from termighty.obj.color import Color
+from termighty.settings.config import Config
 from termighty.settings.data import Data
 from termighty.settings.system import System
 from termighty.utils.listener import Listener
@@ -41,6 +42,9 @@ class TextEditor(TextBox):
         select_background: Union[str, Color, tuple[int, int, int]] = None,
         select_foreground: Union[str, Color, tuple[int, int, int]] = None,
         select_style: Optional[str] = None,
+        line_number_background: Union[str, Color, tuple[int, int, int]] = None,
+        line_number_foreground: Union[str, Color, tuple[int, int, int]] = None,
+        line_number_style: Optional[str] = None,
         cursor_position: Optional[tuple[int, int]] = None,
         vertical_scroll_buffer: Optional[int] = None,
         horizontal_scroll_buffer: Optional[int] = None,
@@ -71,17 +75,38 @@ class TextEditor(TextBox):
             style=style,
         )
 
-        # If the background color of selected text is not explicitly given, uses the negative of the TextBox background.
+        # If the background color of selected text is not explicitly given, uses the `config.ini` default value.
         if select_background is None:
-            select_background = self._background.negative()
+            select_background = Config.selected_background_color
 
-        # If the foreground color of selected text is not explicitly given, uses the negative of the TextBox foreground.
+        # If the foreground color of selected text is not explicitly given, uses the `config.ini` default value.
         if select_foreground is None:
-            select_foreground = self._foreground.negative()
+            select_foreground = Config.selected_foreground_color
+
+        # If the foreground color of selected text is not explicitly given, uses the `config.ini` default value.
+        if select_style is None:
+            select_style = Config.selected_style
+
+        # If the background color of the line numbers is not explicitly given, uses the `config.ini` default value.
+        if line_number_background is None:
+            line_number_background = Config.line_numbers_background_color
+
+        # If the foreground color of the line numbers is not explicitly given, uses the `config.ini` default value.
+        if line_number_foreground is None:
+            line_number_foreground = Config.line_numbers_foreground_color
+
+        # If the foreground color of the line numbers is not explicitly given, uses the `config.ini` default value.
+        if line_number_style is None:
+            line_number_style = Config.line_numbers_style
 
         # Confirming that the style, background color, and foreground color of selected text are valid.
         select_background, select_foreground, select_style = self._check_arguments(
-            select_background, select_foreground, select_style
+            background=select_background, foreground=select_foreground, style=select_style
+        )
+
+        # Confirming that the style, background color, and foreground color of the line numbers are valid.
+        line_number_background, line_number_foreground, line_number_style = self._check_arguments(
+            background=line_number_background, foreground=line_number_foreground, style=line_number_style
         )
 
         # If the scroll buffer values are not explicitely defined, changes as the terminal is resized.
@@ -92,13 +117,23 @@ class TextEditor(TextBox):
         self._set_scroll_buffer()
 
         # Prepare the color and style settings for selected text.
-        self._init_select_attributes(select_background, select_foreground, select_style)
+        self._init_editor_attributes(
+            select_background=select_background,
+            select_foreground=select_foreground,
+            select_style=select_style,
+            line_number_background=line_number_background,
+            line_number_foreground=line_number_foreground,
+            line_number_style=line_number_style,
+        )
 
-    def _init_select_attributes(
+    def _init_editor_attributes(
         self,
         select_background: Color,
         select_foreground: Color,
         select_style: str,
+        line_number_background: Color,
+        line_number_foreground: Color,
+        line_number_style: str,
         selected: Optional[list[tuple[int, int], ...]] = None,
     ):
         """
@@ -117,6 +152,20 @@ class TextEditor(TextBox):
 
         self._select_ANSI_format: str = f"\033[{self._select_style_fmt}{self._select_fore_fmt};{self._select_back_fmt}m"
         self._selected = selected if selected is not None else []
+
+        self._line_number_background = line_number_background
+        self._line_number_foreground = line_number_foreground
+        self._line_number_style = line_number_style
+
+        self._line_number_back_fmt: str = "48;2;{};{};{}".format(*self._line_number_background._rgb)
+        self._line_number_fore_fmt: str = "38;2;{};{};{}".format(*self._line_number_foreground._rgb)
+        self._line_number_style_fmt: str = f"{Data.styles[self._line_number_style.lower()]};"
+
+        self._line_number_ANSI_format: str = (
+            f"\033[{self._line_number_style_fmt}{self._line_number_fore_fmt};{self._line_number_back_fmt}m"
+        )
+
+        self._line_numbers_width = Config.line_numbers_width
 
     def _run_getch_thread(self) -> None:
         """
@@ -160,9 +209,7 @@ class TextEditor(TextBox):
         self._scroll_buffer = (scroll_buffer[0], scroll_buffer[1])
 
     def _set_view(self) -> None:
-        """
-        Backend for method `set_view`.
-        """
+        """ """
         row, col = self._cursor_position
         row_prev, col_prev = self._prev_cursor_position
 
@@ -178,9 +225,9 @@ class TextEditor(TextBox):
 
         # Number of columns reserved for displaying line numbers -- accounts for the number of lines in the text.
         if self._line_numbers:
-            w = int(np.log10(len(self._text))) + 3
+            w = max(self._line_numbers_width, int(np.log10(len(self._text))) + 2)
         else:
-            w=0
+            w = 0
 
         if self._wrap_text:
             pass
@@ -208,6 +255,10 @@ class TextEditor(TextBox):
         ]
         self._prev_cursor_position = self._cursor_position
         self._term.cursor_move(*cursor_position, flush=True)
+
+        row = max(min(self._origin[0] + self._shape[0], self._text_shape[0]), 0)
+        column = max(min(self._origin[1] + self._shape[1], self._text_shape[1]), 0)
+
         super()._set_view()
 
     def start(self):
@@ -240,34 +291,51 @@ class TextEditor(TextBox):
         """
         Write the text to its designated coordinates with the view taken into account.
         """
+        if self._line_numbers:
+            # Number of columns reserved for displaying line numbers -- accounts for the number of lines in the text.
+            w = max(self._line_numbers_width, int(np.log10(len(self._text))) + 2)
+            # Checking the shape the terminal had when this method was last called.
+            expected_shape = (self._view.shape[0], self._view.shape[1] + w)
+        else:
+            w = 0
+            expected_shape = self._view.shape
+        # expected_shape = self._shape
+        with open("log.txt", "a+") as fs:
+            fs.write(f"{self._view.shape[0]}, {self._view.shape[1] + w}, {len(self._text)}, {w}\n")
+
+        # Clearing the current_output attribute if the terminal had a different shape when last writing to the terminal.
+        if self._current_output is None or self._current_output.shape != expected_shape:
+            self._current_output = np.full(expected_shape, "", dtype=object)
+
         # Saving the cursor position, as it will move during printing.
         self._term.cursor_save()
         # Hiding the cursor, otherwise it might jump around the terminal.
         self._term.cursor_hide()
-        # Number of columns reserved for displaying line numbers -- accounts for the number of lines in the text.
-        if self._line_numbers:
-            w = int(np.log10(len(self._text))) + 2
-        else:
-            w = -1
+
         # Iterate through each row of the text.
         for m, line in enumerate(self._view):
             row = self._row_start + m
             if self._line_numbers:
-                if m < len(self._text):
-                    number = str(m+1)
+                if (number := m + 1 + self._origin[0]) <= len(self._text):
+                    number = str(number) + " "
                 else:
                     number = " "
-                line = np.concatenate([np.array(list(f"{number:>{w}s}│"), dtype="<U1"), line])
+                line = np.concatenate([np.array(list(f"{number:>{w}s}"), dtype=object), line[:-w]])
             # Iterate through each column in the current row of the text.
             for n, char in enumerate(line):
                 column = self._column_start + n
-                position = (row, column-w-1)
-                if position in self._selected_processed:
+                position = (row, column - w)
+                if self._line_numbers and n < w:
+                    char = f"{self._line_number_ANSI_format}{char}\033[m"
+                elif position in self._selected_processed:
                     char = f"{self._select_ANSI_format}{char}\033[m"
                 else:
                     char = f"{self._ANSI_format}{char}\033[m"
                 # Write to the buffer, without flushing to the terminal.
-                self._term.write(row, column, char, flush=False)
+                if char != self._current_output[m, n]:
+                    self._term.write(row, column, char, flush=False)
+                    self._current_output[m, n] = char
+
         # Restoring the cursor position to its intended location.
         self._term.cursor_load()
         # Restoring the cursor after all the characters will have been printed.

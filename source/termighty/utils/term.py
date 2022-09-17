@@ -46,12 +46,11 @@ class Term:
         else:
             self.flush_string(string)
 
-    def _compile_buffer(self):
+    def _compile_buffer(self, text_buffer_grid):
         """
         Prepares the buffer for flushing -- improves efficiency by avoiding printing over a specific position more than
         once.
         """
-
 
     # def cursor_down(self, N: int = 1, flush: bool = False) -> None:
     #     """
@@ -149,8 +148,8 @@ class Term:
         to the buffer while the flushing occurs, does not remove that element from the buffer.
         """
         with self.__class__._flush_lock:
-            buffer = self._compile_buffer()
             current_buffer_state = self._text_buffer.copy()
+            buffer = self._compile_buffer(self._text_buffer.copy())
             sys.stdout.write("".join(current_buffer_state))
             sys.stdout.flush()
             for i in range(len(current_buffer_state)):
@@ -180,6 +179,6 @@ class Term:
         """
         if not flush:
             self._text_buffer.append(f"\x1b[{line+1};{column+1}f{string}")
-            # self._text_buffer_grid[line+1][column+1] = string
+            # self._text_buffer_grid[f"line+1 column+1"] = string
         else:
             self.flush_string(f"\x1b[{line+1};{column+1}f{string}")

@@ -142,6 +142,8 @@ class TextBox:
             position = (0, 0)
 
         self._origin = position
+        self._view = None
+        self._current_output = None
 
     def _check_arguments(
         self,
