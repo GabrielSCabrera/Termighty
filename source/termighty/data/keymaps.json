@@ -44,7 +44,7 @@
       "\\x00I":     "Keypad-PgUp",
       "\\x00Q":     "Keypad-PgDn",
       "\\x00S":     "Keypad-Delete",
-      "\\x00R":     "Keypad-Insert",
+      "\\x00R":     "Insert",
       "\\x00H":     "Keypad-Up",
       "\\x00P":     "Keypad-Down",
       "\\x00M":     "Keypad-Right",
