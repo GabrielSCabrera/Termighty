@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-dependencies = ("numpy",)
+dependencies = ("numpy","numba")
 
 url = "https://github.com/GabrielSCabrera/Termighty"
 setup(

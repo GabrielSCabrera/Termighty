@@ -299,9 +299,6 @@ class TextEditor(TextBox):
         else:
             w = 0
             expected_shape = self._view.shape
-        # expected_shape = self._shape
-        with open("log.txt", "a+") as fs:
-            fs.write(f"{self._view.shape[0]}, {self._view.shape[1] + w}, {len(self._text)}, {w}\n")
 
         # Clearing the current_output attribute if the terminal had a different shape when last writing to the terminal.
         if self._current_output is None or self._current_output.shape != expected_shape:
@@ -320,6 +317,9 @@ class TextEditor(TextBox):
                     number = str(number) + " "
                 else:
                     number = " "
+                # TODO: vectorize
+                # line[w:] = line[:-w]
+                # line[:w] = np.array(list(f"{number:>{w}s}"), dtype=object)
                 line = np.concatenate([np.array(list(f"{number:>{w}s}"), dtype=object), line[:-w]])
             # Iterate through each column in the current row of the text.
             for n, char in enumerate(line):

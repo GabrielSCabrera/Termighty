@@ -201,17 +201,15 @@ class String(UserString):
         elif not isinstance(color, Color):
             self._type: str = f"<class '{self.__class__.__name__}'>"
 
-            error_msg: str = (
+            error_message: str = (
                 f"\n\nInvalid value given to attribute `background` in instance of {self._type}! Cannot recognize the "
                 f"user-provided color: `{color}` -- valid options are:\n"
                 f"\n* The name of a known color (<class 'str'>) -- hint: print `termighty.Color.list_colors()`,"
                 f"\n* A sequence containing 3 integers in range [0, 255],"
                 f"\n* An instance of <class 'Color'>.\n"
             )
-
-            color_error_msg.format(argnames[0], color)
             System.kill_all = True
-            raise ValueError(error_msg)
+            raise ValueError(error_message.format(argnames[0], color))
 
         esc: str = "48;2"
         temp: str = f"{esc};{color._rgb[0]:d};{color._rgb[1]:d};" f"{color._rgb[2]:d}"
@@ -237,17 +235,15 @@ class String(UserString):
         elif not isinstance(color, Color):
             self._type: str = f"<class '{self.__class__.__name__}'>"
 
-            error_msg: str = (
+            error_message: str = (
                 f"\n\nInvalid value given to attribute `foreground` in instance of {self._type}! Cannot recognize the "
                 f"user-provided color: `{color}` -- valid options are:\n"
                 f"\n* The name of a known color (<class 'str'>) -- hint: print `termighty.Color.list_colors()`,"
                 f"\n* A sequence containing 3 integers in range [0, 255],"
                 f"\n* An instance of <class 'Color'>.\n"
             )
-
-            color_error_msg.format(argnames[0], color)
             System.kill_all = True
-            raise ValueError(error_msg)
+            raise ValueError(error_message.format(argnames[0], color))
 
         esc: str = "38;2"
         temp: str = f"{esc};{color._rgb[0]:d};{color._rgb[1]:d};" f"{color._rgb[2]:d}"
@@ -270,12 +266,12 @@ class String(UserString):
             self._style_str: str = ""
         elif style not in Data.styles.keys():
             styles_str: str = ", ".join(Data.styles.keys())
-            error_msg: str = (
+            error_message: str = (
                 f"\n\nInvalid value given to attribute `style` in instance of {self._type}! Cannot recognize the "
                 f"user-provided style: `{style}` -- valid options are: {styles_str}\n"
             )
             System.kill_all = True
-            raise ValueError(msg)
+            raise ValueError(error_message)
         else:
             style: str = style.lower()
             self._style_str: str = f"{Data.styles[style]};"

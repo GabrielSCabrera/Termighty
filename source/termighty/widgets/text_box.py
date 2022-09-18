@@ -49,7 +49,7 @@ class TextBox:
         # Whether the text should wrap to the next line if a line exceeds the width of the underlying TextBox.
         self._wrap_text = wrap_text
         # Text alignment set to "left" by default. "right" and "center" are other alternatives.
-        self._align = "left"
+        self._alignment = "left"
 
         # Terminal dimensions (rows, columns).
         self._terminal_size = System.terminal_size
@@ -75,11 +75,11 @@ class TextBox:
         if isinstance(text, str):
             text = [text]
         elif not isinstance(text, list) and any(not isinstance(i, str) for i in text):
-            msg: str = (
+            error_message: str = (
                 f"\n\nArgument `text` in calling of {self._type} instance must be a list containing <class 'str'>."
             )
             System.kill_all = True
-            raise TypeError(msg)
+            raise TypeError(error_message)
 
         self._text = text
         self._text_prep()
@@ -90,17 +90,17 @@ class TextBox:
         Justify the raw text given to the __call__ method such that all lines of text are equally-sized, and wide enough
         to allow for the view of the text to be moved left, right, up, and down, until the text is just out of view.
 
-        Takes the `self._align` attribute into account, aligning the text either to the left, right, or center of the
-        TextBox.
+        Takes the `self._alignment` attribute into account, aligning the text either to the left, right, or center of
+        the TextBox.
         """
         rows = len(self._text)
         columns = max(len(row) for row in self._text)
 
-        if self._align == "left":
+        if self._alignment == "left":
             pad_char = "<"
-        elif self._align == "right":
+        elif self._alignment == "right":
             pad_char = ">"
-        elif self._align == "center":
+        elif self._alignment == "center":
             pad_char = "^"
 
         vertical_pad = [" " * (columns + 2 * self._shape[1])] * self._shape[0]
@@ -162,13 +162,13 @@ class TextBox:
 
         for i, j in zip(self._shape, (("row_end", "row_start"), ("column_end", "column_start"))):
             if i <= 0:
-                msg: str = (
+                error_message: str = (
                     f"\n\nArgument `{j[0]}` must be larger than argument `{j[1]}` in the instantiation of {self._type}."
                 )
                 System.kill_all = True
-                raise ValueError(msg)
+                raise ValueError(error_message)
 
-        color_error_msg: str = (
+        color_error_message: str = (
             f"\n\nArgument `{{}}` in instantiation of {self._type} is invalid! Cannot recognize the user-provided "
             f"color: `{{}}` -- valid options are:\n"
             f"\n* The name of a known color (<class 'str'>) -- hint: print `termighty.Color.list_colors()`,"
@@ -187,9 +187,8 @@ class TextBox:
         ):
             background: Color = Color(*background)
         elif not isinstance(background, Color):
-            color_error_msg.format(argnames[0], background)
             System.kill_all = True
-            raise ValueError(color_error_msg)
+            raise ValueError(color_error_message.format(argnames[0], background))
 
         if foreground is None:
             foreground: Color = Config.foreground_color
@@ -202,20 +201,19 @@ class TextBox:
         ):
             foreground: Color = Color(*foreground)
         elif not isinstance(foreground, Color):
-            color_error_msg.format(argnames[1], foreground)
             System.kill_all = True
-            raise ValueError(color_error_msg)
+            raise ValueError(color_error_message.format(argnames[1], foreground))
 
         if style is None:
             style: str = Config.style
         elif style.lower() not in Data.styles.keys():
             styles_str: str = ", ".join(Data.styles.keys())
-            msg: str = (
+            error_message: str = (
                 f"\n\nArgument `{argnames[2]}` received an unknown option `{style}` in constructor for {self._type}. "
                 f"Use one of the following styles: {styles_str}.\n"
             )
             System.kill_all = True
-            raise ValueError(msg)
+            raise ValueError(error_message)
 
         return background, foreground, style
 
@@ -282,19 +280,27 @@ class TextBox:
 
     """PUBLIC METHODS"""
 
-    def align(self, mode: str) -> None:
+    @property
+    def alignment(self) -> str:
+        """
+        Returns the current alignment mode as a string.
+        """
+        return self._alignment
+
+    @alignment.setter
+    def alignment(self, mode: str) -> None:
         """
         Set the TextBox text alignment mode.  Set to "left" by default, but can also be set to "right" or "center".
         """
         if (mode := mode.lower()) not in ["left", "right", "center"]:
             error_message = (
-                f'Invalid text alignment option selected in TextBox method `align`.  Valid options are "left", '
+                f'\n\nInvalid text alignment option selected in TextBox method `alignment`.  Valid options are "left", '
                 f'"right", or "center".'
             )
             System.kill_all = True
             raise ValueError(error_message)
 
-        self._align = mode
+        self._alignment = mode
 
     def start(self, dt: float = 0.005):
         """
@@ -309,34 +315,6 @@ class TextBox:
         """
         self._active = False
         self._thread.join()
-
-    def scroll_down(self, rows: int = 1) -> None:
-        """
-        Scroll the current view down by the designated number of rows.
-        """
-        self._origin: tuple[int, int] = (self._view[0] + rows, self._view[1])
-        self._set_view()
-
-    def scroll_left(self, columns: int = 1) -> None:
-        """
-        Scroll the current view left by the designated number of columns.
-        """
-        self._origin: tuple[int, int] = (self._view[0], self._view[1] - columns)
-        self._set_view()
-
-    def scroll_right(self, columns: int = 1) -> None:
-        """
-        Scroll the current view right by the designated number of columns.
-        """
-        self._origin: tuple[int, int] = (self._view[0], self._view[1] + columns)
-        self._set_view()
-
-    def scroll_up(self, rows: int = 1) -> None:
-        """
-        Scroll the current view up by the designated number of rows.
-        """
-        self._origin: tuple[int, int] = (self._view[0] - rows, self._view[1])
-        self._set_view()
 
     def set_view(self, row: Optional[int] = 0, column: Optional[int] = 0) -> None:
         """

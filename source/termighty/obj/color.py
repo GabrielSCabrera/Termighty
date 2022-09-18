@@ -24,7 +24,7 @@ class Color:
     ) -> str:
         """
         Return a terminal-printable color chart – must set exactly ONE of the parameters `r`, `g`, and `b` to a value in
-        range [0, 255].  The others must remain set to None.
+        the range [0, 255].  The others must be set to None as they will be iterated over.
 
         Argument `term_width` should be a positive nonzero integer.
         """
@@ -64,7 +64,8 @@ class Color:
     @classmethod
     def is_color(cls, name: str) -> bool:
         """
-        Return True if /data/rgb.json contains the given string.
+        Return True if /data/rgb.json contains the given string.  Can be used to check whether or not a color you want
+        to instantiate is included in Termighty.
         """
         return name in Data.colors.keys()
 
@@ -72,6 +73,7 @@ class Color:
     def list_colors(cls, sort_by="step") -> str:
         """
         Return a string containing a list of all available colors (as viewable ANSI escape sequences) and their names.
+        Remember to print the outputted string if you want to view the list in the terminal.
         """
         out: str = "\nList of Available Colors\n\n"
         colors: list["Color"] = [cls(j, i) for i, j in Data.colors.items()]
@@ -134,7 +136,11 @@ class Color:
     @classmethod
     def palette(cls, name: str) -> "Color":
         """
-        Initialize a `Color` instance using a color name; only succeeds if the name is found in '/data/rgb.json'
+        Initialize a `Color` instance using a color name; only succeeds if the name is found in '/data/rgb.json'. These
+        can be viewed in the terminal by running the following code snippet:
+
+        from termighty import Color
+        print(Color.list_colors())
         """
         if not cls.is_color(name.lower()):
             error_message: str = (
@@ -148,7 +154,8 @@ class Color:
     @property
     def sample(self) -> str:
         """
-        Return a color sample in the form of a printable string.
+        Return a color sample in the form of a printable string. The output string consists of a single whitespace
+        character with the background color set to that of the current instance of class `Color`.
         """
         out: str = f"\033[48;2;{self._rgb[0]:d};{self._rgb[1]:d};{self._rgb[2]:d}m " f"\033[m"
         return out
@@ -157,8 +164,8 @@ class Color:
 
     def __init__(self, rgb: Sequence[int], name: str = "Unnamed Color") -> None:
         """
-        Return a new instance of class `Color`.  Argument `rgb` should be a sequence containing three integers in range
-        0-255.
+        Return a new instance of class `Color`.  Argument `rgb` should be a sequence containing three integers in the
+        range [0, 255].
         """
         # Creating a np.ndarray of zeros that will contain the rgb values as three 8-bit unsigned integers.
         self._rgb: np.ndarray = np.zeros(3, np.uint8)
@@ -171,36 +178,48 @@ class Color:
 
     def __add__(self, color: "Color") -> "Color":
         """
-        Add colors together by summing over their RGB values.  Values greater than 255 are set to 255.
+        Add colors together by summing over their RGB values.  If this results in a value greater than 255 in one or
+        more color channels, sets these channels to 255.
         """
         rgb: np.ndarray = self._rgb.astype(np.int64) + color._rgb.astype(np.int64)
         rgb[rgb > 255] = 255
         return self.__class__(rgb)
 
-    def __call__(self, s: str) -> str:
+    def __call__(self, string: str) -> str:
         """
-        Return the given string `s`, but with the text colored using the current instance's RGB values.  Escape codes
+        Return the given `string`, but with the text colored using the current instance's RGB values.  Escape codes
         are unsupported, use at your own risk.
         """
-        out: str = f"\033[38;2;{self._rgb[0]:d};{self._rgb[1]:d};{self._rgb[2]:d}m" f"{s}\033[m"
+        out: str = f"\033[38;2;{self._rgb[0]:d};{self._rgb[1]:d};{self._rgb[2]:d}m" f"{string}\033[m"
         return out
 
     def __hash__(self) -> int:
         """
-        Return a unique hash for the rgb values of the current `Color` instance.
+        Return a unique hash for the combination of rgb values of the current `Color` instance.  The hash is generated
+        by concatenating the zero-padded red, green, and blue channels into a string, and inputting it into the `hash`
+        command.
         """
         return hash(f"{self._rgb[0]:03d}{self._rgb[1]:03d}{self._rgb[2]:03d}")
 
     def __repr__(self) -> str:
         """
-        Return a color sample from the current instance that is machine-readable
+        Return a color sample from the current instance that is machine-readable.
+
+        Example for color `White`:
+                                            Color(255 255 255)
         """
         out: str = f"Color({self._rgb[0]:03d} {self._rgb[1]:03d} {self._rgb[2]:03d})"
         return out
 
     def __str__(self) -> str:
         """
-        Return the current instance's color name, RGB value, and a sample of the color.
+        Return the current instance's color name, RGB value, and a sample of the color as a formatted human-readable
+        multiline string.
+
+        Example for color `White`:
+                                            Color Name – White
+                                            RGB Values – 255 255 255
+                                                Sample – ███████████
         """
         out: str = (
             f"Color Name – {self._name.title()}\n"
@@ -212,7 +231,8 @@ class Color:
 
     def __sub__(self, color: "Color") -> "Color":
         """
-        Subtract colors from each other by subtracting their RGB values. Values less than 0 are set to 0.
+        Subtract colors from each other by subtracting their RGB values. If this results in a negative value in one or
+        more color channels, sets these channels to zero.
         """
         rgb: np.ndarray = self._rgb.astype(np.int64) - color._rgb.astype(np.int64)
         rgb[rgb < 0] = 0
@@ -223,35 +243,35 @@ class Color:
     @property
     def b(self) -> int:
         """
-        Return current instance's blue RGB value.
+        Return current instance's blue RGB value as an integer in the range [0, 255].
         """
         return int(self._rgb[2])
 
     @property
     def g(self) -> int:
         """
-        Return current instance's green RGB value.
+        Return current instance's green RGB value as an integer in the range [0, 255].
         """
         return int(self._rgb[1])
 
     @property
     def name(self) -> str:
         """
-        Return current instance's color name.
+        Return current instance's color name as a string.
         """
         return self._name
 
     @property
     def r(self) -> int:
         """
-        Return current instance's red RGB value.
+        Return current instance's red RGB value as an integer in the range [0, 255].
         """
         return int(self._rgb[0])
 
     @property
     def rgb(self) -> tuple[int, int, int]:
         """
-        Return current instance's RGB values.
+        Return the current instance's RGB values as a tuple of integers.
         """
         return (int(self._rgb[0]), int(self._rgb[1]), int(self._rgb[2]))
 
@@ -260,28 +280,28 @@ class Color:
     @b.setter
     def b(self, b: int) -> None:
         """
-        Set the blue channel in the rgb array to a new value.  Expects an integer in range 0 to 255.
+        Set the blue channel in the rgb array to a new value.  Expects an integer in the range [0, 255].
         """
         self._rgb[2] = b
 
     @g.setter
     def g(self, g: int) -> None:
         """
-        Set the green channel in the rgb array to a new value.  Expects an integer in range 0 to 255.
+        Set the green channel in the rgb array to a new value.  Expects an integer in the range [0, 255].
         """
         self._rgb[1] = g
 
     @name.setter
     def name(self, name: str) -> None:
         """
-        Rename the `Color` instance
+        Rename the `Color` instance using the given string.
         """
         self._name: str = name
 
     @r.setter
     def r(self, r: int) -> None:
         """
-        Set the red channel in the rgb array to a new value.  Expects an integer in range 0 to 255.
+        Set the red channel in the rgb array to a new value.  Expects an integer in the range [0, 255].
         """
         self._rgb[0] = r
 
@@ -298,19 +318,23 @@ class Color:
 
     def brightness(self) -> int:
         """
-        Return the mean of the RGB values.
+        Return the mean of the RGB values, which can be considered a measure of the color's brightness.
         """
         return int(np.mean(self._rgb))
 
     def copy(self) -> "Color":
         """
-        Return a deep copy of the current instance.
+        Return a deep copy of the current instance -- if you assign an instance of class `Color` to another variable and
+        modify it, this will change values of the original variable because they point to the same object.  Using this
+        method will create a new object in memory and prevent this issue from occurring.
         """
         return self.__class__(self._rgb, self._name)
 
     def hsv(self) -> tuple[float, float, float]:
         """
-        Return the color of the current instance in HSV form.
+        Return the color of the current instance in HSV form, which converts the red, green, and blue color channels to
+        their equivalent hue, saturation, and brightness.  HSV is a representation of color that attempts to more
+        closely represent the way that human vision interprets color.
         """
         rgb: np.ndarray = self._rgb.astype(np.float64) / 255
         add: tuple[int, int, int] = (360, 120, 240)
