@@ -11,7 +11,7 @@ from termighty.utils.term import Term
 import threading
 import time
 
-from typing import Optional, Union
+from typing import Optional, Union, Literal
 
 
 class TextBox:
@@ -26,42 +26,48 @@ class TextBox:
     def __init__(
         self,
         row_start: int,
-        column_start: int,
+        col_start: int,
         row_end: int,
-        column_end: int,
+        col_end: int,
         wrap_text: bool = False,
         background: Optional[Union[str, Color]] = None,
         foreground: Optional[Union[str, Color]] = None,
         style: Optional[str] = None,
+        alignment: Literal["left", "right", "center"] = "left",
+        view: tuple[int, int] = (0, 0),
     ):
         """
         Return a new instance of class `TextBox` at the specified coordinates.  If negative coordinates are given, they
         will be set dynamically relative to the size of the terminal; a thread will loop in the background keeping
         track of the terminal dimensions and resizing the TextBox if its coordinates are dynamic.
         """
+        # Create a new instance of class Term, which is used to perform writing and cursor operations to the terminal.
         self._term = Term()
 
-        self._ref_row_start = row_start
-        self._ref_column_start = column_start
-        self._ref_row_end = row_end
-        self._ref_column_end = column_end
+        # Initialize the terminal dimension attributes.
+        self._init_spacial_attributes(
+            row_start=row_start, col_start=col_start, row_end=row_end, col_end=col_end, view=view
+        )
 
         # Whether the text should wrap to the next line if a line exceeds the width of the underlying TextBox.
-        self._wrap_text = wrap_text
+        self._wrap_text: bool = wrap_text
         # Text alignment set to "left" by default. "right" and "center" are other alternatives.
-        self._alignment = "left"
-
-        # Terminal dimensions (rows, columns).
-        self._terminal_size = System.terminal_size
+        self._alignment: Literal["left", "right", "center"] = alignment
 
         self._set_shape()
 
-        background, foreground, style = self._check_arguments(background=background, foreground=foreground, style=style)
+        background, foreground, style = self._prep_arguments(
+            background=background,
+            foreground=foreground,
+            style=style,
+            defaults=(Config.background_color, Config.foreground_color, Config.style),
+            argnames=("background", "foreground", "style"),
+        )
 
-        self._init_attributes(background=background, foreground=foreground, style=style)
+        self._init_color_attributes(background=background, foreground=foreground, style=style)
 
         self._active = False
-        self._new_view = False
+        self._view_changed = False
 
     """MAGIC METHODS"""
 
@@ -94,7 +100,7 @@ class TextBox:
         the TextBox.
         """
         rows = len(self._text)
-        columns = max(len(row) for row in self._text)
+        cols = max(len(row) for row in self._text)
 
         if self._alignment == "left":
             pad_char = "<"
@@ -103,30 +109,31 @@ class TextBox:
         elif self._alignment == "center":
             pad_char = "^"
 
-        vertical_pad = [" " * (columns + 2 * self._shape[1])] * self._shape[0]
+        vertical_pad = [" " * (cols + 2 * self._shape[1])] * self._shape[0]
         text = [f"{line:{pad_char}{self._shape[1]}s}" for line in self._text]
-        text = [line.ljust(columns + self._shape[1]) for line in text]
-        text = [line.rjust(columns + 2 * self._shape[1]) for line in text]
+        text = [line.ljust(cols + self._shape[1]) for line in text]
+        text = [line.rjust(cols + 2 * self._shape[1]) for line in text]
         text = vertical_pad + text + vertical_pad
 
+        dimensions = (2 * self._shape[0] + rows, 2 * self._shape[1] + cols)
+
+        self._text_grid = np.zeros(dimensions, dtype="<U1")
         self._text_grid = np.array([list(row) for row in text])
         self._text_shape: tuple[int, int] = self._text_grid.shape
         self._text_size: int = self._text_grid.size
 
     """PRIVATE METHODS"""
 
-    def _init_attributes(
+    def _init_color_attributes(
         self,
         background: Color,
         foreground: Color,
         style: str,
-        position: tuple[int, int] = None,
     ):
         """
         Prepare all the required instance attributes, such as colors, style, and the resulting ANSI sequences that will
         be used to correctly display the text with these colors and styles.
 
-        Also initializes the window view, set to (0,0) by default.
         """
         self._background = background
         self._foreground = foreground
@@ -138,19 +145,42 @@ class TextBox:
 
         self._ANSI_format: str = f"\033[{self._style_fmt}{self._fore_fmt};{self._back_fmt}m"
 
-        if position is None:
-            position = (0, 0)
+    def _init_spacial_attributes(
+        self,
+        row_start: int,
+        col_start: int,
+        row_end: int,
+        col_end: int,
+        view: tuple[int, int],
+    ) -> None:
+        """
+        Initializes attributes that are related to the TextBox shape, position within the terminal, and the position of
+        its contents. This includes:
 
-        self._origin = position
-        self._view = None
+        * The coordinates of the TextBox corners (user-defined),
+        * The initial size of the terminal, as obtained by the System class,
+        * The window view, set to (0,0) by default.
+        """
+        # Store the original (possibly relative) TextBox dimensions; these are used to determine the true TextBox size
+        # on initialization and when the terminal changes shape.
+        self._ref_row_start: int = row_start
+        self._ref_col_start: int = col_start
+        self._ref_row_end: int = row_end
+        self._ref_col_end: int = col_end
+
+        # Terminal dimensions in row major order (rows, cols).
+        self._terminal_size: tuple[int, int] = System.terminal_size
+
+        self._origin = view
         self._current_output = None
 
-    def _check_arguments(
+    def _prep_arguments(
         self,
         background: Union[str, Color, tuple[int, int, int]],
         foreground: Union[str, Color, tuple[int, int, int]],
         style: str,
-        argnames: tuple[str, str, str] = ("background", "foreground", "style"),
+        defaults: tuple[Color, Color, str],
+        argnames: tuple[str, str, str],
     ) -> tuple[Color, Color, str]:
         """
         Perform checks making sure that the initialization arguments are correctly set up.
@@ -158,9 +188,11 @@ class TextBox:
         * Confirm that the given background & foreground colors are valid,
         * Confirm that the given style is valid.
         """
+        # Get the name of the current class. Since TextBox might be inherited, makes exceptions more comprehensible.
         self._type: str = f"<class '{self.__class__.__name__}'>"
 
-        for i, j in zip(self._shape, (("row_end", "row_start"), ("column_end", "column_start"))):
+        # Check that `row_end` is greater than `row_start`, and that `col_end` is greater than `col_start`.
+        for i, j in zip(self._shape, (("row_end", "row_start"), ("col_end", "col_start"))):
             if i <= 0:
                 error_message: str = (
                     f"\n\nArgument `{j[0]}` must be larger than argument `{j[1]}` in the instantiation of {self._type}."
@@ -168,6 +200,8 @@ class TextBox:
                 System.kill_all = True
                 raise ValueError(error_message)
 
+        # Detailed exception in case an invalid color option is given. Contains string formatting curly braces so that
+        # information on the specific problem is given to the user.
         color_error_message: str = (
             f"\n\nArgument `{{}}` in instantiation of {self._type} is invalid! Cannot recognize the user-provided "
             f"color: `{{}}` -- valid options are:\n"
@@ -176,36 +210,32 @@ class TextBox:
             f"\n* An instance of <class 'Color'>.\n"
         )
 
-        if background is None:
-            background: Color = Config.background_color
-        if isinstance(background, str):
-            background: Color = Color.palette(background)
-        elif (
-            isinstance(background, collections.abc.Sequence)
-            and len(background) == 3
-            and all([(0 <= i <= 255 and isinstance(i, int)) for i in background])
-        ):
-            background: Color = Color(*background)
-        elif not isinstance(background, Color):
-            System.kill_all = True
-            raise ValueError(color_error_message.format(argnames[0], background))
+        # Will contain the final background and foreground colors, respectively.
+        args = []
+        # Performs the checking and processing for both the background and foreground colors.
+        for arg, default, name in zip((background, foreground), defaults[:2], argnames[:2]):
+            # If the arg is None, falls back to the color name in argument `default` and uses `Color.palette`.
+            if arg is None:
+                args.append(Color.palette(default))
+            # If the arg is a string and a known color by name, uses `Color.palette`.
+            elif isinstance(arg, str) and Color.is_color(arg.lower()):
+                args.append(Color.palette(arg.lower()))
+            # If the arg consists of a valid tuple of RGB color channels in range [0, 255], uses `Color.__init__`.
+            elif (
+                isinstance(arg, collections.abc.Sequence)
+                and len(arg) == 3
+                and all([(0 <= channel <= 255 and isinstance(channel, int)) for channel in arg])
+            ):
+                args.append(Color(*arg))
+            # Raise a ValueError with `color_error_message` if none of the above conditions are met.
+            else:
+                System.kill_all = True
+                raise ValueError(color_error_message.format(name, arg))
 
-        if foreground is None:
-            foreground: Color = Config.foreground_color
-        if isinstance(foreground, str):
-            foreground: Color = Color.palette(foreground)
-        elif (
-            isinstance(foreground, collections.abc.Sequence)
-            and len(foreground) == 3
-            and all([(0 <= i <= 255 and isinstance(i, int)) for i in foreground])
-        ):
-            foreground: Color = Color(*foreground)
-        elif not isinstance(foreground, Color):
-            System.kill_all = True
-            raise ValueError(color_error_message.format(argnames[1], foreground))
-
+        # If no style is given, fall back to the default style given in argument `default`.
         if style is None:
-            style: str = Config.style
+            style: str = defaults[2]
+        # If the style is not known, raise an exception explaining the problem and listing all valid styles.
         elif style.lower() not in Data.styles.keys():
             styles_str: str = ", ".join(Data.styles.keys())
             error_message: str = (
@@ -215,7 +245,7 @@ class TextBox:
             System.kill_all = True
             raise ValueError(error_message)
 
-        return background, foreground, style
+        return *args, style
 
     def _run_thread(self, dt: float) -> None:
         """
@@ -235,8 +265,8 @@ class TextBox:
                     self._set_view()
                     self._text_prep()
 
-            if self._new_view:
-                self._new_view: bool = False
+            if self._view_changed:
+                self._view_changed: bool = False
                 self.write()
             time.sleep(dt)
 
@@ -247,24 +277,15 @@ class TextBox:
         size instantiation values; if a value is negative, it is subtracted from the terminal size (from the axis in
         question).
         """
-        self._row_start = self._ref_row_start
-        self._column_start = self._ref_column_start
-        self._row_end = self._ref_row_end
-        self._column_end = self._ref_column_end
+        # If the ref. row positions are negative (i.e. relative values) subtracts them from the total terminal height.
+        self._row_start: int = self._ref_row_start + (self._terminal_size[0] + 1 if self._ref_row_start < 0 else 0)
+        self._row_end: int = self._ref_row_end + (self._terminal_size[0] + 1 if self._ref_row_end < 0 else 0)
 
-        if self._row_start < 0:
-            self._row_start = self._terminal_size[0] + self._row_start + 1
+        # If the ref. column positions are negative (i.e. relative values) subtracts them from the total terminal width.
+        self._col_start: int = self._ref_col_start + (self._terminal_size[1] + 1 if self._ref_col_start < 0 else 0)
+        self._col_end: int = self._ref_col_end + (self._terminal_size[1] + 1 if self._ref_col_end < 0 else 0)
 
-        if self._row_end < 0:
-            self._row_end = self._terminal_size[0] + self._row_end + 1
-
-        if self._column_start < 0:
-            self._column_start = self._terminal_size[1] + self._column_start + 1
-
-        if self._column_end < 0:
-            self._column_end = self._terminal_size[1] + self._column_end + 1
-
-        self._shape: tuple[int, int] = (self._row_end - self._row_start, self._column_end - self._column_start)
+        self._shape: tuple[int, int] = (self._row_end - self._row_start, self._col_end - self._col_start)
         self._size: int = self._shape[0] * self._shape[1]
 
     def _set_view(self) -> None:
@@ -273,10 +294,10 @@ class TextBox:
         `max` with the TextBox dimensions.
         """
         row = max(min(self._origin[0] + self._shape[0], self._text_shape[0]), 0)
-        column = max(min(self._origin[1] + self._shape[1], self._text_shape[1]), 0)
+        col = max(min(self._origin[1] + self._shape[1], self._text_shape[1]), 0)
 
-        self._view: np.ndarray = self._text_grid[row : row + self._shape[0], column : column + self._shape[1]]
-        self._new_view: bool = True
+        self._view: np.ndarray = self._text_grid[row : row + self._shape[0], col : col + self._shape[1]]
+        self._view_changed: bool = True
 
     """PUBLIC METHODS"""
 
@@ -316,22 +337,22 @@ class TextBox:
         self._active = False
         self._thread.join()
 
-    def set_view(self, row: Optional[int] = 0, column: Optional[int] = 0) -> None:
+    def set_view(self, row: Optional[int] = 0, col: Optional[int] = 0) -> None:
         """
         Set the current view on the text to the given coordinates. For example, given a TextBox with shape (rows=1,
-        columns=10) the string
+        cols=10) the string
 
                         "We're no strangers to love\nYou know the rules and so do I"
 
-        would by default only display: "We're no s".  By default, the view is set to (row=0, column=0), the values
+        would by default only display: "We're no s".  By default, the view is set to (row=0, col=0), the values
         representing the upper left part of the view into the text.
 
-        If we were to run set_view(row=0, column=10), then the TextBox would instead display "trangers t". Or if we run
-        set_view(row=1, column=15), we would get "les and so".
+        If we were to run set_view(row=0, col=10), then the TextBox would instead display "trangers t". Or if we run
+        set_view(row=1, col=15), we would get "les and so".
 
         The view may exceed the text's boundary, as it is automatically padded.
         """
-        self._origin = (row, column)
+        self._origin = (row, col)
         self._set_view()
 
     def write(self) -> None:
@@ -345,10 +366,10 @@ class TextBox:
             row = self._row_start + m
             # Iterate through each column in the current row of the text.
             for n, char in enumerate(line):
-                column = self._column_start + n
+                col = self._col_start + n
                 char = f"{self._ANSI_format}{char}\033[m"
                 # Write to the buffer, without flushing to the terminal.
-                self._term.write(row, column, char, flush=False)
+                self._term.write(row, col, char, flush=False)
         # Restoring the cursor position.
         self._term.cursor_load()
         # Flushing the results to the terminal.  Waiting to flush improves efficienty significantly.

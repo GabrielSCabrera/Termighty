@@ -938,6 +938,32 @@ class KeyProcessor:
                     shape=shape,
                 )
 
+            # Special cases (in case of pasting).
+
+            case "\n" | "\r":
+                raw_text, cursor_position = cls.key_enter(
+                    raw_text=raw_text,
+                    cursor_position=cursor_position,
+                    selected=selected,
+                )
+                selected = []
+                cursor_position, selected = cls.key_alt_home(
+                    raw_text=raw_text,
+                    cursor_position=cursor_position,
+                    selected=selected,
+                )
+                raw_text, cursor_position = cls.key_backspace(
+                    raw_text=raw_text,
+                    cursor_position=cursor_position,
+                    selected=selected,
+                )
+            case "\t":
+                raw_text, cursor_position, selected = cls.key_tab(
+                    raw_text=raw_text,
+                    cursor_position=cursor_position,
+                    selected=selected,
+                )
+
             # Characters or unbound inputs.
 
             case other:

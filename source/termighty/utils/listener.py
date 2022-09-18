@@ -1,6 +1,8 @@
 import os
+import re
 import sys
 
+from termighty.settings.config import Config
 from termighty.settings.data import Data
 from termighty.settings.system import System
 from termighty.utils.term import Term
@@ -108,11 +110,10 @@ class Listener:
     def _interpret_escape_code(cls, escape_code: bytes) -> str:
         """ """
         if escape_code in Data.keymaps.keys():
-            char: str = Data.keymaps[escape_code]
+            chars: str = [Data.keymaps[escape_code]]
         else:
-            char: str = escape_code.decode(System.escape_code_encoding)
-
-        return char
+            chars: str = list(escape_code.decode(System.escape_code_encoding))
+        return chars
 
     @classmethod
     def _listener(cls) -> None:
@@ -134,28 +135,29 @@ class Listener:
             # Get an escape code from the getch method.
             escape_code: str = cls._getch()
             # Get a character or command from the acquired escape code.
-            char = cls._interpret_escape_code(escape_code)
+            chars = cls._interpret_escape_code(escape_code)
 
-            # Check if the character is `Esc`.
-            if char == "Esc":
-                cls._history.append(char)
-                # If increment `escape_hitcount`. hasn't reached its limit, increment it by one.
-                if escape_hitcount < cls._escape_hits - 1:
-                    escape_hitcount += 1
-                    continue
-                # If increment `escape_hitcount`. has reached its limit, send the `Kill` command and break.
-                else:
-                    cls._history.append("Kill")
-                    System.kill_all = True
-                    cls.stop()
+            for char in chars:
+                # Check if the character is `Esc`.
+                if char == "Esc":
+                    cls._history.append(char)
+                    # If increment `escape_hitcount`. hasn't reached its limit, increment it by one.
+                    if escape_hitcount < cls._escape_hits - 1:
+                        escape_hitcount += 1
+                        continue
+                    # If increment `escape_hitcount`. has reached its limit, send the `Kill` command and break.
+                    else:
+                        cls._history.append("Kill")
+                        System.kill_all = True
+                        cls.stop()
 
-            # If the character is not `Esc`, and `escape_hitcount` is greater than 0, set `escape_hitcount` to zero.
-            elif escape_hitcount > 0:
-                escape_hitcount = 0
+                # If the character is not `Esc`, and `escape_hitcount` is greater than 0, set `escape_hitcount` to zero.
+                elif escape_hitcount > 0:
+                    escape_hitcount = 0
 
-            # If getch returned a string, append it to the key history.
-            if isinstance(char, str):
-                cls._history.append(char)
+                # If getch returned a string, append it to the key history.
+                if isinstance(char, str):
+                    cls._history.append(char)
 
     @classmethod
     def _listener_raw(cls) -> None:
@@ -194,11 +196,9 @@ class Listener:
         Set the terminal to raw mode if True, or to echo mode if False
         """
         if state:
-            tty.setraw(sys.stdin.fileno())
-            # tty.setcbreak(sys.stdin.fileno())
-
+            tty.setraw(fd=sys.stdin.fileno())
         elif not state:
-            termios.tcsetattr(cls._fd, termios.TCSADRAIN, cls._old_settings)
+            termios.tcsetattr(fd=cls._fd, when=termios.TCSADRAIN, attributes=cls._old_settings)
         cls._raw: bool = state
 
     @classmethod

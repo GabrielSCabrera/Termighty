@@ -21,6 +21,7 @@ class String(UserString):
     def list_styles(self) -> str:
         """
         Return a list of all available styles (as viewable ANSI escape sequences) and their names.
+        Remember to print the outputted string if you want to view the list in the terminal.
         """
         out: str = "\nList of Available Styles (may differ based on OS/terminal)\n\n\n"
         style_str: str = "\033[{}mSAMPLE text\033[m\t{}"
@@ -45,8 +46,8 @@ class String(UserString):
         """
         Create an instance of class `String`.
 
-        Argument `color` should be a known color in /data/rgb.json, or an instance of <class 'Color'>.
-        Argument `style` should be a known style in /data/styles.json.
+        Arguments `foreground` and `background` should be the names of known colors, or instances of <class 'Color'>.
+        Argument `style` should be the name of a known style in /data/styles.json.
         """
         super().__init__(string)
         self.foreground = foreground
@@ -64,7 +65,7 @@ class String(UserString):
 
     def __format__(self, spec: str) -> str:
         """
-        Format the given string using the desired spec.
+        Format the given string using the desired formatting spec.
         """
         out: str = (
             # Foreground
@@ -76,7 +77,7 @@ class String(UserString):
         )
         return out
 
-    def __getitem__(self, *args, **kwargs) -> None:
+    def __getitem__(self, *args, **kwargs) -> "String":
         """
         Extract the data string's elements at the given indices.
         """
@@ -129,8 +130,7 @@ class String(UserString):
 
     def __set__(self, string: Union["String", str]) -> None:
         """
-        Change the current String's text, or replace the instance completely, depending on the given type of argument
-        `string`.
+        Change the current String's text or replace the instance completely, depending on the type of argument `string`.
         """
         if isinstance(string, "String"):
             self: "String" = string
@@ -156,28 +156,28 @@ class String(UserString):
     @property
     def background(self) -> Color:
         """
-        Return the `Color` instance assigned to the current background.
+        Return a copy of the `Color` instance assigned to the current background.
         """
         return self._back.copy()
 
     @property
     def foreground(self) -> Color:
         """
-        Return the `Color` instance assigned to the current foreground.
+        Return a copy of the `Color` instance assigned to the current foreground.
         """
         return self._fore.copy()
 
     @property
     def string(self) -> str:
         """
-        Return the uncolored and unformatted text currently assigned to this String instance.
+        Return the uncolored and unformatted text currently assigned to this `String` instance.
         """
         return self.data
 
     @property
     def style(self) -> str:
         """
-        Return the text style associated with the current instance.
+        Return the name of the text style associated with the current instance.
         """
         return self._style
 
@@ -186,7 +186,8 @@ class String(UserString):
     @background.setter
     def background(self, color: Optional[Union[str, Color, tuple[int, int, int]]] = None) -> None:
         """
-        Set the background color to a new value.
+        Set the background color to a new value.  Accepts the name of a color as a string, or an instance of
+        <class 'Color'>, or a tuple containing three integers in the range [0, 255] representing RGB colors channels.
         """
         if color is None:
             color: Color = Config.background_color
@@ -219,7 +220,8 @@ class String(UserString):
     @foreground.setter
     def foreground(self, color: Optional[Union[str, Color, tuple[int, int, int]]] = None) -> None:
         """
-        Set the foreground color to a new value.
+        Set the foreground color to a new value.  Accepts the name of a color as a string, or an instance of
+        <class 'Color'>, or a tuple containing three integers in the range [0, 255] representing RGB colors channels.
         """
 
         if color is None:
