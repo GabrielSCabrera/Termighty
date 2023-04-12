@@ -1,5 +1,4 @@
 from termighty import TextBox, Term, Listener, TextEditor
-import time
 
 term = Term()
 title_bar_height = 1

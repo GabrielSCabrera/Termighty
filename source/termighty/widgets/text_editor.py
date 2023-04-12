@@ -217,6 +217,7 @@ class TextEditor(TextBox):
 
     def _set_view(self) -> None:
         """ """
+
         row, col = self._cursor_position
         row_prev, col_prev = self._prev_cursor_position
 
@@ -224,8 +225,8 @@ class TextEditor(TextBox):
             self._origin = (self._origin[0], 0)
 
         cursor_position = (
-            row + self._row_start - self._origin[0],
-            col + self._col_start - self._origin[1],
+            row + self._ref_row_start - self._origin[0],
+            col + self._ref_col_start - self._origin[1],
         )
 
         self._set_scroll_buffer()
@@ -262,9 +263,6 @@ class TextEditor(TextBox):
         ]
         self._prev_cursor_position = self._cursor_position
         self._term.cursor_move(*cursor_position, flush=True)
-
-        row = max(min(self._origin[0] + self._shape[0], self._text_shape[0]), 0)
-        col = max(min(self._origin[1] + self._shape[1], self._text_shape[1]), 0)
 
         super()._set_view()
 
