@@ -1,5 +1,4 @@
 from setuptools import setup, find_packages
-# from Cython.Build import cythonize
 
 dependencies = ["numpy"]
 
@@ -23,7 +22,6 @@ setup(
     download_url=url + "archive/v3.0.3.tar.gz",
     keywords=["terminal", "xterm", "gui", "windows", "linux"],
     install_requires=dependencies,
-    # ext_modules=cythonize(["source/termighty/utils/key_processor.pyx"]),
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Programming Language :: Python :: 3.10",
