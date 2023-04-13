@@ -1,6 +1,5 @@
 import collections.abc
 import numpy as np
-import string
 
 from termighty.obj.color import Color
 from termighty.settings.config import Config
@@ -68,6 +67,7 @@ class TextBox:
 
         self._active = False
         self._view_changed = False
+        self._text = None
 
     """MAGIC METHODS"""
 
@@ -327,6 +327,8 @@ class TextBox:
         """
         Activate a thread that runs the method self._run_thread.
         """
+        if self._text is None:
+            self.__call__([""])
         self._thread = threading.Thread(target=self._run_thread, args=(dt,), daemon=False)
         self._thread.start()
 

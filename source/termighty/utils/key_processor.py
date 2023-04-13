@@ -1,4 +1,5 @@
 from termighty.settings.config import Config
+from typing import Optional, Union
 
 
 class KeyProcessor:
@@ -721,12 +722,17 @@ class KeyProcessor:
         selected: list[tuple[int, int], ...],
         shape: tuple[int, int],
         key: str,
+        ignore_keys: Optional[Union[str, tuple[str,...]]] = None,
     ) -> tuple[bool, list[str, ...], tuple[int, int], list[tuple[int, int], ...]]:
         """
         Take the current text and cursor position, and modify them using the given key input.
         """
         # By default, the text will be updated.  Is set to False if a key without a binding is detected.
         call = True
+
+        if ignore_keys is not None and (key == ignore_keys or key in ignore_keys):
+            call = False
+            return call, raw_text, cursor_position, selected
 
         # Keybindings map to classmethods
         match key:

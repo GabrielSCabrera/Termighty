@@ -51,16 +51,7 @@ class Term:
         Prepares the buffer for flushing -- improves efficiency by avoiding printing over a specific position more than
         once.
         """
-
-    # def cursor_down(self, N: int = 1, flush: bool = False) -> None:
-    #     """
-    #     Move the cursor down by the designated number of rows `N`.
-    #     """
-    #     string = f"\033[{N}B"
-    #     if not flush:
-    #         self._text_buffer.append(string)
-    #     else:
-    #         self.flush_string(string)
+        # TODO
 
     def cursor_hide(self, flush: bool = False) -> None:
         """
@@ -71,16 +62,6 @@ class Term:
             self._text_buffer.append(string)
         else:
             self.flush_string(string)
-
-    # def cursor_left(self, N: int = 1, flush: bool = False) -> None:
-    #     """
-    #     Move the cursor left by the designated number of columns `N`.
-    #     """
-    #     string = f"\033[{N}D"
-    #     if not flush:
-    #         self._text_buffer.append(string)
-    #     else:
-    #         self.flush_string(string)
 
     def cursor_load(self, flush: bool = False) -> None:
         """
@@ -102,16 +83,6 @@ class Term:
         else:
             self.flush_string(string)
 
-    # def cursor_right(self, N: int = 1, flush: bool = False) -> None:
-    #     """
-    #     Move the cursor right by the designated number of columns `N`.
-    #     """
-    #     string = f"\033[{N}C"
-    #     if not flush:
-    #         self._text_buffer.append(string)
-    #     else:
-    #         self.flush_string(string)
-
     def cursor_save(self, flush: bool = False) -> None:
         """
         Save the cursor position (appends to the buffer) -- reload it by calling `cursor_load`.
@@ -131,16 +102,6 @@ class Term:
             self._text_buffer.append(string)
         else:
             self.flush_string(string)
-
-    # def cursor_up(self, N: int = 1, flush: bool = False) -> None:
-    #     """
-    #     Move the cursor up by the designated number of rows `N`.
-    #     """
-    #     string = f"\033[{N}A"
-    #     if not flush:
-    #         self._text_buffer.append(string)
-    #     else:
-    #         self.flush_string(string)
 
     def flush(self) -> None:
         """
@@ -165,6 +126,7 @@ class Term:
 
     # def write(self, string: str, flush: bool = False) -> None:
     #     """
+    #     TODO: Rewrite for buffer compiler
     #     Write the given `string` wherever the cursor is currently positioned to the buffer (appends to the buffer).
     #     """
     #     if not flush:

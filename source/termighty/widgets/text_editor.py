@@ -3,15 +3,12 @@ import numpy as np
 from termighty.obj.color import Color
 from termighty.settings.config import Config
 from termighty.settings.data import Data
-from termighty.settings.system import System
 from termighty.utils.listener import Listener
 from termighty.utils import KeyProcessor
-from termighty.utils.term import Term
 from termighty.widgets.text_box import TextBox
 
 import textwrap
 import threading
-import time
 
 from typing import Optional, Union
 
@@ -240,17 +237,18 @@ class TextEditor(TextBox):
         if self._wrap_text:
             pass
         else:
+
             # Vertically scrolls the view of the text based on the cursor position.
             if (diff := cursor_position[0] - self._shape[0] + self._scroll_buffer[0]) >= 0:
                 self._origin = (self._origin[0] + diff, self._origin[1])
             elif (diff := cursor_position[0] - self._scroll_buffer[0]) < 0:
-                self._origin = (max(0, self._origin[0] + diff), self._origin[1])
+                self._origin = (max(0, self._origin[0] + diff - self._row_start), self._origin[1])
 
             # Horizontally scrolls the view of the text based on the cursor position.
             if (diff := cursor_position[1] - self._shape[1] + self._scroll_buffer[1]) >= 0:
                 self._origin = (self._origin[0], self._origin[1] + diff)
             elif (diff := cursor_position[1] - self._scroll_buffer[1]) < 0:
-                self._origin = (self._origin[0], max(0, self._origin[1] + diff))
+                self._origin = (self._origin[0], max(0, self._origin[1] + diff - self._col_start))
 
             cursor_position = (
                 row + self._row_start - self._origin[0],

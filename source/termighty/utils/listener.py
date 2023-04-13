@@ -1,8 +1,6 @@
 import os
-import re
 import sys
 
-from termighty.settings.config import Config
 from termighty.settings.data import Data
 from termighty.settings.system import System
 from termighty.utils.term import Term
@@ -10,7 +8,7 @@ from termighty.utils.term import Term
 import threading
 import time
 
-from typing import Callable, Optional, Union
+from typing import Optional, Union
 
 # If the OS is Windows, uses msvcrt to read inputs from the terminal.
 if System.os == "Windows":
