@@ -1,6 +1,19 @@
 # Termighty
+### High-level utilities for cross-platform terminal interaction.
 
-High-level utilities for cross-platform terminal interaction.
+Termighty is a Python package that provides a comprehensive set of tools for managing and customizing the terminal environment, as well as handling user inputs and creating dynamic text displays. It consists of several classes, each serving specific purposes.
+
+The Term class offers commands for modifying the terminal state, managing multiple buffers, and controlling terminal output. It includes methods for initializing the class, playing the terminal bell sound, clearing the terminal screen, hiding and showing the cursor, moving and saving the cursor position, and writing to the terminal.
+
+The String class is an advanced version of Python's built-in str class, designed to handle ANSI Escape Sequences for custom text and background colors, as well as text styles. It provides methods for listing available styles, creating instances with specific colors and styles, and implementing magic methods to use the String class like a built-in string.
+
+The Color class manages colors in RGB format and can be used in conjunction with the String class or for modifying terminal background and foreground colors directly. It supports many operations between colors, unary operations on colors, and color instantiation from a comprehensive catalog of colors.
+
+The GetchIterator class is designed to iterate over a Listener's history, yielding all new additions to the history until the Listener is stopped. The Listener class, a superclass that must be inherited before instantiation, allows users to display live, dynamic text on the terminal while simultaneously accepting user inputs.
+
+The TextBox class provides a base for rectangular shapes (with or without text) that display on the terminal. It simplifies and standardizes the creation of more complex objects. The TextEditor class, a subclass of TextBox, emulates a fully-functional word processor with advanced features such as cursor positioning, and text selection.
+
+In summary, Termighty is a powerful package that enables developers to create customized terminal experiences with enhanced text manipulation, user input handling, and dynamic displays.
 
 # Class Documentation: System
 
