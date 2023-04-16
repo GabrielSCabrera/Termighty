@@ -722,7 +722,7 @@ class KeyProcessor:
         selected: list[tuple[int, int], ...],
         shape: tuple[int, int],
         key: str,
-        ignore_keys: Optional[Union[str, tuple[str,...]]] = None,
+        ignore_keys: Optional[Union[str, tuple[str, ...]]] = None,
     ) -> tuple[bool, list[str, ...], tuple[int, int], list[tuple[int, int], ...]]:
         """
         Take the current text and cursor position, and modify them using the given key input.

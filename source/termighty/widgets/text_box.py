@@ -9,6 +9,7 @@ from termighty.utils.term import Term
 
 import threading
 import time
+from textwrap import TextWrapper
 
 from typing import Optional, Union, Literal
 
@@ -29,6 +30,9 @@ class TextBox:
         row_end: int,
         col_end: int,
         wrap_text: bool = False,
+        wrap_subsequent_indent: str = "",
+        wrap_text_break_on_hyphens: bool = True,
+        wrap_text_break_long_words: bool = True,
         background: Optional[Union[str, Color]] = None,
         foreground: Optional[Union[str, Color]] = None,
         style: Optional[str] = None,
@@ -41,21 +45,19 @@ class TextBox:
         track of the terminal dimensions and resizing the TextBox if its coordinates are dynamic.
         """
         # Create a new instance of class Term, which is used to perform writing and cursor operations to the terminal.
-        self._term = Term()
+        self._term: Term = Term()
 
         # Initialize the terminal dimension attributes.
         self._init_spacial_attributes(
             row_start=row_start, col_start=col_start, row_end=row_end, col_end=col_end, view=view
         )
 
-        # Whether the text should wrap to the next line if a line exceeds the width of the underlying TextBox.
-        self._wrap_text: bool = wrap_text
         # Text alignment set to "left" by default. "right" and "center" are other alternatives.
         self._alignment: Literal["left", "right", "center"] = alignment
 
         self._set_shape()
 
-        background, foreground, style = self._prep_arguments(
+        background, foreground, style = self._init_arguments(
             background=background,
             foreground=foreground,
             style=style,
@@ -65,9 +67,17 @@ class TextBox:
 
         self._init_color_attributes(background=background, foreground=foreground, style=style)
 
-        self._active = False
-        self._view_changed = False
-        self._text = None
+        self._active: bool = False
+        self._view_changed: bool = False
+        self._text: list[str, ...] = None  # [""]
+
+        # Whether the text should wrap to the next line if a line exceeds the width of the underlying TextBox.
+        self._wrap_text: bool = wrap_text
+        self._wrap_text_width: int = self._shape[1]
+        self._wrap_subsequent_indent: str = wrap_subsequent_indent
+        self._wrap_text_break_on_hyphens: bool = wrap_text_break_on_hyphens
+        self._wrap_text_break_long_words: bool = wrap_text_break_long_words
+        self._process_text_wrapper()
 
     """MAGIC METHODS"""
 
@@ -79,7 +89,7 @@ class TextBox:
         Does not support the use of strings containing ANSI escape sequences!
         """
         if isinstance(text, str):
-            text = [text]
+            text: list[str, ...] = [text]
         elif not isinstance(text, list) and any(not isinstance(i, str) for i in text):
             error_message: str = (
                 f"\n\nArgument `text` in calling of {self._type} instance must be a list containing <class 'str'>."
@@ -87,11 +97,11 @@ class TextBox:
             System.kill_all = True
             raise TypeError(error_message)
 
-        self._text = text
-        self._text_prep()
+        self._text: list[str, ...] = text
+        self._process_text()
         self._set_view()
 
-    def _text_prep(self):
+    def _process_text(self):
         """
         Justify the raw text given to the __call__ method such that all lines of text are equally-sized, and wide enough
         to allow for the view of the text to be moved left, right, up, and down, until the text is just out of view.
@@ -99,26 +109,40 @@ class TextBox:
         Takes the `self._alignment` attribute into account, aligning the text either to the left, right, or center of
         the TextBox.
         """
-        rows = len(self._text)
-        cols = max(len(row) for row in self._text)
+        self._process_text_wrapper()
+        if self._wrap_text:
+            self._new_line: list[bool, ...] = [
+                i == 0 for row in self._text for i in range(len(self._text_wrapper.wrap(row)))
+            ]
+            text: list[str, ...] = [line for row in self._text for line in self._text_wrapper.wrap(row)]
+        else:
+            self._new_line: list[bool] = [True for i in range(self._shape[0])]
+            text: list[str, ...] = self._text
+
+        rows: int = len(text)
+        cols: int = max(len(row) for row in text) if len(text) > 0 else 0
 
         if self._alignment == "left":
-            pad_char = "<"
+            pad_char: str = "<"
         elif self._alignment == "right":
-            pad_char = ">"
+            pad_char: str = ">"
         elif self._alignment == "center":
-            pad_char = "^"
+            pad_char: str = "^"
 
-        vertical_pad = [" " * (cols + 2 * self._shape[1])] * self._shape[0]
-        text = [f"{line:{pad_char}{self._shape[1]}s}" for line in self._text]
-        text = [line.ljust(cols + self._shape[1]) for line in text]
-        text = [line.rjust(cols + 2 * self._shape[1]) for line in text]
-        text = vertical_pad + text + vertical_pad
+        vertical_pad: list[str, ...] = [" " * (cols + 2 * self._shape[1])] * self._shape[0]
+        text: list[str, ...] = [f"{line:{pad_char}{self._shape[1]}s}" for line in text]
+        text: list[str, ...] = [line.ljust(cols + self._shape[1]) for line in text]
+        text: list[str, ...] = [line.rjust(cols + 2 * self._shape[1]) for line in text]
+        text: list[str, ...] = vertical_pad + text + vertical_pad
 
-        dimensions = (2 * self._shape[0] + rows, 2 * self._shape[1] + cols)
+        vertical_pad: list[str, ...] = [False] * self._shape[0]
+        new_line: list[str, ...] = vertical_pad + self._new_line + vertical_pad
 
-        self._text_grid = np.zeros(dimensions, dtype="<U1")
-        self._text_grid = np.array([list(row) for row in text])
+        dimensions: tuple[int, int] = (2 * self._shape[0] + rows, 2 * self._shape[1] + cols)
+
+        self._text_grid: np.ndarray = np.zeros(dimensions, dtype="<U1")
+        self._text_grid: np.ndarray = np.array([list(row) for row in text])
+        self._new_line_grid: np.npdarray = np.array(new_line)
         self._text_shape: tuple[int, int] = self._text_grid.shape
         self._text_size: int = self._text_grid.size
 
@@ -135,9 +159,9 @@ class TextBox:
         be used to correctly display the text with these colors and styles.
 
         """
-        self._background = background
-        self._foreground = foreground
-        self._style = style
+        self._background: Color = background
+        self._foreground: Color = foreground
+        self._style: Color = style
 
         self._back_fmt: str = "48;2;{};{};{}".format(*self._background._rgb)
         self._fore_fmt: str = "38;2;{};{};{}".format(*self._foreground._rgb)
@@ -171,10 +195,18 @@ class TextBox:
         # Terminal dimensions in row major order (rows, cols).
         self._terminal_size: tuple[int, int] = System.terminal_size
 
-        self._origin = view
-        self._current_output = None
+        self._origin: tuple[int, int] = view
+        self._current_output: list[str, ...] = None
 
-    def _prep_arguments(
+    def _process_text_wrapper(self):
+        self._text_wrapper = TextWrapper(
+            width=self._wrap_text_width,
+            subsequent_indent=self._wrap_subsequent_indent,
+            break_on_hyphens=self._wrap_text_break_on_hyphens,
+            break_long_words=self._wrap_text_break_long_words,
+        )
+
+    def _init_arguments(
         self,
         background: Union[str, Color, tuple[int, int, int]],
         foreground: Union[str, Color, tuple[int, int, int]],
@@ -197,7 +229,7 @@ class TextBox:
                 error_message: str = (
                     f"\n\nArgument `{j[0]}` must be larger than argument `{j[1]}` in the instantiation of {self._type}."
                 )
-                System.kill_all = True
+                System.kill_all: bool = True
                 raise ValueError(error_message)
 
         # Detailed exception in case an invalid color option is given. Contains string formatting curly braces so that
@@ -211,7 +243,7 @@ class TextBox:
         )
 
         # Will contain the final background and foreground colors, respectively.
-        args = []
+        args: list = []
         # Performs the checking and processing for both the background and foreground colors.
         for arg, default, name in zip((background, foreground), defaults[:2], argnames[:2]):
             # If the arg is None, falls back to the color name in argument `default` and uses `Color.palette`.
@@ -252,18 +284,18 @@ class TextBox:
         Keep updating the window every `dt` seconds, and account for changes in the terminal size (useful when dealing
         with relative coordinates on initialization).
         """
-        self._active = True
+        self._active: bool = True
         while self._active and not System.kill_all:
             # Reformat the contents of the TextBox due to a change in terminal dimensions.
             if self._terminal_size != (terminal_size := System.terminal_size):
-                self._terminal_size = terminal_size
+                self._terminal_size: tuple[int, int] = terminal_size
                 # Repeat the reset process three times in order to account for lag in the terminal as it is resized.
                 # Two iterations usually is enough, but three seems to always prevent issues.
                 for i in range(3):
                     time.sleep(0.01)
                     self._set_shape()
                     self._set_view()
-                    self._text_prep()
+                    self._process_text()
 
             if self._view_changed:
                 self._view_changed: bool = False
@@ -293,8 +325,8 @@ class TextBox:
         Backend for method `set_view` -- limits the view to prevent out of bounds errors by using commands `min` and
         `max` with the TextBox dimensions.
         """
-        row = max(min(self._origin[0] + self._shape[0], self._text_shape[0]), 0)
-        col = max(min(self._origin[1] + self._shape[1], self._text_shape[1]), 0)
+        row: int = max(min(self._origin[0] + self._shape[0], self._text_shape[0]), 0)
+        col: int = max(min(self._origin[1] + self._shape[1], self._text_shape[1]), 0)
 
         self._view: np.ndarray = self._text_grid[row : row + self._shape[0], col : col + self._shape[1]]
         self._view_changed: bool = True
@@ -314,14 +346,14 @@ class TextBox:
         Set the TextBox text alignment mode.  Set to "left" by default, but can also be set to "right" or "center".
         """
         if (mode := mode.lower()) not in ["left", "right", "center"]:
-            error_message = (
+            error_message: str = (
                 f'\n\nInvalid text alignment option selected in TextBox method `alignment`.  Valid options are "left", '
                 f'"right", or "center".'
             )
             System.kill_all = True
             raise ValueError(error_message)
 
-        self._alignment = mode
+        self._alignment: str = mode
 
     def start(self, dt: float = 0.005):
         """
@@ -329,14 +361,14 @@ class TextBox:
         """
         if self._text is None:
             self.__call__([""])
-        self._thread = threading.Thread(target=self._run_thread, args=(dt,), daemon=False)
+        self._thread: threading.Thread = threading.Thread(target=self._run_thread, args=(dt,), daemon=False)
         self._thread.start()
 
     def stop(self) -> None:
         """
         Kill the active thread.
         """
-        self._active = False
+        self._active: bool = False
         self._thread.join()
 
     def set_view(self, row: Optional[int] = 0, col: Optional[int] = 0) -> None:
@@ -354,7 +386,7 @@ class TextBox:
 
         The view may exceed the text's boundary, as it is automatically padded.
         """
-        self._origin = (row, col)
+        self._origin: tuple[int, int] = (row, col)
         self._set_view()
 
     def write(self) -> None:
@@ -365,11 +397,11 @@ class TextBox:
         self._term.cursor_save()
         # Iterate through each row of the text.
         for m, line in enumerate(self._view):
-            row = self._row_start + m
+            row: int = self._row_start + m
             # Iterate through each column in the current row of the text.
             for n, char in enumerate(line):
-                col = self._col_start + n
-                char = f"{self._ANSI_format}{char}\033[m"
+                col: int = self._col_start + n
+                char: str = f"{self._ANSI_format}{char}\033[m"
                 # Write to the buffer, without flushing to the terminal.
                 self._term.write(row, col, char, flush=False)
         # Restoring the cursor position.

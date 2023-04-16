@@ -9,6 +9,7 @@ from termighty.widgets.text_box import TextBox
 
 import textwrap
 import threading
+from textwrap import TextWrapper
 
 from typing import Optional, Union
 
@@ -32,6 +33,7 @@ class TextEditor(TextBox):
         row_end: int,
         col_end: int,
         wrap_text: bool = False,
+        wrap_subsequent_indent: str = "",
         line_numbers: bool = False,
         background: Union[str, Color, tuple[int, int, int]] = None,
         foreground: Union[str, Color, tuple[int, int, int]] = None,
@@ -50,6 +52,8 @@ class TextEditor(TextBox):
         """
         Creates an instance of TextEditor, and initializes its attributes and those of its inherited `TextBox`.
         """
+        self._line_numbers = line_numbers
+
         # Performing the initialization of the TextBox base class.
         super().__init__(
             row_start=row_start,
@@ -57,6 +61,7 @@ class TextEditor(TextBox):
             row_end=row_end,
             col_end=col_end,
             wrap_text=wrap_text,
+            wrap_subsequent_indent=wrap_subsequent_indent,
             background=background,
             foreground=foreground,
             style=style,
@@ -64,7 +69,7 @@ class TextEditor(TextBox):
 
         # Confirming that the style, background color, and foreground color of the selected text are valid, and
         # processing them if they are not `Color` instances.
-        select_background, select_foreground, select_style = self._prep_arguments(
+        select_background, select_foreground, select_style = self._init_arguments(
             background=select_background,
             foreground=select_foreground,
             style=select_style,
@@ -78,7 +83,7 @@ class TextEditor(TextBox):
 
         # Confirming that the style, background color, and foreground color of the line numbers are valid, and
         # processing them if they are not `Color` instances.
-        line_number_background, line_number_foreground, line_number_style = self._prep_arguments(
+        line_number_background, line_number_foreground, line_number_style = self._init_arguments(
             background=line_number_background,
             foreground=line_number_foreground,
             style=line_number_style,
@@ -139,8 +144,6 @@ class TextEditor(TextBox):
 
         # Whether line numbers should be displayed on the left side of the text.
         self._line_numbers = line_numbers
-        # The default minimum width of the column containing line numbers.
-        self._line_numbers_width = Config.line_numbers_width
 
         # Saving the selected text color and style settings to instance attributes.
         self._select_background = select_background
@@ -171,6 +174,22 @@ class TextEditor(TextBox):
             f"\033[{self._line_number_style_fmt}{self._line_number_fore_fmt};{self._line_number_back_fmt}m"
         )
 
+    def _process_text_wrapper(self):
+        if not self._line_numbers or self._text is None:
+            w = 0
+        else:
+            w = max(Config.line_numbers_width, int(np.log10(len(self._text))) + 2)
+        self._text_wrapper = TextWrapper(
+            width=self._wrap_text_width - w,
+            expand_tabs=False,
+            replace_whitespace=False,
+            fix_sentence_endings=False,
+            break_long_words=False,
+            drop_whitespace=False,
+            break_on_hyphens=False,
+            subsequent_indent=self._wrap_subsequent_indent,
+        )
+
     def _run_getch_thread(self) -> None:
         """
         Keeps updating the window every set number of seconds (given by `dt`) and accounts for changes in the terminal
@@ -190,10 +209,7 @@ class TextEditor(TextBox):
                     key=key,
                 )
                 if call:
-                    if self._wrap_text:
-                        self.__call__([i for i in self._raw_text for j in textwrap.wrap(i, self._shape[1])])
-                    else:
-                        self.__call__(self._raw_text)
+                    self.__call__(self._raw_text)
 
     def _set_scroll_buffer(self) -> None:
         """
@@ -207,7 +223,9 @@ class TextEditor(TextBox):
             scroll_buffer[0] = max(self._shape[0] // 10, 2)
 
         # How close (in columns) the cursor must get to the left or right TextBox edge before scrolling horizontally.
-        if self._dynamic_scroll_buffer[1]:
+        if self._wrap_text:
+            scroll_buffer[1] = 0
+        elif self._dynamic_scroll_buffer[1]:
             scroll_buffer[1] = max(self._shape[1] // 10, 4)
 
         self._scroll_buffer = (scroll_buffer[0], scroll_buffer[1])
@@ -230,19 +248,31 @@ class TextEditor(TextBox):
 
         # Number of columns reserved for displaying line numbers -- accounts for the number of lines in the text.
         if self._line_numbers:
-            w = max(self._line_numbers_width, int(np.log10(len(self._text))) + 2)
+            w = max(Config.line_numbers_width, int(np.log10(len(self._text))) + 2)
         else:
             w = 0
 
-        if self._wrap_text:
-            pass
-        else:
+        # Vertically scrolls the view of the text based on the cursor position.
+        if (diff := cursor_position[0] - self._shape[0] + self._scroll_buffer[0]) >= 0:
+            self._origin = (self._origin[0] + diff, self._origin[1])
+        elif (diff := cursor_position[0] - self._scroll_buffer[0]) < 0:
+            self._origin = (max(0, self._origin[0] + diff - self._row_start), self._origin[1])
 
-            # Vertically scrolls the view of the text based on the cursor position.
-            if (diff := cursor_position[0] - self._shape[0] + self._scroll_buffer[0]) >= 0:
-                self._origin = (self._origin[0] + diff, self._origin[1])
-            elif (diff := cursor_position[0] - self._scroll_buffer[0]) < 0:
-                self._origin = (max(0, self._origin[0] + diff - self._row_start), self._origin[1])
+        if self._wrap_text:
+
+            cursor_position = (
+                row + (col // (self._shape[1] - w)) + self._row_start - self._origin[0],
+                col % (self._shape[1] - w) + self._col_start - self._origin[1] + w,
+            )
+
+            self._selected_processed = [
+                (position[0] + self._row_start - self._origin[0], position[1] + self._col_start - self._origin[1])
+                for position in self._selected
+            ]
+            self._prev_cursor_position = self._cursor_position
+            self._term.cursor_move(*cursor_position, flush=True)
+
+        else:
 
             # Horizontally scrolls the view of the text based on the cursor position.
             if (diff := cursor_position[1] - self._shape[1] + self._scroll_buffer[1]) >= 0:
@@ -255,12 +285,12 @@ class TextEditor(TextBox):
                 col + self._col_start - self._origin[1] + w,
             )
 
-        self._selected_processed = [
-            (position[0] + self._row_start - self._origin[0], position[1] + self._col_start - self._origin[1])
-            for position in self._selected
-        ]
-        self._prev_cursor_position = self._cursor_position
-        self._term.cursor_move(*cursor_position, flush=True)
+            self._selected_processed = [
+                (position[0] + self._row_start - self._origin[0], position[1] + self._col_start - self._origin[1])
+                for position in self._selected
+            ]
+            self._prev_cursor_position = self._cursor_position
+            self._term.cursor_move(*cursor_position, flush=True)
 
         super()._set_view()
 
@@ -296,7 +326,7 @@ class TextEditor(TextBox):
         """
         if self._line_numbers:
             # Number of columns reserved for displaying line numbers -- accounts for the number of lines in the text.
-            w = max(self._line_numbers_width, int(np.log10(len(self._text))) + 2)
+            w = max(Config.line_numbers_width, int(np.log10(len(self._text))) + 2)
             # Checking the shape the terminal had when this method was last called.
             expected_shape = (self._view.shape[0], self._view.shape[1] + w)
         else:

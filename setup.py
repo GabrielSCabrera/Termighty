@@ -4,7 +4,7 @@ dependencies = ["numpy"]
 
 url = "https://github.com/GabrielSCabrera/Termighty"
 
-with open("README.md", 'r') as fs:
+with open("README.md", "r") as fs:
     long_description = fs.read()
 
 setup(
