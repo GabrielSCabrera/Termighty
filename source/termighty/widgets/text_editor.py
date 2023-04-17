@@ -180,7 +180,7 @@ class TextEditor(TextBox):
         else:
             w = max(Config.line_numbers_width, int(np.log10(len(self._text))) + 2)
         self._text_wrapper = TextWrapper(
-            width=self._wrap_text_width - w,
+            width=self._shape[1] - w,
             expand_tabs=False,
             replace_whitespace=False,
             fix_sentence_endings=False,

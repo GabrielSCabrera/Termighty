@@ -73,7 +73,6 @@ class TextBox:
 
         # Whether the text should wrap to the next line if a line exceeds the width of the underlying TextBox.
         self._wrap_text: bool = wrap_text
-        self._wrap_text_width: int = self._shape[1]
         self._wrap_subsequent_indent: str = wrap_subsequent_indent
         self._wrap_text_break_on_hyphens: bool = wrap_text_break_on_hyphens
         self._wrap_text_break_long_words: bool = wrap_text_break_long_words
@@ -109,12 +108,11 @@ class TextBox:
         Takes the `self._alignment` attribute into account, aligning the text either to the left, right, or center of
         the TextBox.
         """
-        self._process_text_wrapper()
         if self._wrap_text:
             self._new_line: list[bool, ...] = [
                 i == 0 for row in self._text for i in range(len(self._text_wrapper.wrap(row)))
             ]
-            text: list[str, ...] = [line for row in self._text for line in self._text_wrapper.wrap(row)]
+            text: list[str, ...] = [line.strip() for row in self._text for line in self._text_wrapper.wrap(row)]
         else:
             self._new_line: list[bool] = [True for i in range(self._shape[0])]
             text: list[str, ...] = self._text
@@ -200,7 +198,7 @@ class TextBox:
 
     def _process_text_wrapper(self):
         self._text_wrapper = TextWrapper(
-            width=self._wrap_text_width,
+            width=self._shape[1],
             subsequent_indent=self._wrap_subsequent_indent,
             break_on_hyphens=self._wrap_text_break_on_hyphens,
             break_long_words=self._wrap_text_break_long_words,
@@ -293,6 +291,7 @@ class TextBox:
                 # Two iterations usually is enough, but three seems to always prevent issues.
                 for i in range(3):
                     time.sleep(0.01)
+                    self._process_text_wrapper()
                     self._set_shape()
                     self._set_view()
                     self._process_text()
